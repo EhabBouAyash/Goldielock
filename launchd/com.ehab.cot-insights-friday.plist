@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.ehab.cot-insights-friday</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/bash</string>
+		<string>/Users/ehab/work/solo_projects/scripts/friday_cot_insights.sh</string>
+	</array>
+	<!-- Run daily at 6:00 PM ET (18:00). COT data will be included when available (Fridays). -->
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>18</integer>
+		<key>Minute</key>
+		<integer>0</integer>
+	</dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>TZ</key>
+		<string>America/New_York</string>
+	</dict>
+	<key>StandardOutPath</key>
+	<string>/Users/ehab/work/solo_projects/logs/cot_insights.out.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/ehab/work/solo_projects/logs/cot_insights.err.log</string>
+</dict>
+</plist>

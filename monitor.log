@@ -1,0 +1,61 @@
+{"timestamp": "2026-04-29T06:15:14.071378", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T06:15:14.071525", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T06:15:30.308768", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T06:15:30.308884", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T06:15:30.954488", "type": "PREDICTION_ERROR", "message": "Script failed with code 1", "details": {"stderr": "Traceback (most recent call last):\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 16, in <module>\n    from dotenv import load_dotenv\nModuleNotFoundError: No module named 'dotenv'\n"}}
+{"timestamp": "2026-04-29T06:15:30.972036", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T06:15:30.984341", "type": "EMAIL_EXCEPTION", "message": "No module named 'dotenv'", "details": {}}
+{"timestamp": "2026-04-29T06:15:30.984400", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T06:21:18.139201", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T06:21:18.141101", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T06:21:34.257960", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T06:21:34.260042", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T06:21:35.281067", "type": "PREDICTION_ERROR", "message": "Script failed with code 1", "details": {"stderr": "Traceback (most recent call last):\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 17, in <module>\n    from additional_news import fetch_all as fetch_additional_metals_news\nModuleNotFoundError: No module named 'additional_news'\n"}}
+{"timestamp": "2026-04-29T06:21:35.344614", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T06:21:35.353760", "type": "EMAIL_EXCEPTION", "message": "'NoneType' object is not subscriptable", "details": {}}
+{"timestamp": "2026-04-29T06:21:35.356254", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T06:22:47.058075", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T06:22:47.059450", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T06:22:58.531418", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T06:22:58.531488", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T06:30:36.195138", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T06:30:36.196070", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T06:30:48.858639", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T06:30:48.859104", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T06:32:21.610856", "type": "PREDICTION_ERROR", "message": "Script failed with code 1", "details": {"stderr": "ct/generate_insights.py\", line 1837, in <module>\n    run_trading()\n    ~~~~~~~~~~~^^\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 1794, in run_trading\n    insights_text = run_default()\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 1780, in run_default\n    insights_text = analyze()\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 1472, in analyze\n    return response_json[\"content\"][0][\"text\"]\n           ~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'content'\n"}}
+{"timestamp": "2026-04-29T06:32:21.632756", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T06:32:24.414628", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
+{"timestamp": "2026-04-29T06:32:24.415675", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T07:02:19.316581", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T07:02:19.317793", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T07:02:31.642821", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T07:02:31.642985", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T07:03:08.471832", "type": "PREDICTION_ERROR", "message": "Script failed with code 1", "details": {"stderr": "hts.py\", line 1936, in run_trading\n    insights_text = run_default()\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 1922, in run_default\n    insights_text = analyze()\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 917, in analyze\n    y10y2y_spread = fetch_macro(\"T10Y2Y\")\n  File \"/home/vboxuser/goldproject/generate_insights.py\", line 161, in fetch_macro\n    return res.json()[\"observations\"][0][\"value\"]\n           ~~~~~~~~~~^^^^^^^^^^^^^^^^\nKeyError: 'observations'\n"}}
+{"timestamp": "2026-04-29T07:03:08.483685", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T07:03:12.526723", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
+{"timestamp": "2026-04-29T07:03:12.526906", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T08:07:14.210109", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T08:07:14.211637", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T08:08:04.203907", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T08:08:04.207299", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T08:09:25.959456", "type": "PREDICTION_SUCCESS", "message": "Trading predictions completed", "details": {}}
+{"timestamp": "2026-04-29T08:09:25.967364", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T08:09:39.856359", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
+{"timestamp": "2026-04-29T08:09:39.856661", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T13:14:20.723065", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T13:14:20.726213", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T13:14:26.459980", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T13:14:26.460170", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T13:14:50.601739", "type": "PREDICTION_SUCCESS", "message": "Trading predictions completed", "details": {}}
+{"timestamp": "2026-04-29T13:14:50.618607", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 9, "correct_signals": 4, "overall_accuracy": 44.44}}
+{"timestamp": "2026-04-29T13:14:52.716867", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
+{"timestamp": "2026-04-29T13:14:52.720023", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-04-29T18:59:31.642518", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-04-29T18:59:31.643919", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-04-29T18:59:36.006961", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-04-29T18:59:36.007040", "type": "PREDICTION_START", "message": "Running trading predictions...", "details": {}}
+{"timestamp": "2026-04-29T19:01:36.122021", "type": "PREDICTION_TIMEOUT", "message": "Prediction script exceeded 120s timeout", "details": {}}
+{"timestamp": "2026-04-29T19:01:36.132429", "type": "DASHBOARD_ERROR", "message": "single positional indexer is out-of-bounds", "details": {}}
+{"timestamp": "2026-04-29T19:01:36.132969", "type": "TOKEN_STATS", "message": "Token usage updated", "details": {"timestamp": "2026-04-29T19:01:36.132758", "total_runs": 1, "total_input_tokens": 6124, "total_output_tokens": 1088, "total_tokens": 7212, "avg_input_tokens_per_run": 6124.0, "avg_output_tokens_per_run": 1088.0, "avg_tokens_per_run": 7212.0, "avg_cost_per_run": 0.034692, "total_cost_usd": 0.035, "projected_daily_cost": 0.833, "projected_monthly_cost": 24.98}}
+{"timestamp": "2026-04-29T19:01:45.772393", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
+{"timestamp": "2026-04-29T19:01:45.772712", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}

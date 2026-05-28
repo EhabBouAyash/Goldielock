@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-29T13:14:50.611750",
+  "summary": {
+    "total_signals": 9,
+    "correct_signals": 4,
+    "overall_accuracy": 44.44
+  },
+  "by_signal_type": {
+    "long": {
+      "count": 2,
+      "correct": "0",
+      "accuracy": 0.0,
+      "avg_confidence": {
+        "MEDIUM": 2
+      }
+    },
+    "short": {
+      "count": 0,
+      "correct": "0",
+      "accuracy": 0.0
+    },
+    "neutral": {
+      "count": 7,
+      "correct": "4",
+      "accuracy": 57.14
+    }
+  },
+  "time_windows": {
+    "7_day": {
+      "accuracy": 57.14,
+      "signals": 5
+    },
+    "30_day": {
+      "accuracy": null,
+      "signals": 9
+    }
+  }
+}

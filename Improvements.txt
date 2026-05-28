@@ -1,0 +1,3 @@
+1. Change 5m to 15m minimum 
+2. see how many candles are being collected
+

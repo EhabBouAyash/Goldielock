@@ -1,0 +1,72 @@
+## MARKET OBSERVATIONS
+
+**Macro Regime Analysis:**
+Real yields at 1.91% represent a significant headwind for gold - this is well above the critical 0% threshold where gold enters its most explosive regime. The 10Y nominal yield at 4.35% minus breakeven inflation at 2.44% creates a positive real yield environment that structurally pressures non-yielding assets. This is the primary macro headwind overriding other factors.
+
+The DXY at 98.60 is showing normal inverse correlation with gold (no divergence flag), but at these levels represents a mild tailwind as the dollar isn't at extreme strength. However, rising yields are providing dollar support.
+
+Fed positioning appears hawkish-neutral with the market pricing rates unchanged through June 2027 according to CME data. The energy shock from the Iran conflict is stoking inflation fears, reducing Fed cutting probability and keeping real yields elevated.
+
+**COT Positioning Interpretation:**
+Gold COT shows managed money (speculative longs) at moderate levels - not at historic extremes that would signal crowded trades. Commercial hedgers (producers) maintain typical net short positioning around 57.6% of open interest, which is normal hedging behavior rather than extreme defensive positioning. This suggests positioning isn't at washout extremes that would provide contrarian buy signals.
+
+Silver COT shows similar patterns with managed money not at extremes. The positioning environment is neutral rather than providing clear contrarian signals.
+
+**Technical Structure:**
+Gold sits at $4,592, significantly below the April high of $4,917 and well under the 50-day MA at $4,854. The 200-day MA at $4,236 provides ultimate support, but price action shows a clear pullback within a longer-term bull regime. Monthly RSI at 78.95 indicates the broader uptrend remains intact despite the current correction.
+
+The multi-timeframe analysis shows tactical bearishness on 15m (-4.337%) and 1h (-2.846%) timeframes, but the daily timeframe maintains bullish momentum (+9.359%). This creates a "pullback in bullish regime" setup.
+
+**Geopolitical Context:**
+Iran conflict headlines show ongoing negotiations but no resolution. Key development is Iran's proposal to reopen Strait of Hormuz in exchange for ending US blockade, but Trump administration appears unsatisfied with current proposals. This creates continued energy supply uncertainty, supporting oil prices around $99-$111 and maintaining inflation pressure.
+
+The geopolitical premium in gold appears partially faded from peak war fears, but structural energy supply disruption continues supporting real yield elevation.
+
+**Intermarket Analysis:**
+Gold/Silver ratio at 62.69 sits in neutral territory - not at extremes that would signal strong rotational opportunities. Oil strength is the key intermarket driver, supporting inflation expectations and keeping real yields elevated.
+
+Bitcoin at $76,303 suggests risk-on appetite remains, competing with gold for anti-fiat capital flows.
+
+## SIGNAL SUMMARY
+
+SIGNAL: NEUTRAL XAU
+Entry zone: No clear entry recommended
+Stop loss: N/A
+Target 1: N/A  
+Target 2: N/A
+Confidence: N/A
+Confluence: Macro and technical factors mixed - real yields at 1.91% provide structural headwind, but oversold technicals and pullback in bullish regime suggest bounce potential. No clear 2+ indicator alignment.
+Risk/Reward: N/A
+Recommended leverage: None - setup lacks clear directional conviction
+Sub-$1k sizing plan: No position recommended
+Liquidation buffer: N/A
+Risk mode: NO-LEVERAGE - conflicting signals prevent clear directional bias
+Math check: N/A - no trade setup identified
+
+SIGNAL: NEUTRAL XAG  
+Entry zone: No clear entry recommended
+Stop loss: N/A
+Target 1: N/A
+Target 2: N/A
+Confidence: N/A
+Confluence: Silver faces same macro headwinds as gold with additional industrial demand uncertainty if energy crisis persists. GSR at 62.69 shows no clear relative value opportunity. No 2+ aligned indicators.
+Risk/Reward: N/A
+Recommended leverage: None
+Sub-$1k sizing plan: No position recommended  
+Liquidation buffer: N/A
+Risk mode: NO-LEVERAGE - insufficient directional clarity
+Math check: N/A - no trade setup identified
+
+## RISK FLAGS
+
+Key invalidation levels that would change the neutral stance:
+
+- If real yields break decisively below 1.5%, gold long thesis would strengthen significantly
+- If DXY breaks above 102, additional dollar strength would pressure metals further  
+- If oil prices collapse below $85 on Iran deal resolution, inflation fears would ease and support metals
+- If gold breaks below the 200-day MA at $4,236, the long-term bull regime would be questioned
+- Any escalation in Iran conflict that spikes oil above $120 would create different dynamics favoring gold despite real yield headwinds
+
+The current environment shows a macro regime (positive real yields) in conflict with technical structure (oversold in bull trend) and positioning (not at extremes). This creates a wait-and-see environment rather than high-conviction directional opportunity for sub-$1k accounts that need clear asymmetric setups.
+
+GOLD_SIGNAL=NEUTRAL

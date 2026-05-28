@@ -1,0 +1,11 @@
+DATE,TRADE_ID,SIGNAL,ENTRY,STOP_LOSS,TAKE_PROFIT,OUTCOME,R_MULTIPLE,PNL_USD,RISK_USD,XAU_OZ,TV_LEVERAGE,EFFECTIVE_LEVERAGE,CUMULATIVE_PNL,EQUITY,DAILY_PNL,NOTES
+2026-05-11,TRADE_001,LONG,4730.0,,4750.0,WIN,1.3,1840.00,,92.0000,50,17.41,1840.00,26840.00,1840.00,Hit first target on bounce. Volume confirmed signal with PnL gain of +$1840
+2026-05-12,TRADE_002,SHORT,4721.9,,4700.0,WIN,1.3,2160.00,,98.6301,50,18.63,4000.00,29000.00,2160.00,One wick was teetering the SL on 4735 | but market did a full downward trend and hit TP at 4700 with PnL of +$2160
+2026-05-13,TRADE_003,SHORT,4698.0,,4680.0,LOSS,1.8,-990.00,,,,,3010.00,28010.00,-990.00,Graph was consolidating during the trade | didnt break support or resistance with PnL loss of -$990
+2026-05-14,TRADE_004,SHORT,4684.0,,4668,WIN,1.5,,,,,,3010.00,28010.00,,Graph went on a full downtrend and then hit TP
+2026-05-19,TRADE_005,SHORT,4493,,4470,LOSS,1.35,-13.00,,,,,2997.00,27997.00,-13.00,Graph went on a full uptrend and hit SL with a PnL of -$13
+2026-05-25,TRADE_006,LONG,4525,,4547,LOSS,1.5,-16.77,,,,,2980.23,27980.23,-16.77,Graph consolidating on a downtrend until it reached 4533 | then took a huge loss to hit SL at 4510 with a PnL of -16.77
+2026-05-26,TRADE_007,SHORT,4508,,4484,WIN,2.0,,,,,,2980.23,27980.23,,Graph was consolidating until it reached 4528 | then went on a direct downtrend to hit TP at 4484
+2026-05-27,TRADE_008,SHORT,4460,,4420,WIN,2.0,,,,,,2980.23,27980.23,,Graph dipped slightly from 4460 and then took a quick downtrend to hit TP1 at 4420 and TP2 at 4400
+2026-05-28,TRADE_009,LONG,4465,,4505,WIN,2.0,40.00,,1.0000,1,0.18,3020.23,28020.23,40.00,Graph shot up directly to hit 4505 TP with PnL +$40
+2026-06-03,TRADE_010,SHORT,4477.5,4490.5,4450.0,WIN,2.0,-121.95,0.5,4.62,1,0.83,2898.28,27898.28,-121.95,Signal was generated at about 3PM Beirut time and entry happened at 7:30AM the next day | market dipped a little towards TP but then shot up straight and hit SL. Entry price of 4477.5 was too far away from the price that it was (4450) | so macro and timechart data may have drastically changed overnight and the signal was far off from a short and went long instead.

@@ -1,0 +1,5 @@
+Run trading mode as usual. "python3 generate_insights.py --option trading"
+After each real trade, edit trade_backlog.txt and add:
+DATE, TRADE_ID, OUTCOME, optional R_MULTIPLE, notes/lesson.
+Next run will include both logs, so Claude can adapt its reasoning from your win/loss history.
+

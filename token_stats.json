@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-29T19:01:36.132758",
+  "total_runs": 1,
+  "total_input_tokens": 6124,
+  "total_output_tokens": 1088,
+  "total_tokens": 7212,
+  "avg_input_tokens_per_run": 6124.0,
+  "avg_output_tokens_per_run": 1088.0,
+  "avg_tokens_per_run": 7212.0,
+  "avg_cost_per_run": 0.034692,
+  "total_cost_usd": 0.035,
+  "projected_daily_cost": 0.833,
+  "projected_monthly_cost": 24.98
+}

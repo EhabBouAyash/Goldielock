@@ -1,0 +1,352 @@
+----------------------------------------
+DATE: 2026-04-29
+TRADE_ID: 2026-04-29_XAU_SHORT
+SOURCE: MODEL_SIGNAL
+SIGNAL: SHORT
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4522.100098
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-06
+TRADE_ID: 2026-05-06_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4684.200195
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-06
+TRADE_ID: 2026-05-06_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4687.600098
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-07
+TRADE_ID: 2026-05-07_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4757.1
+ENTRY_LOW: 4757.0
+ENTRY_HIGH: 4757.0
+STOP_LOSS: 4741.0
+TARGET1: 4773.0
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 3.5x (rounded down from 3.53x)
+RISK_MODE: NO-LEVERAGE
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-07
+TRADE_ID: 2026-05-07_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4760.6
+ENTRY_LOW: 4762.0
+ENTRY_HIGH: 4762.0
+STOP_LOSS: 4741.0
+TARGET1: 4783.0
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 1.36x (rounded down to 1x for safety)
+RISK_MODE: NO-LEVERAGE
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4716.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4720.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4720.8
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4722.3
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4725.2
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4726.7
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4723.8
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4724.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4738.4
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4736.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4738.5
+ENTRY_LOW: 4739.0
+ENTRY_HIGH: 4739.0
+STOP_LOSS: 4725.0
+TARGET1: 4754.0
+TARGET2: 4769.0
+RECOMMENDED_LEVERAGE: 4.1x (rounded down from 40.7x calculation, capped at reasonable level)
+RISK_MODE: BALANCED
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4520.9
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4521.5
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4571.2
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 0.71x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4571.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4575.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: ** 0.905x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_SHORT
+SOURCE: MODEL_SIGNAL
+SIGNAL: SHORT
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4508.6
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 2.25x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
