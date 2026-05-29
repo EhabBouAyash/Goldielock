@@ -1,0 +1,14 @@
+# Position sizing — chat agent (50:1 default, percent-risk model).
+
+IF confluence = FULL THEN risk_pct = 0.60..0.80; floor 0.50 ($125); never CONSERVATIVE_on_full_alignment
+IF confluence = PARTIAL THEN risk_pct = 0.40..0.55; T1 = 1.5..2R
+IF confluence = MISALIGN THEN risk_pct = 0.25..0.35; T1_max = 1R; skip_if T1_profit < 100
+IF confluence = FULL THEN T1 >= 2.0R; T2 REQUIRED 2.5..3.0R; xau_ounces * |T1-entry| >= 200
+IF risk_dollars = min(25000 * risk_pct, snapshot.recommended_max_risk_usd)
+IF risk_dollars > 250 THEN clamp_to 250 (1.00% single-trade cap)
+IF leverage_mode = STANDARD_50X AND effective_leverage <= 50 THEN tradingview_preset = 50:1
+IF leverage_mode = DEFENSIVE THEN risk_pct <= 0.40; preset = 10:1 OR 1:1
+IF leverage_mode = CAUTIOUS THEN risk_pct <= 0.55; preset = 10:1 UNLESS A+ full_alignment
+IF closed_loss_today >= 200 THEN next_trade risk_pct <= 0.40 UNTIL win OR stand_down
+IF combined_open_risk_today > 0.50 * snapshot.daily_loss_room_soft THEN reduce OR NO-TRADE
+IF stop_distance < 6 THEN reject_stop; min $6/oz technical

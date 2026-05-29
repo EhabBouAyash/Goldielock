@@ -1,0 +1,14 @@
+# Active hardened rules — append new RULE entries below. Loaded every signal cycle.
+# Before finalizing any signal: IF any rule trigger matches current_setup THEN execute ACTION (overrides default tier/gate).
+
+RULE 001:
+  IF signal_generated_within [X]h_of weekend OR holiday_market_closure
+  THEN run closure-duration-risk-gate.rules;
+       stress_test_thesis_vs every_unresolved_flagged_catalyst;
+       IF thesis_fails_reversal_test THEN sizing_haircut OR NO-TRADE OR flatten_before_close;
+       append CLOSURE_RISK disclosure line
+  SOURCE: Friday gold (XAUUSD) short signal, 2026-06-19/20
+  TYPE: structural
+  DATE_ADDED: 2026-06-20
+
+# Append RULE 002+ below this line after post-mortems.

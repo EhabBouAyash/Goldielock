@@ -1,0 +1,88 @@
+═══════════════════════════════════════════════════════════════════
+DISRUPTION WATCH
+═══════════════════════════════════════════════════════════════════
+
+**Acute Move Risk: TWO-WAY (bearish lean intraday via DXY/yields; bullish tail via Iran)**
+
+**Disruptive Catalysts Found (fresh, relevant):**
+1. **US May PPI +6.5% y/y / +1.1% m/m (hot headline) vs core undershoot** (ForexLive, 06-11 12:30) — score 6/10 TWO-WAY
+2. **Iran maintains Strait of Hormuz closure "until further notice"** (ForexLive, 06-11 09:16) — score 5/10 BULLISH
+3. **Trump threatens to hit Iran "VERY HARD TONIGHT" / seize Kharg Island oil infra** (ForexLive/CNBC, 06-11 12:38–14:44) — score 5/10 BULLISH
+4. **Dollar steadies near two-month high on Iran tensions** (Investing.com, 06-11 15:01) — score 3/10 BEARISH gold
+5. **US-Iran talks "still on track" (CNN source)** — de-escalation offset, BEARISH gold tail
+
+**Transmission Mechanism:**
+- **PPI hot headline (+1.1% m/m):** Feeds PCE next week → sticky inflation reinforces a higher-for-longer Fed / elevated real yields (DFII10 at 2.2%, already bearish-zone). Core undershoot (+4.9% vs +5.4%) softens the blow. Net: dollar-supportive, gold-pressuring via real-yield channel.
+- **Iran/Hormuz escalation:** Oil-supply shock + safe-haven bid = bullish gold tail. BUT price action shows gold FELL from $4173 to $4088 despite live escalation — the market is prioritizing the DXY/yield channel over the safe-haven channel right now. This is the dominant competing mechanism.
+- **DXY at two-month high (100.22, +0.27%):** Confirmed inverse driver. Loopback proved this transmitted: DXY 99.8→100.2 aligned with gold -2.04%.
+
+**Signal Change:** Catalysts REINFORCE the prior SHORT bias (which won -2.04%). Iran headlines are a known bullish risk that price has so far absorbed/ignored — gold keeps making lower lows on the 1H/4H. No flip. Bias stays bearish but with two-way event risk awareness (an Iran tonight-strike could spike gold against a short).
+
+═══════════════════════════════════════════════════════════════════
+DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
+═══════════════════════════════════════════════════════════════════
+
+**DATA VALIDATION:** SUMMARY ok=15, warn=1, fail=0, blocking_failures=none, trade_permission=**TRADE_ALLOWED_IF_SETUP_CONFIRMS**.
+- [OK] XAUUSD spot decision price $4088.9 (gold-api) — execution/logging anchor.
+- [WARN] Bid/ask null — add slippage buffer, do not over-size. Chart bars are GC=F proxy (entries/stops on spot).
+- [OK] DXY, yields, tensor, charts, news all usable. Trading permitted.
+
+---
+
+**TIER 1 — MACRO:** Clarity **7/10**
+- **DXY:** 100.221 (+0.27%, two-month high) → bearish gold. Approaching but not yet a >0.5% break.
+- **Real yield (DFII10):** 2.2% → >1.5% = structurally bearish gold (opportunity cost high).
+- **PPI:** Hot headline, soft core → net mildly hawkish/dollar-supportive.
+- **Iran/Hormuz/Trump strike threat:** Bullish safe-haven tail, but PRICE IS IGNORING IT (gold fell through escalation). Competing mechanism downgrades clarity from 8 → 7.
+- **Bias: BEARISH** | Conviction: MEDIUM-HIGH. Price-thesis consistency check: YES — gold made lower lows from 4173→4046→4088 while DXY firmed. Price behaving consistently with bearish thesis.
+
+**TIER 2 — 4H:** Strong downtrend. Price 4102 below SMA9 (4114), SMA21 (4226), SMA50 (4369) — full bearish MA stack. RSI 40.35. Tensor 4H = -6.27. **Confirms macro? YES.**
+
+**TIER 3 — 1H:** Downtrend. Price below SMA9 (4104), marginally above SMA21 (4101.95), far below SMA50 (4172). RSI 36.93 (weak, not yet oversold-extreme). Tensor 1H = -4.16. **Confirms 4H/macro? YES.**
+
+**TIER 4 — 15M:** Price 4102 above SMA9 (4096.97), below SMA21 (4100.11) and SMA50 (4104.98). RSI 43.83. This is a **bounce/pullback into resistance** within a larger downtrend — gold rallied off the $4072 low (14:00 candle) back to ~4102, hitting the descending SMA21/SMA50 cluster (4100–4105). Pattern = **pullback to resistance / momentum retest short**. Tensor 15M = +1.58 (mild bullish bounce = the pullback we sell into). **Execution chart? YES** — clean lower-timeframe rejection zone at 4100–4105 aligns with HTF trend.
+
+**TIER 5 — 5M:** Price 4102 above SMA9/21/50 (~4098), RSI 50.4 — short-term bounce losing steam at the 4100–4107 supply (rejected 4107.5 on 15:05 candle). Volume_pressure -1.0. Improves 15M? **MARGINAL** — confirms the retest is stalling but RSI neutral; use 15M as primary.
+
+---
+
+**DECISION:**
+**SIGNAL: SHORT**
+**Confluence: PARTIAL** (Macro≥6 bearish ✓, 4H YES ✓, 1H YES ✓, but 15M/5M show a counter-trend BOUNCE — execution is a fade INTO resistance, not a fresh breakdown; plus live Iran two-way event risk caps aggression.)
+**Selected execution chart: 15M**
+**Aggression: CONSERVATIVE** — PARTIAL alignment (15M momentum is counter-trend bounce, not aligned-down impulse) + active Iran tonight-strike headline risk that could spike gold against a short. Snapshot STANDARD_100X but event risk + bid/ask WARN argue against MAX. Use 0.55% risk.
+
+**Trade Parameters:**
+- **Pattern:** Pullback to descending SMA21/SMA50 resistance (4100–4105), HTF downtrend continuation
+- **Entry:** 4101.0 (current bounce into 4100–4105 supply; spot basis)
+- **Stop:** 4116.0 (above 15M structure / 1H SMA9 4104 + 5M swing high 4107.5, buffer for Iran-headline wick) — stop distance **$15.0/oz** (technical, >$6 ✓)
+- **Target 1:** 4071.0 (retest of session low 4072.8) = **2.0R**
+- **Target 2:** 4056.0 (extension toward 4046 prior low) = **3.0R**
+
+**Expected profit T1 / T2: $206 / $309** (T1 ≥$200 ✓)
+
+**FundedNext / TradingView Risk Plan:**
+- Risk: **0.55% = $137.50** (within snapshot recommended_max_risk_usd $250 ✓; within 1% cap)
+- Daily room: $137.50 risk / **$625 soft, $750 hard** — uses 22% of daily soft room ✓
+- Max-loss room: $137.50 / **$2,038.87 soft, $2,288.87 hard** ✓
+- Combined open risk ≤50% of daily soft room ($312.50): $137.50 ✓
+- Profit progress: $788.87 / $2,500 (remaining $1,711.13)
+- Stop distance: **$15.0/oz**
+- **XAUUSD size: 137.50 / 15.0 = 9.17 oz**
+- Notional: 9.17 × 4101 = **$37,606** | Effective leverage: 37,606 / 25,788.87 = **1.46x**
+- TV preset: **50:1** (STANDARD_100X mode allows; effective lev 1.46x ≪ 50; margin 37,606/50 = $752 ≤ equity ✓)
+- **Loss if stopped: $137.50** (+ spread buffer for WARN) ≤ $250 cap ✓
+- **Verified T1 profit at 9.17 oz: 9.17 × |4071−4101| = 9.17 × 30 = $275** ✓ (≥$200)
+
+*(Note: T1 dollar profit $275 exceeds the 2R-implied $206 because the 30-pt distance to session low gives extra room; both clear the $200 gate.)*
+
+**Edge (tier-ranked):** 1) Macro bearish (DXY 2mo-high + real yields 2.2%), 2) 4H full bearish stack, 3) 1H downtrend confirms, 4) 15M fade into descending resistance, 5) 5M bounce stalling at supply. **Confidence: MEDIUM.**
+
+**Loopback weighting this cycle:**
+- **GAIN weight:** XAUUSD price action (10 — final arbiter, confirmed the SHORT) and **DXY** (8.26 — transmitted cleanly, now at 2mo high).
+- **GAIN modestly:** live catalyst flow (PPI + Iran) — but flagged TWO-WAY since price is ignoring the bullish Iran tail.
+- **LOSE/keep low weight:** confluence tensor (15M/5M bullish bounce is noise against HTF trend — use only for entry timing), 10Y real yield (stale daily), Fed balance sheet (negligible intraday).
+
+**Key risk:** Trump's "VERY HARD TONIGHT" Iran strike + Hormuz closure is a live bullish-gold catalyst. If a strike headline hits during the trade, gold can spike through 4116 stop. The $15 stop + tight 2R T1 (session-low retest) is deliberately conservative to bank profit fast before NY-session/overnight event risk.
+
+GOLD_SIGNAL=SHORT

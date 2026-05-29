@@ -29,6 +29,7 @@ from pathlib import Path
 from datetime import date, datetime
 from typing import Any, TypedDict
 from zoneinfo import ZoneInfo
+ 
 
 import requests
 from dotenv import load_dotenv
@@ -91,6 +92,10 @@ from fetch_intraday import fetch_intraday_bars
 from token_tracker import log_token_usage, calculate_cost
 
 from prop_account_tracker import refresh_prop_account_state
+from day_trading_prompt_rules import (
+    DISRUPTION_SCOUT_SYSTEM_PROMPT,
+    DAY_TRADING_SYSTEM_PROMPT,
+)
 
 load_dotenv()
 
@@ -117,210 +122,13 @@ PROP_TOTAL_DRAWDOWN_HARD_LIMIT_PCT = 0.06  # $1,500 — account floor $23,500
 PROP_PROFIT_TARGET_PCT = 0.10  # $2,500 challenge profit target
 PROP_MIN_TRADING_DAYS = 2
 PROP_MIN_TARGET1_PROFIT_USD = 200  # minimum $ win on aligned Target 1 hits
-PROP_ALIGNED_RISK_MIN_PCT = 0.005  # 0.50% — floor for FULL ALIGNMENT trades
-PROP_ALIGNED_RISK_TYPICAL_PCT = 0.007  # 0.70% — default for STANDARD aligned setups
-PROP_MAX_SINGLE_TRADE_RISK_PCT = 0.01  # 1.00% hard cap per trade ($250)
-PROP_PREFERRED_TV_LEVERAGE = 50  # default aligned execution preset when room allows
+PROP_DAILY_ROOM_USE_PCT = 0.95  # size each trade to ~95% of remaining daily loss room
+PROP_PREFERRED_TV_LEVERAGE = 100  # default aligned execution preset when room allows
+MT5_ACCOUNT_LEVERAGE = 100  # FundedNext / MT5 standard account leverage
+MT5_OZ_PER_STANDARD_LOT = 100  # XAUUSD: 1 standard lot = 100 oz on typical MT5 brokers
 
 # TradingView paper accounts only expose these leverage presets
 TRADINGVIEW_LEVERAGE_OPTIONS = (1, 10, 50, 100)
-
-FUNDEDNEXT_STELLAR_1STEP_RULES = """
-FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT RULES (from official FAQ):
-
-Loss limits (based on INITIAL balance $25,000):
-- Daily loss limit: 3% = $750 per calendar day (server midnight reset, GMT+2/+3).
-  Includes closed P&L + floating/open P&L + swaps, commissions, and fees.
-  If you are up intraday, today's permitted loss = $750 + today's closed profit
-  (profits from prior days do NOT carry after midnight reset).
-- Maximum loss limit: 6% = $1,500 total; equity cannot fall below $23,500.
-  Breach pauses the account until reset / new challenge.
-
-Challenge pass requirements:
-- Profit target: 10% of initial balance = $2,500 (no time limit).
-- Minimum trading days: at least 2 separate days with ≥1 trade each (not required
-  to be consecutive). No max/min trade count otherwise.
-
-Operational restrictions:
-- Manual trading only on Match-Trader CFD; no EAs or third-party indicators.
-- Copy trading allowed only between YOUR OWN challenge accounts; prohibited
-  between different individuals.
-- Use one consistent device/IP or a dedicated VPN/VPS IP.
-- Prohibited: platform manipulation, latency exploitation, exploitative strategies.
-- Review full TOS for restricted strategies.
-
-Breach consequences:
-- Daily loss breach: account breached for the day; manual reset required.
-- Max loss breach: account paused; reset or new challenge required.
-- Floating losses count toward daily loss in real time.
-""".strip()
-
-# ═══════════════════════════════════════════════════════════════════════════
-# DAY TRADING SYSTEM PROMPT (TOP-DOWN SCORING)
-# ═══════════════════════════════════════════════════════════════════════════
-
-DAY_TRADING_SYSTEM_PROMPT = """You are an intraday XAUUSD spot gold trader on a FundedNext Stellar 1-Step $25K CFD account. Use TOP-DOWN scoring: Macro 50% → 4H 20% → 1H 12% → 15M 10% → 5M 8%. XAUUSD spot only for decisions, entries, stops, targets, sizing, and logging — no futures symbols.
-
-PROP GUARDRAILS (override signal quality):
-- $25,000 account | Pass +10% ($2,500) | Min 2 trading days with ≥1 trade each
-- Daily loss: soft 2.5% ($625) / hard 3% ($750) incl. floating P&L, swaps, fees; resets at server midnight (GMT+2/+3)
-- Max loss: soft 5% ($1,250) / hard 6% ($1,500); equity floor $23,500
-- If up intraday, today's permitted loss = $750 + today's closed profit (prior-day profits do not carry)
-- TradingView paper: leverage presets 1:1, 10:1, 50:1, 100:1 — aligned trades default to 50:1 when PROP ACCOUNT SNAPSHOT leverage_mode is STANDARD_50X and effective_leverage ≤ 50; otherwise use smallest preset ≥ effective leverage
-- Manual trading only on Match-Trader CFD; no EAs or third-party indicators
-- NO-TRADE when limits would be threatened or edge is absent
-
-CHALLENGE PACE: Winning aligned trades must target ≥$200 at Target 1 (≈12 such wins to pass). Directionally correct but $40 wins fail the challenge — match XAUUSD ounces on TradingView to your calculated size.
-
-TOP-DOWN TIERS (analyze all five every cycle):
-1. MACRO — news/RSS, DXY (>0.3% move significant), real/breakeven yields, Fed/Treasury, geopolitics, data releases. Sets bias, not the final word.
-2. 4H — trend vs SMA9/21/50, key levels, RSI; confirms or rejects macro.
-3. 1H — session bridge; filters 15M/5M noise against dominant move.
-4. 15M — pattern, S/R, volume; primary execution chart when clean.
-5. 5M — optional entry timing only when it materially improves 15M.
-
-EXECUTION CHART: State 15M, 5M, or NONE. Prefer 15M; use 5M only if clearly better; NONE if no rule-based trigger.
-
-PRICE ACTION VETO + MACRO RECONCILIATION:
-- If macro thesis and price disagree, price wins until proven otherwise.
-- State each macro factor's gold implication before overall bias. Real yields >1.5% bearish; <0.5% bullish. Inflation surprise up → trace Fed channel; down → bullish. Do not absorb bearish inputs into NEUTRAL silently.
-- After bias, ask: "Is price behaving consistently with my thesis?" YES → proceed at full aggression for clarity score. NO → identify dominant competing mechanism (e.g. risk-off lifting DXY despite bullish gold thesis), downgrade clarity 3-5 points, flip or neutralize bias.
-- Macro high + charts unclear → wait. Macro low (1-3/10) → NO-TRADE preferred.
-- One missing macro input ≠ auto NO-TRADE if remaining evidence aligns (trade smaller).
-
-MACRO CLARITY (1-10; downgrade 3-5 if price contradicts thesis):
-- 8-10: fresh catalyst, DXY >0.5% break, sharp yields, clear news → MAX eligible
-- 6-7: several agreeing inputs, leaning news → STANDARD
-- 4-5: mixed/sideways → CONSERVATIVE or skip
-- 1-3: conflict/pre-event → NO-TRADE or scalp only
-
-CONFLUENCE ALIGNMENT → AGGRESSION (apply before output; one table):
-
-FULL ALIGNMENT — macro≥6 matches direction, 4H YES, 1H not opposing, 15M named pattern + execution YES:
-  MAX if macro≥8 and all tiers YES | else STANDARD
-  Risk: 0.60%-0.80% ($150-$200); floor 0.50% ($125) — never CONSERVATIVE on full alignment
-  Target 1: ≥2.0R | Target 2: REQUIRED 2.5-3.0R
-  Min profit check: xau_ounces × |T1−entry| MUST be ≥$200
-  Reference: 0.70% risk=$175 → T1 2R=$350, T2 2.5R=$437
-
-PARTIAL — 4H contradicts OR 1H opposes OR 15M unclear:
-  CONSERVATIVE: risk 0.40%-0.55% ($100-$137), T1 1.5-2R, T2 optional 2R
-
-MISALIGNMENT → NO-TRADE or SCALP-ONLY (0.25%-0.35%, 1R max; skip if T1 <$100)
-
-ANTI-PATTERNS: (1) Full alignment at <0.50% or 1R-only T1 (2) Expected profit $200+ with ounces that only pay $40 — recalculate (3) 1:1 preset is not a reason to shrink ounces; raise risk% and R (4) Multiple trades/day OK when cumulative risk respects daily/max limits
-
-POSITION SIZE + LEVERAGE (required for LONG/SHORT):
-  Read PROP ACCOUNT SNAPSHOT first — recommended_max_risk_usd and recommended_tv_leverage are binding caps.
-  stop_distance = |entry − stop| ($/oz; min $6 at a technical level — no noise stops)
-  risk_dollars = min(25000 × risk_pct, snapshot.recommended_max_risk_usd)
-  xau_ounces = risk_dollars / stop_distance
-  position_notional = xau_ounces × entry
-  effective_leverage = position_notional / current_equity (from snapshot, else $25,000)
-  tradingview_preset:
-    - STANDARD_50X mode + effective_leverage ≤ 50 → use 50:1 (preferred for challenge pace)
-    - DEFENSIVE/CAUTIOUS mode → use 10:1 or 1:1 even if lower notional
-    - else smallest in {1,10,50,100} ≥ effective_leverage
-  margin_at_tv = position_notional / tradingview_preset; must be ≤ current equity
-  profit_at_T1 = xau_ounces × |T1 − entry|  ← verify ≥$200 (non-scalp)
-  loss_if_stopped ≤ risk_dollars (+ spread); must fit snapshot daily/max rooms
-
-RISK BUDGET (snapshot-aware):
-- Never exceed snapshot recommended_max_risk_usd or 1.00% ($250) single-trade cap
-- If daily_breached_soft or max_loss_breached_soft → NO-TRADE
-- If leverage_mode is DEFENSIVE: max 0.40% risk and 10:1 (or 1:1) only
-- If leverage_mode is CAUTIOUS: max 0.55% risk and 10:1 unless A+ full alignment
-- If leverage_mode is STANDARD_50X: use 0.60%-0.80% risk with 50:1 when margin allows
-- Max combined open risk today ≤50% of snapshot daily_loss_room_soft_usd
-- After closed loss ≥$200 today, cap next trade at 0.40% until a win or stand down
-- Dollar profit = risk_dollars × R-multiple; match XAU_OZ on TradingView to calculated ounces
-
-PATTERNS (15M/5M): Pullback to SMA9/21 + RSI hold; H&S / inverse H&S; double top/bottom; S/R breakout with volume; momentum retest; divergence (lowest confidence, tight stop).
-
-OUTPUT FORMAT:
-
-═══════════════════════════════════════════════════════════════════
-DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
-═══════════════════════════════════════════════════════════════════
-
-TIER 1 - MACRO: Clarity X/10, reasons, key factors (DXY, yields, Fed/Treasury, news, geopolitics, data), Bias, Conviction
-TIER 2 - 4H: Trend, MAs, RSI, key levels, confirms macro? [YES/NO/MIXED]
-TIER 3 - 1H: Trend, MAs, RSI, confirms 4H/macro? [YES/NO/MIXED]
-TIER 4 - 15M: Pattern, description, RSI, execution chart? [YES/NO + why]
-TIER 5 - 5M: Setup, volume, micro-structure, improves 15M? [YES/NO + why]
-
-DECISION:
-SIGNAL: [LONG / SHORT / NO-TRADE]
-Confluence: [FULL / PARTIAL / MISALIGN]
-Selected execution chart: [15M / 5M / NONE]
-Aggression: [MAX / STANDARD / CONSERVATIVE / SCALP-ONLY / NO-TRADE] + reasoning
-
-If LONG or SHORT:
-  Pattern | Entry | Stop (technical + reason) | Target 1 (R) | Target 2 (R)
-  Expected profit T1 / T2: $X / $X  (T1 must be ≥$200 on aligned trades)
-  FundedNext / TradingView Risk Plan:
-    Risk: X.XX% = $X | Daily room: $X / $625 soft, $750 hard | Max-loss room: $X / $1,250 soft, $1,500 hard
-    Profit progress: $X / $2,500 | Stop distance: $X/oz
-    XAUUSD size: X oz | Notional: $X | Effective leverage: X.XXx | TV preset: [1/10/50/100]:1
-    Loss if stopped: $X | Verified T1 profit at stated oz: $X
-  Edge (tier-ranked 1-5) | Confidence: [HIGH/MEDIUM/LOW]
-
-If NO-TRADE: reason, cycle-specific "what would change my mind", next check.
-Low clarity: prefer reduced-size edge over blind NEUTRAL when structure is clean.
-
-GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]  ← last line; NEUTRAL = NO-TRADE
-
-CRITICAL RULES:
-1. All five tiers before deciding; prop limits override signal quality
-2. DATA VALIDATION blocking failures → NO-TRADE unless report allows trading
-3. Before NEUTRAL, evaluate one concrete LONG/SHORT; reject only on a named rule
-4. Levels are cycle-specific — never reuse old absolute prices from prior cycles/loopback
-5. Loopback adjusts data weights and risk mode, not entry anchors
-6. Learn from model_trade_log.txt + trade_backlog.txt + PROP ACCOUNT SNAPSHOT each cycle
-7. Macro contradicting price outranks chart patterns
-8. Prefer London/NY overlap and 9:30 AM–4 PM ET
-9. Verify XAUUSD source labels; do not invent missing metrics
-"""
-
-
-DISRUPTION_SCOUT_SYSTEM_PROMPT = DAY_TRADING_SYSTEM_PROMPT + """
-
-ADDITIONAL LANGGRAPH AGENT MISSION:
-You are now running inside a live LangGraph agent. Your job is not to passively
-summarize fixed feeds. You must evaluate the latest market snapshot plus a fresh
-internet scout for disruptive gold catalysts that can make gold rise or fall
-acutely during the active session.
-
-Treat disruptive catalysts as highest-priority macro inputs. Examples include:
-- surprise Fed/FOMC/Powell communication
-- sudden DXY or Treasury yield breakouts
-- CPI, PCE, NFP, unemployment, retail sales, ISM, GDP surprises
-- wars, attacks, sanctions, ceasefires, energy shocks, banking stress
-- central-bank gold reserve actions or market-liquidity shocks
-
-Before the normal signal, include a DISRUPTION WATCH section:
-- Acute Move Risk: UP / DOWN / TWO-WAY / NONE
-- Disruptive Catalysts Found: list only fresh, relevant items
-- Transmission Mechanism: why each item should hit gold quickly
-- Signal Change: whether this changes the prior bias or trade signal
-
-Still finish with the mandatory last line:
-GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]
-
-NEWS AND HIGH-IMPACT SEARCH RULES:
-- Current headlines and catalyst search targets must come from Claude's
-  market-knowledge search plan for this cycle, not only from a fixed query list.
-- Do not present remembered headlines as current facts. Use market knowledge to
-  decide where to search and what historically qualifies as high impact for gold.
-- Public RSS/news feeds from Investing.com, Federal Reserve, CNBC, MarketWatch,
-  ForexLive, Forex Factory, and other available sources are live macro context.
-  Treat them as evidence to evaluate and rank, not as background noise.
-- Quantifiable metrics such as XAUUSD spot, DXY, RSI, moving averages, yields,
-  and balance sheet data must come from structured/static
-  sources. If a metric cannot be retrieved, use the metric recovery plan to
-  identify where to look; do not hallucinate a value.
-"""
-
 
 CLAUDE_SEARCH_PLANNER_SYSTEM_PROMPT = """You are the live gold catalyst search
 planner for an intraday XAUUSD spot gold prop-firm agent.
@@ -466,7 +274,7 @@ def map_effective_leverage_to_tradingview(
     """
     Map calculated effective leverage to TradingView's allowed presets: 1:1, 10:1, 50:1, 100:1.
 
-    When prefer_leverage is set (e.g. 50 from PROP ACCOUNT SNAPSHOT), use it if it still
+    When prefer_leverage is set (e.g. 100 from PROP ACCOUNT SNAPSHOT), use it if it still
     covers the required effective leverage; otherwise pick the smallest preset that fits.
     """
     if effective_leverage is None or effective_leverage <= 0:
@@ -1480,19 +1288,23 @@ def build_data_validation_report(state: GoldAgentState) -> dict[str, Any]:
         "At least one live/candidate event source returned." if event_count else "No live/candidate events returned.",
     ))
 
-    model_log = market_data.get("model_trade_log_context", "")
+    snapshot = market_data.get("prop_account_snapshot", {})
     manual_log = market_data.get("manual_trade_backlog_context", "")
-    resolved_manual = len(re.findall(r"OUTCOME\s*:\s*(?!PENDING\b)[A-Z0-9_+-]+", manual_log, flags=re.IGNORECASE))
+    decided_trades = snapshot.get("decided_trades", 0)
     rows.append(_validation_row(
         "Trade-log learning inputs",
-        "OK" if model_log and manual_log and manual_log != "(No history yet.)" else "WARN",
-        "model_trade_log.txt + trade_backlog.txt",
+        "OK" if decided_trades > 0 and manual_log and manual_log != "(No history yet.)" else "WARN",
+        "trade_backlog.txt",
         {
-            "model_log_chars": len(model_log),
-            "manual_log_chars": len(manual_log),
-            "resolved_manual_outcomes": resolved_manual,
+            "total_trades": snapshot.get("total_trades", 0),
+            "decided_trades": decided_trades,
+            "current_equity_usd": snapshot.get("current_equity_usd"),
+            "total_closed_pnl_usd": snapshot.get("total_closed_pnl_usd"),
+            "win_rate_pct": snapshot.get("win_rate_pct"),
         },
-        "Trade history available for feedback." if manual_log and manual_log != "(No history yet.)" else "Manual trade backlog missing/empty.",
+        "trade_backlog.txt available with resolved outcomes."
+        if decided_trades > 0
+        else "trade_backlog.txt missing or has no WIN/LOSS rows.",
     ))
 
     rows.append(_validation_row(
@@ -1827,22 +1639,20 @@ FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
 - Total max loss: {PROP_TOTAL_DRAWDOWN_SOFT_LIMIT_PCT:.0%} soft (${PROP_ACCOUNT_SIZE * PROP_TOTAL_DRAWDOWN_SOFT_LIMIT_PCT:,.0f}) / {PROP_TOTAL_DRAWDOWN_HARD_LIMIT_PCT:.0%} hard (${PROP_ACCOUNT_SIZE * PROP_TOTAL_DRAWDOWN_HARD_LIMIT_PCT:,.0f}); floor ${PROP_ACCOUNT_SIZE * (1 - PROP_TOTAL_DRAWDOWN_HARD_LIMIT_PCT):,.0f}
 - Profit target: {PROP_PROFIT_TARGET_PCT:.0%} (${PROP_ACCOUNT_SIZE * PROP_PROFIT_TARGET_PCT:,.0f})
 - Min aligned Target 1 profit: ${PROP_MIN_TARGET1_PROFIT_USD:,} (verify xau_ounces × |T1−entry| ≥ this)
-- Aligned risk floor: {PROP_ALIGNED_RISK_MIN_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_ALIGNED_RISK_MIN_PCT:,.0f}); typical {PROP_ALIGNED_RISK_TYPICAL_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_ALIGNED_RISK_TYPICAL_PCT:,.0f})
-- Max single-trade risk: {PROP_MAX_SINGLE_TRADE_RISK_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_MAX_SINGLE_TRADE_RISK_PCT:,.0f})
+- Daily budget sizing: one trade at a time — use snapshot recommended_max_risk_usd (~{PROP_DAILY_ROOM_USE_PCT:.0%} of remaining daily loss room)
 - Min trading days to pass: {PROP_MIN_TRADING_DAYS}
 - TradingView leverage presets: {", ".join(f"{x}:1" for x in TRADINGVIEW_LEVERAGE_OPTIONS)} — aligned default {PROP_PREFERRED_TV_LEVERAGE}:1 when snapshot allows
-- PROP ACCOUNT SNAPSHOT below is computed from trade_backlog.txt each cycle — use it for risk/leverage caps
+- PROP ACCOUNT SNAPSHOT is READ from trade_backlog.txt last row only — agent never writes that file
+- Your real EQUITY and CUMULATIVE_PNL = exact values in the LAST ROW — never re-sum or override
 
 ===================================================================
-PROP ACCOUNT SNAPSHOT (from trade_backlog.txt aggregation)
+PROP ACCOUNT SNAPSHOT (trade_backlog.txt ONLY — last row authoritative)
 ===================================================================
 
 {market_data.get('prop_account_snapshot_text', '(No prop account history yet.)')}
 
-Snapshot JSON (for sizing math):
+Snapshot JSON:
 {json.dumps(market_data.get('prop_account_snapshot', {}), indent=2, default=str)}
-
-{FUNDEDNEXT_STELLAR_1STEP_RULES}
 
 MACRO INDICATORS:
 - 10Y Real yield (TIPS, DFII10): {market_data.get('real_yield_dfii10', 'n/a')}%
@@ -1925,22 +1735,13 @@ and re-entry conditions must use fresh levels from the intraday block below.
 {json.dumps(loopback_evaluation, indent=2, default=str)}
 
 ===================================================================
-TRADE HISTORY (trade_backlog.txt with running account columns)
+TRADE BACKLOG (trade_backlog.txt — SOLE SOURCE for equity, PnL, win rate)
 ===================================================================
 
 {market_data.get('manual_trade_backlog_context', '(No history yet.)')}
 
-MODEL'S RECENT PREDICTIONS:
+MODEL SIGNAL HISTORY (reference only — NOT for equity or PnL):
 {market_data.get('model_trade_log_context', '(No history yet.)')}
-
-TRADE HISTORY INSTRUCTIONS:
-- trade_backlog.txt is ground-truth execution; columns include PNL_USD, RISK_USD, XAU_OZ,
-  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL (running totals recomputed each cycle).
-- Fill PNL_USD, RISK_USD, XAU_OZ, and TV_LEVERAGE on every new trade row you execute.
-- Use PROP ACCOUNT SNAPSHOT for daily/max drawdown room and recommended_tv_leverage before sizing.
-- Treat model_trade_log.txt as prior recommendations only.
-- Learn from mismatches (e.g. +$40 wins when 2R implied $200+) and adjust XAU_OZ + TV_LEVERAGE.
-- Do not copy old absolute price triggers from prior outputs; use current chart structure only.
 
 ===================================================================
 ANALYSIS REQUEST
@@ -1959,10 +1760,9 @@ Required:
 5. Explicitly choose the execution chart: 15M, 5M, or NONE.
 6. Update the trade signal only if the catalyst and price action justify it.
 7. Score CONFLUENCE ALIGNMENT (FULL / PARTIAL / MISALIGN) and pick aggression accordingly.
-8. Read PROP ACCOUNT SNAPSHOT and size within recommended_max_risk_usd and
-   recommended_tv_leverage. On FULL ALIGNMENT with STANDARD_50X mode use 50:1,
-   0.60%-0.80% risk, 2R Target 1 (≥${PROP_MIN_TARGET1_PROFIT_USD:,}), 2.5-3R Target 2,
-   show xau_ounces, verified T1 profit, and margin at chosen leverage.
+8. Cite last-row EQUITY and CUMULATIVE_PNL verbatim from trade_backlog.txt. Output BOTH
+   TradingView (100:1 + risk USD) and MetaTrader 5 (100:1 + risk USD + lots) blocks.
+   On FULL ALIGNMENT: use snapshot recommended_max_risk_usd (daily room model), 100:1, 2R T1 (≥${PROP_MIN_TARGET1_PROFIT_USD:,}), 2.5-3R T2.
 9. Explicitly state which ranked data types from the loopback should gain or
    lose weight in this cycle's scoring.
 10. Confirm the trade stays below snapshot daily-loss and max-drawdown rooms; cite
@@ -2155,9 +1955,24 @@ def parse_agent_gold_signal(insights_text: str) -> dict[str, Any]:
         flags=re.IGNORECASE,
     )
     if eff_match and not signal_data.get("tradingview_leverage"):
-        tv_map = map_effective_leverage_to_tradingview(_safe_float(eff_match.group(1)))
+        tv_map = map_effective_leverage_to_tradingview(
+            _safe_float(eff_match.group(1)),
+            prefer_leverage=PROP_PREFERRED_TV_LEVERAGE,
+        )
         signal_data["tradingview_leverage"] = tv_map.get("tradingview_label")
         signal_data["tradingview_leverage_note"] = tv_map.get("note")
+
+    mt5_lev_match = re.search(
+        r"MetaTrader\s*5.*?\n.*?Account\s+leverage\s*:\s*([^\n]+)",
+        insights_text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if mt5_lev_match:
+        signal_data["mt5_leverage"] = mt5_lev_match.group(1).strip()
+    else:
+        mt5_simple = re.search(r"MT5.*?leverage\s*:\s*([^\n]+)", insights_text, re.IGNORECASE)
+        if mt5_simple:
+            signal_data["mt5_leverage"] = mt5_simple.group(1).strip()
 
     if signal_data.get("risk_mode") is None:
         risk_mode_match = re.search(
@@ -2187,7 +2002,7 @@ def persist_results(state: GoldAgentState) -> GoldAgentState:
             }
 
     DISRUPTION_EVENTS_PATH.write_text(
-        json.dumps(state.get("disruptive_events", []), indent=2, default=str),
+        json.dumps(state.get("disruptive_events", []), indent=1, default=str),
         encoding="utf-8",
     )
     intraday_archive_record = {

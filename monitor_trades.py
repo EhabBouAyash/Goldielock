@@ -12,7 +12,7 @@ from pathlib import Path
 import pandas as pd
 from fetch_intraday import fetch_intraday_bars, save_intraday_data, get_intraday_summary
 from token_tracker import update_token_stats, get_token_stats, log_token_usage
-from email_notifier import send_email
+from email_notifier import get_email_recipients, send_email
 
 MONITOR_LOG_PATH = Path(__file__).resolve().parent / "monitor.log"
 TREND_DASHBOARD_PATH = Path(__file__).resolve().parent / "trend_dashboard.json"
@@ -37,16 +37,16 @@ def log_monitor_event(event_type, message, details=None):
         print(f"  Details: {details}")
 
 def run_trading_prediction():
-    """Execute generate_insights.py with trading option."""
+    """Execute day_trading_insights.py (no extra CLI args)."""
     try:
-        log_monitor_event("PREDICTION_START", "Running trading predictions...")
-        
+        log_monitor_event("PREDICTION_START", "Running day_trading_insights.py...")
+
         result = subprocess.run(
-            ["python3", "day_trading_insights.py", "--option", "trading"],
+            ["python3", "day_trading_insights.py"],
             cwd=GOLD_PROJECT_DIR,
             capture_output=True,
             text=True,
-            timeout=120
+            timeout=600,
         )
         
         if result.returncode == 0:
@@ -198,13 +198,18 @@ def continuous_monitor(interval_minutes=60, run_once=False):
                 print(f"   Total Cost: ${token_stats['total_cost_usd']:.3f} ({token_stats['total_runs']} runs)")
                 print(f"   Projected: ${token_stats['projected_daily_cost']:.3f}/day | ${token_stats['projected_monthly_cost']:.2f}/month")
             
-            # Step 6: Send email notification
+            # Step 6: Send email notification to all EMAIL_RECIPIENTS from .env
             try:
-                email_result = send_email("whooshy123@gmail.com")
-                if email_result['status'] == 'success':
-                    log_monitor_event("EMAIL_SENT", "Prediction email sent", {"recipient": "whooshy123@gmail.com"})
+                recipients = get_email_recipients()
+                email_result = send_email()
+                if email_result["status"] in ("success", "partial"):
+                    log_monitor_event(
+                        "EMAIL_SENT",
+                        email_result["message"],
+                        {"recipients": email_result.get("recipients", recipients)},
+                    )
                 else:
-                    log_monitor_event("EMAIL_ERROR", email_result['message'])
+                    log_monitor_event("EMAIL_ERROR", email_result["message"])
             except Exception as e:
                 log_monitor_event("EMAIL_EXCEPTION", str(e))
             

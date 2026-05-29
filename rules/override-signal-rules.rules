@@ -1,0 +1,33 @@
+# Prop / account overrides. Apply after macro+technical; these win conflicts.
+
+IF account_size != 25000 THEN still_use FundedNext_25K_limits (initial_balance_basis)
+IF daily_loss_including_floating >= 750 THEN account_breached_daily; NO-TRADE
+IF equity <= 23500 THEN account_breached_max_loss; NO-TRADE
+IF daily_pnl_up_intraday THEN permitted_daily_loss = 750 + today_closed_profit
+IF daily_pnl_up_intraday AND prior_day_profit THEN prior_day_profit does_not_carry_after_midnight
+IF profit_target_reached = FALSE AND aligned_trade THEN target1_profit_usd >= 200
+IF daily_risk_session = FIRST_TRADE_OF_DAY THEN risk_dollars = 0.85..0.95 * daily_loss_room_soft
+IF daily_risk_session = POST_WIN_ADD_ON THEN risk_dollars = 0.95 * expanded_daily_room
+IF daily_risk_session = POST_LOSS_RECOVERY THEN risk_dollars = leftover_room * 0.95; cap = recommended_max_risk_usd
+IF daily_risk_session = DAILY_LIMIT_REACHED THEN NO-TRADE
+IF open_trade_exists THEN no_second_trade (one_at_a_time)
+IF equity_source != trade_backlog.txt:last_row THEN reject; cite_last_row_verbatim
+IF cumulative_pnl_recomputed != trade_backlog:last_row.CUMULATIVE_PNL THEN reject_output
+IF win_rate_computed THEN use OUTCOME IN {WIN,LOSS} only from trade_backlog.txt
+IF agent_attempts_write trade_backlog.txt THEN forbidden
+IF user_executes_trade THEN user_fills trade_backlog row: PNL_USD, RISK_USD, XAU_OZ, TV_LEVERAGE, OUTCOME, CUMULATIVE_PNL, EQUITY, DAILY_PNL
+IF sizing_decision THEN read PROP_ACCOUNT_SNAPSHOT derived_from trade_backlog.txt
+IF model_trade_log.txt_used_for_equity OR pnl THEN forbidden; reference_only_for_prior_recommendations
+IF trade_backlog_win_vs_model_mismatch (e.g. +$40 win when 2R implied $200+) THEN adjust future XAU_OZ + leverage; do_not_copy_old_price_triggers
+IF snapshot.daily_breached_soft OR snapshot.max_loss_breached_soft THEN NO-TRADE
+IF risk_dollars > snapshot.recommended_max_risk_usd THEN clamp_to_snapshot_cap
+IF loss_if_stopped > snapshot.daily_loss_room_soft_usd THEN reduce_size OR NO-TRADE
+IF ignoring snapshot.daily_risk_session THEN anti_pattern_violation
+IF full_alignment AND risk_capped_at_250 AND room > 625 THEN anti_pattern_violation
+IF full_alignment AND undersized_oz_at_high_leverage THEN anti_pattern_violation
+
+# FundedNext FAQ limits (condensed)
+IF calendar_day_rolls server_midnight GMT+2/+3 THEN reset_daily_loss_counter
+IF floating_pnl_negative THEN counts_toward_daily_loss realtime
+IF manual_trading_only_required THEN no_EAs_no_third_party_indicators
+IF min_trading_days_to_pass < 2 distinct_days_with_trade THEN challenge_incomplete

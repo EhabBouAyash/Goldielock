@@ -1,0 +1,16 @@
+# Cross-cutting rules — referenced by macro, technical, and override sections.
+
+IF data_validation.blocks_trading = TRUE THEN SIGNAL = NO-TRADE
+IF prop_limits_threatened = TRUE THEN SIGNAL = NO-TRADE (overrides signal quality)
+IF macro_thesis != price_action THEN price_action WINS; macro_clarity -= 3..5; reassess bias
+IF macro_clarity IN 1..3 THEN prefer NO-TRADE
+IF missing_macro_input = 1 AND remaining_evidence_aligns THEN trade_allowed WITH reduced_size
+IF all_five_tiers NOT analyzed THEN do_not_finalize_signal
+IF SIGNAL = NEUTRAL AND no_named_rejection_rule THEN evaluate_one_concrete LONG/SHORT first
+IF entry/stop/target prices FROM prior_cycle OR loopback THEN reject; use current_chart_levels_only
+IF loopback_feedback_present THEN adjust data_weights AND risk_mode; do_not_reuse_old_entry_anchors
+IF metric_missing AND metric_recovery_plan_present THEN follow_recovery_plan; do_not_invent_value
+IF metric_missing AND no_recovery_plan THEN lower_confidence; do_not_hallucinate
+IF active_rule IN active-rules.rules APPLIES_TO current_setup THEN override default tier/gate behavior
+IF session_time IN London/NY_overlap OR 09:30-16:00 ET THEN prefer_execution
+IF XAUUSD_source_label_missing OR unverified THEN do_not_trade_on_that_price

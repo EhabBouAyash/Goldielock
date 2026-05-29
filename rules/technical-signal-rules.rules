@@ -1,0 +1,16 @@
+# Technical tiers 2-5 (weights 4H 20%, 1H 12%, 15M 10%, 5M 8%). Apply shared-signal-rules first.
+
+IF analyzing_cycle THEN score_tiers 4H, 1H, 15M, 5M every_cycle
+IF 4H_confirms_macro = YES THEN tier2_support = TRUE
+IF 4H_confirms_macro = NO THEN tier2_support = FALSE; confluence_downgrade
+IF 1H_opposes_dominant_move THEN filter_15M_5M_noise
+IF 15M_pattern_clean AND S/R_defined THEN execution_chart = 15M (preferred)
+IF 5M_improves_15M_entry_materially THEN execution_chart = 5M
+IF no_rule_based_trigger THEN execution_chart = NONE
+IF macro_clarity >= 6 AND direction_matches AND 4H = YES AND 1H != opposing AND 15M_pattern_named AND 15M_execution = YES THEN confluence = FULL
+IF macro_clarity >= 8 AND confluence = FULL AND all_tiers = YES THEN aggression = MAX
+IF confluence = FULL AND NOT (macro_clarity >= 8 AND all_tiers = YES) THEN aggression = STANDARD
+IF 4H_contradicts OR 1H_opposes OR 15M_unclear THEN confluence = PARTIAL; aggression = CONSERVATIVE
+IF tiers_misaligned THEN confluence = MISALIGN; SIGNAL = NO-TRADE OR SCALP_ONLY
+IF pattern IN {pullback_SMA9/21+RSI, H&S, inverse_H&S, double_top/bottom, S/R_breakout+volume, momentum_retest} THEN valid_15M_setup
+IF pattern = divergence THEN lowest_confidence; tight_stop_required

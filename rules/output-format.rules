@@ -1,0 +1,15 @@
+# Required signal output skeleton (fill with cycle-specific values).
+
+EMIT sections IN ORDER:
+  1. DISRUPTION WATCH (if disruption_scout_rules loaded)
+  2. TIER 1 MACRO: clarity X/10, factors, bias, conviction
+  3. TIER 2 4H: trend, MAs, RSI, levels, confirms_macro [YES/NO/MIXED]
+  4. TIER 3 1H: trend, MAs, RSI, confirms [YES/NO/MIXED]
+  5. TIER 4 15M: pattern, RSI, execution_chart [YES/NO + why]
+  6. TIER 5 5M: setup, volume, improves_15M [YES/NO + why]
+  7. DECISION: SIGNAL, confluence, execution_chart, aggression + reasoning
+  8. IF LONG/SHORT: entry, stop, T1, T2, risk_plan, sizing, verified T1 profit
+  9. IF NO-TRADE: reason, what_would_change_mind, next_check
+ 10. LAST LINE EXACT: GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]
+
+IF CLOSURE_RISK gate triggered THEN include CLOSURE RISK line before DECISION block

@@ -1,0 +1,16 @@
+# Macro tier (weight 50%). Apply shared-signal-rules first.
+
+IF analyzing_cycle THEN score_tier1_macro BEFORE tiers 2-5
+IF DXY_move > 0.3% THEN treat_as_significant_macro_input
+IF DXY_move > 0.5% THEN macro_clarity_eligible FOR 8-10
+IF real_yield > 1.5% THEN gold_implication = bearish
+IF real_yield < 0.5% THEN gold_implication = bullish
+IF inflation_surprise_up THEN trace_fed_channel; default_bearish UNLESS competing_mechanism_named
+IF inflation_surprise_down THEN gold_implication = bullish
+IF bearish_macro_input_present AND bias = NEUTRAL THEN must_name_conflict; no_silent_neutral_absorption
+IF macro_clarity >= 8 AND fresh_catalyst AND sharp_yields THEN aggression_eligible = MAX
+IF macro_clarity IN 6..7 AND several_agreeing_inputs THEN aggression_eligible = STANDARD
+IF macro_clarity IN 4..5 THEN aggression = CONSERVATIVE OR skip
+IF macro_clarity IN 1..3 OR pre_event_conflict THEN NO-TRADE OR scalp_only
+IF macro_high AND charts_unclear THEN wait
+IF disruptive_catalyst_fresh AND transmission_to_gold_confirmed THEN treat_as_highest_priority_macro_input

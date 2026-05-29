@@ -1,0 +1,14 @@
+# Position sizing — main agent (100:1 TV + MT5, daily-room model).
+
+IF confluence = FULL THEN risk_dollars = upper_end(snapshot.recommended_min..max_risk_usd)
+IF confluence = PARTIAL THEN risk_dollars = 0.50..0.65 * snapshot.recommended_max_risk_usd; T1 = 1.5..2R
+IF confluence = MISALIGN THEN risk_dollars <= 0.25 * daily_room; T1_max = 1R
+IF confluence = FULL THEN T1 >= 2.0R; T2 REQUIRED 2.5..3.0R
+IF confluence = FULL THEN xau_ounces * |T1 - entry| >= 200
+IF stop_distance = |entry - stop| AND stop_distance < 6 THEN reject_stop; min $6/oz technical
+IF risk_dollars chosen THEN xau_ounces = risk_dollars / stop_distance
+IF xau_ounces AND entry THEN position_notional = xau_ounces * entry; effective_leverage = position_notional / equity
+IF leverage_mode = STANDARD_100X THEN tradingview_preset = 100:1; mt5_leverage = 100:1
+IF leverage_mode IN {DEFENSIVE,CAUTIOUS} THEN tradingview_preset = 10:1 OR 1:1
+IF margin_at_preset > equity THEN reduce_size OR lower_preset
+IF LONG OR SHORT THEN output BOTH TradingView_block AND MT5_block with same risk_dollars

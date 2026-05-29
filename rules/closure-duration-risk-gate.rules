@@ -1,0 +1,18 @@
+# Closure-duration risk gate — signal-time checks only.
+
+IF closure_type = daily_rollover AND duration <= 1h AND no_scheduled_high_impact_inside_window THEN no_adjustment
+IF closure_type = daily_rollover AND scheduled_release IN {CPI,NFP,FOMC} inside_window THEN run_step2
+IF closure_type = session_handoff THEN no_adjustment
+IF closure_type = weekend AND duration ~48h THEN closure_risk = HIGH; run_step2_mandatory
+IF closure_type = holiday AND duration >= 48h THEN closure_risk = HIGHEST; run_step2_mandatory; scale_haircut_up
+
+# Step 2 (HIGH or HIGHEST only)
+IF closure_risk IN {HIGH,HIGHEST} THEN cross_reference unresolved_catalysts FROM disruption_scan
+IF closure_risk IN {HIGH,HIGHEST} AND catalyst_resolves_opposite AND thesis_flips THEN conviction_downgrade OR NO-TRADE
+IF closure_risk IN {HIGH,HIGHEST} THEN disclose stop = planning_level; NOT gap_protected
+IF closure_risk IN {HIGH,HIGHEST} AND new_position_within 2..3h_of_close THEN apply_sizing_haircut
+IF closure_risk IN {HIGH,HIGHEST} AND reversal_stress_test_fails THEN SIGNAL = NO-TRADE OR flatten_before_close
+
+# Required output (pre-close window + HIGH/HIGHEST)
+IF closure_risk IN {HIGH,HIGHEST} AND within_pre_close_window THEN append_line:
+  CLOSURE RISK: [WEEKEND/HOLIDAY] (~Xh) — [N] unresolved catalysts — thesis [SURVIVES/DOES NOT SURVIVE] reversal stress-test — sizing haircut: [Y%] — stop is NOT gap-protected.

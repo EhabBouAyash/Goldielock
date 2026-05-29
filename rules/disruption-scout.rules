@@ -1,0 +1,12 @@
+# LangGraph disruption scout — runs before tiered signal.
+
+IF running_in_langgraph_agent THEN evaluate snapshot + internet_scout; do_not_passively_summarize_feeds_only
+IF catalyst IN {Fed/FOMC surprise, DXY_breakout, yield_breakout, CPI, PCE, NFP, unemployment, retail_sales, ISM, GDP, war/sanctions/ceasefire, energy_shock, banking_stress, CB_gold_action, liquidity_shock} AND fresh THEN flag_disruptive
+IF disruptive_catalyst_found THEN EMIT DISRUPTION WATCH:
+  - Acute_Move_Risk: UP | DOWN | TWO-WAY | NONE
+  - Disruptive_Catalysts_Found: fresh_relevant_only
+  - Transmission_Mechanism: per_item
+  - Signal_Change: bias/trade_change Y/N
+IF headline_from_memory AND NOT in_current_search_results THEN do_not_state_as_current_fact
+IF quant_metric_needed THEN use structured_sources OR metric_recovery_plan; no_hallucination
+IF RSS_item_present THEN evaluate_and_rank; not_background_noise

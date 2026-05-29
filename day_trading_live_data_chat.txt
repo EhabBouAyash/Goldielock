@@ -1,0 +1,1686 @@
+
+===================================================================
+LIVE LANGGRAPH GOLD DISRUPTION AGENT - CYCLE 1
+===================================================================
+
+CURRENT GOLD PRICES:
+- Spot gold (XAUUSD) decision price: $4088.9
+- XAUUSD source: gold-api XAU
+- XAUUSD bid/ask: $None / $None
+- XAUUSD open/high/low: $None / $None / $None
+- XAUUSD change: None (None%)
+- Silver spot: $64.292
+- Gold/Silver Ratio: 63.6
+
+PRICE SOURCE VERIFICATION:
+Decision/logging price is XAUUSD spot via gold-api.
+
+FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
+- Account size: $25,000
+- Daily max loss: 2.5% soft ($625) / 3% hard ($750) — includes floating P&L
+- Total max loss: 5% soft ($1,250) / 6% hard ($1,500); floor $23,500
+- Profit target: 10% ($2,500)
+- Min aligned Target 1 profit: $200 (verify xau_ounces × |T1−entry| ≥ this)
+- Aligned risk floor: 0.50% ($125); typical 0.70% ($175)
+- Max single-trade risk: 1.00% ($250)
+- Min trading days to pass: 2
+- TradingView leverage presets: 1:1, 10:1, 50:1, 100:1 — aligned default 50:1 when snapshot allows
+- PROP ACCOUNT SNAPSHOT below is computed from trade_backlog.txt each cycle — use it for risk/leverage caps
+
+===================================================================
+PROP ACCOUNT SNAPSHOT (from trade_backlog.txt aggregation)
+===================================================================
+
+AUTHORITATIVE SOURCE: trade_backlog.txt ONLY — READ ONLY, never rewritten by the agent
+LAST ROW (TRADE_013 on 2026-06-10) — cite these exact values:
+  CUMULATIVE_PNL: $788.87
+  EQUITY: $25788.87
+  DAILY_PNL: $408.1
+  Last trade PNL_USD: $408.1 (WIN)
+  Do NOT re-sum PNL_USD or override these with computed totals.
+
+ACCOUNT STATE (from last row + trade_backlog-derived stats):
+- Baseline account: $25,000
+- Total closed PnL: $788.87
+- Current equity: $25,788.87
+- Profit target remaining: $1,711.13 / $2,500
+- Challenge passed: False
+- Today (2026-05-28) closed PnL: $0.00
+- Daily loss room: $625.00 soft / $750.00 hard
+- Max drawdown room: $2,038.87 soft / $2,288.87 hard (floor $23,500)
+- Win rate: 69.23% (9W / 4L from OUTCOME column, 13 decided trades)
+- Trades with PNL_USD filled: 10 / 13
+- Avg win (PNL_USD on WIN rows): $804.81 | Avg loss: $-285.43
+- Trading days: 13 (min 2 met: True)
+- Leverage mode: STANDARD_100X | Recommended TV: 100:1 | MT5: 100:1
+- Recommended next-trade risk: $150–$250
+- Breach flags: daily_soft=False daily_hard=False max_soft=False max_hard=False
+
+Snapshot JSON (for sizing math):
+{
+  "authoritative_source": "trade_backlog.txt",
+  "read_only": true,
+  "file_never_modified_by_agent": true,
+  "last_row_complete": true,
+  "authoritative_last_row": {
+    "trade_id": "TRADE_013",
+    "date": "2026-06-10",
+    "cumulative_pnl_usd": 788.87,
+    "equity_usd": 25788.87,
+    "daily_pnl_usd": 408.1,
+    "pnl_usd": 408.1,
+    "outcome": "WIN"
+  },
+  "baseline_account_usd": 25000,
+  "total_closed_pnl_usd": 788.87,
+  "current_equity_usd": 25788.87,
+  "profit_target_usd": 2500,
+  "profit_remaining_usd": 1711.13,
+  "challenge_passed": false,
+  "daily_closed_pnl_usd": 0.0,
+  "daily_pnl_usd": 0.0,
+  "daily_loss_room_soft_usd": 625.0,
+  "daily_loss_room_hard_usd": 750.0,
+  "max_loss_room_soft_usd": 2038.87,
+  "max_loss_room_hard_usd": 2288.87,
+  "equity_floor_hard_usd": 23500,
+  "equity_floor_soft_usd": 23750,
+  "total_trades": 13,
+  "decided_trades": 13,
+  "trades_with_pnl_usd": 10,
+  "wins": 9,
+  "losses": 4,
+  "win_rate_pct": 69.23,
+  "avg_win_usd": 804.81,
+  "avg_loss_usd": -285.43,
+  "trading_days_with_trades": 13,
+  "min_trading_days_required": 2,
+  "min_trading_days_met": true,
+  "leverage_mode": "STANDARD_100X",
+  "recommended_tv_leverage": 100,
+  "preferred_tv_leverage": 100,
+  "mt5_account_leverage": 100,
+  "recommended_max_risk_usd": 250,
+  "recommended_min_risk_usd": 150.0,
+  "recommended_max_risk_pct": 1.0,
+  "daily_breached_soft": false,
+  "daily_breached_hard": false,
+  "max_loss_breached_soft": false,
+  "max_loss_breached_hard": false,
+  "today": "2026-05-28"
+}
+
+FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT RULES (from official FAQ):
+
+Loss limits (based on INITIAL balance $25,000):
+- Daily loss limit: 3% = $750 per calendar day (server midnight reset, GMT+2/+3).
+  Includes closed P&L + floating/open P&L + swaps, commissions, and fees.
+  If you are up intraday, today's permitted loss = $750 + today's closed profit
+  (profits from prior days do NOT carry after midnight reset).
+- Maximum loss limit: 6% = $1,500 total; equity cannot fall below $23,500.
+  Breach pauses the account until reset / new challenge.
+
+Challenge pass requirements:
+- Profit target: 10% of initial balance = $2,500 (no time limit).
+- Minimum trading days: at least 2 separate days with ≥1 trade each (not required
+  to be consecutive). No max/min trade count otherwise.
+
+Operational restrictions:
+- Manual trading only on Match-Trader CFD; no EAs or third-party indicators.
+- Copy trading allowed only between YOUR OWN challenge accounts; prohibited
+  between different individuals.
+- Use one consistent device/IP or a dedicated VPN/VPS IP.
+- Prohibited: platform manipulation, latency exploitation, exploitative strategies.
+- Review full TOS for restricted strategies.
+
+Breach consequences:
+- Daily loss breach: account breached for the day; manual reset required.
+- Max loss breach: account paused; reset or new challenge required.
+- Floating losses count toward daily loss in real time.
+
+MACRO INDICATORS:
+- 10Y Real yield (TIPS, DFII10): 2.2%
+- 10Y Breakeven inflation (T10YIE): 2.34%
+- DXY: 100.221 (open 100.115, high 100.249, low 99.881)
+
+TREASURY DATA:
+- 10Y Treasury yield: 4.53% (-3.0 bps 1d, 7.0 bps 5d)
+- 2Y Treasury yield: 4.13% (-2.0 bps 1d, 8.0 bps 5d)
+- Treasury General Account: $875.71B (45.42B weekly change)
+
+FED BALANCE SHEET:
+- Total assets: $6.711T
+- 4-week change: $1.99B
+
+===================================================================
+DATA VALIDATION REPORT
+===================================================================
+
+Validate every retrieved input before assigning a signal. Any FAIL or WARN below
+must be reflected in macro clarity, chart confidence, execution chart selection,
+and prop-firm risk sizing. Blocking failures mean NO-TRADE unless the report
+explicitly says trading is allowed.
+
+SUMMARY: {"ok": 15, "warn": 1, "fail": 0, "blocking_failures": [], "trade_permission": "TRADE_ALLOWED_IF_SETUP_CONFIRMS"}
+
+CHECKS:
+- [OK] XAUUSD spot decision price
+  Source: gold-api XAU
+  Value: 4088.9
+  Detail: Primary execution/logging price must be live spot gold versus USD.
+- [WARN] XAUUSD bid/ask spread
+  Source: gold-api XAU
+  Value: {"bid": null, "ask": null}
+  Detail: Bid/ask missing or invalid; include extra slippage buffer and do not over-size.
+- [OK] DXY
+  Source: yahoo_direct
+  Value: {"value": 100.221, "high": 100.249, "low": 99.881, "open": 100.115, "change": 0.271, "change_pct": 0.271, "source": "yahoo_direct"}
+  Detail: DXY is a primary gold transmission driver; failed/zero values must lower macro confidence.
+- [OK] 10Y real yield DFII10
+  Source: FRED DFII10
+  Value: "2.2"
+  Detail: Daily macro series; valid but may be stale intraday.
+- [OK] 10Y breakeven T10YIE
+  Source: FRED T10YIE
+  Value: "2.34"
+  Detail: Daily macro series; valid but may be stale intraday.
+- [OK] 10Y Treasury yield
+  Source: FRED Treasury snapshot
+  Value: {"value": 4.53, "change_1d_bps": -3.0, "change_5d_bps": 7.0, "error": null}
+  Detail: Treasury yield available.
+- [OK] 2Y Treasury yield
+  Source: FRED Treasury snapshot
+  Value: {"value": 4.13, "change_1d_bps": -2.0, "change_5d_bps": 8.0, "error": null}
+  Detail: Treasury yield available.
+- [OK] Fed balance sheet/liquidity
+  Source: FRED WALCL
+  Value: {"latest_trillions": 6.711, "four_week_change_billions": 1.99}
+  Detail: Liquidity context available.
+- [OK] 5m XAUUSD chart data
+  Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+  Value: {"current_price": 4102.2, "rsi": 50.43, "sma_9": 4098.91, "sma_21": 4096.78, "sma_50": 4098.51, "candles": 120, "latest_candle": "2026-06-11T15:11:39+00:00", "age_minutes": 0}
+  Detail: Usable current chart data.
+- [OK] 15m XAUUSD chart data
+  Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+  Value: {"current_price": 4102.2, "rsi": 43.83, "sma_9": 4096.97, "sma_21": 4100.11, "sma_50": 4104.98, "candles": 150, "latest_candle": "2026-06-11T15:11:39+00:00", "age_minutes": 0}
+  Detail: Usable current chart data.
+- [OK] 1h XAUUSD chart data
+  Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+  Value: {"current_price": 4102.2, "rsi": 36.93, "sma_9": 4104.03, "sma_21": 4101.95, "sma_50": 4171.94, "candles": 170, "latest_candle": "2026-06-11T15:11:39+00:00", "age_minutes": 0}
+  Detail: Usable current chart data.
+- [OK] 4h XAUUSD chart data
+  Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+  Value: {"current_price": 4102.6, "rsi": 40.35, "sma_9": 4114.06, "sma_21": 4226.51, "sma_50": 4369.31, "candles": 96, "latest_candle": "2026-06-11T15:11:40+00:00", "age_minutes": 0}
+  Detail: Usable current chart data.
+- [OK] XAUUSD confluence tensor
+  Source: GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+  Value: {"feature_names": ["price_vs_sma9", "ma_stack", "rsi_centered", "range_position", "momentum_5bar", "volume_pressure"], "feature_weights": {"price_vs_sma9": 0.25, "ma_stack": 0.25, "rsi_centered": 0.15, "range_position": 0.1, "momentum_5bar": 0.2, "volume_pressure": 0.05}, "timeframe_order": ["5m", "15m", "1h", "4h"], "timeframe_weights": {"5m": 0.15, "15m": 0.2, "1h": 0.25, "4h": 0.4}, "candle_limits": {"5m": 120, "15m": 150, "1h": 170, "4h": 96}, "matrix": [[1.0, 0.0, 0.0086, -0.0329, 0.021, -1.0], [1.0, 0.0, -0.1235, -0.438, 0.1009, -1.0], [-1.0, 0.0, -0.2614, -0.7859, 0.0073, -1.0], [-1.0, -1.0, -0.1929, -0.8058, 0.1617, -1.0]], "timeframe_scores": {"5m": 2.02, "15m": 1.58, "1h": -4.16, "4h": -6.27}, "aggregate_score": -2.93, "alignment_label": "MIXED_BEARISH_LEAN", "scale_note": "Feature values are normalized -1..1; scores are directional -10 bearish to +10 bullish. Candle limits cap prompt context per timeframe to preserve signal quality."}
+  Detail: Confluence tensor available.
+- [OK] Live news/catalyst events
+  Source: GNews + public feeds + Forex Factory calendar
+  Value: {"events": 23, "failed_events": 6}
+  Detail: At least one live/candidate event source returned.
+- [OK] Trade-log learning inputs
+  Source: model_trade_log.txt + trade_backlog.txt
+  Value: {"model_log_chars": 8556, "manual_log_chars": 3433, "resolved_manual_outcomes": 0}
+  Detail: Trade history available for feedback.
+- [OK] Loopback prior signal comparison
+  Source: gold_agent_state.json
+  Value: {"status": "evaluated_prior_signal", "previous_spot_gold_price": 4173.9, "current_spot_gold_price": 4088.9, "signal_outcome": "ALIGNED_WITH_SIGNAL", "previous_price_verified_spot": true}
+  Detail: Prior signal can be compared against verified XAUUSD spot.
+
+===================================================================
+QUANT METRIC RECOVERY PLAN
+===================================================================
+
+Quantifiable metrics must come from structured/static sources. If any are
+missing, Claude generated this recovery/search plan. Do not invent replacement
+values from memory.
+
+{
+  "status": "all_quant_metrics_available",
+  "missing_metrics": []
+}
+
+===================================================================
+LIVE INTERNET DISRUPTION SCOUT
+===================================================================
+
+Claude generated the search intent for this cycle from market knowledge,
+historical high-impact gold drivers, Forex Factory-style event risk, and prior
+loopback feedback. Treat the items below as candidates, not truth. Verify impact
+through XAUUSD spot price action, DXY, yields, and freshness.
+
+CLAUDE SEARCH PLAN:
+{
+  "queries": [
+    "gold price XAUUSD live today Fed rate path",
+    "DXY dollar index intraday move latest news",
+    "Fed officials comments hawkish dovish this week",
+    "US 10-year Treasury yield today move catalyst",
+    "Forex Factory high impact USD events today",
+    "PCE inflation data release latest reaction",
+    "gold selloff reason today 4000 level",
+    "geopolitical news Middle East Ukraine latest gold safe haven",
+    "central bank gold buying demand 2026 latest",
+    "Treasury auction results this week 10y 30y demand",
+    "Fed balance sheet QT liquidity update latest",
+    "US dollar strength rate cut expectations June FOMC"
+  ],
+  "high_impact_watchlist": [
+    {
+      "topic": "Fed speakers / FOMC rate path signals",
+      "why_gold_cares": "Shifts in expected policy rate move real yields and the dollar, the dominant gold drivers",
+      "impact_threshold": "Unexpected hawkish/dovish pivot from voting members or Chair",
+      "directional_risk": "TWO_WAY"
+    },
+    {
+      "topic": "PCE / core inflation prints",
+      "why_gold_cares": "Inflation surprises reprice Fed cut odds and real yields rapidly",
+      "impact_threshold": "Deviation from consensus by 0.1pp+ on core",
+      "directional_risk": "TWO_WAY"
+    },
+    {
+      "topic": "DXY breakout above/below recent range",
+      "why_gold_cares": "Dollar strength priced gold from 4173 to 4088, near-term inverse correlation confirmed",
+      "impact_threshold": "Sustained DXY move beyond intraday high/low with follow-through",
+      "directional_risk": "TWO_WAY"
+    },
+    {
+      "topic": "10Y nominal & real yield moves",
+      "why_gold_cares": "Higher real yields raise opportunity cost of holding non-yielding gold",
+      "impact_threshold": "Daily move of 5bps+ or auction-driven repricing",
+      "directional_risk": "TWO_WAY"
+    },
+    {
+      "topic": "Geopolitical shocks (Middle East, Ukraine, sanctions)",
+      "why_gold_cares": "Safe-haven bid can override macro flows on escalation",
+      "impact_threshold": "Sudden escalation, ceasefire collapse, or new sanctions regime",
+      "directional_risk": "BULLISH_GOLD"
+    },
+    {
+      "topic": "Central bank gold demand / reserve flows",
+      "why_gold_cares": "Structural buying supports the floor; pauses can deepen corrections",
+      "impact_threshold": "Reported large official-sector buying or selling",
+      "directional_risk": "BULLISH_GOLD"
+    },
+    {
+      "topic": "Treasury auction demand & TGA dynamics",
+      "why_gold_cares": "Weak auctions push yields up; liquidity drains affect risk and dollar",
+      "impact_threshold": "Tail in auction or sharp bid-to-cover drop",
+      "directional_risk": "TWO_WAY"
+    },
+    {
+      "topic": "Banking / credit stress events",
+      "why_gold_cares": "Systemic stress triggers safe-haven and rate-cut bets",
+      "impact_threshold": "Named institution distress or funding-market dislocation",
+      "directional_risk": "BULLISH_GOLD"
+    }
+  ],
+  "impact_rubric": [
+    {
+      "data_type": "XAUUSD spot price action / momentum",
+      "rank": 1,
+      "reason": "Final arbiter of thesis; prior SHORT aligned with -2.04% move, tensor leans bearish on higher timeframes"
+    },
+    {
+      "data_type": "DXY direction",
+      "rank": 2,
+      "reason": "Strong inverse transmission confirmed in loopback; dollar firming alongside gold drop"
+    },
+    {
+      "data_type": "Fed path / FOMC speak",
+      "rank": 3,
+      "reason": "Primary driver of real yields and dollar over the session"
+    },
+    {
+      "data_type": "Live catalyst/news flow",
+      "rank": 4,
+      "reason": "Fresh high-impact headlines can override technicals when source and mechanism are clear"
+    },
+    {
+      "data_type": "Inflation data (PCE/CPI)",
+      "rank": 5,
+      "reason": "Reprices cut odds and real yields sharply on surprise"
+    },
+    {
+      "data_type": "10Y real & nominal yields",
+      "rank": 6,
+      "reason": "Core opportunity-cost channel, but FRED data can lag intraday"
+    },
+    {
+      "data_type": "Treasury auctions / TGA",
+      "rank": 7,
+      "reason": "Influences yields and liquidity; TGA rose 45B this week"
+    },
+    {
+      "data_type": "Intraday confluence tensor",
+      "rank": 8,
+      "reason": "Entry timing/confirmation; aggregate -2.93 MIXED_BEARISH_LEAN with 1h/4h bearish, 5m/15m mildly bullish"
+    },
+    {
+      "data_type": "Fed balance sheet / liquidity",
+      "rank": 9,
+      "reason": "Slow macro context, low intraday weight absent large shift"
+    }
+  ],
+  "status": "claude_search_plan"
+}
+
+SEARCH QUERIES:
+[
+  "gold price XAUUSD live today Fed rate path",
+  "DXY dollar index intraday move latest news",
+  "Fed officials comments hawkish dovish this week",
+  "US 10-year Treasury yield today move catalyst",
+  "Forex Factory high impact USD events today",
+  "PCE inflation data release latest reaction",
+  "gold selloff reason today 4000 level",
+  "geopolitical news Middle East Ukraine latest gold safe haven",
+  "central bank gold buying demand 2026 latest",
+  "Treasury auction results this week 10y 30y demand",
+  "Fed balance sheet QT liquidity update latest",
+  "US dollar strength rate cut expectations June FOMC"
+]
+
+DISRUPTIVE CATALYST CANDIDATES:
+- [score 6/10, TWO_WAY] US May PPI +6.5% y/y vs +6.4% expected (ForexLive, 2026-06-11T12:30:17+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Prior was +6.0% (revised to +5.7%) PPI +1.1% m/m vs +0.7% expected Prior m/m reading was +1.4% Ex food and energy +4.9% y/y vs +5.4% expected Ex food and energy +0.4% m/m vs +0.5% expected Prior m/m ex food and energy +1.0% (revised to +0.7%) Ex food, energy and trade +5.1% vs +4.4% prior Ex food, energy and trade +0.8% vs +0.5% prior The headline highlights the pipeline problem for US inflation as the Iran war continues and it will feed into PCE inflation next week. The market will take some so
+  Impact scoring: claude
+  Claude impact reason: Hot headline PPI (+6.5% y/y, +1.1% m/m) but core measures undershot (ex food/energy +4.9% vs +5.4%). Mixed print feeds into next week's PCE. Headline inflation pressure can lift gold via inflation hedge, but sticky-high prints reinforce a hawkish Fed/higher-real-yield path that pressures gold. Genuine macro catalyst with clear transmission.
+  URL: https://investinglive.com/news/us-may-ppi-65-yy-vs-64-expected-20260611/
+- [score 6/10, TWO_WAY] Claude high-impact gold catalyst watchlist (claude_market_knowledge, 2026-05-28T23:14:54.098309)
+  Query: Claude-generated high-impact watchlist, not a live headline
+  Summary: [
+  {
+    "topic": "Fed speakers / FOMC rate path signals",
+    "why_gold_cares": "Shifts in expected policy rate move real yields and the dollar, the dominant gold drivers",
+    "impact_threshold": "Unexpected hawkish/dovish pivot from voting members or Chair",
+    "directional_risk": "TWO_WAY"
+  },
+  {
+    "topic": "PCE / core inflation prints",
+    "why_gold_cares": "Inflation surprises reprice Fed cut odds and real yields rapidly",
+    "impact_threshold": "Deviation from consensus by 0.1pp+ on core",
+    "directional_risk": "TWO_WAY"
+  },
+  {
+    "topic": "DXY breakout above/below recent range",
+    "why_gold_cares": "Dollar strength priced gold from 4173 to 4088, near-term inverse correlation confirmed",
+    "impact_threshold": "Sustained DXY move beyond intraday high/low with follow-through",
+    "directional_risk": "TWO_WAY"
+  },
+  {
+    "topic": "10Y nominal & real yield moves",
+    "why_gold_cares": "Higher real yields raise opportunity cost of holding non-yielding gold",
+    "impact_threshold": "Daily move of 5bps+ or auction-driven repricing",
+    "directional_risk": "TWO_WAY"
+  },
+  {
+    "topic": "Geopolitical shocks (Middle East, Ukraine, sanctions)",
+    "why_gold_cares": "Safe-haven bid can override macro flows on escalation",
+    "impact_threshold": "Sudden escalation, ceasefire collapse, or new sanctions regime",
+    "directional_risk": "BULLISH_GOLD"
+  },
+  {
+    "topic": "Central bank gold demand / reserve flows",
+    "why_gold_cares": "Structural buying supports the floor; pauses can deepen corrections",
+    "impact_threshold": "Reported large official-sector buying or selling",
+    "directional_risk": "BULLISH_GOLD"
+  },
+  {
+    "topic": "Treasury auction demand & TGA dynamics",
+    "why_gold_cares": "Weak auctions push yields up; liquidity drains affect risk and dollar",
+    "impact_threshold": "Tail in auction or sharp bid-to-cover drop",
+    "directional_risk": "TWO_WAY"
+  },
+  {
+    "topic": "Banking / credit stress events",
+    "why_gold_cares": "Systemic stress triggers safe-haven and rate-cut bets",
+    "impact_threshold": "Named institution distress or funding-market dislocation",
+    "directional_risk": "BULLISH_GOLD"
+  }
+]
+  Impact scoring: claude
+  Claude impact reason: Claude-generated map of historically high-impact gold catalysts to monitor.
+  URL: 
+- [score 5/10, BULLISH_GOLD] Analysis: Trump said he loves inflation. Why that should be music to Kevin Warsh's ears (CNBC Politics, 2026-06-10T21:52:56+00:00)
+  Query: public RSS feed: politics
+  Summary: The president said Wednesday he is happy with inflation at 4.2%. That will be welcome news for new Fed Chair Kevin Warsh.
+  Impact scoring: claude
+  Claude impact reason: Signals political tolerance for higher inflation (4.2%) plus new Fed Chair Warsh perceived as accommodating it. Erosion of Fed independence / inflation-tolerant policy lowers real yields and debases USD, a structurally bullish gold narrative. Analysis piece, not a fresh data print, so impact is via expectations.
+  URL: https://www.cnbc.com/2026/06/10/trump-inflation-fed-chair-kevin-warsh-analysis.html
+- [score 5/10, BULLISH_GOLD] Iran maintains that Strait of Hormuz is closed until further notice (ForexLive, 2026-06-11T09:16:59+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: From earlier today: Iran shuts Strait of Hormuz to all vessels, says ships will be targeted And now they're repeating that the waterway will remain closed "until further notice". Before today, there have been some vessels still crossing the strait. From official ship tracking data, these numbers were still less than 10 vessels per day. But if you include shadow fleets, they may be somewhere around 10 to 30 vessels per day crossing perhaps. However, the actual figure is tough to ascertain and the
+  Impact scoring: claude
+  Claude impact reason: Closure of a critical oil chokepoint amid active US-Iran conflict is a live escalation with safe-haven and oil-supply-shock implications. Higher energy prices feed inflation expectations and risk-off bid for gold. Transmission via geopolitical premium and inflation channel.
+  URL: https://investinglive.com/news/iran-maintains-that-strait-of-hormuz-is-closed-until-further-notice-20260611/
+- [score 5/10, BULLISH_GOLD] Trump says Iran will be hit hard and "at some point" the US will take Kharg Island (ForexLive, 2026-06-11T12:38:54+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Trump writes on Truth Social: The United States will be hitting Iran (Whose Navy, Air Force, Radar, Anti Aircraft, and all other forms of Defense, together with most of its offensive capability, are GONE!), VERY HARD TONIGHT. At some point in the not too distant future, we will be taking Kharg Island, and other oil infrastructure points, and assume total control of their Oil and Gas Markets, much like we have with Venezuela, which is working out brilliantly for both Venezuela and the United Stat
+  Impact scoring: claude
+  Claude impact reason: Explicit escalation threat against Iranian oil infrastructure (Kharg Island) from the President raises war/oil-supply risk and safe-haven demand. Direct geopolitical shock channel for gold, though headlines partly priced amid ongoing conflict.
+  URL: https://investinglive.com/news/trump-says-iran-will-be-hit-hard-and-at-some-point-the-us-will-take-kharg-island-20260611/
+- [score 4/10, TWO_WAY] Trump keeps saying an Iran deal is close. Markets keep believing it (CNBC Politics, 2026-06-11T13:44:19+00:00)
+  Query: public RSS feed: politics
+  Summary: Analysts still assume that, despite the continued conflict, a deal will eventually be reached that ends the war and reopens the Strait of Hormuz.
+  Impact scoring: claude
+  Claude impact reason: Deal optimism could reopen Hormuz and unwind geopolitical/oil premium (bearish gold), while continued conflict sustains the safe-haven bid (bullish). Two-way around de-escalation narrative; framing piece rather than fresh news.
+  URL: https://www.cnbc.com/2026/06/10/trump-iran-deal-oil-markets-stocks.html
+- [score 4/10, BULLISH_GOLD] Trump threatens to seize Kharg Island and other Iran oil infrastructure (CNBC Politics, 2026-06-11T14:44:00+00:00)
+  Query: public RSS feed: politics
+  Summary: Trump said the forthcoming operations to take over Iran's oil infrastructure, and its oil and gas markets, would be similar to U.S. actions in Venezuela.
+  Impact scoring: claude
+  Claude impact reason: CNBC framing of the Kharg Island/oil-infrastructure seizure threat; escalation and oil-supply risk support safe-haven and inflation channels for gold. Overlaps with the ForexLive version, slightly reducing marginal novelty.
+  URL: https://www.cnbc.com/2026/06/11/trump-says-us-will-seize-kharg-island-and-other-oil-infrastructure-points.html
+- [score 3/10, TWO_WAY] investingLive European markets wrap: A breather while US-Iran tensions linger; ECB up next (ForexLive, 2026-06-11T11:56:16+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Headlines: Iran maintains that Strait of Hormuz is closed until further notice US-Iran talks are still on track according to a CNN diplomatic source US futures nudge up on the session, focus turns to SpaceX IPO ECB preview: forget the rate hike and focus on forward guidance ECB rate hike today will be a mere posturing play Markets: WTI crude down 0.7% to $89.36 European indices nudge higher on the session S&amp;P 500 futures up 0.7%, Nasdaq futures up 1.1% USD, CHF lead, CAD lags on the day US 1
+  Impact scoring: claude
+  Claude impact reason: Aggregated wrap noting USD/CHF leading, risk-on equities, and lingering Iran tensions. USD strength is mildly bearish gold; safe-haven backdrop offsets. Digest format dilutes single-catalyst impact.
+  URL: https://investinglive.com/news/investinglive-european-markets-wrap-a-breather-while-us-iran-tensions-linger-ecb-up-next-20260611/
+- [score 3/10, BEARISH_GOLD] Euro eases after ECB hike; dollar steadies near two-month high on Iran tensions (Investing.com Economy, 2026-06-11 15:01:28)
+  Query: public RSS feed: economics
+  Summary: 
+  Impact scoring: claude
+  Claude impact reason: Dollar firming to a two-month high is the confirmed near-term inverse driver pressuring gold (DXY ~100.2, gold down from 4173). Mild but directionally relevant via DXY channel; no headline summary detail.
+  URL: https://www.investing.com/news/economy-news/dollar-shaky-as-investors-weigh-rate-outlook-middle-east-worries-4736456
+- [score 2/10, BULLISH_GOLD] US Initial jobless claims 229K vs 219K estimate. Continuing Claims 1.795M vs 1.780M est. (ForexLive, 2026-06-11T12:30:39+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Prior week Initial claims 225K (Largest since the first week of February) Prior week for continuing claims 1.777 million revised to 1.771M initial jobless claims 229K vs 219K estimate The 4-week moving average was 219,000, an increase of 4,250 from the previous week's unrevised average of 214,750 Continuing claims 1.795M versus 1.780 million estimate. Prior week revised to 1.771M from 1.777M The 4-week moving average was 1,780,500, an increase of 4,750 from the previous week's revised average. T
+  Impact scoring: claude
+  Claude impact reason: Modest labor-market softening (claims above estimate, highest 4wk avg since Feb) leans toward easier Fed expectations, marginally gold-supportive. Magnitude small relative to inflation focus.
+  URL: https://investinglive.com/news/us-initial-jobless-claims-229k-vs-219k-estimate-continuing-claims-1795m-vs-1780m-est-20260611/
+- [score 2/10, BEARISH_GOLD] US-Iran talks are still on track according to a CNN diplomatic source (ForexLive, 2026-06-11T07:49:27+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: The diplomatic efforts between Washington and Tehran remain alive despite rounds of military exchanges in the Gulf, with CNN reporting that US-Iran talks are still on track. US President Trump continues to combine military pressure with diplomacy in an attempt to force a broader agreement after months of stalled negotiations and intermittent conflict. The latest clashes saw both sides exchange limited strikes and retaliatory actions, continuing a pattern that has emerged over recent weeks. Yet n
+  Impact scoring: claude
+  Claude impact reason: Diplomatic de-escalation signal could trim geopolitical premium (bearish gold), but single-source and already part of an ongoing on-again/off-again narrative limits impact.
+  URL: https://investinglive.com/news/us-iran-talks-are-still-on-track-according-to-a-cnn-diplomatic-source-20260611/
+- [score 2/10, TWO_WAY] U.S. Treasury yields mixed amid rebalancing and inflation data (Investing.com Economy, 2026-06-11 14:36:16)
+  Query: public RSS feed: economics
+  Summary: 
+  Impact scoring: claude
+  Claude impact reason: Yields are a core opportunity-cost channel, but 'mixed' and rebalancing-driven with no clear direction offers little transmission. Empty description lowers signal.
+  URL: https://www.investing.com/news/economy-news/us-treasury-yields-mixed-amid-rebalancing-and-inflation-data-93CH-4737786
+- [score 2/10, TWO_WAY] Bitcoin subdued under $62k amid U.S.-Iran escalation; May CPI meets expectations (Investing.com Commodities, 2026-06-10 21:13:24)
+  Query: public RSS feed: gold_commodities
+  Summary: 
+  Impact scoring: claude
+  Claude impact reason: CPI meeting expectations is neutral for Fed path; crypto price action is only a soft risk-sentiment proxy. Weak transmission to gold, no description body.
+  URL: https://www.investing.com/news/cryptocurrency-news/bitcoin-falls-to-61k-on-usiran-escalation-etf-outflows-cool-further-4734365
+- [score 1/10, UNKNOWN] World Bank cuts 2026 global GDP growth to 2.5% from 2.6% (ForexLive, 2026-06-11T13:34:18+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Prior forecast was in January GDP growth could slow to 1.3% if energy supply disruptions continue Emerging market growth seen at 3.6% vs 4.4% last year. Down from 4.0% in January China GDP seen at 4.2% vs 4.4% in Jan Eurozone growth seen at 0.8% vs 0.9% in Jan US GDP seen at 2.2% vs 2.2% in Jan Cuts Middle East growth forecast to 1.6% from 4.3% If anything, this underscores how resilient growth can be despite and energy shock. It took the market some time to figure that out but it's certainly in
+  Impact scoring: claude
+  Claude impact reason: Slow-moving institutional forecast with marginal revision; no near-term Fed/yield/DXY transmission. Growth concern is two-sided for gold and pre-anticipated.
+  URL: https://investinglive.com/news/world-bank-cuts-2026-global-gdp-growth-to-25-from-26-20260611/
+- [score 1/10, UNKNOWN] Additional public macro/news feed digest (additional_news_digest, 2026-05-28T23:14:07.822375)
+  Query: public feeds: gold, Fed, economics, politics, markets, Forex Factory calendar
+  Summary: - investingLive European markets wrap: A breather while US-Iran tensions linger; ECB up next
+  Source: ForexLive / fx_rates_macro
+  Published: 2026-06-11T11:56:16+00:00
+  Relevance score: 32
+  Summary: Headlines: Iran maintains that Strait of Hormuz is closed until further notice US-Iran talks are still on track according to a CNN diplomatic source US futures nudge up on the session, focus turns to SpaceX IPO ECB preview: forget the rate hike and focus on forward guidance ECB rate hike today will be a mere posturing play Markets: WTI crude down 0.7% to $89.36 European indices nudge higher on the session S&amp;P 500 futures up 0.7%, Nasdaq futures up 1.1% USD, CHF lead, CAD lags on the day US 1
+  URL: https://investinglive.com/news/investinglive-european-markets-wrap-a-breather-while-us-iran-tensions-linger-ecb-up-next-20260611/
+- US Initial jobless claims 229K vs 219K estimate. Continuing Claims 1.795M vs 1.780M est.
+  Source: ForexLive / fx_rates_macro
+  Published: 2026-06-11T12:30:39+00:00
+  Relevance score: 31
+  Summary: Prior week Initial claims 225K (Largest since the first week of February) Prior week for continuing claims 1.777 million revised to 1.771M initial jobless claims 229K vs 219K estimate The 4-week moving average was 219,000, an increase of 4,250 from the previous week's unrevised average of 214,750 Continuing claims 1.795M versus 1.780 million estimate. Prior week revised to 1.771M from 1.777M The 4-week moving average was 1,780,500, an increase of 4,750 fro
+  Impact scoring: claude
+  Claude impact reason: Stale aggregated digest (timestamped 2026-05-28) re-listing earlier Iran/claims items already scored individually. Redundant and dated, minimal standalone value.
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: Fed officials comments hawkish dovish this week (agent, 2026-05-28T23:13:55.893288)
+  Query: Fed officials comments hawkish dovish this week
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Fed+officials+comments+hawkish+dovish+this+week&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: US 10-year Treasury yield today move catalyst (agent, 2026-05-28T23:13:56.447281)
+  Query: US 10-year Treasury yield today move catalyst
+  Summary: 400 Client Error: Bad Request for url: https://gnews.io/api/v4/search?q=US+10-year+Treasury+yield+today+move+catalyst&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: Forex Factory high impact USD events today (agent, 2026-05-28T23:13:57.180838)
+  Query: Forex Factory high impact USD events today
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Forex+Factory+high+impact+USD+events+today&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: gold selloff reason today 4000 level (agent, 2026-05-28T23:13:58.665326)
+  Query: gold selloff reason today 4000 level
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=gold+selloff+reason+today+4000+level&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: Treasury auction results this week 10y 30y demand (agent, 2026-05-28T23:14:01.120313)
+  Query: Treasury auction results this week 10y 30y demand
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Treasury+auction+results+this+week+10y+30y+demand&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] News scout failed for query: US dollar strength rate cut expectations June FOMC (agent, 2026-05-28T23:14:02.563971)
+  Query: US dollar strength rate cut expectations June FOMC
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=US+dollar+strength+rate+cut+expectations+June+FOMC&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
+- [score 0/10, UNKNOWN] Canada building permits for April -7.6% versus -3.5% estimate (ForexLive, 2026-06-11T12:31:09+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Prior +10.3% revised to +10.5% In April, the total value of building permits issued in Canada decreased $1.0 billion (-7.6%) to $12.5 billion. Both the non-residential sector (-10.5%) and the residential sector (-5.5%) contributed to the decline in construction intentions. On a constant dollar basis (2023=100), the total value of building permits issued in April declined 7.7% from the previous month and was up 2.7% on a year-over-year basis. Residential construction intentions declined by $437.7
+  Impact scoring: claude
+  Claude impact reason: Canadian regional housing data with no transmission to USD-gold drivers. Irrelevant to XAUUSD intraday thesis.
+  URL: https://investinglive.com/news/canada-building-permits-for-april-76-versus-35-estimate-20260611/
+- [score 0/10, UNKNOWN] As Trump sticks with Pulte, foreign surveillance program hurtles toward expiration (CNBC Politics, 2026-06-11T14:45:34+00:00)
+  Query: public RSS feed: politics
+  Summary: The U.S. House rejected a short-term extension of Section 702 of the Foreign Intelligence Surveillance Act. The surveillance authority expires Friday.
+  Impact scoring: claude
+  Claude impact reason: Surveillance/FISA political story with no macro-financial transmission to gold. Static bullish tag appears spurious.
+  URL: https://www.cnbc.com/2026/06/11/trump-pulte-fisa-congress-foreign-surveillance-program-expiration.html
+
+===================================================================
+TIER 2-5 - INTRADAY CHARTS
+===================================================================
+
+The agent uses XAUUSD OHLCV candle arrays for 5m/15m/1h/4h each cycle and
+constructs a normalized confluence tensor from those candles. The prompt shows
+the exact candle count fed from each chart plus the included candle records.
+The same arrays are persisted to:
+- Latest snapshot: /home/vboxuser/goldproject/day_trading_intraday_snapshot_chat.json
+- Cycle archive: /home/vboxuser/goldproject/day_trading_intraday_archive_chat.jsonl
+
+INTRADAY CHART DATA (5m/15m/1h/4h):
+
+Chart symbol: XAUUSD
+Price basis: GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
+Requested primary symbol: XAUUSD
+Fallback note: XAUUSD spot intraday bars were unavailable, so proxy bars are included for chart structure only. Entries, stops, targets, and logging must still use XAUUSD spot.
+
+CONFLUENCE TENSOR:
+  Features: price_vs_sma9, ma_stack, rsi_centered, range_position, momentum_5bar, volume_pressure
+  Timeframes: 5m, 15m, 1h, 4h
+  Matrix: [[1.0, 0.0, 0.0086, -0.0329, 0.021, -1.0], [1.0, 0.0, -0.1235, -0.438, 0.1009, -1.0], [-1.0, 0.0, -0.2614, -0.7859, 0.0073, -1.0], [-1.0, -1.0, -0.1929, -0.8058, 0.1617, -1.0]]
+  Timeframe scores: {"5m": 2.02, "15m": 1.58, "1h": -4.16, "4h": -6.27}
+  Candle caps: {"5m": 120, "15m": 150, "1h": 170, "4h": 96}
+  Aggregate: -2.93 (MIXED_BEARISH_LEAN)
+  Scale: Feature values are normalized -1..1; scores are directional -10 bearish to +10 bullish. Candle limits cap prompt context per timeframe to preserve signal quality.
+
+CANDLE COUNTS FED TO THIS PROMPT:
+  5m: 120 candles (available 1033, cap 120)
+  15m: 150 candles (available 346, cap 150)
+  1h: 170 candles (available 502, cap 170)
+  4h: 96 candles (available 136, cap 96)
+
+[5M]
+  Price: $4102.2
+  Open/High/Low: $4102.2 / $4102.2 / $4102.2
+  SMA(9):  $4098.91
+  SMA(21): $4096.78
+  SMA(50): $4098.51
+  RSI(14): 50.43
+  Confluence score: 2.02 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 0.0, "rsi_centered": 0.0086, "range_position": -0.0329, "momentum_5bar": 0.021, "volume_pressure": -1.0}
+  Candles fed to prompt: 120 (available 1033, cap 120)
+
+  OHLCV candle records fed to prompt (120 total):
+    2026-06-11T05:20:00+00:00 O:4100.4 H:4102.5 L:4096.9 C:4098.7 V:141
+    2026-06-11T05:25:00+00:00 O:4097.7 H:4101.1 L:4093.8 C:4096.7 V:273
+    2026-06-11T05:30:00+00:00 O:4095.9 H:4117.2 L:4095.9 C:4116.1 V:1319
+    2026-06-11T05:35:00+00:00 O:4116.3 H:4117.7 L:4111.8 C:4114.9 V:703
+    2026-06-11T05:40:00+00:00 O:4115.2 H:4120.9 L:4115.2 C:4120.1 V:568
+    2026-06-11T05:45:00+00:00 O:4120.0 H:4127.4 L:4117.5 C:4121.4 V:627
+    2026-06-11T05:50:00+00:00 O:4121.3 H:4122.4 L:4114.4 C:4114.5 V:420
+    2026-06-11T05:55:00+00:00 O:4115.0 H:4119.6 L:4114.5 C:4115.5 V:209
+    2026-06-11T06:00:00+00:00 O:4115.0 H:4115.8 L:4105.5 C:4105.5 V:705
+    2026-06-11T06:05:00+00:00 O:4105.7 H:4106.7 L:4099.1 C:4101.3 V:746
+    2026-06-11T06:10:00+00:00 O:4101.4 H:4105.6 L:4097.0 C:4105.4 V:451
+    2026-06-11T06:15:00+00:00 O:4105.0 H:4109.0 L:4102.6 C:4107.6 V:444
+    2026-06-11T06:20:00+00:00 O:4107.7 H:4112.1 L:4107.4 C:4111.9 V:222
+    2026-06-11T06:25:00+00:00 O:4112.1 H:4114.0 L:4107.0 C:4107.5 V:295
+    2026-06-11T06:30:00+00:00 O:4108.0 H:4108.6 L:4104.5 C:4105.2 V:246
+    2026-06-11T06:35:00+00:00 O:4105.4 H:4112.3 L:4103.7 C:4109.4 V:389
+    2026-06-11T06:40:00+00:00 O:4109.2 H:4113.6 L:4107.8 C:4113.6 V:207
+    2026-06-11T06:45:00+00:00 O:4113.9 H:4115.2 L:4112.0 C:4112.4 V:236
+    2026-06-11T06:50:00+00:00 O:4112.6 H:4118.4 L:4112.1 C:4117.9 V:342
+    2026-06-11T06:55:00+00:00 O:4118.5 H:4118.5 L:4112.7 C:4115.7 V:295
+    2026-06-11T07:00:00+00:00 O:4115.6 H:4118.9 L:4113.9 C:4115.9 V:477
+    2026-06-11T07:05:00+00:00 O:4115.8 H:4118.3 L:4114.0 C:4114.9 V:338
+    2026-06-11T07:10:00+00:00 O:4114.6 H:4119.4 L:4112.0 C:4117.8 V:574
+    2026-06-11T07:15:00+00:00 O:4117.7 H:4127.4 L:4117.7 C:4126.1 V:1341
+    2026-06-11T07:20:00+00:00 O:4125.9 H:4129.0 L:4123.6 C:4128.7 V:488
+    2026-06-11T07:25:00+00:00 O:4128.5 H:4131.2 L:4127.2 C:4128.4 V:640
+    2026-06-11T07:30:00+00:00 O:4128.2 H:4131.5 L:4126.5 C:4128.1 V:555
+    2026-06-11T07:35:00+00:00 O:4128.2 H:4129.8 L:4122.5 C:4125.7 V:598
+    2026-06-11T07:40:00+00:00 O:4125.7 H:4130.3 L:4124.0 C:4128.4 V:416
+    2026-06-11T07:45:00+00:00 O:4128.2 H:4128.8 L:4124.0 C:4124.0 V:344
+    2026-06-11T07:50:00+00:00 O:4123.7 H:4125.2 L:4119.4 C:4123.8 V:549
+    2026-06-11T07:55:00+00:00 O:4123.7 H:4126.9 L:4123.7 C:4125.8 V:168
+    2026-06-11T08:00:00+00:00 O:4125.7 H:4132.8 L:4124.8 C:4127.0 V:554
+    2026-06-11T08:05:00+00:00 O:4127.3 H:4133.5 L:4126.3 C:4132.4 V:521
+    2026-06-11T08:10:00+00:00 O:4132.5 H:4133.6 L:4125.9 C:4126.8 V:457
+    2026-06-11T08:15:00+00:00 O:4127.1 H:4129.3 L:4123.6 C:4126.5 V:438
+    2026-06-11T08:20:00+00:00 O:4126.0 H:4126.1 L:4120.9 C:4123.4 V:446
+    2026-06-11T08:25:00+00:00 O:4124.0 H:4124.4 L:4117.8 C:4118.5 V:355
+    2026-06-11T08:30:00+00:00 O:4118.4 H:4118.5 L:4114.7 C:4116.1 V:529
+    2026-06-11T08:35:00+00:00 O:4116.3 H:4120.5 L:4115.5 C:4116.1 V:505
+    2026-06-11T08:40:00+00:00 O:4115.9 H:4117.6 L:4111.0 C:4111.5 V:447
+    2026-06-11T08:45:00+00:00 O:4111.3 H:4113.1 L:4109.6 C:4110.3 V:350
+    2026-06-11T08:50:00+00:00 O:4110.2 H:4112.6 L:4107.4 C:4107.7 V:469
+    2026-06-11T08:55:00+00:00 O:4107.3 H:4108.7 L:4105.6 C:4105.6 V:396
+    2026-06-11T09:00:00+00:00 O:4105.0 H:4108.5 L:4103.7 C:4106.4 V:443
+    2026-06-11T09:05:00+00:00 O:4106.5 H:4108.3 L:4101.9 C:4101.9 V:319
+    2026-06-11T09:10:00+00:00 O:4102.3 H:4108.4 L:4101.9 C:4107.1 V:465
+    2026-06-11T09:15:00+00:00 O:4106.8 H:4110.0 L:4106.0 C:4107.3 V:427
+    2026-06-11T09:20:00+00:00 O:4107.3 H:4107.3 L:4104.1 C:4106.0 V:282
+    2026-06-11T09:25:00+00:00 O:4105.8 H:4105.9 L:4099.5 C:4100.0 V:751
+    2026-06-11T09:30:00+00:00 O:4100.0 H:4103.9 L:4098.1 C:4101.5 V:788
+    2026-06-11T09:35:00+00:00 O:4101.2 H:4109.8 L:4101.2 C:4109.8 V:391
+    2026-06-11T09:40:00+00:00 O:4109.7 H:4112.9 L:4108.4 C:4112.6 V:308
+    2026-06-11T09:45:00+00:00 O:4112.6 H:4117.5 L:4112.4 C:4114.4 V:425
+    2026-06-11T09:50:00+00:00 O:4115.0 H:4116.6 L:4111.0 C:4114.6 V:300
+    2026-06-11T09:55:00+00:00 O:4115.0 H:4115.6 L:4110.2 C:4112.4 V:250
+    2026-06-11T10:00:00+00:00 O:4111.8 H:4115.0 L:4110.0 C:4112.3 V:262
+    2026-06-11T10:05:00+00:00 O:4112.7 H:4114.6 L:4111.2 C:4111.4 V:160
+    2026-06-11T10:10:00+00:00 O:4110.8 H:4113.4 L:4108.3 C:4113.0 V:269
+    2026-06-11T10:15:00+00:00 O:4112.6 H:4114.0 L:4107.2 C:4107.4 V:238
+    2026-06-11T10:20:00+00:00 O:4108.0 H:4115.6 L:4107.7 C:4114.6 V:196
+    2026-06-11T10:25:00+00:00 O:4114.3 H:4114.6 L:4108.1 C:4108.6 V:237
+    2026-06-11T10:30:00+00:00 O:4108.2 H:4113.7 L:4107.5 C:4112.9 V:298
+    2026-06-11T10:35:00+00:00 O:4112.7 H:4113.4 L:4109.5 C:4111.5 V:163
+    2026-06-11T10:40:00+00:00 O:4111.4 H:4112.8 L:4110.1 C:4111.1 V:134
+    2026-06-11T10:45:00+00:00 O:4111.0 H:4112.2 L:4108.1 C:4109.2 V:233
+    2026-06-11T10:50:00+00:00 O:4109.0 H:4113.6 L:4109.0 C:4110.5 V:159
+    2026-06-11T10:55:00+00:00 O:4110.5 H:4111.9 L:4108.2 C:4110.3 V:190
+    2026-06-11T11:00:00+00:00 O:4110.3 H:4113.6 L:4107.3 C:4112.3 V:321
+    2026-06-11T11:05:00+00:00 O:4112.4 H:4114.0 L:4108.4 C:4111.9 V:265
+    2026-06-11T11:10:00+00:00 O:4111.8 H:4113.5 L:4106.4 C:4106.6 V:320
+    2026-06-11T11:15:00+00:00 O:4106.3 H:4110.0 L:4104.4 C:4106.8 V:324
+    2026-06-11T11:20:00+00:00 O:4107.0 H:4108.9 L:4103.4 C:4106.6 V:268
+    2026-06-11T11:25:00+00:00 O:4107.0 H:4111.6 L:4104.7 C:4110.9 V:498
+    2026-06-11T11:30:00+00:00 O:4110.4 H:4116.4 L:4108.3 C:4108.4 V:888
+    2026-06-11T11:35:00+00:00 O:4108.5 H:4109.3 L:4102.8 C:4103.8 V:642
+    2026-06-11T11:40:00+00:00 O:4104.3 H:4107.3 L:4102.0 C:4105.4 V:211
+    2026-06-11T11:45:00+00:00 O:4105.0 H:4106.9 L:4103.0 C:4105.4 V:147
+    2026-06-11T11:50:00+00:00 O:4105.4 H:4108.3 L:4105.0 C:4106.6 V:229
+    2026-06-11T11:55:00+00:00 O:4106.5 H:4108.1 L:4100.2 C:4100.7 V:330
+    2026-06-11T12:00:00+00:00 O:4100.9 H:4107.8 L:4098.9 C:4107.6 V:505
+    2026-06-11T12:05:00+00:00 O:4106.9 H:4107.6 L:4099.7 C:4100.4 V:575
+    2026-06-11T12:10:00+00:00 O:4100.2 H:4100.3 L:4091.9 C:4096.4 V:617
+    2026-06-11T12:15:00+00:00 O:4096.4 H:4102.5 L:4095.1 C:4095.1 V:394
+    2026-06-11T12:20:00+00:00 O:4095.4 H:4098.8 L:4081.6 C:4089.8 V:2389
+    2026-06-11T12:25:00+00:00 O:4089.4 H:4093.4 L:4083.2 C:4089.5 V:928
+    2026-06-11T12:30:00+00:00 O:4089.0 H:4096.1 L:4078.0 C:4082.8 V:1826
+    2026-06-11T12:35:00+00:00 O:4082.6 H:4087.6 L:4078.2 C:4086.7 V:906
+    2026-06-11T12:40:00+00:00 O:4086.9 H:4097.7 L:4085.7 C:4093.5 V:1196
+    2026-06-11T12:45:00+00:00 O:4093.6 H:4102.1 L:4090.4 C:4098.4 V:1066
+    2026-06-11T12:50:00+00:00 O:4097.7 H:4102.2 L:4093.5 C:4100.9 V:942
+    2026-06-11T12:55:00+00:00 O:4100.6 H:4106.3 L:4097.5 C:4102.5 V:1145
+    2026-06-11T13:00:00+00:00 O:4102.7 H:4106.6 L:4098.5 C:4104.3 V:819
+    2026-06-11T13:05:00+00:00 O:4104.8 H:4106.9 L:4099.6 C:4106.9 V:727
+    2026-06-11T13:10:00+00:00 O:4106.7 H:4106.8 L:4092.7 C:4094.1 V:953
+    2026-06-11T13:15:00+00:00 O:4094.3 H:4098.2 L:4093.7 C:4093.7 V:632
+    2026-06-11T13:20:00+00:00 O:4093.6 H:4099.8 L:4093.5 C:4097.0 V:565
+    2026-06-11T13:25:00+00:00 O:4096.6 H:4102.7 L:4093.0 C:4096.4 V:633
+    2026-06-11T13:30:00+00:00 O:4096.2 H:4102.5 L:4092.9 C:4096.2 V:1243
+    2026-06-11T13:35:00+00:00 O:4095.6 H:4103.7 L:4089.2 C:4093.6 V:1143
+    2026-06-11T13:40:00+00:00 O:4093.2 H:4099.7 L:4088.0 C:4097.4 V:816
+    2026-06-11T13:45:00+00:00 O:4097.6 H:4114.3 L:4094.4 C:4104.8 V:2466
+    2026-06-11T13:50:00+00:00 O:4104.9 H:4113.5 L:4104.9 C:4106.1 V:1061
+    2026-06-11T13:55:00+00:00 O:4106.5 H:4112.5 L:4103.3 C:4104.3 V:1241
+    2026-06-11T14:00:00+00:00 O:4104.0 H:4106.6 L:4096.0 C:4098.9 V:2113
+    2026-06-11T14:05:00+00:00 O:4098.3 H:4098.5 L:4081.1 C:4082.8 V:1621
+    2026-06-11T14:10:00+00:00 O:4083.4 H:4084.4 L:4072.8 C:4081.6 V:2237
+    2026-06-11T14:15:00+00:00 O:4081.7 H:4086.9 L:4075.8 C:4084.0 V:1467
+    2026-06-11T14:20:00+00:00 O:4083.8 H:4102.8 L:4083.4 C:4100.0 V:1499
+    2026-06-11T14:25:00+00:00 O:4100.2 H:4105.6 L:4094.4 C:4095.3 V:1138
+    2026-06-11T14:30:00+00:00 O:4095.3 H:4098.5 L:4091.3 C:4093.3 V:811
+    2026-06-11T14:35:00+00:00 O:4092.1 H:4100.9 L:4091.6 C:4099.4 V:791
+    2026-06-11T14:40:00+00:00 O:4099.7 H:4104.4 L:4096.8 C:4097.2 V:1018
+    2026-06-11T14:45:00+00:00 O:4097.3 H:4100.2 L:4093.6 C:4099.3 V:579
+    2026-06-11T14:50:00+00:00 O:4098.6 H:4101.4 L:4094.4 C:4097.9 V:562
+    2026-06-11T14:55:00+00:00 O:4097.5 H:4099.7 L:4092.7 C:4094.4 V:564
+    2026-06-11T15:00:00+00:00 O:4094.2 H:4097.2 L:4090.9 C:4094.1 V:1149
+    2026-06-11T15:05:00+00:00 O:4094.3 H:4107.5 L:4092.7 C:4101.8 V:1215
+    2026-06-11T15:10:00+00:00 O:4102.2 H:4104.4 L:4100.2 C:4103.9 V:92
+    2026-06-11T15:11:39+00:00 O:4102.2 H:4102.2 L:4102.2 C:4102.2 V:0
+
+[15M]
+  Price: $4102.2
+  Open/High/Low: $4102.2 / $4102.2 / $4102.2
+  SMA(9):  $4096.97
+  SMA(21): $4100.11
+  SMA(50): $4104.98
+  RSI(14): 43.83
+  Confluence score: 1.58 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 0.0, "rsi_centered": -0.1235, "range_position": -0.438, "momentum_5bar": 0.1009, "volume_pressure": -1.0}
+  Candles fed to prompt: 150 (available 346, cap 150)
+
+  OHLCV candle records fed to prompt (150 total):
+    2026-06-10T01:00:00+00:00 O:4242.2 H:4242.5 L:4210.7 C:4227.3 V:3645
+    2026-06-10T01:15:00+00:00 O:4226.8 H:4240.3 L:4221.2 C:4225.5 V:1314
+    2026-06-10T01:30:00+00:00 O:4224.8 H:4230.5 L:4208.2 C:4210.7 V:2191
+    2026-06-10T01:45:00+00:00 O:4211.0 H:4219.4 L:4207.2 C:4212.2 V:1345
+    2026-06-10T02:00:00+00:00 O:4212.9 H:4215.8 L:4203.2 C:4207.0 V:1285
+    2026-06-10T02:15:00+00:00 O:4207.3 H:4212.9 L:4202.0 C:4212.1 V:1279
+    2026-06-10T02:30:00+00:00 O:4212.5 H:4216.5 L:4198.2 C:4208.3 V:2098
+    2026-06-10T02:45:00+00:00 O:4208.7 H:4214.8 L:4196.9 C:4197.8 V:1363
+    2026-06-10T03:00:00+00:00 O:4197.5 H:4204.7 L:4195.5 C:4201.9 V:1111
+    2026-06-10T03:15:00+00:00 O:4201.8 H:4205.0 L:4197.3 C:4201.0 V:563
+    2026-06-10T03:30:00+00:00 O:4200.8 H:4206.7 L:4200.0 C:4203.4 V:723
+    2026-06-10T03:45:00+00:00 O:4204.0 H:4210.2 L:4203.5 C:4208.2 V:433
+    2026-06-10T04:00:00+00:00 O:4208.9 H:4211.2 L:4204.2 C:4204.6 V:394
+    2026-06-10T04:15:00+00:00 O:4205.5 H:4205.8 L:4196.9 C:4197.9 V:686
+    2026-06-10T04:30:00+00:00 O:4197.9 H:4198.9 L:4195.8 C:4196.4 V:607
+    2026-06-10T04:45:00+00:00 O:4196.6 H:4199.0 L:4194.2 C:4198.0 V:414
+    2026-06-10T05:00:00+00:00 O:4197.7 H:4203.9 L:4196.3 C:4202.6 V:632
+    2026-06-10T05:15:00+00:00 O:4203.3 H:4210.5 L:4198.5 C:4210.5 V:772
+    2026-06-10T05:30:00+00:00 O:4210.7 H:4222.3 L:4205.2 C:4221.4 V:1823
+    2026-06-10T05:45:00+00:00 O:4221.6 H:4232.2 L:4220.7 C:4228.7 V:1519
+    2026-06-10T06:00:00+00:00 O:4228.6 H:4245.5 L:4228.4 C:4235.7 V:2276
+    2026-06-10T06:15:00+00:00 O:4236.1 H:4240.1 L:4231.1 C:4235.4 V:1082
+    2026-06-10T06:30:00+00:00 O:4234.7 H:4236.9 L:4228.6 C:4230.8 V:1190
+    2026-06-10T06:45:00+00:00 O:4230.8 H:4233.1 L:4225.1 C:4227.1 V:842
+    2026-06-10T07:00:00+00:00 O:4226.7 H:4231.0 L:4220.6 C:4223.5 V:1315
+    2026-06-10T07:15:00+00:00 O:4223.3 H:4226.5 L:4216.5 C:4218.1 V:970
+    2026-06-10T07:30:00+00:00 O:4218.3 H:4220.7 L:4211.1 C:4212.9 V:1267
+    2026-06-10T07:45:00+00:00 O:4213.0 H:4216.3 L:4205.0 C:4209.7 V:2255
+    2026-06-10T08:00:00+00:00 O:4209.4 H:4211.0 L:4184.0 C:4189.9 V:3693
+    2026-06-10T08:15:00+00:00 O:4189.7 H:4201.6 L:4189.0 C:4194.7 V:2122
+    2026-06-10T08:30:00+00:00 O:4194.8 H:4202.0 L:4189.3 C:4193.3 V:2323
+    2026-06-10T08:45:00+00:00 O:4193.2 H:4199.2 L:4188.7 C:4191.7 V:1712
+    2026-06-10T09:00:00+00:00 O:4192.0 H:4197.1 L:4187.7 C:4187.7 V:1454
+    2026-06-10T09:15:00+00:00 O:4187.6 H:4197.7 L:4186.9 C:4189.0 V:1935
+    2026-06-10T09:30:00+00:00 O:4188.6 H:4202.6 L:4188.6 C:4194.3 V:2113
+    2026-06-10T09:45:00+00:00 O:4194.5 H:4197.6 L:4185.6 C:4191.6 V:1655
+    2026-06-10T10:00:00+00:00 O:4191.6 H:4193.8 L:4178.5 C:4184.0 V:2365
+    2026-06-10T10:15:00+00:00 O:4183.7 H:4192.8 L:4182.4 C:4187.6 V:1373
+    2026-06-10T10:30:00+00:00 O:4187.4 H:4194.2 L:4186.8 C:4194.1 V:835
+    2026-06-10T10:45:00+00:00 O:4194.1 H:4201.5 L:4192.6 C:4197.5 V:1412
+    2026-06-10T11:00:00+00:00 O:4197.5 H:4198.6 L:4176.0 C:4191.3 V:3149
+    2026-06-10T11:15:00+00:00 O:4191.4 H:4194.6 L:4179.5 C:4189.2 V:2397
+    2026-06-10T11:30:00+00:00 O:4188.8 H:4190.6 L:4176.9 C:4177.1 V:1852
+    2026-06-10T11:45:00+00:00 O:4176.8 H:4186.2 L:4168.2 C:4170.2 V:3326
+    2026-06-10T12:00:00+00:00 O:4169.9 H:4175.2 L:4157.0 C:4158.9 V:3758
+    2026-06-10T12:15:00+00:00 O:4158.6 H:4166.3 L:4152.0 C:4165.1 V:5618
+    2026-06-10T12:30:00+00:00 O:4164.4 H:4197.3 L:4161.5 C:4183.5 V:7234
+    2026-06-10T12:45:00+00:00 O:4183.8 H:4192.8 L:4164.9 C:4169.6 V:3726
+    2026-06-10T13:00:00+00:00 O:4170.1 H:4181.2 L:4167.6 C:4174.0 V:5185
+    2026-06-10T13:15:00+00:00 O:4174.3 H:4174.3 L:4154.9 C:4172.1 V:3712
+    2026-06-10T13:30:00+00:00 O:4172.0 H:4203.1 L:4164.8 C:4203.1 V:7200
+    2026-06-10T13:45:00+00:00 O:4202.1 H:4209.5 L:4196.3 C:4203.0 V:5658
+    2026-06-10T14:00:00+00:00 O:4202.6 H:4204.1 L:4193.0 C:4197.6 V:4131
+    2026-06-10T14:15:00+00:00 O:4198.0 H:4198.5 L:4182.6 C:4184.2 V:3506
+    2026-06-10T14:30:00+00:00 O:4184.0 H:4186.4 L:4172.7 C:4173.0 V:2721
+    2026-06-10T14:45:00+00:00 O:4172.5 H:4174.6 L:4139.7 C:4147.1 V:5670
+    2026-06-10T15:00:00+00:00 O:4147.7 H:4159.2 L:4141.5 C:4146.3 V:4185
+    2026-06-10T15:15:00+00:00 O:4145.7 H:4159.7 L:4135.9 C:4150.5 V:4488
+    2026-06-10T15:30:00+00:00 O:4150.8 H:4154.3 L:4144.9 C:4152.1 V:2825
+    2026-06-10T15:45:00+00:00 O:4151.6 H:4154.3 L:4129.6 C:4151.9 V:6048
+    2026-06-10T16:00:00+00:00 O:4152.7 H:4156.1 L:4145.9 C:4152.2 V:2261
+    2026-06-10T16:15:00+00:00 O:4152.2 H:4158.8 L:4148.8 C:4150.6 V:2237
+    2026-06-10T16:30:00+00:00 O:4150.3 H:4155.0 L:4143.1 C:4145.2 V:1998
+    2026-06-10T16:45:00+00:00 O:4144.8 H:4145.8 L:4138.7 C:4144.6 V:1898
+    2026-06-10T17:00:00+00:00 O:4144.5 H:4157.6 L:4137.3 C:4140.3 V:3047
+    2026-06-10T17:15:00+00:00 O:4140.4 H:4143.0 L:4131.7 C:4133.8 V:5208
+    2026-06-10T17:30:00+00:00 O:4133.6 H:4135.1 L:4124.7 C:4124.8 V:2851
+    2026-06-10T17:45:00+00:00 O:4125.3 H:4136.7 L:4123.5 C:4134.9 V:2585
+    2026-06-10T18:00:00+00:00 O:4135.3 H:4144.0 L:4134.6 C:4138.8 V:1484
+    2026-06-10T18:15:00+00:00 O:4139.0 H:4141.2 L:4132.8 C:4136.0 V:968
+    2026-06-10T18:30:00+00:00 O:4135.7 H:4135.9 L:4127.9 C:4128.2 V:1165
+    2026-06-10T18:45:00+00:00 O:4128.1 H:4130.8 L:4120.2 C:4125.0 V:1755
+    2026-06-10T19:00:00+00:00 O:4125.4 H:4125.8 L:4110.6 C:4112.7 V:2658
+    2026-06-10T19:15:00+00:00 O:4112.5 H:4116.0 L:4105.0 C:4108.0 V:2370
+    2026-06-10T19:30:00+00:00 O:4108.2 H:4115.8 L:4105.5 C:4115.1 V:1533
+    2026-06-10T19:45:00+00:00 O:4115.4 H:4116.1 L:4105.1 C:4106.2 V:2024
+    2026-06-10T20:00:00+00:00 O:4106.0 H:4106.4 L:4092.3 C:4095.3 V:1895
+    2026-06-10T20:15:00+00:00 O:4095.0 H:4103.2 L:4094.3 C:4101.5 V:589
+    2026-06-10T20:30:00+00:00 O:4101.3 H:4101.3 L:4094.2 C:4095.9 V:653
+    2026-06-10T20:45:00+00:00 O:4095.6 H:4095.7 L:4090.1 C:4094.1 V:890
+    2026-06-10T22:00:00+00:00 O:4094.4 H:4094.4 L:4072.4 C:4077.8 V:1463
+    2026-06-10T22:15:00+00:00 O:4079.0 H:4079.6 L:4059.2 C:4068.0 V:2438
+    2026-06-10T22:30:00+00:00 O:4068.5 H:4092.3 L:4067.5 C:4085.9 V:1819
+    2026-06-10T22:45:00+00:00 O:4085.9 H:4090.1 L:4068.2 C:4069.1 V:1190
+    2026-06-10T23:00:00+00:00 O:4069.2 H:4076.9 L:4046.2 C:4052.9 V:1987
+    2026-06-10T23:15:00+00:00 O:4052.1 H:4087.2 L:4047.6 C:4084.1 V:2458
+    2026-06-10T23:30:00+00:00 O:4083.6 H:4086.8 L:4077.2 C:4078.1 V:817
+    2026-06-10T23:45:00+00:00 O:4078.4 H:4079.7 L:4066.7 C:4069.7 V:988
+    2026-06-11T00:00:00+00:00 O:4070.9 H:4081.8 L:4058.0 C:4074.5 V:1885
+    2026-06-11T00:15:00+00:00 O:4074.9 H:4095.4 L:4072.0 C:4089.4 V:3164
+    2026-06-11T00:30:00+00:00 O:4089.0 H:4098.7 L:4081.0 C:4085.0 V:2657
+    2026-06-11T00:45:00+00:00 O:4085.6 H:4100.0 L:4085.3 C:4097.5 V:1693
+    2026-06-11T01:00:00+00:00 O:4097.3 H:4111.4 L:4087.4 C:4108.0 V:4673
+    2026-06-11T01:15:00+00:00 O:4107.7 H:4129.7 L:4106.9 C:4124.9 V:5356
+    2026-06-11T01:30:00+00:00 O:4125.1 H:4138.5 L:4124.3 C:4134.1 V:3015
+    2026-06-11T01:45:00+00:00 O:4134.3 H:4137.7 L:4118.0 C:4122.4 V:1957
+    2026-06-11T02:00:00+00:00 O:4122.8 H:4122.9 L:4109.3 C:4110.0 V:1517
+    2026-06-11T02:15:00+00:00 O:4110.9 H:4116.2 L:4101.9 C:4102.8 V:1524
+    2026-06-11T02:30:00+00:00 O:4103.2 H:4105.5 L:4076.0 C:4080.5 V:2760
+    2026-06-11T02:45:00+00:00 O:4080.2 H:4095.2 L:4073.4 C:4089.3 V:1674
+    2026-06-11T03:00:00+00:00 O:4089.4 H:4099.8 L:4085.6 C:4086.2 V:1214
+    2026-06-11T03:15:00+00:00 O:4087.8 H:4092.3 L:4078.1 C:4084.3 V:1237
+    2026-06-11T03:30:00+00:00 O:4084.2 H:4093.3 L:4083.9 C:4089.2 V:838
+    2026-06-11T03:45:00+00:00 O:4090.4 H:4097.0 L:4086.5 C:4095.5 V:581
+    2026-06-11T04:00:00+00:00 O:4094.4 H:4104.5 L:4091.2 C:4104.1 V:820
+    2026-06-11T04:15:00+00:00 O:4103.9 H:4106.9 L:4097.2 C:4098.9 V:666
+    2026-06-11T04:30:00+00:00 O:4099.2 H:4105.4 L:4095.8 C:4103.7 V:793
+    2026-06-11T04:45:00+00:00 O:4103.8 H:4107.4 L:4101.0 C:4103.8 V:664
+    2026-06-11T05:00:00+00:00 O:4104.3 H:4104.5 L:4096.4 C:4098.6 V:622
+    2026-06-11T05:15:00+00:00 O:4098.1 H:4102.5 L:4093.8 C:4096.7 V:627
+    2026-06-11T05:30:00+00:00 O:4095.9 H:4120.9 L:4095.9 C:4120.1 V:2590
+    2026-06-11T05:45:00+00:00 O:4120.0 H:4127.4 L:4114.4 C:4115.5 V:1256
+    2026-06-11T06:00:00+00:00 O:4115.0 H:4115.8 L:4097.0 C:4105.4 V:1902
+    2026-06-11T06:15:00+00:00 O:4105.0 H:4114.0 L:4102.6 C:4107.5 V:961
+    2026-06-11T06:30:00+00:00 O:4108.0 H:4113.6 L:4103.7 C:4113.6 V:842
+    2026-06-11T06:45:00+00:00 O:4113.9 H:4118.5 L:4112.0 C:4115.7 V:873
+    2026-06-11T07:00:00+00:00 O:4115.6 H:4119.4 L:4112.0 C:4117.8 V:1389
+    2026-06-11T07:15:00+00:00 O:4117.7 H:4131.2 L:4117.7 C:4128.4 V:2469
+    2026-06-11T07:30:00+00:00 O:4128.2 H:4131.5 L:4122.5 C:4128.4 V:1569
+    2026-06-11T07:45:00+00:00 O:4128.2 H:4128.8 L:4119.4 C:4125.8 V:1061
+    2026-06-11T08:00:00+00:00 O:4125.7 H:4133.6 L:4124.8 C:4126.8 V:1532
+    2026-06-11T08:15:00+00:00 O:4127.1 H:4129.3 L:4117.8 C:4118.5 V:1239
+    2026-06-11T08:30:00+00:00 O:4118.4 H:4120.5 L:4111.0 C:4111.5 V:1481
+    2026-06-11T08:45:00+00:00 O:4111.3 H:4113.1 L:4105.6 C:4105.6 V:1215
+    2026-06-11T09:00:00+00:00 O:4105.0 H:4108.5 L:4101.9 C:4107.1 V:1227
+    2026-06-11T09:15:00+00:00 O:4106.8 H:4110.0 L:4099.5 C:4100.0 V:1460
+    2026-06-11T09:30:00+00:00 O:4100.0 H:4112.9 L:4098.1 C:4112.6 V:1487
+    2026-06-11T09:45:00+00:00 O:4112.6 H:4117.5 L:4110.2 C:4112.4 V:975
+    2026-06-11T10:00:00+00:00 O:4111.8 H:4115.0 L:4108.3 C:4113.0 V:691
+    2026-06-11T10:15:00+00:00 O:4112.6 H:4115.6 L:4107.2 C:4108.6 V:671
+    2026-06-11T10:30:00+00:00 O:4108.2 H:4113.7 L:4107.5 C:4111.1 V:595
+    2026-06-11T10:45:00+00:00 O:4111.0 H:4113.6 L:4108.1 C:4110.3 V:582
+    2026-06-11T11:00:00+00:00 O:4110.3 H:4114.0 L:4106.4 C:4106.6 V:906
+    2026-06-11T11:15:00+00:00 O:4106.3 H:4111.6 L:4103.4 C:4110.9 V:1090
+    2026-06-11T11:30:00+00:00 O:4110.4 H:4116.4 L:4102.0 C:4105.4 V:1741
+    2026-06-11T11:45:00+00:00 O:4105.0 H:4108.3 L:4100.2 C:4100.7 V:706
+    2026-06-11T12:00:00+00:00 O:4100.9 H:4107.8 L:4091.9 C:4096.4 V:1697
+    2026-06-11T12:15:00+00:00 O:4096.4 H:4102.5 L:4081.6 C:4089.5 V:3711
+    2026-06-11T12:30:00+00:00 O:4089.0 H:4097.7 L:4078.0 C:4093.5 V:3928
+    2026-06-11T12:45:00+00:00 O:4093.6 H:4106.3 L:4090.4 C:4102.5 V:3153
+    2026-06-11T13:00:00+00:00 O:4102.7 H:4106.9 L:4092.7 C:4094.1 V:2499
+    2026-06-11T13:15:00+00:00 O:4094.3 H:4102.7 L:4093.0 C:4096.4 V:1830
+    2026-06-11T13:30:00+00:00 O:4096.2 H:4103.7 L:4088.0 C:4097.4 V:3202
+    2026-06-11T13:45:00+00:00 O:4097.6 H:4114.3 L:4094.4 C:4104.3 V:4768
+    2026-06-11T14:00:00+00:00 O:4104.0 H:4106.6 L:4072.8 C:4081.6 V:5971
+    2026-06-11T14:15:00+00:00 O:4081.7 H:4105.6 L:4075.8 C:4095.3 V:4104
+    2026-06-11T14:30:00+00:00 O:4095.3 H:4104.4 L:4091.3 C:4097.2 V:2620
+    2026-06-11T14:45:00+00:00 O:4097.3 H:4101.4 L:4092.7 C:4094.4 V:1705
+    2026-06-11T15:00:00+00:00 O:4094.2 H:4107.5 L:4090.9 C:4103.9 V:2456
+    2026-06-11T15:11:39+00:00 O:4102.2 H:4102.2 L:4102.2 C:4102.2 V:0
+
+[1H]
+  Price: $4102.2
+  Open/High/Low: $4102.2 / $4102.2 / $4102.2
+  SMA(9):  $4104.03
+  SMA(21): $4101.95
+  SMA(50): $4171.94
+  RSI(14): 36.93
+  Confluence score: -4.16 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": 0.0, "rsi_centered": -0.2614, "range_position": -0.7859, "momentum_5bar": 0.0073, "volume_pressure": -1.0}
+  Candles fed to prompt: 170 (available 502, cap 170)
+
+  OHLCV candle records fed to prompt (170 total):
+    2026-06-02T08:00:00+00:00 O:4565.2 H:4569.3 L:4556.1 C:4557.0 V:3327
+    2026-06-02T09:00:00+00:00 O:4557.1 H:4565.9 L:4550.9 C:4559.4 V:5891
+    2026-06-02T10:00:00+00:00 O:4559.7 H:4563.5 L:4554.1 C:4563.1 V:2316
+    2026-06-02T11:00:00+00:00 O:4563.0 H:4564.2 L:4555.2 C:4557.3 V:2262
+    2026-06-02T12:00:00+00:00 O:4557.5 H:4563.8 L:4542.8 C:4544.0 V:7081
+    2026-06-02T13:00:00+00:00 O:4544.3 H:4554.4 L:4532.1 C:4532.1 V:8375
+    2026-06-02T14:00:00+00:00 O:4532.0 H:4536.8 L:4519.4 C:4533.7 V:9964
+    2026-06-02T15:00:00+00:00 O:4533.4 H:4538.2 L:4529.5 C:4531.7 V:5302
+    2026-06-02T16:00:00+00:00 O:4531.7 H:4532.8 L:4515.6 C:4521.3 V:5675
+    2026-06-02T17:00:00+00:00 O:4521.2 H:4522.7 L:4511.3 C:4514.0 V:5045
+    2026-06-02T18:00:00+00:00 O:4514.3 H:4520.2 L:4508.0 C:4516.9 V:3235
+    2026-06-02T19:00:00+00:00 O:4517.0 H:4520.2 L:4513.2 C:4517.7 V:1853
+    2026-06-02T20:00:00+00:00 O:4517.8 H:4521.0 L:4516.1 C:4519.2 V:990
+    2026-06-02T22:00:00+00:00 O:4520.0 H:4522.7 L:4512.9 C:4514.0 V:0
+    2026-06-02T23:00:00+00:00 O:4514.2 H:4517.6 L:4490.5 C:4502.9 V:5432
+    2026-06-03T00:00:00+00:00 O:4502.6 H:4525.1 L:4502.6 C:4514.4 V:3074
+    2026-06-03T01:00:00+00:00 O:4514.2 H:4516.0 L:4491.2 C:4504.0 V:5957
+    2026-06-03T02:00:00+00:00 O:4504.0 H:4513.1 L:4500.8 C:4509.8 V:2927
+    2026-06-03T03:00:00+00:00 O:4510.1 H:4515.5 L:4510.1 C:4512.0 V:1264
+    2026-06-03T04:00:00+00:00 O:4512.4 H:4516.1 L:4496.4 C:4497.5 V:1742
+    2026-06-03T05:00:00+00:00 O:4497.2 H:4502.2 L:4484.8 C:4485.8 V:3961
+    2026-06-03T06:00:00+00:00 O:4485.4 H:4499.3 L:4483.7 C:4491.7 V:4252
+    2026-06-03T07:00:00+00:00 O:4491.4 H:4500.5 L:4481.1 C:4481.6 V:4607
+    2026-06-03T08:00:00+00:00 O:4481.8 H:4487.8 L:4468.2 C:4472.3 V:5944
+    2026-06-03T09:00:00+00:00 O:4472.3 H:4487.5 L:4467.2 C:4471.3 V:6054
+    2026-06-03T10:00:00+00:00 O:4471.7 H:4496.0 L:4469.5 C:4487.7 V:4638
+    2026-06-03T11:00:00+00:00 O:4487.8 H:4496.5 L:4487.0 C:4490.6 V:2303
+    2026-06-03T12:00:00+00:00 O:4490.9 H:4495.6 L:4476.3 C:4488.6 V:5977
+    2026-06-03T13:00:00+00:00 O:4488.5 H:4494.5 L:4454.0 C:4475.2 V:12532
+    2026-06-03T14:00:00+00:00 O:4473.9 H:4488.3 L:4470.5 C:4485.3 V:7807
+    2026-06-03T15:00:00+00:00 O:4485.7 H:4486.5 L:4464.8 C:4469.8 V:4959
+    2026-06-03T16:00:00+00:00 O:4470.0 H:4472.1 L:4461.1 C:4469.4 V:4378
+    2026-06-03T17:00:00+00:00 O:4469.9 H:4476.8 L:4463.4 C:4467.2 V:4622
+    2026-06-03T18:00:00+00:00 O:4467.1 H:4470.9 L:4462.0 C:4470.1 V:2389
+    2026-06-03T19:00:00+00:00 O:4469.8 H:4480.0 L:4469.5 C:4472.0 V:3531
+    2026-06-03T20:00:00+00:00 O:4471.9 H:4473.6 L:4458.6 C:4462.7 V:2452
+    2026-06-03T22:00:00+00:00 O:4462.6 H:4479.2 L:4450.1 C:4475.3 V:0
+    2026-06-03T23:00:00+00:00 O:4475.5 H:4491.2 L:4471.5 C:4483.5 V:2582
+    2026-06-04T00:00:00+00:00 O:4484.0 H:4491.8 L:4470.6 C:4475.6 V:2142
+    2026-06-04T01:00:00+00:00 O:4475.0 H:4500.8 L:4470.0 C:4492.5 V:4079
+    2026-06-04T02:00:00+00:00 O:4492.1 H:4504.2 L:4482.5 C:4502.0 V:3216
+    2026-06-04T03:00:00+00:00 O:4501.7 H:4504.2 L:4485.1 C:4490.6 V:2333
+    2026-06-04T04:00:00+00:00 O:4490.6 H:4511.2 L:4489.1 C:4508.1 V:3061
+    2026-06-04T05:00:00+00:00 O:4508.2 H:4509.6 L:4493.5 C:4496.0 V:2816
+    2026-06-04T06:00:00+00:00 O:4495.8 H:4504.3 L:4489.8 C:4494.7 V:3389
+    2026-06-04T07:00:00+00:00 O:4495.0 H:4497.7 L:4486.2 C:4488.5 V:2587
+    2026-06-04T08:00:00+00:00 O:4488.4 H:4496.1 L:4485.4 C:4490.2 V:2898
+    2026-06-04T09:00:00+00:00 O:4489.9 H:4503.3 L:4487.7 C:4498.2 V:3809
+    2026-06-04T10:00:00+00:00 O:4497.9 H:4501.7 L:4491.9 C:4501.6 V:2386
+    2026-06-04T11:00:00+00:00 O:4501.6 H:4542.4 L:4496.4 C:4539.2 V:9500
+    2026-06-04T12:00:00+00:00 O:4539.1 H:4541.9 L:4518.8 C:4531.6 V:9388
+    2026-06-04T13:00:00+00:00 O:4531.6 H:4543.2 L:4523.3 C:4523.7 V:7856
+    2026-06-04T14:00:00+00:00 O:4523.4 H:4528.0 L:4483.8 C:4493.1 V:15279
+    2026-06-04T15:00:00+00:00 O:4493.2 H:4506.6 L:4490.6 C:4504.9 V:9260
+    2026-06-04T16:00:00+00:00 O:4504.9 H:4513.2 L:4502.8 C:4510.8 V:7936
+    2026-06-04T17:00:00+00:00 O:4510.5 H:4510.5 L:4502.0 C:4506.0 V:4630
+    2026-06-04T18:00:00+00:00 O:4506.1 H:4508.8 L:4500.0 C:4505.9 V:2237
+    2026-06-04T19:00:00+00:00 O:4506.1 H:4511.3 L:4503.9 C:4508.9 V:2341
+    2026-06-04T20:00:00+00:00 O:4508.5 H:4509.3 L:4502.3 C:4502.4 V:1315
+    2026-06-04T22:00:00+00:00 O:4503.0 H:4508.7 L:4496.0 C:4496.9 V:0
+    2026-06-04T23:00:00+00:00 O:4497.0 H:4501.1 L:4487.7 C:4488.4 V:1953
+    2026-06-05T00:00:00+00:00 O:4488.2 H:4493.9 L:4477.5 C:4485.8 V:3027
+    2026-06-05T01:00:00+00:00 O:4485.8 H:4497.0 L:4470.7 C:4473.3 V:5576
+    2026-06-05T02:00:00+00:00 O:4473.4 H:4481.6 L:4464.5 C:4467.1 V:4431
+    2026-06-05T03:00:00+00:00 O:4466.7 H:4470.1 L:4461.2 C:4468.4 V:2258
+    2026-06-05T04:00:00+00:00 O:4468.7 H:4472.9 L:4463.8 C:4471.0 V:1908
+    2026-06-05T05:00:00+00:00 O:4471.0 H:4476.1 L:4464.9 C:4465.9 V:2702
+    2026-06-05T06:00:00+00:00 O:4466.4 H:4483.2 L:4454.8 C:4479.7 V:5810
+    2026-06-05T07:00:00+00:00 O:4479.9 H:4494.2 L:4478.7 C:4487.7 V:3762
+    2026-06-05T08:00:00+00:00 O:4487.3 H:4495.4 L:4485.5 C:4489.8 V:2190
+    2026-06-05T09:00:00+00:00 O:4489.6 H:4496.6 L:4485.8 C:4491.9 V:4905
+    2026-06-05T10:00:00+00:00 O:4491.6 H:4495.0 L:4488.7 C:4493.7 V:1918
+    2026-06-05T11:00:00+00:00 O:4493.2 H:4502.2 L:4484.8 C:4497.0 V:3213
+    2026-06-05T12:00:00+00:00 O:4497.4 H:4502.8 L:4430.1 C:4432.1 V:19016
+    2026-06-05T13:00:00+00:00 O:4432.0 H:4446.6 L:4390.0 C:4390.5 V:26144
+    2026-06-05T14:00:00+00:00 O:4390.4 H:4404.2 L:4369.4 C:4394.6 V:28089
+    2026-06-05T15:00:00+00:00 O:4394.6 H:4397.3 L:4358.8 C:4360.4 V:12096
+    2026-06-05T16:00:00+00:00 O:4360.3 H:4370.3 L:4347.5 C:4369.1 V:11479
+    2026-06-05T17:00:00+00:00 O:4369.3 H:4372.0 L:4360.2 C:4366.2 V:9819
+    2026-06-05T18:00:00+00:00 O:4366.8 H:4366.8 L:4339.8 C:4346.7 V:9937
+    2026-06-05T19:00:00+00:00 O:4347.4 H:4349.5 L:4338.3 C:4343.5 V:6585
+    2026-06-05T20:00:00+00:00 O:4343.7 H:4365.3 L:4336.6 C:4365.3 V:4141
+    2026-06-07T22:00:00+00:00 O:4342.2 H:4354.7 L:4337.3 C:4341.4 V:2919
+    2026-06-07T23:00:00+00:00 O:4341.5 H:4371.0 L:4341.4 C:4367.9 V:2778
+    2026-06-08T00:00:00+00:00 O:4367.0 H:4377.5 L:4363.1 C:4366.0 V:3579
+    2026-06-08T01:00:00+00:00 O:4365.6 H:4369.5 L:4323.6 C:4349.6 V:8305
+    2026-06-08T02:00:00+00:00 O:4350.2 H:4354.8 L:4331.0 C:4334.5 V:4973
+    2026-06-08T03:00:00+00:00 O:4334.9 H:4341.1 L:4327.4 C:4339.8 V:2880
+    2026-06-08T04:00:00+00:00 O:4342.0 H:4346.4 L:4331.8 C:4337.2 V:2225
+    2026-06-08T05:00:00+00:00 O:4337.1 H:4340.1 L:4293.0 C:4317.5 V:8600
+    2026-06-08T06:00:00+00:00 O:4316.8 H:4336.5 L:4316.8 C:4325.3 V:5186
+    2026-06-08T07:00:00+00:00 O:4325.1 H:4342.0 L:4319.3 C:4319.9 V:5779
+    2026-06-08T08:00:00+00:00 O:4319.3 H:4322.4 L:4309.6 C:4313.1 V:6573
+    2026-06-08T09:00:00+00:00 O:4313.5 H:4326.4 L:4297.1 C:4318.8 V:7699
+    2026-06-08T10:00:00+00:00 O:4319.0 H:4330.3 L:4310.6 C:4326.4 V:4891
+    2026-06-08T11:00:00+00:00 O:4326.2 H:4358.5 L:4321.3 C:4356.3 V:9552
+    2026-06-08T12:00:00+00:00 O:4355.7 H:4364.8 L:4344.8 C:4358.0 V:8759
+    2026-06-08T13:00:00+00:00 O:4358.1 H:4371.5 L:4345.7 C:4351.8 V:11828
+    2026-06-08T14:00:00+00:00 O:4351.3 H:4356.3 L:4339.0 C:4355.8 V:11690
+    2026-06-08T15:00:00+00:00 O:4356.3 H:4370.0 L:4346.9 C:4366.1 V:8803
+    2026-06-08T16:00:00+00:00 O:4365.9 H:4371.0 L:4362.2 C:4365.0 V:4258
+    2026-06-08T17:00:00+00:00 O:4365.1 H:4366.8 L:4356.6 C:4363.4 V:6531
+    2026-06-08T18:00:00+00:00 O:4363.3 H:4370.2 L:4357.1 C:4358.8 V:3858
+    2026-06-08T19:00:00+00:00 O:4358.7 H:4362.3 L:4346.6 C:4350.3 V:4505
+    2026-06-08T20:00:00+00:00 O:4350.5 H:4354.4 L:4348.0 C:4353.8 V:1396
+    2026-06-08T22:00:00+00:00 O:4354.7 H:4363.4 L:4345.8 C:4351.5 V:0
+    2026-06-08T23:00:00+00:00 O:4350.9 H:4352.4 L:4336.0 C:4340.9 V:1894
+    2026-06-09T00:00:00+00:00 O:4340.9 H:4347.5 L:4338.8 C:4344.1 V:2452
+    2026-06-09T01:00:00+00:00 O:4344.0 H:4362.9 L:4342.5 C:4360.8 V:4070
+    2026-06-09T02:00:00+00:00 O:4360.9 H:4365.7 L:4352.7 C:4360.4 V:2458
+    2026-06-09T03:00:00+00:00 O:4360.1 H:4366.5 L:4355.2 C:4359.8 V:2613
+    2026-06-09T04:00:00+00:00 O:4360.8 H:4364.1 L:4348.6 C:4356.5 V:2376
+    2026-06-09T05:00:00+00:00 O:4356.9 H:4375.7 L:4354.8 C:4367.9 V:3338
+    2026-06-09T06:00:00+00:00 O:4368.1 H:4373.2 L:4354.1 C:4354.4 V:3574
+    2026-06-09T07:00:00+00:00 O:4354.4 H:4358.9 L:4346.0 C:4350.2 V:3794
+    2026-06-09T08:00:00+00:00 O:4350.1 H:4360.8 L:4344.5 C:4350.4 V:3357
+    2026-06-09T09:00:00+00:00 O:4350.2 H:4359.5 L:4347.9 C:4356.0 V:3675
+    2026-06-09T10:00:00+00:00 O:4356.0 H:4365.2 L:4349.1 C:4363.3 V:3633
+    2026-06-09T11:00:00+00:00 O:4363.3 H:4368.3 L:4359.9 C:4364.3 V:2577
+    2026-06-09T12:00:00+00:00 O:4364.4 H:4369.0 L:4359.0 C:4365.4 V:5434
+    2026-06-09T13:00:00+00:00 O:4366.1 H:4388.6 L:4349.1 C:4353.2 V:13662
+    2026-06-09T14:00:00+00:00 O:4352.9 H:4360.3 L:4302.1 C:4325.0 V:20832
+    2026-06-09T15:00:00+00:00 O:4324.8 H:4326.4 L:4287.1 C:4296.7 V:13547
+    2026-06-09T16:00:00+00:00 O:4296.5 H:4305.3 L:4259.9 C:4276.0 V:18406
+    2026-06-09T17:00:00+00:00 O:4276.1 H:4292.7 L:4275.1 C:4287.2 V:11571
+    2026-06-09T18:00:00+00:00 O:4287.5 H:4298.8 L:4283.6 C:4294.4 V:3469
+    2026-06-09T19:00:00+00:00 O:4294.6 H:4296.1 L:4274.0 C:4282.7 V:4787
+    2026-06-09T20:00:00+00:00 O:4282.8 H:4286.1 L:4280.0 C:4284.8 V:1157
+    2026-06-09T22:00:00+00:00 O:4276.1 H:4281.1 L:4255.4 C:4260.4 V:0
+    2026-06-09T23:00:00+00:00 O:4260.1 H:4270.6 L:4233.0 C:4245.1 V:5370
+    2026-06-10T00:00:00+00:00 O:4245.2 H:4251.1 L:4222.0 C:4241.6 V:5697
+    2026-06-10T01:00:00+00:00 O:4242.2 H:4242.5 L:4207.2 C:4212.2 V:8495
+    2026-06-10T02:00:00+00:00 O:4212.9 H:4216.5 L:4196.9 C:4197.8 V:6025
+    2026-06-10T03:00:00+00:00 O:4197.5 H:4210.2 L:4195.5 C:4208.2 V:2830
+    2026-06-10T04:00:00+00:00 O:4208.9 H:4211.2 L:4194.2 C:4198.0 V:2101
+    2026-06-10T05:00:00+00:00 O:4197.7 H:4232.2 L:4196.3 C:4228.7 V:4746
+    2026-06-10T06:00:00+00:00 O:4228.6 H:4245.5 L:4225.1 C:4227.1 V:5390
+    2026-06-10T07:00:00+00:00 O:4226.7 H:4231.0 L:4205.0 C:4209.7 V:5807
+    2026-06-10T08:00:00+00:00 O:4209.4 H:4211.0 L:4184.0 C:4191.7 V:9850
+    2026-06-10T09:00:00+00:00 O:4192.0 H:4202.6 L:4185.6 C:4191.6 V:7157
+    2026-06-10T10:00:00+00:00 O:4191.6 H:4201.5 L:4178.5 C:4197.5 V:5985
+    2026-06-10T11:00:00+00:00 O:4197.5 H:4198.6 L:4168.2 C:4170.2 V:10724
+    2026-06-10T12:00:00+00:00 O:4169.9 H:4197.3 L:4152.0 C:4169.6 V:20336
+    2026-06-10T13:00:00+00:00 O:4170.1 H:4209.5 L:4154.9 C:4203.0 V:21755
+    2026-06-10T14:00:00+00:00 O:4202.6 H:4204.1 L:4139.7 C:4147.1 V:16028
+    2026-06-10T15:00:00+00:00 O:4147.7 H:4159.7 L:4129.6 C:4151.9 V:17546
+    2026-06-10T16:00:00+00:00 O:4152.7 H:4158.8 L:4138.7 C:4144.6 V:8394
+    2026-06-10T17:00:00+00:00 O:4144.5 H:4157.6 L:4123.5 C:4134.9 V:13691
+    2026-06-10T18:00:00+00:00 O:4135.3 H:4144.0 L:4120.2 C:4125.0 V:5372
+    2026-06-10T19:00:00+00:00 O:4125.4 H:4125.8 L:4105.0 C:4106.2 V:8585
+    2026-06-10T20:00:00+00:00 O:4106.0 H:4106.4 L:4090.1 C:4094.1 V:4027
+    2026-06-10T22:00:00+00:00 O:4094.4 H:4094.4 L:4059.2 C:4069.1 V:0
+    2026-06-10T23:00:00+00:00 O:4069.2 H:4087.2 L:4046.2 C:4069.7 V:6250
+    2026-06-11T00:00:00+00:00 O:4070.9 H:4100.0 L:4058.0 C:4097.5 V:9399
+    2026-06-11T01:00:00+00:00 O:4097.3 H:4138.5 L:4087.4 C:4122.4 V:15001
+    2026-06-11T02:00:00+00:00 O:4122.8 H:4122.9 L:4073.4 C:4089.3 V:7475
+    2026-06-11T03:00:00+00:00 O:4089.4 H:4099.8 L:4078.1 C:4095.5 V:3870
+    2026-06-11T04:00:00+00:00 O:4094.4 H:4107.4 L:4091.2 C:4103.8 V:2943
+    2026-06-11T05:00:00+00:00 O:4104.3 H:4127.4 L:4093.8 C:4115.5 V:5095
+    2026-06-11T06:00:00+00:00 O:4115.0 H:4118.5 L:4097.0 C:4115.7 V:4578
+    2026-06-11T07:00:00+00:00 O:4115.6 H:4131.5 L:4112.0 C:4125.8 V:6488
+    2026-06-11T08:00:00+00:00 O:4125.7 H:4133.6 L:4105.6 C:4105.6 V:5467
+    2026-06-11T09:00:00+00:00 O:4105.0 H:4117.5 L:4098.1 C:4112.4 V:5149
+    2026-06-11T10:00:00+00:00 O:4111.8 H:4115.6 L:4107.2 C:4110.3 V:2539
+    2026-06-11T11:00:00+00:00 O:4110.3 H:4116.4 L:4100.2 C:4100.7 V:4443
+    2026-06-11T12:00:00+00:00 O:4100.9 H:4107.8 L:4078.0 C:4102.5 V:12489
+    2026-06-11T13:00:00+00:00 O:4102.7 H:4114.3 L:4088.0 C:4104.3 V:12299
+    2026-06-11T14:00:00+00:00 O:4104.0 H:4106.6 L:4072.8 C:4094.4 V:14400
+    2026-06-11T15:00:00+00:00 O:4094.2 H:4107.5 L:4090.9 C:4103.9 V:2456
+    2026-06-11T15:11:39+00:00 O:4102.2 H:4102.2 L:4102.2 C:4102.2 V:0
+
+[4H]
+  Price: $4102.6
+  Open/High/Low: $4102.6 / $4102.6 / $4102.6
+  SMA(9):  $4114.06
+  SMA(21): $4226.51
+  SMA(50): $4369.31
+  RSI(14): 40.35
+  Confluence score: -6.27 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": -1.0, "rsi_centered": -0.1929, "range_position": -0.8058, "momentum_5bar": 0.1617, "volume_pressure": -1.0}
+  Candles fed to prompt: 96 (available 136, cap 96)
+
+  OHLCV candle records fed to prompt (96 total):
+    2026-05-20T00:00:00+00:00 O:4492.2 H:4512.0 L:4455.0 C:4467.1 V:19054
+    2026-05-20T04:00:00+00:00 O:4465.8 H:4488.7 L:4458.6 C:4480.9 V:16240
+    2026-05-20T08:00:00+00:00 O:4481.1 H:4503.7 L:4475.1 C:4501.2 V:23686
+    2026-05-20T12:00:00+00:00 O:4501.0 H:4558.4 L:4469.1 C:4532.1 V:62776
+    2026-05-20T16:00:00+00:00 O:4532.1 H:4553.8 L:4527.1 C:4548.1 V:20192
+    2026-05-20T20:00:00+00:00 O:4548.4 H:4553.2 L:4535.6 C:4548.0 V:3656
+    2026-05-21T00:00:00+00:00 O:4548.3 H:4572.4 L:4528.3 C:4529.9 V:14046
+    2026-05-21T04:00:00+00:00 O:4529.4 H:4541.6 L:4513.2 C:4520.8 V:14274
+    2026-05-21T08:00:00+00:00 O:4520.9 H:4544.2 L:4505.7 C:4515.0 V:19557
+    2026-05-21T12:00:00+00:00 O:4515.2 H:4522.3 L:4488.3 C:4513.0 V:61248
+    2026-05-21T16:00:00+00:00 O:4513.2 H:4561.2 L:4513.1 C:4544.1 V:32283
+    2026-05-21T20:00:00+00:00 O:4543.9 H:4547.0 L:4532.7 C:4536.0 V:3451
+    2026-05-22T00:00:00+00:00 O:4536.2 H:4541.9 L:4519.4 C:4529.9 V:8092
+    2026-05-22T04:00:00+00:00 O:4530.6 H:4535.4 L:4508.2 C:4522.7 V:11997
+    2026-05-22T08:00:00+00:00 O:4522.7 H:4537.6 L:4511.4 C:4521.5 V:19117
+    2026-05-22T12:00:00+00:00 O:4521.1 H:4537.4 L:4488.0 C:4521.0 V:43653
+    2026-05-22T16:00:00+00:00 O:4521.3 H:4529.9 L:4505.6 C:4510.0 V:20181
+    2026-05-22T20:00:00+00:00 O:4510.1 H:4523.2 L:4505.4 C:4523.2 V:1621
+    2026-05-26T04:00:00+00:00 O:4542.7 H:4543.6 L:4521.8 C:4538.6 V:18635
+    2026-05-26T08:00:00+00:00 O:4539.0 H:4540.9 L:4503.0 C:4507.5 V:41159
+    2026-05-26T12:00:00+00:00 O:4507.1 H:4532.3 L:4500.2 C:4506.7 V:66720
+    2026-05-26T16:00:00+00:00 O:4506.5 H:4512.0 L:4480.0 C:4508.7 V:40188
+    2026-05-26T20:00:00+00:00 O:4509.0 H:4528.1 L:4498.9 C:4519.6 V:2545
+    2026-05-27T00:00:00+00:00 O:4517.4 H:4525.8 L:4496.2 C:4496.3 V:2723
+    2026-05-27T04:00:00+00:00 O:4496.0 H:4520.6 L:4478.5 C:4513.2 V:30002
+    2026-05-27T08:00:00+00:00 O:4513.1 H:4529.5 L:4454.3 C:4458.3 V:49992
+    2026-05-27T12:00:00+00:00 O:4458.5 H:4496.5 L:4431.0 C:4468.0 V:88245
+    2026-05-27T16:00:00+00:00 O:4468.1 H:4490.0 L:4465.6 C:4483.0 V:25758
+    2026-05-27T20:00:00+00:00 O:4482.8 H:4502.0 L:4473.2 C:4477.7 V:3419
+    2026-05-28T00:00:00+00:00 O:4477.4 H:4489.5 L:4398.0 C:4405.3 V:21364
+    2026-05-28T04:00:00+00:00 O:4404.2 H:4426.0 L:4395.6 C:4417.2 V:19084
+    2026-05-28T08:00:00+00:00 O:4417.5 H:4434.3 L:4405.5 C:4418.2 V:17418
+    2026-05-28T12:00:00+00:00 O:4417.9 H:4515.9 L:4409.8 C:4512.5 V:57929
+    2026-05-28T16:00:00+00:00 O:4512.9 H:4547.1 L:4507.5 C:4528.7 V:26476
+    2026-05-28T20:00:00+00:00 O:4528.7 H:4531.7 L:4519.5 C:4525.6 V:3035
+    2026-05-29T00:00:00+00:00 O:4525.5 H:4551.2 L:4522.5 C:4530.9 V:11405
+    2026-05-29T04:00:00+00:00 O:4531.4 H:4557.2 L:4531.4 C:4555.5 V:16746
+    2026-05-29T08:00:00+00:00 O:4555.0 H:4574.4 L:4540.0 C:4569.1 V:19191
+    2026-05-29T12:00:00+00:00 O:4569.2 H:4627.1 L:4543.4 C:4602.1 V:54002
+    2026-05-29T16:00:00+00:00 O:4602.1 H:4604.5 L:4574.1 C:4576.8 V:19052
+    2026-05-29T20:00:00+00:00 O:4576.9 H:4593.0 L:4567.3 C:4593.0 V:1797
+    2026-05-31T20:00:00+00:00 O:4555.3 H:4576.4 L:4554.1 C:4570.7 V:3322
+    2026-06-01T00:00:00+00:00 O:4570.5 H:4577.3 L:4540.3 C:4546.0 V:10687
+    2026-06-01T04:00:00+00:00 O:4546.9 H:4555.4 L:4522.1 C:4532.7 V:12748
+    2026-06-01T08:00:00+00:00 O:4533.0 H:4542.8 L:4518.6 C:4536.0 V:15102
+    2026-06-01T12:00:00+00:00 O:4535.8 H:4540.4 L:4476.0 C:4504.1 V:48604
+    2026-06-01T16:00:00+00:00 O:4504.7 H:4525.6 L:4493.1 C:4511.1 V:19687
+    2026-06-01T20:00:00+00:00 O:4511.2 H:4518.6 L:4508.2 C:4514.3 V:2962
+    2026-06-02T00:00:00+00:00 O:4514.4 H:4530.0 L:4492.3 C:4528.4 V:13974
+    2026-06-02T04:00:00+00:00 O:4529.3 H:4571.3 L:4528.0 C:4565.2 V:19493
+    2026-06-02T08:00:00+00:00 O:4565.2 H:4569.3 L:4550.9 C:4557.3 V:13796
+    2026-06-02T12:00:00+00:00 O:4557.5 H:4563.8 L:4519.4 C:4531.7 V:30722
+    2026-06-02T16:00:00+00:00 O:4531.7 H:4532.8 L:4508.0 C:4517.7 V:15808
+    2026-06-02T20:00:00+00:00 O:4517.8 H:4522.7 L:4490.5 C:4502.9 V:6422
+    2026-06-03T00:00:00+00:00 O:4502.6 H:4525.1 L:4491.2 C:4512.0 V:13222
+    2026-06-03T04:00:00+00:00 O:4512.4 H:4516.1 L:4481.1 C:4481.6 V:14562
+    2026-06-03T08:00:00+00:00 O:4481.8 H:4496.5 L:4467.2 C:4490.6 V:18939
+    2026-06-03T12:00:00+00:00 O:4490.9 H:4495.6 L:4454.0 C:4469.8 V:31275
+    2026-06-03T16:00:00+00:00 O:4470.0 H:4480.0 L:4461.1 C:4472.0 V:14920
+    2026-06-03T20:00:00+00:00 O:4471.9 H:4491.2 L:4450.1 C:4483.5 V:5034
+    2026-06-04T00:00:00+00:00 O:4484.0 H:4504.2 L:4470.0 C:4490.6 V:11770
+    2026-06-04T04:00:00+00:00 O:4490.6 H:4511.2 L:4486.2 C:4488.5 V:11853
+    2026-06-04T08:00:00+00:00 O:4488.4 H:4542.4 L:4485.4 C:4539.2 V:18593
+    2026-06-04T12:00:00+00:00 O:4539.1 H:4543.2 L:4483.8 C:4504.9 V:41783
+    2026-06-04T16:00:00+00:00 O:4504.9 H:4513.2 L:4500.0 C:4508.9 V:17144
+    2026-06-04T20:00:00+00:00 O:4508.5 H:4509.3 L:4487.7 C:4488.4 V:3268
+    2026-06-05T00:00:00+00:00 O:4488.2 H:4497.0 L:4461.2 C:4468.4 V:15292
+    2026-06-05T04:00:00+00:00 O:4468.7 H:4494.2 L:4454.8 C:4487.7 V:14182
+    2026-06-05T08:00:00+00:00 O:4487.3 H:4502.2 L:4484.8 C:4497.0 V:12226
+    2026-06-05T12:00:00+00:00 O:4497.4 H:4502.8 L:4358.8 C:4360.4 V:85345
+    2026-06-05T16:00:00+00:00 O:4360.3 H:4372.0 L:4338.3 C:4343.5 V:37820
+    2026-06-05T20:00:00+00:00 O:4343.7 H:4365.3 L:4336.6 C:4365.3 V:4141
+    2026-06-07T20:00:00+00:00 O:4342.2 H:4371.0 L:4337.3 C:4367.9 V:5697
+    2026-06-08T00:00:00+00:00 O:4367.0 H:4377.5 L:4323.6 C:4339.8 V:19737
+    2026-06-08T04:00:00+00:00 O:4342.0 H:4346.4 L:4293.0 C:4319.9 V:21790
+    2026-06-08T08:00:00+00:00 O:4319.3 H:4358.5 L:4297.1 C:4356.3 V:28715
+    2026-06-08T12:00:00+00:00 O:4355.7 H:4371.5 L:4339.0 C:4366.1 V:41080
+    2026-06-08T16:00:00+00:00 O:4365.9 H:4371.0 L:4346.6 C:4350.3 V:19152
+    2026-06-08T20:00:00+00:00 O:4350.5 H:4363.4 L:4336.0 C:4340.9 V:3290
+    2026-06-09T00:00:00+00:00 O:4340.9 H:4366.5 L:4338.8 C:4359.8 V:11593
+    2026-06-09T04:00:00+00:00 O:4360.8 H:4375.7 L:4346.0 C:4350.2 V:13082
+    2026-06-09T08:00:00+00:00 O:4350.1 H:4368.3 L:4344.5 C:4364.3 V:13242
+    2026-06-09T12:00:00+00:00 O:4364.4 H:4388.6 L:4287.1 C:4296.7 V:53475
+    2026-06-09T16:00:00+00:00 O:4296.5 H:4305.3 L:4259.9 C:4282.7 V:38233
+    2026-06-09T20:00:00+00:00 O:4282.8 H:4286.1 L:4233.0 C:4245.1 V:6527
+    2026-06-10T00:00:00+00:00 O:4245.2 H:4251.1 L:4195.5 C:4208.2 V:23047
+    2026-06-10T04:00:00+00:00 O:4208.9 H:4245.5 L:4194.2 C:4209.7 V:18044
+    2026-06-10T08:00:00+00:00 O:4209.4 H:4211.0 L:4168.2 C:4170.2 V:33716
+    2026-06-10T12:00:00+00:00 O:4169.9 H:4209.5 L:4129.6 C:4151.9 V:75665
+    2026-06-10T16:00:00+00:00 O:4152.7 H:4158.8 L:4105.0 C:4106.2 V:36042
+    2026-06-10T20:00:00+00:00 O:4106.0 H:4106.4 L:4046.2 C:4069.7 V:10277
+    2026-06-11T00:00:00+00:00 O:4070.9 H:4138.5 L:4058.0 C:4095.5 V:35745
+    2026-06-11T04:00:00+00:00 O:4094.4 H:4131.5 L:4091.2 C:4125.8 V:19104
+    2026-06-11T08:00:00+00:00 O:4125.7 H:4133.6 L:4098.1 C:4100.7 V:17598
+    2026-06-11T12:00:00+00:00 O:4100.9 H:4114.3 L:4072.8 C:4103.9 V:41644
+    2026-06-11T15:11:40+00:00 O:4102.6 H:4102.6 L:4102.6 C:4102.6 V:0
+
+
+
+===================================================================
+LOOPBACK SELF-EVALUATION
+===================================================================
+
+At every loopback, recall the prior signal and evaluate it against the XAUUSD
+spot price collected then versus the XAUUSD spot price collected now. Use the
+ranking to adjust which data types matter for the current score.
+
+LOOPBACK IS NOT A PRICE TARGET LIST: Prior spot prices and prior NO-TRADE notes
+(e.g. "need $4540") are for thesis/signal evaluation only. This cycle's entries
+and re-entry conditions must use fresh levels from the intraday block below.
+
+{
+  "status": "evaluated_prior_signal",
+  "timestamp_et": "2026-05-28T19:13:27.937876-04:00",
+  "previous_timestamp": "2026-05-28T19:16:36.270862",
+  "previous_signal": "SHORT",
+  "previous_confidence": "MEDIUM",
+  "previous_spot_gold_price": 4173.9,
+  "previous_price_verified_spot": true,
+  "current_spot_gold_price": 4088.9,
+  "price_change": -85.0,
+  "price_change_pct": -2.036,
+  "signal_outcome": "ALIGNED_WITH_SIGNAL",
+  "ranked_data_influence": [
+    {
+      "data_type": "XAUUSD spot price action",
+      "importance_score": 10,
+      "evidence": "4173.9 -> 4088.9 (-2.036%)",
+      "verdict": "Price movement is the final arbiter for whether the prior thesis transmitted."
+    },
+    {
+      "data_type": "DXY",
+      "importance_score": 8.26,
+      "evidence": "99.809 -> 100.221 (0.413%), aligned with gold move",
+      "verdict": "Dollar moves usually matter when the intraday change is large enough to transmit to gold."
+    },
+    {
+      "data_type": "live catalyst/news flow",
+      "importance_score": 7,
+      "evidence": "Prior max disruption score 7/10",
+      "verdict": "Fresh catalysts matter when source, freshness, and transmission mechanism are clear."
+    },
+    {
+      "data_type": "XAUUSD intraday confluence tensor",
+      "importance_score": 3,
+      "evidence": "Available timeframes: 5m, 15m, 1h, 4h; aggregate tensor score -2.93 (MIXED_BEARISH_LEAN)",
+      "verdict": "RSI/MAs/candle momentum are now scored as a normalized tensor for entry timing and confirmation."
+    },
+    {
+      "data_type": "10Y real yield",
+      "importance_score": 1.5,
+      "evidence": "2.21% -> 2.2% (-1.0 bps)",
+      "verdict": "Real yields are high-impact for gold when they change materially, but daily FRED data can be stale intraday."
+    }
+  ],
+  "low_or_no_weight_data": [
+    {
+      "data_type": "Fed balance sheet/liquidity",
+      "importance_score": 0.2,
+      "evidence": "4-week change 1.99B",
+      "verdict": "Useful macro context, but usually lower intraday weight unless the liquidity shift is large."
+    }
+  ],
+  "scoring_feedback": "Increase weight on the highest-ranked data types only when they aligned with the actual XAUUSD spot move; reduce weight on failed, stale, or non-transmitting inputs."
+}
+
+===================================================================
+TRADE HISTORY (trade_backlog.txt with running account columns)
+===================================================================
+
+SOURCE: trade_backlog.txt — last row is authoritative for EQUITY and CUMULATIVE_PNL
+DATE | TRADE_ID | SIGNAL | ENTRY | STOP_LOSS | TAKE_PROFIT | OUTCOME | R_MULTIPLE | PNL_USD | RISK_USD | XAU_OZ | TV_LEVERAGE | EFFECTIVE_LEVERAGE | CUMULATIVE_PNL | EQUITY | DAILY_PNL | NOTES
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2026-05-11 | TRADE_001 | LONG | 4730.0 |  | 4750.0 | WIN | 1.3 | 1840.00 |  | 92.0000 | 50 | 17.41 | 1840.00 | 26840.00 | 1840.00 | Hit first target on bounce. Volume confirmed signal with PnL gain of +$1840
+2026-05-12 | TRADE_002 | SHORT | 4721.9 |  | 4700.0 | WIN | 1.3 | 2160.00 |  | 98.6301 | 50 | 18.63 | 4000.00 | 29000.00 | 2160.00 | One wick was teetering the SL on 4735 | but market did a full downward trend and hit TP at 4700 with PnL of +$2160
+2026-05-13 | TRADE_003 | SHORT | 4698.0 |  | 4680.0 | LOSS | 1.8 | -990.00 |  |  |  |  | 3010.00 | 28010.00 | -990.00 | Graph was consolidating during the trade | didnt break support or resistance with PnL loss of -$990
+2026-05-14 | TRADE_004 | SHORT | 4684.0 |  | 4668 | WIN | 1.5 |  |  |  |  |  | 3010.00 | 28010.00 |  | Graph went on a full downtrend and then hit TP
+2026-05-19 | TRADE_005 | SHORT | 4493 |  | 4470 | LOSS | 1.35 | -13.00 |  |  |  |  | 2997.00 | 27997.00 | -13.00 | Graph went on a full uptrend and hit SL with a PnL of -$13
+2026-05-25 | TRADE_006 | LONG | 4525 |  | 4547 | LOSS | 1.5 | -16.77 |  |  |  |  | 2980.23 | 27980.23 | -16.77 | Graph consolidating on a downtrend until it reached 4533 | then took a huge loss to hit SL at 4510 with a PnL of -16.77
+2026-05-26 | TRADE_007 | SHORT | 4508 |  | 4484 | WIN | 2.0 |  |  |  |  |  | 2980.23 | 27980.23 |  | Graph was consolidating until it reached 4528 | then went on a direct downtrend to hit TP at 4484
+2026-05-27 | TRADE_008 | SHORT | 4460 |  | 4420 | WIN | 2.0 |  |  |  |  |  | 2980.23 | 27980.23 |  | Graph dipped slightly from 4460 and then took a quick downtrend to hit TP1 at 4420 and TP2 at 4400
+2026-05-28 | TRADE_009 | LONG | 4465 |  | 4505 | WIN | 2.0 | 40.00 |  | 1.0000 | 1 | 0.18 | 3020.23 | 28020.23 | 40.00 | Graph shot up directly to hit 4505 TP with PnL +$40
+2026-06-03 | TRADE_010 | SHORT | 4477.5 | 4490.5 | 4450.0 | LOSS | 2.0 | -121.95 | 0.5 | 4.62 | 1 | 0.83 | 2898.28 | 27898.28 | -121.95 | Signal was generated at about 3PM Beirut time and entry happened at 7:30AM the next day | market dipped a little towards TP but then shot up straight and hit SL. Entry price of 4477.5 was too far away from the price that it was (4450) | so macro and timechart data may have drastically changed overnight and the signal was far off from a short and went long instead.
+2026-06-06 | TRADE_011 | SHORT | 4372.0 | 4392.0 | 4332.0 | WIN | 2.0 | +283.37 | 0.8 | 10 | 1.57 | 283.65 | 25283.65 | 283.65 |  | 
+2026-06-09 | TRADE_012 | SHORT | 4275.0 |  | 4255.74 | WIN | 2.0 | +$97.40 |  | 10 |  |  | 25380.77 |  | +97.40 | Graph was headed bounced back to entry price after a steep decline | consolidated in one candle and then dipped in the same steep trend to fall to TP
+2026-06-10 | TRADE_013 | SHORT | 4128.9 | 4147.0 | 4092.7 | WIN | 2.0 | +408.10 | 0.8 | 11.22 | 50:1 | 1.83 | +788.87 | 25788.87 | +408.10 | Graph went down steadily to reach TP
+
+>>> LAST ROW >>> TRADE_013 | CUMULATIVE_PNL=+788.87 | EQUITY=25788.87 | DAILY_PNL=+408.10
+
+MODEL'S RECENT PREDICTIONS:
+----------------------------------------
+DATE: 2026-04-29
+TRADE_ID: 2026-04-29_XAU_SHORT
+SOURCE: MODEL_SIGNAL
+SIGNAL: SHORT
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4522.100098
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-06
+TRADE_ID: 2026-05-06_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4684.200195
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-06
+TRADE_ID: 2026-05-06_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4687.600098
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-07
+TRADE_ID: 2026-05-07_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4757.1
+ENTRY_LOW: 4757.0
+ENTRY_HIGH: 4757.0
+STOP_LOSS: 4741.0
+TARGET1: 4773.0
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 3.5x (rounded down from 3.53x)
+RISK_MODE: NO-LEVERAGE
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-07
+TRADE_ID: 2026-05-07_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4760.6
+ENTRY_LOW: 4762.0
+ENTRY_HIGH: 4762.0
+STOP_LOSS: 4741.0
+TARGET1: 4783.0
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 1.36x (rounded down to 1x for safety)
+RISK_MODE: NO-LEVERAGE
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4716.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4720.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4720.8
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4722.3
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4725.2
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4726.7
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4723.8
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-08
+TRADE_ID: 2026-05-08_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4724.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4738.4
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4736.1
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-11
+TRADE_ID: 2026-05-11_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4738.5
+ENTRY_LOW: 4739.0
+ENTRY_HIGH: 4739.0
+STOP_LOSS: 4725.0
+TARGET1: 4754.0
+TARGET2: 4769.0
+RECOMMENDED_LEVERAGE: 4.1x (rounded down from 40.7x calculation, capped at reasonable level)
+RISK_MODE: BALANCED
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4520.9
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: HIGH
+GOLD_PRICE_AT_SIGNAL: 4521.5
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4571.2
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 0.71x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_NEUTRAL
+SOURCE: MODEL_SIGNAL
+SIGNAL: NEUTRAL
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4571.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: n/a
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_LONG
+SOURCE: MODEL_SIGNAL
+SIGNAL: LONG
+CONFIDENCE: MEDIUM
+GOLD_PRICE_AT_SIGNAL: 4575.0
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: ** 0.905x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+----------------------------------------
+DATE: 2026-05-14
+TRADE_ID: 2026-05-14_XAU_SHORT
+SOURCE: MODEL_SIGNAL
+SIGNAL: SHORT
+CONFIDENCE: UNKNOWN
+GOLD_PRICE_AT_SIGNAL: 4508.6
+ENTRY_LOW: n/a
+ENTRY_HIGH: n/a
+STOP_LOSS: n/a
+TARGET1: n/a
+TARGET2: n/a
+RECOMMENDED_LEVERAGE: 2.25x
+RISK_MODE: n/a
+OUTCOME: PENDING
+OUTCOME_NOTES: Fill in trade_backlog.txt with actual execution and result.
+
+TRADE HISTORY INSTRUCTIONS:
+- trade_backlog.txt is ground-truth execution; columns include PNL_USD, RISK_USD, XAU_OZ,
+  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL (running totals recomputed each cycle).
+- Fill PNL_USD, RISK_USD, XAU_OZ, and TV_LEVERAGE on every new trade row you execute.
+- Use PROP ACCOUNT SNAPSHOT for daily/max drawdown room and recommended_tv_leverage before sizing.
+- Treat model_trade_log.txt as prior recommendations only.
+- Learn from mismatches (e.g. +$40 wins when 2R implied $200+) and adjust XAU_OZ + TV_LEVERAGE.
+- Do not copy old absolute price triggers from prior outputs; use current chart structure only.
+
+===================================================================
+ANALYSIS REQUEST
+===================================================================
+
+Apply the TOP-DOWN scoring system and produce a fresh trade signal. Start with
+DISRUPTION WATCH, then complete the normal tiered trading signal.
+
+Required:
+1. Start with DATA VALIDATION: cite each FAIL/WARN/OK category that affects the
+   signal and state whether trade_permission allows trading.
+2. Identify whether any internet-scouted item can move gold acutely up or down.
+3. Explain the transmission mechanism through DXY, yields, risk sentiment,
+   inflation expectations, Fed path, safe-haven demand, or liquidity.
+4. Reconcile live catalysts against 4H, 1H, 15m, and 5m price action.
+5. Explicitly choose the execution chart: 15M, 5M, or NONE.
+6. Update the trade signal only if the catalyst and price action justify it.
+7. Score CONFLUENCE ALIGNMENT (FULL / PARTIAL / MISALIGN) and pick aggression accordingly.
+8. Read PROP ACCOUNT SNAPSHOT and size within recommended_max_risk_usd and
+   recommended_tv_leverage. On FULL ALIGNMENT with STANDARD_50X mode use 50:1,
+   0.60%-0.80% risk, 2R Target 1 (≥$200), 2.5-3R Target 2,
+   show xau_ounces, verified T1 profit, and margin at chosen leverage.
+9. Explicitly state which ranked data types from the loopback should gain or
+   lose weight in this cycle's scoring.
+10. Confirm the trade stays below snapshot daily-loss and max-drawdown rooms; cite
+    snapshot numbers in the FundedNext / TradingView Risk Plan block.
+11. Finish with the exact mandatory last line: GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]

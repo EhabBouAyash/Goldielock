@@ -59,3 +59,21 @@
 {"timestamp": "2026-04-29T19:01:36.132969", "type": "TOKEN_STATS", "message": "Token usage updated", "details": {"timestamp": "2026-04-29T19:01:36.132758", "total_runs": 1, "total_input_tokens": 6124, "total_output_tokens": 1088, "total_tokens": 7212, "avg_input_tokens_per_run": 6124.0, "avg_output_tokens_per_run": 1088.0, "avg_tokens_per_run": 7212.0, "avg_cost_per_run": 0.034692, "total_cost_usd": 0.035, "projected_daily_cost": 0.833, "projected_monthly_cost": 24.98}}
 {"timestamp": "2026-04-29T19:01:45.772393", "type": "EMAIL_SENT", "message": "Prediction email sent", "details": {"recipient": "whooshy123@gmail.com"}}
 {"timestamp": "2026-04-29T19:01:45.772712", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-05-28T23:00:13.777502", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-05-28T23:00:13.777965", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-05-28T23:00:16.372096", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-05-28T23:00:16.372205", "type": "PREDICTION_START", "message": "Running day_trading_insights.py...", "details": {}}
+{"timestamp": "2026-05-28T23:02:46.391233", "type": "PREDICTION_SUCCESS", "message": "Trading predictions completed", "details": {}}
+{"timestamp": "2026-05-28T23:02:46.401286", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 14, "correct_signals": 5, "overall_accuracy": 35.71}}
+{"timestamp": "2026-05-28T23:02:46.402542", "type": "TOKEN_STATS", "message": "Token usage updated", "details": {"timestamp": "2026-05-28T23:02:46.402169", "total_runs": 183, "total_input_tokens": 2839607, "total_output_tokens": 292522, "total_tokens": 3132129, "avg_input_tokens_per_run": 15517.0, "avg_output_tokens_per_run": 1598.0, "avg_tokens_per_run": 17115.0, "avg_cost_per_run": 0.070528, "total_cost_usd": 12.907, "projected_daily_cost": 1.693, "projected_monthly_cost": 9292.79}}
+{"timestamp": "2026-05-28T23:02:49.543130", "type": "EMAIL_SENT", "message": "Email sent to whooshy123@gmail.com, markrmoucharrafie@gmail.com", "details": {"recipients": ["whooshy123@gmail.com", "markrmoucharrafie@gmail.com"]}}
+{"timestamp": "2026-05-28T23:02:49.543360", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}
+{"timestamp": "2026-05-29T01:53:02.212608", "type": "MONITOR_START", "message": "Starting continuous monitor (interval: 60m)", "details": {}}
+{"timestamp": "2026-05-29T01:53:02.213108", "type": "INTRADAY_FETCH_START", "message": "Fetching intraday bars...", "details": {}}
+{"timestamp": "2026-05-29T01:53:04.786192", "type": "INTRADAY_FETCH_SUCCESS", "message": "Intraday data updated", "details": {}}
+{"timestamp": "2026-05-29T01:53:04.786454", "type": "PREDICTION_START", "message": "Running day_trading_insights.py...", "details": {}}
+{"timestamp": "2026-05-29T01:55:40.048129", "type": "PREDICTION_SUCCESS", "message": "Trading predictions completed", "details": {}}
+{"timestamp": "2026-05-29T01:55:40.058560", "type": "DASHBOARD_UPDATE", "message": "Trend dashboard updated", "details": {"total_signals": 14, "correct_signals": 5, "overall_accuracy": 35.71}}
+{"timestamp": "2026-05-29T01:55:40.061074", "type": "TOKEN_STATS", "message": "Token usage updated", "details": {"timestamp": "2026-05-29T01:55:40.060523", "total_runs": 190, "total_input_tokens": 3040022, "total_output_tokens": 310700, "total_tokens": 3350722, "avg_input_tokens_per_run": 16000.0, "avg_output_tokens_per_run": 1635.0, "avg_tokens_per_run": 17635.0, "avg_cost_per_run": 0.072529, "total_cost_usd": 13.781, "projected_daily_cost": 1.741, "projected_monthly_cost": 9922.01}}
+{"timestamp": "2026-05-29T01:55:44.026322", "type": "EMAIL_SENT", "message": "Email sent to whooshy123@gmail.com, markrmoucharrafie@gmail.com", "details": {"recipients": ["whooshy123@gmail.com", "markrmoucharrafie@gmail.com"]}}
+{"timestamp": "2026-05-29T01:55:44.026962", "type": "MONITOR_SINGLE_RUN", "message": "Single run completed, exiting", "details": {}}

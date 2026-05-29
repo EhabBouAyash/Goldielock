@@ -217,44 +217,83 @@ Questions? Check /goldproject/REALTIME_SETUP.md or EMAIL_SETUP.md
     
     return body
 
-def send_email(recipient_email, subject="Gold Trading Update", body=None):
-    """Send email notification"""
+def get_email_recipients() -> list[str]:
+    """Load comma-separated recipients from EMAIL_RECIPIENTS in .env."""
     import os
-    
+
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        return []
+
+    raw = os.getenv("EMAIL_RECIPIENTS", "").strip()
+    if raw:
+        return [email.strip() for email in raw.split(",") if email.strip()]
+
+    fallback = os.getenv("GMAIL_EMAIL", "").strip()
+    return [fallback] if fallback else []
+
+
+def send_email(recipient_email=None, subject="Gold Trading Update", body=None):
+    """Send email notification to one address or all EMAIL_RECIPIENTS from .env."""
+    import os
+
     try:
         from dotenv import load_dotenv
         load_dotenv()
     except ImportError:
         return {"status": "error", "message": "python-dotenv not installed. Run: pip3 install --break-system-packages python-dotenv"}
-    
+
+    recipients = [recipient_email] if recipient_email else get_email_recipients()
+    if not recipients:
+        return {"status": "error", "message": "No recipients configured. Set EMAIL_RECIPIENTS in .env"}
+
     if body is None:
         body = format_email_body()
-    
-    # Get credentials from .env
+
     sender_email = os.getenv("GMAIL_EMAIL", "").strip()
     sender_password = os.getenv("GMAIL_APP_PASSWORD", "").strip()
-    
+
     if not sender_email or not sender_password:
         return {"status": "error", "message": "Gmail credentials not configured. Create .env with GMAIL_EMAIL and GMAIL_APP_PASSWORD. See EMAIL_SETUP.md"}
-    
+
+    sent_to: list[str] = []
+    errors: list[str] = []
+
     try:
-        # Gmail SMTP server
-        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        
-        # Create message
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = recipient_email
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'plain'))
-        
-        # Send
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.login(sender_email, sender_password)
-        server.send_message(msg)
+
+        for to_address in recipients:
+            try:
+                msg = MIMEMultipart()
+                msg["From"] = sender_email
+                msg["To"] = to_address
+                msg["Subject"] = subject
+                msg.attach(MIMEText(body, "plain"))
+                server.send_message(msg)
+                sent_to.append(to_address)
+            except Exception as exc:
+                errors.append(f"{to_address}: {exc}")
+
         server.quit()
-        
-        return {"status": "success", "message": f"Email sent to {recipient_email}"}
-    
+
+        if sent_to and not errors:
+            return {
+                "status": "success",
+                "message": f"Email sent to {', '.join(sent_to)}",
+                "recipients": sent_to,
+            }
+        if sent_to:
+            return {
+                "status": "partial",
+                "message": f"Sent to {', '.join(sent_to)}; failed: {'; '.join(errors)}",
+                "recipients": sent_to,
+                "errors": errors,
+            }
+        return {"status": "error", "message": "; ".join(errors)}
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
@@ -263,4 +302,5 @@ if __name__ == "__main__":
     print(body)
     print("\n" + "="*60)
     print("To send this email, call:")
-    print("send_email('whooshy123@gmail.com')")
+    print("send_email()  # uses EMAIL_RECIPIENTS from .env")
+    print(f"Configured recipients: {get_email_recipients()}")

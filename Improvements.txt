@@ -1,3 +1,1 @@
-1. Change 5m to 15m minimum 
-2. see how many candles are being collected
-
+1. Tell it were taking it one trade at a time per day, meaning we base the room left of the daily loss limit on each trade we make. Ex: if the 1st trade wins --> Room 100% to trade more. 1st trade should be close to maximum room capacity so it has room to lose and still stay under daily loss limit.
