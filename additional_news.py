@@ -9,7 +9,9 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
+from pathlib import Path
 import re
+import time
 import xml.etree.ElementTree as ET
 
 import requests
@@ -21,6 +23,73 @@ REQUEST_HEADERS = {
         "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
     )
 }
+
+FF_CALENDAR_CACHE_PATH = Path(__file__).resolve().parent / ".ff_calendar_thisweek_cache.xml"
+FF_CALENDAR_CACHE_MAX_AGE_SEC = 6 * 60 * 60
+
+
+def _first_friday(year: int, month: int) -> datetime:
+    day = datetime(year, month, 1, tzinfo=timezone.utc)
+    # Monday=0 ... Friday=4
+    while day.weekday() != 4:
+        day = day.replace(day=day.day + 1)
+    return day
+
+
+def _fallback_usd_high_impact_schedule() -> dict:
+    """
+    Deterministic BLS-style fallback when FF XML is rate-limited/unavailable.
+    NFP is first Friday of the month (holiday shifts exist but are rare).
+    """
+    now = datetime.now(timezone.utc)
+    fridays = [_first_friday(now.year, now.month)]
+    if now.month == 12:
+        fridays.append(_first_friday(now.year + 1, 1))
+    else:
+        fridays.append(_first_friday(now.year, now.month + 1))
+
+    upcoming = [d for d in fridays if d.date() >= now.date()]
+    events = []
+    for friday in upcoming[:2]:
+        date_str = friday.strftime("%m-%d-%Y")
+        for title in (
+            "Non-Farm Employment Change",
+            "Unemployment Rate",
+            "Average Hourly Earnings m/m",
+        ):
+            events.append({
+                "date": date_str,
+                "time": "12:30pm",
+                "impact": "high",
+                "title": title,
+                "forecast": "n/a",
+                "previous": "n/a",
+                "published_at": f"{date_str} 12:30pm",
+                "source": "BLS schedule fallback (first Friday; FF feed unavailable)",
+            })
+
+    nfp_related = [
+        e for e in events
+        if "non-farm" in e["title"].lower() or "unemployment" in e["title"].lower()
+        or "hourly" in e["title"].lower()
+    ]
+    label_bits = [
+        f"{e['date']} {e['time']} {e['title']}"
+        for e in events
+        if e["title"] == "Non-Farm Employment Change"
+    ]
+    return {
+        "status": "fallback_bls_schedule",
+        "source": "code: first-Friday NFP fallback",
+        "events": events,
+        "high_impact_count": len(events),
+        "nfp_related": nfp_related,
+        "label_for_prompt": (
+            "USD high-impact calendar FALLBACK (FF unavailable): "
+            + "; ".join(label_bits)
+            + " — treat as known window, not UNKNOWN"
+        ),
+    }
 
 
 RSS_FEEDS = [
@@ -223,11 +292,31 @@ def _fetch_rss_feed(feed: dict, per_feed_limit: int) -> list[dict]:
     return articles
 
 
-def _fetch_forex_factory_calendar(feed: dict, per_feed_limit: int) -> list[dict]:
-    response = requests.get(feed["url"], headers=REQUEST_HEADERS, timeout=20)
-    response.raise_for_status()
+def _load_ff_calendar_xml(url: str) -> bytes:
+    """Fetch FF this-week XML with a local cache to avoid 429 rate limits."""
+    if FF_CALENDAR_CACHE_PATH.exists():
+        age = time.time() - FF_CALENDAR_CACHE_PATH.stat().st_mtime
+        if age <= FF_CALENDAR_CACHE_MAX_AGE_SEC:
+            return FF_CALENDAR_CACHE_PATH.read_bytes()
 
-    root = ET.fromstring(response.content)
+    response = requests.get(url, headers=REQUEST_HEADERS, timeout=20)
+    if response.status_code == 429 and FF_CALENDAR_CACHE_PATH.exists():
+        return FF_CALENDAR_CACHE_PATH.read_bytes()
+    response.raise_for_status()
+    FF_CALENDAR_CACHE_PATH.write_bytes(response.content)
+    return response.content
+
+
+def _fetch_forex_factory_calendar(feed: dict, per_feed_limit: int) -> list[dict]:
+    """
+    Parse the full this-week FF calendar XML.
+
+    Important: do NOT truncate to early-week events only. NFP/CPI often land later
+    in the chronologically ordered feed; scanning only the first N events drops them
+    and the model then invents "timing UNKNOWN".
+    """
+    content = _load_ff_calendar_xml(feed["url"])
+    root = ET.fromstring(content)
     events = [
         elem
         for elem in root.iter()
@@ -235,7 +324,7 @@ def _fetch_forex_factory_calendar(feed: dict, per_feed_limit: int) -> list[dict]
     ]
 
     articles = []
-    for event in events[: per_feed_limit * 4]:
+    for event in events:
         title = _text_from_child(event, "title")
         country = _text_from_child(event, "country")
         impact = _text_from_child(event, "impact")
@@ -262,6 +351,14 @@ def _fetch_forex_factory_calendar(feed: dict, per_feed_limit: int) -> list[dict]
             score += 6
         elif impact_lower == "medium":
             score += 3
+        # Prefer USD high-impact and payroll/CPI-class events in ranking.
+        if is_usd and impact_lower == "high":
+            score += 8
+        if any(k in title.lower() for k in (
+            "non-farm", "nonfarm", "payroll", "unemployment", "cpi", "pce",
+            "fomc", "ism", "gdp", "retail sales",
+        )):
+            score += 5
 
         articles.append({
             "title": f"Forex Factory {impact or 'scheduled'} impact: {country} {title}",
@@ -274,9 +371,103 @@ def _fetch_forex_factory_calendar(feed: dict, per_feed_limit: int) -> list[dict]
             "published_at": f"{date} {event_time}".strip(),
             "url": "https://www.forexfactory.com/calendar",
             "relevance_score": score,
+            "calendar_country": country.upper(),
+            "calendar_impact": impact_lower,
+            "calendar_date": date,
+            "calendar_time": event_time,
+            "calendar_title": title,
+            "calendar_forecast": forecast,
+            "calendar_previous": previous,
         })
 
-    return articles[:per_feed_limit]
+    # Sort: USD High first, then score, then chronological.
+    impact_rank = {"high": 0, "medium": 1, "low": 2}
+    articles.sort(
+        key=lambda item: (
+            0 if item.get("calendar_country") == "USD" else 1,
+            impact_rank.get(item.get("calendar_impact", ""), 9),
+            -(item.get("relevance_score") or 0),
+            str(item.get("calendar_date") or ""),
+            str(item.get("calendar_time") or ""),
+        )
+    )
+    # Keep a larger calendar slice so later-week NFP/CPI survive the digest.
+    return articles[: max(per_feed_limit * 3, 24)]
+
+
+def fetch_usd_high_impact_schedule(max_events: int = 20) -> dict:
+    """
+    Structured USD high/medium calendar for prompt gating.
+
+    Returns dated events with FF times so the model must not invent UNKNOWN
+    when the schedule is already published.
+    """
+    feed = next(
+        (item for item in RSS_FEEDS if item.get("kind") == "forex_factory_calendar"),
+        None,
+    )
+    if not feed:
+        return {
+            "status": "missing_feed",
+            "events": [],
+            "label_for_prompt": "USD high-impact calendar: unavailable",
+        }
+
+    try:
+        articles = _fetch_forex_factory_calendar(feed, per_feed_limit=12)
+    except Exception as exc:
+        fallback = _fallback_usd_high_impact_schedule()
+        fallback["error"] = str(exc)
+        return fallback
+
+    events = []
+    for article in articles:
+        if article.get("calendar_country") != "USD":
+            continue
+        if article.get("calendar_impact") not in {"high", "medium"}:
+            continue
+        events.append({
+            "date": article.get("calendar_date"),
+            "time": article.get("calendar_time"),
+            "impact": article.get("calendar_impact"),
+            "title": article.get("calendar_title"),
+            "forecast": article.get("calendar_forecast"),
+            "previous": article.get("calendar_previous"),
+            "published_at": article.get("published_at"),
+            "source": "Forex Factory Calendar (nfs.faireconomy.media)",
+        })
+
+    # Chronological for gating windows.
+    events.sort(key=lambda item: (str(item.get("date") or ""), str(item.get("time") or "")))
+    events = events[:max_events]
+
+    high = [e for e in events if e.get("impact") == "high"]
+    nfp_like = [
+        e for e in events
+        if any(k in str(e.get("title", "")).lower() for k in (
+            "non-farm", "nonfarm", "payroll", "unemployment rate", "average hourly",
+        ))
+    ]
+    label_bits = []
+    for event in high[:8]:
+        label_bits.append(
+            f"{event.get('date')} {event.get('time')} {event.get('title')} "
+            f"(forecast={event.get('forecast') or 'n/a'})"
+        )
+    label = (
+        "USD high-impact calendar (FF this week): " + "; ".join(label_bits)
+        if label_bits
+        else "USD high-impact calendar: no High-impact USD events in feed"
+    )
+
+    return {
+        "status": "ok",
+        "source": feed["url"],
+        "events": events,
+        "high_impact_count": len(high),
+        "nfp_related": nfp_like,
+        "label_for_prompt": label,
+    }
 
 
 def fetch_all(max_total: int = 30, per_feed_limit: int = 8) -> list[dict]:

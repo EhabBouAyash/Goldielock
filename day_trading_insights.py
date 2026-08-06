@@ -22,6 +22,7 @@ import contextlib
 import io
 import json
 import os
+import random
 import re
 import sys
 import time
@@ -80,9 +81,11 @@ with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.St
 try:
     from additional_news import fetch_all as fetch_additional_metals_news
     from additional_news import format_for_claude as format_additional_news_for_prompt
+    from additional_news import fetch_usd_high_impact_schedule
     HAS_ADDITIONAL_NEWS = True
 except ImportError:
     HAS_ADDITIONAL_NEWS = False
+    fetch_usd_high_impact_schedule = None
 
 # Import intraday data fetcher (5m/15m/1h/4h bars)
 from fetch_intraday import fetch_intraday_bars
@@ -181,6 +184,29 @@ TOP-DOWN TIERS (analyze all five every cycle):
 
 EXECUTION CHART: State 15M, 5M, or NONE. Prefer 15M; use 5M only if clearly better; NONE if no rule-based trigger.
 
+TIMEFRAME SUGGESTIONS (from confluence tensor + upcoming macro calendar):
+Every cycle, recommend which timeframes are currently workable for signal generation
+and which to de-emphasize. Base this on CONFLUENCE TENSOR timeframe_scores /
+aggregate alignment AND any upcoming high-impact announcements that can shock macro.
+Rules of thumb:
+- FULL / same-direction scores across 4H→1H→15M: prefer 15M execution; 5M only for timing
+- 4H+1H aligned but 15M/5M mixed or opposing: wait for 15M to catch up; do not force 5M
+- Only lower TFs aligned (5M/15M) while 1H/4H oppose: treat as noise — NO-TRADE or scalp-only
+  unless macro clarity is high and price confirms; suggest waiting for higher-TF resolution
+- Aggregate MIXED / near-zero: prefer NO-TRADE; suggest next check on the TF that is closest
+  to confirming (usually next 15M or 1H close)
+- If 5M/15M are consolidating mid-range (counter-trend to 1H/4H, shrinking range/volume):
+  Workable TFs = 1H/4H bias only; execution TF = NONE until a 15M resolution close
+- If a high-impact USD/gold event is due inside the next ~1–4 hours (FOMC, CPI, PCE, NFP,
+  unemployment, retail sales, ISM, GDP, Powell/Fed speak, major Treasury auction):
+  prefer higher-TF bias only (4H/1H), avoid fresh 5M/15M entries into the print, and
+  state HOLD-THROUGH vs FLATTEN-BEFORE guidance
+- If the next high-impact event is >1 session away: normal TF selection from confluence stands
+- Never invent a scheduled event time when CODE USD HIGH-IMPACT CALENDAR lists a
+  dated FF time (e.g. NFP first Friday). Cite that date/time. Only say UNKNOWN if
+  the event is absent from that calendar block and absent from scout/RSS evidence.
+  If timing is unknown, say UNKNOWN and widen the caution window
+
 PRICE ACTION VETO + MACRO RECONCILIATION:
 - If macro thesis and price disagree, price wins until proven otherwise.
 - State each macro factor's gold implication before overall bias. Real yields >1.5% bearish; <0.5% bullish. Inflation surprise up → trace Fed channel; down → bullish. Do not absorb bearish inputs into NEUTRAL silently.
@@ -208,7 +234,24 @@ PARTIAL — 4H contradicts OR 1H opposes OR 15M unclear:
 
 MISALIGNMENT → NO-TRADE or SCALP-ONLY (0.25%-0.35%, 1R max; skip if T1 <$100)
 
-ANTI-PATTERNS: (1) Full alignment at <0.50% or 1R-only T1 (2) Expected profit $200+ with ounces that only pay $40 — recalculate (3) 1:1 preset is not a reason to shrink ounces; raise risk% and R (4) Multiple trades/day OK when cumulative risk respects daily/max limits
+CONSOLIDATION / PRE-BREAKOUT CHOP (CODE REGIME GATE — learned from TRADE_019):
+A code-computed VOLATILITY REGIME SUMMARY is injected every cycle (ADX, ATR
+percentile vs last 50, Bollinger width percentile, breakout_trigger). Trust that
+labeled feature — do NOT re-derive regime from raw candles when it is present.
+Rules:
+- IF regime_summary.gate_blocks_entries = TRUE → SIGNAL = NO-TRADE
+  (consolidating / pre-breakout chop; dump-or-spike risk after impulse)
+- IF regime = consolidating AND breakout_trigger = FALSE → NO-TRADE
+- IF regime = consolidating AND breakout_trigger = TRUE → entries allowed only in
+  breakout_direction, with CONSERVATIVE aggression unless higher TFs fully align
+- IF regime = transitional → prefer NO-TRADE or wait for next 15M close; do not
+  force counter-trend entries into a corrective mid-range drift
+- State in DECISION / TIMEFRAME GUIDANCE: cite the exact label_for_prompt string
+What changes the mind: code breakout_trigger flips TRUE on a 15M close outside the
+  20-bar range with volume/momentum confirmation — then reassess.
+5M alone is never enough to exit consolidation; prefer the next 15M close.
+
+ANTI-PATTERNS: (1) Full alignment at <0.50% or 1R-only T1 (2) Expected profit $200+ with ounces that only pay $40 — recalculate (3) 1:1 preset is not a reason to shrink ounces; raise risk% and R (4) Multiple trades/day OK when cumulative risk respects daily/max limits (5) Entering SHORT/LONG while CODE REGIME says consolidating without breakout_trigger — wait for resolution (6) LIMIT_PULLBACK deeper than CODE ENTRY FILL GUIDE max offset — "right direction, no fill" (7) Loosening the stop after clipping entry closer to invent R / $200 T1
 
 POSITION SIZE + LEVERAGE (required for LONG/SHORT):
   Read PROP ACCOUNT SNAPSHOT first — recommended_max_risk_usd and recommended_tv_leverage are binding caps.
@@ -237,6 +280,29 @@ RISK BUDGET (snapshot-aware):
 
 PATTERNS (15M/5M): Pullback to SMA9/21 + RSI hold; H&S / inverse H&S; double top/bottom; S/R breakout with volume; momentum retest; divergence (lowest confidence, tight stop).
 
+ENTRY PLACEMENT + FILL DISCIPLINE (CODE ENTRY FILL GUIDE — binding for LONG/SHORT):
+A code-computed ENTRY FILL GUIDE is injected every cycle with live ATR(15M) and
+max_entry_offset caps. Use those numbers — never invent ATR. If ATR is unavailable,
+the guide states a fixed dollar fallback; cite it explicitly.
+Classify every actionable entry as one of:
+  MARKET_NOW — enter at/near spot (offset ≈ 0); use when confirmation is the close itself
+  LIMIT_PULLBACK — limit away from spot toward a technical level
+  STOP_BREAKOUT — stop entry through a level (offset = |spot − trigger|)
+Rules:
+- entry_offset = |proposed_entry − current_XAUUSD_spot|
+- LIMIT_PULLBACK / STOP_BREAKOUT: entry_offset MUST be ≤ max_entry_offset_aligned_usd
+  (0.5×ATR(15M) when ATR present). SCALP-ONLY: ≤ max_entry_offset_scalp_usd (0.35×ATR)
+- If the "ideal" technical level is farther than the cap: either (a) place entry at the
+  closest fillable price within the cap (TRIGGER / clipped entry), recompute ounces
+  against the SAME technical stop, or (b) WAITING / NO-TRADE — do NOT publish a deep
+  limit that is unlikely to fill
+- Never loosen the stop to fake R after clipping entry closer to spot
+- Order validity: default expire after 2×15M closes without fill; cancel sooner if price
+  runs > the guide's max aligned offset away from the limit without filling
+- Prefer fillable participation over perfect R optics — missed fills are dead edge
+Calibration knob: 0.5×ATR is the default in code; if misses persist, tighten toward 0.35×;
+  if fills on spikes get worse, loosen toward 0.75× — always from logged ATR, not memory.
+
 OUTPUT FORMAT:
 
 ═══════════════════════════════════════════════════════════════════
@@ -255,8 +321,20 @@ Confluence: [FULL / PARTIAL / MISALIGN]
 Selected execution chart: [15M / 5M / NONE]
 Aggression: [MAX / STANDARD / CONSERVATIVE / SCALP-ONLY / NO-TRADE] + reasoning
 
+TIMEFRAME / EVENT GUIDANCE (required every cycle):
+  Workable TFs now: [e.g. 4H+1H bias OK; 15M preferred entry; 5M skip]
+  De-emphasize: [e.g. 5M chop / opposing lower TF]
+  Why (confluence): cite aggregate label + key timeframe_scores
+  Upcoming macro announcements: [event | approx timing ET | gold risk UP/DOWN/TWO-WAY | source]
+    — or NONE KNOWN THIS CYCLE
+  TF advice given event risk: [e.g. avoid new 15M/5M until post-print; keep 4H bias only]
+  Next TF check: [which candle close / clock time to reassess]
+
 If LONG or SHORT:
   Pattern | Entry | Stop (technical + reason) | Target 1 (R) | Target 2 (R)
+  Entry type: [MARKET_NOW / LIMIT_PULLBACK / STOP_BREAKOUT]
+  Entry offset: $X/oz vs spot | Cap: $X (cite ENTRY FILL GUIDE) | Within cap? [YES/NO]
+  Order validity: [e.g. expire after 2×15M closes] | Unfilled action: [CANCEL / WAIT NEXT CYCLE]
   Expected profit T1 / T2: $X / $X  (T1 must be ≥$200 on aligned trades)
   FundedNext / TradingView Risk Plan:
     Risk: X.XX% = $X | Daily room: $X / $625 soft, $750 hard | Max-loss room: $X / $1,250 soft, $1,500 hard
@@ -276,10 +354,13 @@ CRITICAL RULES:
 3. Before NEUTRAL, evaluate one concrete LONG/SHORT; reject only on a named rule
 4. Levels are cycle-specific — never reuse old absolute prices from prior cycles/loopback
 5. Loopback adjusts data weights and risk mode, not entry anchors
-6. Learn from model_trade_log.txt + trade_backlog.txt + PROP ACCOUNT SNAPSHOT each cycle
+6. Learn from model_trade_log.txt + trade_backlog.txt (incl. MISSED_UNFILLED) + PROP ACCOUNT SNAPSHOT each cycle
 7. Macro contradicting price outranks chart patterns
 8. Prefer London/NY overlap and 9:30 AM–4 PM ET
-9. Verify XAUUSD source labels; do not invent missing metrics
+9. Verify XAUUSD source labels; do not invent missing metrics (incl. ATR)
+10. Mid-range consolidation / pre-breakout chop after an impulse → NO-TRADE until 15M resolves
+11. CODE VOLATILITY REGIME with gate_blocks_entries=TRUE overrides signal quality → NO-TRADE
+12. LONG/SHORT entry_offset must respect CODE ENTRY FILL GUIDE (0.5×ATR15M or stated fallback)
 """
 
 
@@ -1065,6 +1146,57 @@ def _format_intraday_block(intraday: dict[str, Any]) -> str:
         )
         block += f"  Scale: {tensor.get('scale_note', 'n/a')}\n\n"
 
+    regime_summary = intraday.get("volatility_regime_summary") or {}
+    if regime_summary:
+        block += "VOLATILITY REGIME SUMMARY (CODE-COMPUTED — BINDING):\n"
+        block += f"  {regime_summary.get('label_for_prompt', 'n/a')}\n"
+        block += f"  Primary TF: {regime_summary.get('primary_timeframe', 'n/a')}\n"
+        block += f"  Regime: {regime_summary.get('regime', 'n/a')}\n"
+        block += f"  gate_blocks_entries: {regime_summary.get('gate_blocks_entries')}\n"
+        block += f"  breakout_trigger: {regime_summary.get('breakout_trigger')}"
+        if regime_summary.get("breakout_direction"):
+            block += f" ({regime_summary.get('breakout_direction')})"
+        block += "\n"
+        block += (
+            f"  ADX14={regime_summary.get('adx_14')} | "
+            f"ATR_pct50={regime_summary.get('atr_percentile_50')} | "
+            f"BB_width_pct50={regime_summary.get('bb_width_percentile_50')}\n"
+        )
+        if regime_summary.get("reasons"):
+            block += f"  Reasons: {'; '.join(regime_summary.get('reasons') or [])}\n"
+        by_tf = regime_summary.get("by_timeframe") or {}
+        if by_tf:
+            block += f"  Per-TF: {json.dumps(by_tf, default=str)}\n"
+        block += (
+            "  Rule: if gate_blocks_entries=true → SIGNAL must be NO-TRADE "
+            "(code hard-gate also enforces this).\n\n"
+        )
+
+    volume_quality = intraday.get("volume_quality_summary") or {}
+    if volume_quality:
+        block += "VOLUME PRESSURE QUALITY (CODE-COMPUTED):\n"
+        block += f"  {volume_quality.get('label_for_prompt', 'n/a')}\n"
+        block += (
+            "  Note: volume comes from GC=F Yahoo chart bars — independent of "
+            "gold-api bid/ask WARN. Trailing zero-volume forming bars are excluded.\n\n"
+        )
+
+    fill_guide = intraday.get("entry_fill_guide") or {}
+    if fill_guide:
+        block += "ENTRY FILL GUIDE (CODE-COMPUTED — BINDING FOR LONG/SHORT):\n"
+        block += f"  {fill_guide.get('label_for_prompt', 'n/a')}\n"
+        block += (
+            f"  atr_15m={fill_guide.get('atr_15m')} | "
+            f"max_entry_offset_aligned_usd={fill_guide.get('max_entry_offset_aligned_usd')} | "
+            f"max_entry_offset_scalp_usd={fill_guide.get('max_entry_offset_scalp_usd')} | "
+            f"fallback_used={fill_guide.get('fallback_used')}\n"
+        )
+        block += (
+            "  Rule: |entry − spot| must be ≤ max_entry_offset_aligned_usd "
+            "(scalp → scalp cap). Else clip to cap + recompute size, or NO-TRADE. "
+            "Never invent ATR.\n\n"
+        )
+
     block += "CANDLE COUNTS FED TO THIS PROMPT:\n"
     for tf in timeframe_order:
         bar_data = intraday.get("intervals", {}).get(tf, {})
@@ -1097,6 +1229,17 @@ def _format_intraday_block(intraday: dict[str, Any]) -> str:
         block += f"  RSI(14): {bar_data.get('rsi', 'n/a')}\n"
         block += f"  Confluence score: {bar_data.get('confluence_score', 'n/a')} (-10 bearish to +10 bullish)\n"
         block += f"  Confluence vector: {json.dumps(bar_data.get('confluence_vector', {}))}\n"
+        regime = bar_data.get("volatility_regime") or {}
+        if regime:
+            block += f"  Volatility regime: {regime.get('label_for_prompt', 'n/a')}\n"
+        vol_q = bar_data.get("volume_quality") or {}
+        if vol_q:
+            block += (
+                f"  Volume quality: usable={vol_q.get('usable')} "
+                f"last={vol_q.get('last_volume')} baseline20={vol_q.get('baseline_20')} "
+                f"dropped_trailing_zeros={vol_q.get('dropped_trailing_zero_bars')} "
+                f"({vol_q.get('reason', 'n/a')})\n"
+            )
         block += (
             f"  Candles fed to prompt: "
             f"{bar_data.get('candles_fed_to_prompt', len(bar_data.get('candles') or []))} "
@@ -1470,6 +1613,56 @@ def build_data_validation_report(state: GoldAgentState) -> dict[str, Any]:
         "Confluence tensor available." if tensor_score is not None else "Confluence tensor missing or invalid.",
     ))
 
+    volume_quality = intraday.get("volume_quality_summary") or {}
+    vol_pressures = volume_quality.get("pressures") or {}
+    vol_status = "OK"
+    if not volume_quality or volume_quality.get("usable_timeframes", 0) == 0:
+        vol_status = "WARN"
+    elif volume_quality.get("degraded"):
+        vol_status = "WARN"
+    rows.append(_validation_row(
+        "Chart volume / volume_pressure",
+        vol_status,
+        "GC=F Yahoo OHLCV (independent of gold-api bid/ask)",
+        {
+            "label": volume_quality.get("label_for_prompt"),
+            "pressures": vol_pressures,
+            "forming_zero_bars_dropped": volume_quality.get("forming_zero_bars_dropped"),
+            "usable_timeframes": volume_quality.get("usable_timeframes"),
+            "independent_of_bid_ask": True,
+        },
+        (
+            "Volume usable after excluding forming zero-volume bars."
+            if vol_status == "OK"
+            else "Volume quality degraded or missing; do not overweight volume_pressure."
+        ),
+    ))
+
+    calendar = market_data.get("usd_high_impact_calendar") or {}
+    calendar_events = calendar.get("events") or []
+    nfp_related = calendar.get("nfp_related") or []
+    calendar_status = "OK" if calendar.get("status") == "ok" and calendar_events else "WARN"
+    rows.append(_validation_row(
+        "USD high-impact economic calendar",
+        calendar_status,
+        "Forex Factory this-week XML (full scan)",
+        {
+            "status": calendar.get("status"),
+            "event_count": len(calendar_events),
+            "high_impact_count": calendar.get("high_impact_count"),
+            "nfp_related": [
+                f"{e.get('date')} {e.get('time')} {e.get('title')}"
+                for e in nfp_related[:5]
+            ],
+            "label": calendar.get("label_for_prompt"),
+        },
+        (
+            "Dated FF schedule available — cite these times; do not mark known releases UNKNOWN."
+            if calendar_status == "OK"
+            else "Calendar missing/incomplete — event timing may be UNKNOWN this cycle."
+        ),
+    ))
+
     event_count = len(events)
     failed_events = sum(1 for event in events if "failed" in str(event.get("title", "")).lower())
     rows.append(_validation_row(
@@ -1509,6 +1702,35 @@ def build_data_validation_report(state: GoldAgentState) -> dict[str, Any]:
         "Prior signal can be compared against verified XAUUSD spot." if loopback.get("previous_price_verified_spot") else "Prior price basis missing or not verified as XAUUSD spot.",
     ))
 
+    regime_summary = intraday.get("volatility_regime_summary") or {}
+    regime_status = "OK"
+    if not regime_summary or regime_summary.get("regime") == "unknown":
+        regime_status = "WARN"
+    elif regime_summary.get("gate_blocks_entries"):
+        regime_status = "WARN"
+    rows.append(_validation_row(
+        "Volatility regime (code)",
+        regime_status,
+        "fetch_intraday ADX/ATR%/BB-width",
+        {
+            "label": regime_summary.get("label_for_prompt"),
+            "regime": regime_summary.get("regime"),
+            "primary_timeframe": regime_summary.get("primary_timeframe"),
+            "gate_blocks_entries": regime_summary.get("gate_blocks_entries"),
+            "breakout_trigger": regime_summary.get("breakout_trigger"),
+            "breakout_direction": regime_summary.get("breakout_direction"),
+        },
+        (
+            "CODE GATE blocks new entries — consolidating without breakout_trigger."
+            if regime_summary.get("gate_blocks_entries")
+            else (
+                "Regime feature available for prompt + hard gate."
+                if regime_summary.get("regime") not in (None, "unknown")
+                else "Regime unavailable (insufficient bars)."
+            )
+        ),
+    ))
+
     fail_count = sum(1 for row in rows if row["status"] == "FAIL")
     warn_count = sum(1 for row in rows if row["status"] == "WARN")
     ok_count = sum(1 for row in rows if row["status"] == "OK")
@@ -1522,6 +1744,8 @@ def build_data_validation_report(state: GoldAgentState) -> dict[str, Any]:
             blocking_failures.append(check)
     if {"15m XAUUSD chart data", "5m XAUUSD chart data"}.issubset(failed_checks):
         blocking_failures.append("15m/5m execution chart data")
+    if regime_summary.get("gate_blocks_entries"):
+        blocking_failures.append("volatility regime consolidating (no breakout)")
 
     return {
         "summary": {
@@ -1530,6 +1754,9 @@ def build_data_validation_report(state: GoldAgentState) -> dict[str, Any]:
             "fail": fail_count,
             "blocking_failures": blocking_failures,
             "trade_permission": "NO-TRADE" if blocking_failures else "TRADE_ALLOWED_IF_SETUP_CONFIRMS",
+            "volatility_regime_gate_blocks_entries": bool(
+                regime_summary.get("gate_blocks_entries")
+            ),
         },
         "checks": rows,
     }
@@ -1559,6 +1786,73 @@ def _intraday_has_usable_bars(intraday: dict[str, Any]) -> bool:
         for data in intraday.get("intervals", {}).values()
         if isinstance(data, dict)
     )
+
+
+def _ensure_intraday_regime(intraday: dict[str, Any]) -> dict[str, Any]:
+    """Attach/refresh volatility regime on live or cached intraday payloads."""
+    if not isinstance(intraday, dict):
+        return intraday
+    intervals = intraday.get("intervals") or {}
+    try:
+        from fetch_intraday import _build_volatility_regime, _build_regime_summary
+    except Exception:
+        return intraday
+
+    for _tf, bar_data in intervals.items():
+        if not isinstance(bar_data, dict) or bar_data.get("error"):
+            continue
+        if bar_data.get("volatility_regime"):
+            continue
+        candles = bar_data.get("candles") or []
+        if len(candles) < 40:
+            continue
+        closes = [c["close"] for c in candles if c.get("close") is not None]
+        highs = [c["high"] for c in candles if c.get("high") is not None]
+        lows = [c["low"] for c in candles if c.get("low") is not None]
+        volumes = [c.get("volume") for c in candles]
+        if len(closes) >= 40 and len(closes) == len(highs) == len(lows):
+            bar_data["volatility_regime"] = _build_volatility_regime(
+                closes, highs, lows, volumes
+            )
+            if bar_data.get("atr_14") is None:
+                bar_data["atr_14"] = (bar_data.get("volatility_regime") or {}).get(
+                    "atr_14"
+                )
+
+    intraday["volatility_regime_summary"] = _build_regime_summary(intervals)
+    try:
+        from fetch_intraday import _build_volume_quality_summary
+
+        # Rebuild volume quality from candles when cache lacks it.
+        for _tf, bar_data in intervals.items():
+            if not isinstance(bar_data, dict) or bar_data.get("error"):
+                continue
+            if bar_data.get("volume_quality"):
+                continue
+            candles = bar_data.get("candles") or []
+            volumes = [c.get("volume") for c in candles]
+            if len(volumes) >= 5:
+                from fetch_intraday import _volume_pressure_quality
+
+                _pressure, quality = _volume_pressure_quality(volumes)
+                bar_data["volume_quality"] = quality
+        intraday["volume_quality_summary"] = _build_volume_quality_summary(intervals)
+    except Exception:
+        pass
+    try:
+        from fetch_intraday import _build_entry_fill_guide
+
+        for _tf, bar_data in intervals.items():
+            if not isinstance(bar_data, dict) or bar_data.get("error"):
+                continue
+            if bar_data.get("atr_14") is None:
+                atr = (bar_data.get("volatility_regime") or {}).get("atr_14")
+                if atr is not None:
+                    bar_data["atr_14"] = atr
+        intraday["entry_fill_guide"] = _build_entry_fill_guide(intervals)
+    except Exception:
+        pass
+    return intraday
 
 
 def _intraday_error_summary(intraday: dict[str, Any]) -> str:
@@ -1602,7 +1896,7 @@ def fetch_xauusd_intraday_with_cache_fallback() -> dict[str, Any]:
     intraday["chart_proxy"] = "GC=F"
 
     if _intraday_has_usable_bars(intraday):
-        return intraday
+        return _ensure_intraday_regime(intraday)
 
     # Fallback to cached snapshot if live fetch failed
     cached_intraday = _load_cached_intraday_snapshot()
@@ -1611,9 +1905,9 @@ def fetch_xauusd_intraday_with_cache_fallback() -> dict[str, Any]:
         cached_intraday["price_basis"] = "cached chart context; use live spot quote for execution"
         cached_intraday["cache_fallback"] = True
         cached_intraday["fallback_reason"] = f"Live fetch failed: {_intraday_error_summary(intraday)}"
-        return cached_intraday
+        return _ensure_intraday_regime(cached_intraday)
 
-    return intraday
+    return _ensure_intraday_regime(intraday)
 
 
 def collect_market_context(state: GoldAgentState) -> GoldAgentState:
@@ -1703,6 +1997,31 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
         "prop_account_snapshot_text": prop_account_state.get("snapshot_text", ""),
         "prop_account_rows": prop_account_state.get("rows", []),
     }
+    if HAS_ADDITIONAL_NEWS and fetch_usd_high_impact_schedule is not None:
+        try:
+            calendar = fetch_usd_high_impact_schedule()
+            market_data["usd_high_impact_calendar"] = calendar
+            nfp = calendar.get("nfp_related") or []
+            if nfp:
+                first = nfp[0]
+                print(
+                    "[agent] USD calendar: "
+                    f"{calendar.get('high_impact_count', 0)} high/medium events; "
+                    f"NFP-related e.g. {first.get('date')} {first.get('time')} {first.get('title')}"
+                )
+            else:
+                print(
+                    f"[agent] USD calendar status={calendar.get('status')} "
+                    f"events={len(calendar.get('events') or [])}"
+                )
+        except Exception as exc:
+            errors.append(f"usd high-impact calendar: {exc}")
+            market_data["usd_high_impact_calendar"] = {
+                "status": "fetch_failed",
+                "error": str(exc),
+                "events": [],
+                "label_for_prompt": f"USD high-impact calendar: fetch failed ({exc})",
+            }
     missing_quant_metrics = identify_missing_quant_metrics(market_data, intraday)
     metric_recovery_plan = build_metric_recovery_plan(missing_quant_metrics, market_data)
     market_data["missing_quant_metrics"] = missing_quant_metrics
@@ -1788,6 +2107,40 @@ def scout_internet(state: GoldAgentState) -> GoldAgentState:
         "disruptive_events": events,
         "errors": errors,
     }
+
+
+def _format_usd_high_impact_calendar(calendar: dict[str, Any] | None) -> str:
+    if not calendar:
+        return "(USD high-impact calendar not loaded this cycle.)"
+    lines = [
+        f"STATUS: {calendar.get('status', 'n/a')}",
+        f"SOURCE: {calendar.get('source', 'n/a')}",
+        f"BINDING LABEL: {calendar.get('label_for_prompt', 'n/a')}",
+        "",
+        "RULE: Cite date/time from this block for NFP/CPI/ISM/etc. "
+        "Do NOT write timing UNKNOWN when an event appears here.",
+        "",
+        "USD HIGH/MEDIUM EVENTS THIS WEEK:",
+    ]
+    events = calendar.get("events") or []
+    if not events:
+        lines.append("- (none returned)")
+    for event in events:
+        lines.append(
+            f"- [{str(event.get('impact', '')).upper()}] "
+            f"{event.get('date')} {event.get('time')} | {event.get('title')} | "
+            f"forecast={event.get('forecast') or 'n/a'} prev={event.get('previous') or 'n/a'}"
+        )
+    nfp = calendar.get("nfp_related") or []
+    if nfp:
+        lines.append("")
+        lines.append("NFP / PAYROLLS CLUSTER (explicit):")
+        for event in nfp:
+            lines.append(
+                f"- {event.get('date')} {event.get('time')} | {event.get('title')} | "
+                f"forecast={event.get('forecast') or 'n/a'}"
+            )
+    return "\n".join(lines)
 
 
 def build_agent_user_message(state: GoldAgentState) -> str:
@@ -1880,6 +2233,16 @@ values from memory.
 {json.dumps(metric_recovery_plan, indent=2, default=str)}
 
 ===================================================================
+CODE USD HIGH-IMPACT CALENDAR (BINDING SCHEDULE)
+===================================================================
+
+Dated Forex Factory schedule for this week. Use these times for event gating.
+NFP is typically first Friday 8:30 ET / 12:30pm on the FF feed — if listed below,
+that is the timing; it is not UNKNOWN.
+
+{_format_usd_high_impact_calendar(market_data.get('usd_high_impact_calendar'))}
+
+===================================================================
 LIVE INTERNET DISRUPTION SCOUT
 ===================================================================
 
@@ -1957,66 +2320,219 @@ Required:
    inflation expectations, Fed path, safe-haven demand, or liquidity.
 4. Reconcile live catalysts against 4H, 1H, 15m, and 5m price action.
 5. Explicitly choose the execution chart: 15M, 5M, or NONE.
-6. Update the trade signal only if the catalyst and price action justify it.
-7. Score CONFLUENCE ALIGNMENT (FULL / PARTIAL / MISALIGN) and pick aggression accordingly.
-8. Read PROP ACCOUNT SNAPSHOT and size within recommended_max_risk_usd and
+6. Check CODE VOLATILITY REGIME SUMMARY first. If gate_blocks_entries=true →
+   NO-TRADE and state "CONSOLIDATION — wait for resolution" (TRADE_019 / code gate).
+   Only allow an entry override when breakout_trigger=true, and only in breakout_direction.
+7. Using the CONFLUENCE TENSOR, CODE USD HIGH-IMPACT CALENDAR, and scout/RSS data,
+   fill TIMEFRAME / EVENT GUIDANCE. For NFP/CPI/ISM/etc., cite the calendar
+   date/time when present — never mark those as UNKNOWN if listed. Only use
+   UNKNOWN when the event is absent from the calendar block and scout evidence.
+8. Update the trade signal only if the catalyst and price action justify it.
+9. Score CONFLUENCE ALIGNMENT (FULL / PARTIAL / MISALIGN) and pick aggression accordingly.
+10. Read PROP ACCOUNT SNAPSHOT and size within recommended_max_risk_usd and
    recommended_tv_leverage. On FULL ALIGNMENT with STANDARD_50X mode use 50:1,
    0.60%-0.80% risk, 2R Target 1 (≥${PROP_MIN_TARGET1_PROFIT_USD:,}), 2.5-3R Target 2,
    show xau_ounces, verified T1 profit, and margin at chosen leverage.
-9. Explicitly state which ranked data types from the loopback should gain or
-   lose weight in this cycle's scoring.
-10. Confirm the trade stays below snapshot daily-loss and max-drawdown rooms; cite
+11. Explicitly state which ranked data types from the loopback should gain or
+    lose weight in this cycle's scoring.
+12. Confirm the trade stays below snapshot daily-loss and max-drawdown rooms; cite
     snapshot numbers in the FundedNext / TradingView Risk Plan block.
-11. Finish with the exact mandatory last line: GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]
+13. Finish with the exact mandatory last line: GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]
 """
+
+
+ANTHROPIC_MODEL = "claude-opus-5"
+ANTHROPIC_MAX_RETRIES = 4  # total attempts for transient overload / 529 / 429
+
+# Opus 5: thinking is on by default and shares max_tokens with visible text.
+# Per-mode budgets keep JSON helpers cheaper and leave room for the signal.
+OPUS_CALL_CONFIG: dict[str, dict[str, Any]] = {
+    "metric_recovery_planning": {
+        "effort": "medium",
+        "max_tokens": 8192,
+        "timeout": 120,
+    },
+    "claude_search_planning": {
+        "effort": "medium",
+        "max_tokens": 8192,
+        "timeout": 120,
+    },
+    "claude_event_impact_ranking": {
+        "effort": "medium",
+        "max_tokens": 8192,
+        "timeout": 180,
+    },
+    "langgraph_disruption_agent": {
+        "effort": "medium",
+        "max_tokens": 16000,
+        "timeout": 300,
+    },
+}
+_DEFAULT_OPUS_CALL_CONFIG = {
+    "effort": "medium",
+    "max_tokens": 16000,
+    "timeout": 300,
+}
+
+
+def _opus_call_config(mode: str) -> dict[str, Any]:
+    return OPUS_CALL_CONFIG.get(mode, _DEFAULT_OPUS_CALL_CONFIG)
+
+
+def _extract_anthropic_text(response_json: dict[str, Any]) -> str:
+    """Join all text blocks; Opus 5 often puts a thinking block first."""
+    blocks = response_json.get("content") or []
+    texts = [
+        block.get("text", "")
+        for block in blocks
+        if isinstance(block, dict) and block.get("type") == "text"
+    ]
+    joined = "\n".join(text for text in texts if text).strip()
+    if joined:
+        return joined
+
+    stop_reason = response_json.get("stop_reason")
+    block_types = [
+        block.get("type") for block in blocks if isinstance(block, dict)
+    ]
+    return (
+        f"ERROR: Empty response text "
+        f"(stop_reason={stop_reason}, blocks={block_types})"
+    )
+
+
+def _is_transient_anthropic_error(
+    status_code: int | None,
+    response_json: dict[str, Any] | None,
+) -> bool:
+    """True for capacity overload / rate limit — safe to retry with backoff."""
+    if status_code in (429, 529, 503):
+        return True
+    if not isinstance(response_json, dict):
+        return False
+    err = response_json.get("error") or {}
+    err_type = str(err.get("type") or "").lower()
+    err_msg = str(err.get("message") or "").lower()
+    if err_type in {"overloaded_error", "rate_limit_error", "api_error"}:
+        return True
+    if "overloaded" in err_msg or "rate limit" in err_msg:
+        return True
+    return False
+
+
+def _retry_wait_seconds(attempt: int, response: requests.Response | None) -> float:
+    """Honor Retry-After when present; otherwise exponential backoff + jitter."""
+    if response is not None:
+        retry_after = response.headers.get("retry-after")
+        if retry_after:
+            try:
+                return max(float(retry_after), 1.0)
+            except ValueError:
+                pass
+    # attempt 0→1s, 1→2s, 2→4s, 3→8s ... capped, plus jitter
+    base = min(2 ** attempt, 30)
+    return base + random.uniform(0.0, 1.0)
 
 
 def call_anthropic(system_prompt: str, user_message: str, mode: str) -> str:
     if not ANTHROPIC_API_KEY:
         return "ERROR: Missing ANTHROPIC_API_KEY in environment."
 
+    call_cfg = _opus_call_config(mode)
+    max_tokens = int(call_cfg["max_tokens"])
+    effort = str(call_cfg["effort"])
+    timeout = int(call_cfg["timeout"])
+
     system_tokens = estimate_prompt_tokens(system_prompt)
     user_tokens = estimate_prompt_tokens(user_message)
     total_input_estimated = system_tokens + user_tokens
 
     print("\n[ANTHROPIC API CALL]")
+    print(f"  Model: {ANTHROPIC_MODEL} | mode={mode}")
+    print(f"  effort={effort} | max_tokens={max_tokens} | timeout={timeout}s")
     print(f"  Estimated input tokens: ~{total_input_estimated}")
     print(f"    System prompt: ~{system_tokens}")
     print(f"    User message:  ~{user_tokens}")
 
-    try:
-        response = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={
-                "Content-Type": "application/json",
-                "x-api-key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "anthropic-beta": "prompt-caching-2024-07-31",
-            },
-            json={
-                "model": "claude-opus-4-8",
-                "max_tokens": 4096,
-                "system": [
-                    {
-                        "type": "text",
-                        "text": system_prompt,
-                        "cache_control": {"type": "ephemeral"},
-                    }
-                ],
-                "messages": [
-                    {"role": "user", "content": user_message}
-                ],
-            },
-            timeout=120,
-        )
-        response_json = response.json()
-    except Exception as exc:
-        return f"ERROR: Anthropic request failed: {exc}"
+    payload = {
+        "model": ANTHROPIC_MODEL,
+        "max_tokens": max_tokens,
+        "output_config": {"effort": effort},
+        "system": [
+            {
+                "type": "text",
+                "text": system_prompt,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ],
+        "messages": [
+            {"role": "user", "content": user_message}
+        ],
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "prompt-caching-2024-07-31",
+    }
+
+    response_json: dict[str, Any] = {}
+    last_error = "Unknown error"
+    for attempt in range(ANTHROPIC_MAX_RETRIES):
+        response = None
+        try:
+            response = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers=headers,
+                json=payload,
+                timeout=timeout,
+            )
+            response_json = response.json()
+        except Exception as exc:
+            last_error = str(exc)
+            if attempt >= ANTHROPIC_MAX_RETRIES - 1:
+                return f"ERROR: Anthropic request failed: {exc}"
+            wait_s = _retry_wait_seconds(attempt, None)
+            print(
+                f"\n  Transient request failure ({exc}); "
+                f"retry {attempt + 1}/{ANTHROPIC_MAX_RETRIES - 1} in {wait_s:.1f}s..."
+            )
+            time.sleep(wait_s)
+            continue
+
+        if "error" not in response_json:
+            break
+
+        error_obj = response_json.get("error") or {}
+        last_error = error_obj.get("message", "Unknown error")
+        status_code = getattr(response, "status_code", None)
+        if (
+            _is_transient_anthropic_error(status_code, response_json)
+            and attempt < ANTHROPIC_MAX_RETRIES - 1
+        ):
+            wait_s = _retry_wait_seconds(attempt, response)
+            print(
+                f"\n  Anthropic {status_code or 'error'}: {last_error} "
+                f"— retry {attempt + 1}/{ANTHROPIC_MAX_RETRIES - 1} in {wait_s:.1f}s..."
+            )
+            time.sleep(wait_s)
+            continue
+
+        print(f"\nERROR: {last_error}")
+        return f"ERROR: {last_error}"
+    else:
+        # Exhausted retries while still getting transient errors.
+        print(f"\nERROR: {last_error} (after {ANTHROPIC_MAX_RETRIES} attempts)")
+        return f"ERROR: {last_error}"
 
     if "error" in response_json:
         error_msg = response_json["error"].get("message", "Unknown error")
         print(f"\nERROR: {error_msg}")
         return f"ERROR: {error_msg}"
+
+    stop_reason = response_json.get("stop_reason")
+    if stop_reason:
+        print(f"  stop_reason: {stop_reason}")
 
     if "usage" in response_json:
         usage = response_json["usage"]
@@ -2025,7 +2541,11 @@ def call_anthropic(system_prompt: str, user_message: str, mode: str) -> str:
         cache_creation = usage.get("cache_creation_input_tokens", 0)
         cache_read = usage.get("cache_read_input_tokens", 0)
         total_tokens = input_tokens + output_tokens + cache_creation + cache_read
-        cost = calculate_cost(input_tokens + cache_creation, output_tokens)
+        cost = calculate_cost(
+            input_tokens + cache_creation,
+            output_tokens,
+            model=ANTHROPIC_MODEL,
+        )
 
         print("\n  Actual usage:")
         print(f"    Input tokens:        {input_tokens}")
@@ -2042,17 +2562,97 @@ def call_anthropic(system_prompt: str, user_message: str, mode: str) -> str:
             total_tokens=total_tokens,
             cost_usd=cost,
             details={
-                "model": "claude-sonnet-4-20250514",
+                "model": ANTHROPIC_MODEL,
                 "endpoint": "day_trading_insights",
                 "mode": mode,
+                "effort": effort,
+                "max_tokens": max_tokens,
+                "stop_reason": stop_reason,
                 "cache_creation": cache_creation,
                 "cache_read": cache_read,
             },
         )
 
-    if response_json.get("content"):
-        return response_json["content"][0].get("text", "ERROR: Empty response text")
-    return "ERROR: No content in response"
+    return _extract_anthropic_text(response_json)
+
+
+def _regime_summary_from_state(state: GoldAgentState) -> dict[str, Any]:
+    intraday = state.get("intraday") or {}
+    summary = intraday.get("volatility_regime_summary")
+    if isinstance(summary, dict) and summary:
+        return summary
+    # Recompute if bars exist but summary was stripped by an older cache.
+    try:
+        from fetch_intraday import _build_regime_summary
+
+        return _build_regime_summary(intraday.get("intervals") or {})
+    except Exception:
+        return {}
+
+
+def _forced_neutral_for_regime_gate(
+    state: GoldAgentState,
+    regime_summary: dict[str, Any],
+) -> str:
+    """Skip Opus signal generation when code regime blocks entries."""
+    label = regime_summary.get("label_for_prompt", "regime: consolidating")
+    primary = regime_summary.get("primary_timeframe", "15m")
+    reasons = "; ".join(regime_summary.get("reasons") or []) or "n/a"
+    events = state.get("disruptive_events") or []
+    top_events = []
+    for event in events[:5]:
+        title = event.get("title") or "untitled"
+        score = event.get("disruption_score", "n/a")
+        direction = event.get("direction_hint", "UNKNOWN")
+        top_events.append(f"  - [{score}/10, {direction}] {title}")
+    events_block = "\n".join(top_events) if top_events else "  - (none in this cycle)"
+
+    return f"""DATA VALIDATION: CODE VOLATILITY REGIME GATE active — trade_permission = NO-TRADE.
+CODE REGIME VETO (TRADE_019): {label}
+Primary TF: {primary}
+Reasons: {reasons}
+breakout_trigger: {regime_summary.get('breakout_trigger')} ({regime_summary.get('breakout_direction') or 'n/a'})
+gate_blocks_entries: True — Opus signal-generation step skipped; entries blocked until a confirmed breakout.
+
+═══════════════════════════════════════════════════════════════════
+DISRUPTION WATCH
+═══════════════════════════════════════════════════════════════════
+- Acute Move Risk: UNKNOWN (regime gate; scout events listed below for context only)
+- Disruptive Catalysts Found:
+{events_block}
+- Transmission Mechanism: Not scored for entry — consolidation/pre-breakout chop can dump or spike either way.
+- Signal Change: Forced NO-TRADE by code regime gate regardless of macro lean.
+
+═══════════════════════════════════════════════════════════════════
+DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
+═══════════════════════════════════════════════════════════════════
+
+TIER 1 - MACRO: Deferred — CODE REGIME blocks entries (consolidating without breakout).
+TIER 2 - 4H: See confluence tensor in live data; not used for entry this cycle.
+TIER 3 - 1H: See confluence tensor in live data; not used for entry this cycle.
+TIER 4 - 15M: CONSOLIDATION / PRE-BREAKOUT — wait for resolution close.
+TIER 5 - 5M: Not sufficient to exit consolidation alone.
+
+DECISION:
+SIGNAL: NO-TRADE
+Confluence: PARTIAL / MISALIGN (regime gate)
+Selected execution chart: NONE
+Aggression: NO-TRADE — CODE VOLATILITY REGIME gate_blocks_entries=TRUE
+
+TIMEFRAME / EVENT GUIDANCE:
+  Workable TFs now: higher-TF bias context only; execution TF = NONE
+  De-emphasize: 5M/15M entries inside consolidation
+  Why (confluence): {label}
+  Upcoming macro announcements: use scout list above; do not invent times
+  TF advice given event risk: wait for breakout_trigger on {primary}
+  Next TF check: next 15M close outside the 20-bar range with volume/momentum confirmation
+
+WHAT WOULD CHANGE MY MIND:
+- Code breakout_trigger flips TRUE on 15M (close beyond range_high/range_low with volume pressure and aligned momentum)
+- Then reassess LONG only on UP breakout or SHORT only on DOWN breakout
+
+GOLD_SIGNAL=NEUTRAL
+""".strip()
 
 
 def generate_trade_signal(state: GoldAgentState) -> GoldAgentState:
@@ -2060,11 +2660,35 @@ def generate_trade_signal(state: GoldAgentState) -> GoldAgentState:
     user_message = build_agent_user_message(state)
     DAY_TRADING_LIVE_DATA_PATH.write_text(user_message, encoding="utf-8")
 
-    insights_text = call_anthropic(
-        DISRUPTION_SCOUT_SYSTEM_PROMPT,
-        user_message,
-        mode="langgraph_disruption_agent",
-    )
+    regime_summary = _regime_summary_from_state(state)
+    if regime_summary.get("gate_blocks_entries"):
+        print(
+            "[agent] CODE REGIME GATE — consolidating without breakout; "
+            "skipping Opus signal call and forcing NEUTRAL "
+            f"({regime_summary.get('label_for_prompt', 'consolidating')})"
+        )
+        insights_text = _forced_neutral_for_regime_gate(state, regime_summary)
+    else:
+        insights_text = call_anthropic(
+            DISRUPTION_SCOUT_SYSTEM_PROMPT,
+            user_message,
+            mode="langgraph_disruption_agent",
+        )
+        # Post-LLM backstop if cache/summary lagged into the prompt but gate is on.
+        if regime_summary.get("regime") == "consolidating" and not regime_summary.get(
+            "breakout_trigger"
+        ):
+            signal_data = parse_agent_gold_signal(insights_text)
+            if signal_data.get("signal") in ("LONG", "SHORT"):
+                print(
+                    "[agent] CODE REGIME backstop — model emitted "
+                    f"{signal_data.get('signal')} during consolidating regime; forcing NEUTRAL"
+                )
+                insights_text = (
+                    insights_text.rstrip()
+                    + "\n\nCODE REGIME VETO: consolidating without breakout_trigger "
+                    "— overriding to NO-TRADE.\nGOLD_SIGNAL=NEUTRAL\n"
+                )
 
     cycle = state.get("cycle", 1)
     if cycle <= 1:

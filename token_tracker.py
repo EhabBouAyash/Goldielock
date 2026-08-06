@@ -38,14 +38,15 @@ def log_token_usage(event_type, input_tokens=None, output_tokens=None, total_tok
 
 def calculate_cost(input_tokens, output_tokens, model="claude-3-5-sonnet"):
     """Calculate estimated cost in USD."""
-    # Claude 3.5 Sonnet pricing (as of April 2026)
-    if model == "claude-3-5-sonnet":
-        input_cost = input_tokens * (3 / 1_000_000)  # $3 per 1M input tokens
-        output_cost = output_tokens * (15 / 1_000_000)  # $15 per 1M output tokens
-    else:
-        input_cost = 0
-        output_cost = 0
-    
+    # Pricing per 1M tokens (thinking tokens are billed as output).
+    rates = {
+        "claude-3-5-sonnet": (3.0, 15.0),
+        "claude-opus-5": (5.0, 25.0),
+        "claude-opus-4-8": (5.0, 25.0),
+    }
+    input_rate, output_rate = rates.get(model, (0.0, 0.0))
+    input_cost = input_tokens * (input_rate / 1_000_000)
+    output_cost = output_tokens * (output_rate / 1_000_000)
     return round(input_cost + output_cost, 6)
 
 def estimate_prompt_tokens(data_dict):

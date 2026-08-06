@@ -1,79 +1,49 @@
-═══════════════════════════════════════════════════════════════════
-DATA VALIDATION GATE
-═══════════════════════════════════════════════════════════════════
-- SUMMARY: ok=15, warn=1, fail=0, blocking_failures=[]. trade_permission = TRADE_ALLOWED_IF_SETUP_CONFIRMS → trading permitted.
-- [OK] XAUUSD spot decision price $4355.3 (gold-api) — execution/logging anchor.
-- [WARN] Bid/ask null — widen slippage buffer, do not over-size, avoid noise stops.
-- [OK] DXY 99.791 (+0.383%) — material; bearish-gold transmission active.
-- [OK] Yields: 10Y 4.49% (+3bp), 2Y 4.08% (+3bp), real yield 2.11% — elevated, bearish-gold.
-- [OK] All four chart timeframes fresh (age 0 min) — proxy bars for structure; spot for execution.
-- NOTE: Chart proxy shows ~$4390 while gold-api spot decision price is $4355.3 — a ~$35 gap. Spot is the binding execution anchor; this gap inflates slippage risk and is factored into confidence.
+DATA VALIDATION: CODE VOLATILITY REGIME GATE active — trade_permission = NO-TRADE.
+CODE REGIME VETO (TRADE_019): regime: consolidating, ATR at 26.0th percentile of last 50; ADX=15.99; BB_width_pct=2.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
+Primary TF: 15m
+Reasons: ADX 15.99 < 20; ATR at 26.0th percentile of last 50; BB width at 2.0th percentile of last 50
+breakout_trigger: False (n/a)
+gate_blocks_entries: True — Opus signal-generation step skipped; entries blocked until a confirmed breakout.
 
 ═══════════════════════════════════════════════════════════════════
 DISRUPTION WATCH
 ═══════════════════════════════════════════════════════════════════
-Acute Move Risk: DOWN (bearish), with realization already in progress.
-
-Disruptive Catalysts Found (fresh, relevant):
-1. [9/10 BEARISH] US May NFP +172K vs +85K exp; net revisions +93K; UR steady 4.3% (ForexLive, 12:30 UTC).
-2. [8/10 BEARISH] US rate futures now raising December HIKE odds post-jobs (Investing.com, 12:54 UTC).
-3. [7/10 BEARISH] Instant View: strong jobs sends yields/rate expectations higher (Investing.com, 13:18 UTC).
-4. [3/10 BULLISH, minor] US-Iran stalemate / Oman crude loading halt — latent safe-haven, not acute.
-
-Transmission Mechanism:
-- NFP beat → reduced 2026 cut odds, December hike speculation → higher nominal + real yields → raised opportunity cost of non-yielding gold (DIRECT, primary).
-- Stronger rate path → DXY +0.38% pushing toward 100 → gold more expensive in non-USD terms (reinforcing).
-- This is textbook bearish-gold confluence and it is already in the tape: 12:30 UTC NFP coincides exactly with the vertical breakdown in the 5m/15m candles ($4493 → $4388 over ~90 min).
-
-Signal Change: Confirms and strengthens the prior SHORT bias. Spot fell $4384.9 → $4355.3 (-0.68%) since last cycle, aligned. Catalyst + price + macro all point the same direction.
+- Acute Move Risk: UNKNOWN (regime gate; scout events listed below for context only)
+- Disruptive Catalysts Found:
+  - [42/10, BEARISH_GOLD] US initial jobless claims 199K versus 202K estimate
+  - [38/10, TWO_WAY] Forex Factory High impact: USD Non-Farm Employment Change
+  - [33/10, TWO_WAY] Forex Factory High impact: USD Unemployment Rate
+  - [28/10, TWO_WAY] Forex Factory High impact: USD Average Hourly Earnings m/m
+  - [26/10, BULLISH_GOLD] US Q2 prelim unit labor costs +1.3% vs +2.1% expected
+- Transmission Mechanism: Not scored for entry — consolidation/pre-breakout chop can dump or spike either way.
+- Signal Change: Forced NO-TRADE by code regime gate regardless of macro lean.
 
 ═══════════════════════════════════════════════════════════════════
 DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
 ═══════════════════════════════════════════════════════════════════
 
-TIER 1 - MACRO: Clarity 8/10. Fresh Tier-1 catalyst (NFP +172K vs +85K) repricing Fed hawkish; DXY +0.38% to 99.79; real yields elevated 2.11%; nominal yields up 3bp. Every primary driver bearish gold and already transmitting. Bias: BEARISH. Conviction: HIGH. (Minor bullish geopolitical offset insufficient to neutralize.)
-
-TIER 2 - 4H: Downtrend. Price $4390 (proxy) below SMA9 4475 / SMA21 4489 / SMA50 4505 — full bearish stack. RSI 41.4 falling, not yet oversold. Confluence -7.62. Confirms macro? YES.
-
-TIER 3 - 1H: Down. Price below SMA9 4452 / SMA21 4470 / SMA50 4483. RSI 46. Sharp impulsive breakdown bar on huge volume (26K) post-NFP. Confluence -7.52. Confirms 4H/macro? YES.
-
-TIER 4 - 15M: Pattern = post-catalyst S/R breakdown with momentum continuation. Price stacked below all MAs (9/21/50 = 4417/4460/4470). RSI 43.3, room before oversold. Volume exploded on break (6K-10K bars). Execution chart? Caution — price is mid-breakdown, extended from MAs, no clean pullback yet.
-
-TIER 5 - 5M: Continuation lower, RSI 39.2 (approaching oversold), price $4390 below SMA9 4399. Last bars stalling/basing ($4388-4399). A relief bounce to SMA9/21 is the higher-probability short entry rather than chasing into a vertical drop. Improves 15M? YES for timing — wait for retest.
+TIER 1 - MACRO: Deferred — CODE REGIME blocks entries (consolidating without breakout).
+TIER 2 - 4H: See confluence tensor in live data; not used for entry this cycle.
+TIER 3 - 1H: See confluence tensor in live data; not used for entry this cycle.
+TIER 4 - 15M: CONSOLIDATION / PRE-BREAKOUT — wait for resolution close.
+TIER 5 - 5M: Not sufficient to exit consolidation alone.
 
 DECISION:
-SIGNAL: SHORT (bias), executed as SHORT-on-retest
-Confluence: FULL (macro≥8 matches, 4H YES, 1H YES, 15M bearish, 5M timing)
-Selected execution chart: 5M (for retest timing into 15M structure)
-Aggression: STANDARD — full alignment qualifies, but price is extended/vertical post-NFP, bid/ask is null (WARN), and proxy-vs-spot $35 gap adds execution risk. STANDARD with retest entry rather than MAX-chase respects anti-pattern rules and the TRADE_010 lesson (entry too far from price = signal stale on fill).
+SIGNAL: NO-TRADE
+Confluence: PARTIAL / MISALIGN (regime gate)
+Selected execution chart: NONE
+Aggression: NO-TRADE — CODE VOLATILITY REGIME gate_blocks_entries=TRUE
 
-TRADE PLAN (spot-anchored; do NOT chase the vertical drop):
-- Pattern: Post-NFP breakdown — short the relief pullback into broken support / 5M-15M SMA confluence.
-- Entry: $4372.0 (retest of broken zone / pullback toward declining MAs; only fill if price rallies into it and rejects). If spot keeps falling without bounce, NO chase.
-- Stop: $4392.0 (above $4390 micro-resistance and 15M SMA9 cluster) — stop distance $20/oz, technical, not noise.
-- Target 1: $4332.0 (2.0R)
-- Target 2: $4312.0 (3.0R)
-- Expected profit T1 / T2: $200 / $300 at 10 oz.
+TIMEFRAME / EVENT GUIDANCE:
+  Workable TFs now: higher-TF bias context only; execution TF = NONE
+  De-emphasize: 5M/15M entries inside consolidation
+  Why (confluence): regime: consolidating, ATR at 26.0th percentile of last 50; ADX=15.99; BB_width_pct=2.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
+  Upcoming macro announcements: use scout list above; do not invent times
+  TF advice given event risk: wait for breakout_trigger on 15m
+  Next TF check: next 15M close outside the 20-bar range with volume/momentum confirmation
 
-FundedNext / TradingView Risk Plan:
-- Risk: 0.80% = $200 (≤ snapshot recommended_max_risk_usd $250). 
-- Stop distance: $20/oz → XAUUSD size = 200/20 = 10 oz.
-- Notional: 10 × 4372 = $43,720 | Current equity $27,898.28 → Effective leverage 1.57x.
-- TV preset: 50:1 (STANDARD_50X, eff lev ≤ 50). Margin at 50:1 = $874 ≤ equity. ✓
-- Profit progress: account already passed ($2,898 / $2,500); this trade compounds, not required to pass.
-- Daily room: $665 soft / $790 hard — loss if stopped $200 (+spread buffer) well within. ✓
-- Max-loss room: $4,148 soft / $4,398 hard — $200 risk trivial vs floor. ✓
-- Verified T1 profit at 10 oz: 10 × |4372−4332| = $400... recheck → |4372-4332|=40 → $400 at 2R? Correction: T1 at 2R = entry − 2×20 = 4372−40 = $4332, profit = 10×40 = $400. To keep T1 = 2R with $200 risk, profit = 2×$200 = $400. ✓ (T1 comfortably ≥$200.)
-- Loss if stopped: $200 + spread.
+WHAT WOULD CHANGE MY MIND:
+- Code breakout_trigger flips TRUE on 15M (close beyond range_high/range_low with volume pressure and aligned momentum)
+- Then reassess LONG only on UP breakout or SHORT only on DOWN breakout
 
-Edge (tier-ranked): 1) Macro NFP catalyst (HIGH), 2) 4H full bearish stack, 3) 1H impulsive break on volume, 4) 15M breakdown, 5) 5M oversold-bounce timing. Confidence: MEDIUM-HIGH (downgraded from HIGH by null bid/ask + proxy/spot gap + extended price requiring patience for retest).
-
-LOOPBACK WEIGHTING UPDATE:
-- GAIN weight: XAUUSD spot price action (10 — confirmed -0.68% aligned), live catalyst flow (8 — NFP transmitted in real time), confluence tensor (7.35 — bearish across all TFs and matched move).
-- GAIN weight: DXY (was 2.95) — today's +0.38% is material and transmitting, raise it this cycle.
-- KEEP low: 10Y real yield (unchanged 0bp intraday/stale), Fed balance sheet (negligible).
-- LESSON applied (TRADE_010): do not set entry far from live price; require retest fill or stand aside — avoid stale long-distance fills that invert overnight.
-
-If retest never comes (price collapses straight through): NO-TRADE this cycle, re-evaluate next cycle for a cleaner pullback. What changes the plan: a DXY reversal below 99.4 or a sudden geopolitical safe-haven spike would neutralize the short.
-
-GOLD_SIGNAL=SHORT
+GOLD_SIGNAL=NEUTRAL
