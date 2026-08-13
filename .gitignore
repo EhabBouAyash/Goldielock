@@ -1,0 +1,6 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ff_calendar_thisweek_cache.xml
