@@ -451,6 +451,8 @@ def _build_regime_summary(intervals):
         "gate_blocks_entries": gate_blocks,
         "breakout_trigger": breakout,
         "breakout_direction": primary.get("breakout_direction"),
+        "range_high": primary.get("range_high"),
+        "range_low": primary.get("range_low"),
         "adx_14": primary.get("adx_14"),
         "atr_percentile_50": primary.get("atr_percentile_50"),
         "bb_width_percentile_50": primary.get("bb_width_percentile_50"),
@@ -463,6 +465,8 @@ def _build_regime_summary(intervals):
                 "bb_width_percentile_50": reg.get("bb_width_percentile_50"),
                 "breakout_trigger": reg.get("breakout_trigger"),
                 "gate_blocks_entries": reg.get("gate_blocks_entries"),
+                "range_high": reg.get("range_high"),
+                "range_low": reg.get("range_low"),
                 "label_for_prompt": reg.get("label_for_prompt"),
             }
             for tf, reg in by_tf.items()

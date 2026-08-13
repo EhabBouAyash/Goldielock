@@ -1,49 +1,53 @@
 DATA VALIDATION: CODE VOLATILITY REGIME GATE active — trade_permission = NO-TRADE.
-CODE REGIME VETO (TRADE_019): regime: consolidating, ATR at 26.0th percentile of last 50; ADX=15.99; BB_width_pct=2.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
+CODE REGIME VETO (TRADE_019): regime: consolidating, ATR at 2.0th percentile of last 50; ADX=41.16; BB_width_pct=16.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
 Primary TF: 15m
-Reasons: ADX 15.99 < 20; ATR at 26.0th percentile of last 50; BB width at 2.0th percentile of last 50
-breakout_trigger: False (n/a)
-gate_blocks_entries: True — Opus signal-generation step skipped; entries blocked until a confirmed breakout.
+Reasons: ADX 41.16 >= 25; ATR at 2.0th percentile of last 50; BB width at 16.0th percentile of last 50; ATR/price 0.116% < 0.12%
+gate_blocks_entries: True — Opus signal-generation step skipped; stay flat until a spot 15M close clears the recheck levels below.
 
 ═══════════════════════════════════════════════════════════════════
 DISRUPTION WATCH
 ═══════════════════════════════════════════════════════════════════
 - Acute Move Risk: UNKNOWN (regime gate; scout events listed below for context only)
 - Disruptive Catalysts Found:
-  - [42/10, BEARISH_GOLD] US initial jobless claims 199K versus 202K estimate
-  - [38/10, TWO_WAY] Forex Factory High impact: USD Non-Farm Employment Change
-  - [33/10, TWO_WAY] Forex Factory High impact: USD Unemployment Rate
-  - [28/10, TWO_WAY] Forex Factory High impact: USD Average Hourly Earnings m/m
-  - [26/10, BULLISH_GOLD] US Q2 prelim unit labor costs +1.3% vs +2.1% expected
-- Transmission Mechanism: Not scored for entry — consolidation/pre-breakout chop can dump or spike either way.
+  - [6/10, TWO_WAY] investingLive Americas market news wrap: S&P 500 hits a fresh record
+  - [6/10, TWO_WAY] Claude high-impact gold catalyst watchlist
+  - [4/10, TWO_WAY] investingLive European markets wrap: Dollar remains tentative, gold off the highs in post-CPI trading
+  - [3/10, TWO_WAY] Fitch affirms US at AA+, keeps outlook stable amid growth slowdown
+  - [2/10, TWO_WAY] US 30 year average mortgage rate averages 6.67% vs 6.69% last week.
+- Transmission Mechanism: Consolidation/pre-breakout chop can dump or spike either way.
 - Signal Change: Forced NO-TRADE by code regime gate regardless of macro lean.
 
 ═══════════════════════════════════════════════════════════════════
 DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
 ═══════════════════════════════════════════════════════════════════
 
-TIER 1 - MACRO: Deferred — CODE REGIME blocks entries (consolidating without breakout).
-TIER 2 - 4H: See confluence tensor in live data; not used for entry this cycle.
-TIER 3 - 1H: See confluence tensor in live data; not used for entry this cycle.
-TIER 4 - 15M: CONSOLIDATION / PRE-BREAKOUT — wait for resolution close.
-TIER 5 - 5M: Not sufficient to exit consolidation alone.
+TIER 1 - MACRO: Deferred — consolidation gate; no new entries this cycle.
+TIER 2 - 4H: Bias context only; not used for entry.
+TIER 3 - 1H: Bias context only; not used for entry.
+TIER 4 - 15M: Inside range — wait for a close through the SPOT recheck levels.
+TIER 5 - 5M: Not enough alone to exit the range.
 
 DECISION:
 SIGNAL: NO-TRADE
 Confluence: PARTIAL / MISALIGN (regime gate)
 Selected execution chart: NONE
-Aggression: NO-TRADE — CODE VOLATILITY REGIME gate_blocks_entries=TRUE
+Aggression: NO-TRADE — inside 15M range; wait for SPOT recheck levels
 
 TIMEFRAME / EVENT GUIDANCE:
-  Workable TFs now: higher-TF bias context only; execution TF = NONE
-  De-emphasize: 5M/15M entries inside consolidation
-  Why (confluence): regime: consolidating, ATR at 26.0th percentile of last 50; ADX=15.99; BB_width_pct=2.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
+  Workable TFs now: higher-TF bias only; execution TF = NONE
+  De-emphasize: fresh 5M/15M entries inside the range
+  Why (confluence): regime: consolidating, ATR at 2.0th percentile of last 50; ADX=41.16; BB_width_pct=16.0; breakout_trigger=False | CODE_GATE: blocks new entries until breakout_trigger
   Upcoming macro announcements: use scout list above; do not invent times
-  TF advice given event risk: wait for breakout_trigger on 15m
-  Next TF check: next 15M close outside the 20-bar range with volume/momentum confirmation
+  Next TF check: next 15M close — re-run this agent if spot clears a recheck level below
 
-WHAT WOULD CHANGE MY MIND:
-- Code breakout_trigger flips TRUE on 15M (close beyond range_high/range_low with volume pressure and aligned momentum)
-- Then reassess LONG only on UP breakout or SHORT only on DOWN breakout
+RECHECK LEVELS (SPOT XAUUSD — required every NO-TRADE):
+  Live spot now: $4357.20
+  Proxy→spot basis this cycle: $49.90 (spot_level = proxy_level − (proxy_15m_close − live_spot))
+  LONG recheck: run this agent again when spot 15M closes above $4380.70
+    (proxy chart level was $4430.60 — already converted)
+  SHORT recheck: run this agent again when spot 15M closes below $4350.10
+    (proxy chart level was $4400.00 — already converted)
+  Between those levels: stay flat
+  Abort plan if: basis widens sharply vs this cycle print, or a fresh two-way geopolitical gap risk hits before the close
 
 GOLD_SIGNAL=NEUTRAL

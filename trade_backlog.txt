@@ -18,3 +18,4 @@ DATE,TRADE_ID,SIGNAL,ENTRY,STOP_LOSS,TAKE_PROFIT,OUTCOME,R_MULTIPLE,PNL_USD,RISK
 2026-07-10,TRADE_017,LONG,4126.5,4108.0,4163.5,LOSS,2.0,-$139.20,0.60,19.26,10,3.07,4128.65,29128.65,-139.20,Graph kept consolidating on a downtrend to hit SL. It didn't trend higher close to TP even | it only managed to slowly reach SL after many hours of consolidation.
 2026-07-30,TRADE_018,LONG,4094.0,4082.0,4118.0,WIN,2.0,+$350,0.83,14.58,10,2.14,4478.65,29478.65,350.00,Graph took a slight dip and then shot up to TP
 2026-08-03,TRADE_019,SHORT,4045.0,4057.5,4020.0,LOSS,2.0,-137.50,0.55,11.00,50,1.51,4341.15,29341.15,-137.50,Graph was consolidating and steadily rose up to sell limit and then went up again straight to SL.
+2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,190.01,0.9383,10,1.47,4569.15,29569.15,228.00,Graph rose straight up to TP

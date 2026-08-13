@@ -247,8 +247,9 @@ Rules:
 - IF regime = transitional → prefer NO-TRADE or wait for next 15M close; do not
   force counter-trend entries into a corrective mid-range drift
 - State in DECISION / TIMEFRAME GUIDANCE: cite the exact label_for_prompt string
-What changes the mind: code breakout_trigger flips TRUE on a 15M close outside the
-  20-bar range with volume/momentum confirmation — then reassess.
+What changes the mind: a spot 15M close through CODE range_high/range_low converted
+  to SPOT via CODE SPOT/PROXY BASIS — print those SPOT dollars in RECHECK LEVELS.
+  Internal code may then flip breakout_trigger; do not tell the trader to wait for flags.
 5M alone is never enough to exit consolidation; prefer the next 15M close.
 
 ANTI-PATTERNS: (1) Full alignment at <0.50% or 1R-only T1 (2) Expected profit $200+ with ounces that only pay $40 — recalculate (3) 1:1 preset is not a reason to shrink ounces; raise risk% and R (4) Multiple trades/day OK when cumulative risk respects daily/max limits (5) Entering SHORT/LONG while CODE REGIME says consolidating without breakout_trigger — wait for resolution (6) LIMIT_PULLBACK deeper than CODE ENTRY FILL GUIDE max offset — "right direction, no fill" (7) Loosening the stop after clipping entry closer to invent R / $200 T1
@@ -259,7 +260,8 @@ POSITION SIZE + LEVERAGE (required for LONG/SHORT):
   risk_dollars = min(25000 × risk_pct, snapshot.recommended_max_risk_usd)
   xau_ounces = risk_dollars / stop_distance
   position_notional = xau_ounces × entry
-  effective_leverage = position_notional / current_equity (from snapshot, else $25,000)
+  current_equity = last-row EQUITY from trade_backlog.txt (PROP ACCOUNT SNAPSHOT current_equity_usd) — never re-sum PnL or use $25,000 if a last-row EQUITY exists
+  effective_leverage = position_notional / current_equity
   tradingview_preset:
     - STANDARD_50X mode + effective_leverage ≤ 50 → use 50:1 (preferred for challenge pace)
     - DEFENSIVE/CAUTIOUS mode → use 10:1 or 1:1 even if lower notional
@@ -331,7 +333,8 @@ TIMEFRAME / EVENT GUIDANCE (required every cycle):
   Next TF check: [which candle close / clock time to reassess]
 
 If LONG or SHORT:
-  Pattern | Entry | Stop (technical + reason) | Target 1 (R) | Target 2 (R)
+  Pattern | Entry (SPOT $) | Stop (SPOT $ + reason) | Target 1 (SPOT $, R) | Target 2 (SPOT $, R)
+  All prices above MUST be XAUUSD spot (convert any GC=F chart level with CODE SPOT/PROXY BASIS first)
   Entry type: [MARKET_NOW / LIMIT_PULLBACK / STOP_BREAKOUT]
   Entry offset: $X/oz vs spot | Cap: $X (cite ENTRY FILL GUIDE) | Within cap? [YES/NO]
   Order validity: [e.g. expire after 2×15M closes] | Unfilled action: [CANCEL / WAIT NEXT CYCLE]
@@ -343,7 +346,27 @@ If LONG or SHORT:
     Loss if stopped: $X | Verified T1 profit at stated oz: $X
   Edge (tier-ranked 1-5) | Confidence: [HIGH/MEDIUM/LOW]
 
-If NO-TRADE: reason, cycle-specific "what would change my mind", next check.
+If NO-TRADE: use this exact block (SPOT dollars only — trader watches Match-Trader / XAUUSD):
+
+RECHECK LEVELS (SPOT XAUUSD — required every NO-TRADE):
+  Live spot now: $X
+  Proxy→spot basis this cycle: $X (proxy − spot; from CODE SPOT/PROXY BASIS — do not invent)
+  LONG recheck: run this agent again when spot 15M closes above $SPOT_LONG
+    (optional: proxy chart level was $PROXY_LONG — do NOT ask trader to convert)
+  SHORT recheck: run this agent again when spot 15M closes below $SPOT_SHORT
+    (optional: proxy chart level was $PROXY_SHORT)
+  Between those levels: stay flat; next clock check: [e.g. next 15M close / HH:MM ET]
+  Abort plan if: [one concrete condition, e.g. basis widens >$Y or named catalyst]
+
+Rules for RECHECK LEVELS:
+- Always print SPOT numbers first and largest. Proxy is optional footnote only.
+- Convert every GC=F / chart level with CODE SPOT/PROXY BASIS before printing:
+  spot_level = proxy_level − basis  (basis = proxy_last_close − live_spot)
+- Prefer CODE range_high / range_low (converted) when the veto is consolidation.
+- Forbidden jargon as the only instruction: "wait for breakout_trigger", "gate_blocks_entries",
+  "transitional regime", "volume_pressure flips" without a dollar price.
+- Do not leave the trader to subtract basis mentally.
+
 Low clarity: prefer reduced-size edge over blind NEUTRAL when structure is clean.
 
 GOLD_SIGNAL=[LONG/SHORT/NEUTRAL]  ← last line; NEUTRAL = NO-TRADE
@@ -361,6 +384,9 @@ CRITICAL RULES:
 10. Mid-range consolidation / pre-breakout chop after an impulse → NO-TRADE until 15M resolves
 11. CODE VOLATILITY REGIME with gate_blocks_entries=TRUE overrides signal quality → NO-TRADE
 12. LONG/SHORT entry_offset must respect CODE ENTRY FILL GUIDE (0.5×ATR15M or stated fallback)
+13. All actionable prices in the signal (entry, stop, targets, RECHECK LEVELS) must be XAUUSD SPOT.
+    Convert proxy chart levels with CODE SPOT/PROXY BASIS before printing — never leave raw GC=F-only triggers.
+14. Equity for sizing = EQUITY on the last trade_backlog.txt row (snapshot current_equity_usd). Never re-sum PNL_USD.
 """
 
 
@@ -517,6 +543,65 @@ def _safe_float(value: Any) -> float | None:
         return float(str(value).replace(",", ""))
     except (TypeError, ValueError):
         return None
+
+
+def _compute_spot_proxy_basis(
+    market_data: dict[str, Any] | None,
+    intraday: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """
+    Live GC=F → XAUUSD conversion for trader-facing levels.
+    basis = proxy_last_close − spot  ⇒  spot_level = proxy_level − basis
+    """
+    market_data = market_data or {}
+    intraday = intraday or {}
+    spot = _safe_float((market_data.get("gold_spot") or market_data.get("gold") or {}).get("price"))
+    bar_15 = (intraday.get("intervals") or {}).get("15m") or {}
+    if isinstance(bar_15, dict) and "error" not in bar_15:
+        proxy = _safe_float(bar_15.get("current_price"))
+    else:
+        proxy = None
+
+    basis = None
+    if spot is not None and proxy is not None:
+        basis = round(proxy - spot, 2)
+
+    regime = intraday.get("volatility_regime_summary") or {}
+    range_high_proxy = _safe_float(regime.get("range_high"))
+    range_low_proxy = _safe_float(regime.get("range_low"))
+    if range_high_proxy is None:
+        range_high_proxy = _safe_float((bar_15.get("volatility_regime") or {}).get("range_high"))
+    if range_low_proxy is None:
+        range_low_proxy = _safe_float((bar_15.get("volatility_regime") or {}).get("range_low"))
+
+    def _to_spot(proxy_level: float | None) -> float | None:
+        if proxy_level is None or basis is None:
+            return None
+        return round(proxy_level - basis, 2)
+
+    return {
+        "spot": spot,
+        "proxy_15m_close": proxy,
+        "basis_proxy_minus_spot": basis,
+        "range_high_proxy": range_high_proxy,
+        "range_low_proxy": range_low_proxy,
+        "range_high_spot": _to_spot(range_high_proxy),
+        "range_low_spot": _to_spot(range_low_proxy),
+        "formula": "spot_level = proxy_level − (proxy_15m_close − live_spot)",
+        "label_for_prompt": (
+            f"SPOT ${spot:.2f} | PROXY_15M ${proxy:.2f} | "
+            f"basis(proxy−spot)=${basis:.2f} | "
+            f"convert: spot = proxy − ${basis:.2f}"
+            if spot is not None and proxy is not None and basis is not None
+            else "SPOT/PROXY BASIS unavailable — print spot levels only; do not invent basis"
+        ),
+    }
+
+
+def _proxy_level_to_spot(proxy_level: float | None, basis: float | None) -> float | None:
+    if proxy_level is None or basis is None:
+        return None
+    return round(float(proxy_level) - float(basis), 2)
 
 
 def _safe_fetch(label: str, fetcher, fallback: Any) -> tuple[Any, str | None]:
@@ -1113,7 +1198,11 @@ def claude_rank_disruption_events(
     return ranked_events[:25]
 
 
-def _format_intraday_block(intraday: dict[str, Any]) -> str:
+def _format_intraday_block(
+    intraday: dict[str, Any],
+    *,
+    market_data: dict[str, Any] | None = None,
+) -> str:
     block = "INTRADAY CHART DATA (5m/15m/1h/4h):\n\n"
     if intraday:
         block += f"Chart symbol: {intraday.get('symbol', 'n/a')}\n"
@@ -1130,6 +1219,27 @@ def _format_intraday_block(intraday: dict[str, Any]) -> str:
         if intraday.get("fallback_reason"):
             block += f"Fallback reason: {intraday.get('fallback_reason')}\n"
         block += "\n"
+
+    basis = _compute_spot_proxy_basis(market_data, intraday)
+    block += "CODE SPOT/PROXY BASIS (BINDING FOR LEVEL CONVERSION):\n"
+    block += f"  {basis.get('label_for_prompt')}\n"
+    block += f"  Formula: {basis.get('formula')}\n"
+    if basis.get("range_high_spot") is not None or basis.get("range_low_spot") is not None:
+        block += (
+            f"  15M range_high SPOT=${basis.get('range_high_spot')} "
+            f"(proxy ${basis.get('range_high_proxy')}) | "
+            f"range_low SPOT=${basis.get('range_low_spot')} "
+            f"(proxy ${basis.get('range_low_proxy')})\n"
+        )
+        block += (
+            "  NO-TRADE recheck hint: LONG if spot 15M closes above range_high SPOT; "
+            "SHORT if spot 15M closes below range_low SPOT.\n"
+        )
+    block += (
+        "  Rule: every Entry / Stop / Target / RECHECK LEVEL in the signal must be "
+        "XAUUSD SPOT. Convert proxy levels before printing — never leave the trader "
+        "to subtract basis.\n\n"
+    )
 
     tensor = intraday.get("confluence_tensor", {})
     timeframe_order = tensor.get("timeframe_order") or ["5m", "15m", "1h", "4h"]
@@ -1162,6 +1272,12 @@ def _format_intraday_block(intraday: dict[str, Any]) -> str:
             f"ATR_pct50={regime_summary.get('atr_percentile_50')} | "
             f"BB_width_pct50={regime_summary.get('bb_width_percentile_50')}\n"
         )
+        if regime_summary.get("range_high") is not None or regime_summary.get("range_low") is not None:
+            block += (
+                f"  range_high(proxy)={regime_summary.get('range_high')} | "
+                f"range_low(proxy)={regime_summary.get('range_low')} "
+                f"— convert with CODE SPOT/PROXY BASIS before printing to trader\n"
+            )
         if regime_summary.get("reasons"):
             block += f"  Reasons: {'; '.join(regime_summary.get('reasons') or [])}\n"
         by_tf = regime_summary.get("by_timeframe") or {}
@@ -1975,6 +2091,7 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
     print(
         "[agent] Prop account snapshot: "
         f"equity=${snapshot.get('current_equity_usd', PROP_ACCOUNT_SIZE):,.2f} "
+        f"(source={snapshot.get('equity_source', 'n/a')} last_row={snapshot.get('last_row_trade_id', 'n/a')}) "
         f"closed_pnl=${snapshot.get('total_closed_pnl_usd', 0):,.2f} "
         f"leverage_mode={snapshot.get('leverage_mode', 'n/a')} "
         f"tv={snapshot.get('recommended_tv_leverage', 'n/a')}:1"
@@ -2170,6 +2287,8 @@ CURRENT GOLD PRICES:
 - XAUUSD change: {gold_spot.get('change', 'n/a')} ({gold_spot.get('change_pct', 'n/a')}%)
 - Silver spot: ${market_data.get('silver', {}).get('price', 'n/a')}
 - Gold/Silver Ratio: {market_data.get('gold_silver_ratio', 'n/a')}
+- CODE SPOT/PROXY BASIS: {_compute_spot_proxy_basis(market_data, intraday).get('label_for_prompt')}
+  (Use this for every level conversion: spot_level = proxy_level − basis. Print SPOT to the trader.)
 
 PRICE SOURCE VERIFICATION:
 {gold_spot.get('verification', 'XAUUSD spot quote unavailable. Do not substitute futures data.')}
@@ -2184,10 +2303,10 @@ FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
 - Max single-trade risk: {PROP_MAX_SINGLE_TRADE_RISK_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_MAX_SINGLE_TRADE_RISK_PCT:,.0f})
 - Min trading days to pass: {PROP_MIN_TRADING_DAYS}
 - TradingView leverage presets: {", ".join(f"{x}:1" for x in TRADINGVIEW_LEVERAGE_OPTIONS)} — aligned default {PROP_PREFERRED_TV_LEVERAGE}:1 when snapshot allows
-- PROP ACCOUNT SNAPSHOT below is computed from trade_backlog.txt each cycle — use it for risk/leverage caps
+- PROP ACCOUNT SNAPSHOT equity is the EQUITY cell on the LAST ROW of trade_backlog.txt — cite it verbatim; never re-sum PNL_USD to invent equity
 
 ===================================================================
-PROP ACCOUNT SNAPSHOT (from trade_backlog.txt aggregation)
+PROP ACCOUNT SNAPSHOT (equity = last-row EQUITY only — do not recompute)
 ===================================================================
 
 {market_data.get('prop_account_snapshot_text', '(No prop account history yet.)')}
@@ -2271,7 +2390,7 @@ The same arrays are persisted to:
 - Latest snapshot: {DAY_TRADING_INTRADAY_SNAPSHOT_PATH}
 - Cycle archive: {DAY_TRADING_INTRADAY_ARCHIVE_PATH}
 
-{_format_intraday_block(intraday)}
+{_format_intraday_block(intraday, market_data=market_data)}
 
 ===================================================================
 LOOPBACK SELF-EVALUATION
@@ -2298,7 +2417,9 @@ MODEL'S RECENT PREDICTIONS:
 
 TRADE HISTORY INSTRUCTIONS:
 - trade_backlog.txt is ground-truth execution; columns include PNL_USD, RISK_USD, XAU_OZ,
-  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL (running totals recomputed each cycle).
+  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL.
+- EQUITY for sizing = the EQUITY value on the LAST ROW only. Cite it verbatim.
+  Do not add PNL_USD down the file. Do not start from $25,000 and rebuild.
 - Fill PNL_USD, RISK_USD, XAU_OZ, and TV_LEVERAGE on every new trade row you execute.
 - Use PROP ACCOUNT SNAPSHOT for daily/max drawdown room and recommended_tv_leverage before sizing.
 - Treat model_trade_log.txt as prior recommendations only.
@@ -2321,8 +2442,10 @@ Required:
 4. Reconcile live catalysts against 4H, 1H, 15m, and 5m price action.
 5. Explicitly choose the execution chart: 15M, 5M, or NONE.
 6. Check CODE VOLATILITY REGIME SUMMARY first. If gate_blocks_entries=true →
-   NO-TRADE and state "CONSOLIDATION — wait for resolution" (TRADE_019 / code gate).
-   Only allow an entry override when breakout_trigger=true, and only in breakout_direction.
+   NO-TRADE with RECHECK LEVELS in SPOT dollars (LONG above range_high SPOT,
+   SHORT below range_low SPOT from CODE SPOT/PROXY BASIS). Do not tell the trader
+   to "wait for breakout_trigger" — give prices. Override to an entry only when
+   breakout_trigger=true, and only in breakout_direction, with spot levels.
 7. Using the CONFLUENCE TENSOR, CODE USD HIGH-IMPACT CALENDAR, and scout/RSS data,
    fill TIMEFRAME / EVENT GUIDANCE. For NFP/CPI/ISM/etc., cite the calendar
    date/time when present — never mark those as UNKNOWN if listed. Only use
@@ -2607,12 +2730,29 @@ def _forced_neutral_for_regime_gate(
         top_events.append(f"  - [{score}/10, {direction}] {title}")
     events_block = "\n".join(top_events) if top_events else "  - (none in this cycle)"
 
+    basis = _compute_spot_proxy_basis(
+        state.get("market_data") or {},
+        state.get("intraday") or {},
+    )
+    spot = basis.get("spot")
+    long_spot = basis.get("range_high_spot")
+    short_spot = basis.get("range_low_spot")
+    long_proxy = basis.get("range_high_proxy")
+    short_proxy = basis.get("range_low_proxy")
+    basis_usd = basis.get("basis_proxy_minus_spot")
+
+    spot_txt = f"${spot:.2f}" if isinstance(spot, (int, float)) else "n/a"
+    basis_txt = f"${basis_usd:.2f}" if isinstance(basis_usd, (int, float)) else "n/a"
+    long_txt = f"${long_spot:.2f}" if isinstance(long_spot, (int, float)) else "n/a (range_high unavailable)"
+    short_txt = f"${short_spot:.2f}" if isinstance(short_spot, (int, float)) else "n/a (range_low unavailable)"
+    long_proxy_txt = f"${long_proxy:.2f}" if isinstance(long_proxy, (int, float)) else "n/a"
+    short_proxy_txt = f"${short_proxy:.2f}" if isinstance(short_proxy, (int, float)) else "n/a"
+
     return f"""DATA VALIDATION: CODE VOLATILITY REGIME GATE active — trade_permission = NO-TRADE.
 CODE REGIME VETO (TRADE_019): {label}
 Primary TF: {primary}
 Reasons: {reasons}
-breakout_trigger: {regime_summary.get('breakout_trigger')} ({regime_summary.get('breakout_direction') or 'n/a'})
-gate_blocks_entries: True — Opus signal-generation step skipped; entries blocked until a confirmed breakout.
+gate_blocks_entries: True — Opus signal-generation step skipped; stay flat until a spot 15M close clears the recheck levels below.
 
 ═══════════════════════════════════════════════════════════════════
 DISRUPTION WATCH
@@ -2620,36 +2760,41 @@ DISRUPTION WATCH
 - Acute Move Risk: UNKNOWN (regime gate; scout events listed below for context only)
 - Disruptive Catalysts Found:
 {events_block}
-- Transmission Mechanism: Not scored for entry — consolidation/pre-breakout chop can dump or spike either way.
+- Transmission Mechanism: Consolidation/pre-breakout chop can dump or spike either way.
 - Signal Change: Forced NO-TRADE by code regime gate regardless of macro lean.
 
 ═══════════════════════════════════════════════════════════════════
 DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
 ═══════════════════════════════════════════════════════════════════
 
-TIER 1 - MACRO: Deferred — CODE REGIME blocks entries (consolidating without breakout).
-TIER 2 - 4H: See confluence tensor in live data; not used for entry this cycle.
-TIER 3 - 1H: See confluence tensor in live data; not used for entry this cycle.
-TIER 4 - 15M: CONSOLIDATION / PRE-BREAKOUT — wait for resolution close.
-TIER 5 - 5M: Not sufficient to exit consolidation alone.
+TIER 1 - MACRO: Deferred — consolidation gate; no new entries this cycle.
+TIER 2 - 4H: Bias context only; not used for entry.
+TIER 3 - 1H: Bias context only; not used for entry.
+TIER 4 - 15M: Inside range — wait for a close through the SPOT recheck levels.
+TIER 5 - 5M: Not enough alone to exit the range.
 
 DECISION:
 SIGNAL: NO-TRADE
 Confluence: PARTIAL / MISALIGN (regime gate)
 Selected execution chart: NONE
-Aggression: NO-TRADE — CODE VOLATILITY REGIME gate_blocks_entries=TRUE
+Aggression: NO-TRADE — inside 15M range; wait for SPOT recheck levels
 
 TIMEFRAME / EVENT GUIDANCE:
-  Workable TFs now: higher-TF bias context only; execution TF = NONE
-  De-emphasize: 5M/15M entries inside consolidation
+  Workable TFs now: higher-TF bias only; execution TF = NONE
+  De-emphasize: fresh 5M/15M entries inside the range
   Why (confluence): {label}
   Upcoming macro announcements: use scout list above; do not invent times
-  TF advice given event risk: wait for breakout_trigger on {primary}
-  Next TF check: next 15M close outside the 20-bar range with volume/momentum confirmation
+  Next TF check: next 15M close — re-run this agent if spot clears a recheck level below
 
-WHAT WOULD CHANGE MY MIND:
-- Code breakout_trigger flips TRUE on 15M (close beyond range_high/range_low with volume pressure and aligned momentum)
-- Then reassess LONG only on UP breakout or SHORT only on DOWN breakout
+RECHECK LEVELS (SPOT XAUUSD — required every NO-TRADE):
+  Live spot now: {spot_txt}
+  Proxy→spot basis this cycle: {basis_txt} ({basis.get('formula')})
+  LONG recheck: run this agent again when spot 15M closes above {long_txt}
+    (proxy chart level was {long_proxy_txt} — already converted)
+  SHORT recheck: run this agent again when spot 15M closes below {short_txt}
+    (proxy chart level was {short_proxy_txt} — already converted)
+  Between those levels: stay flat
+  Abort plan if: basis widens sharply vs this cycle print, or a fresh two-way geopolitical gap risk hits before the close
 
 GOLD_SIGNAL=NEUTRAL
 """.strip()

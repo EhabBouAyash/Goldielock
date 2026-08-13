@@ -213,15 +213,22 @@ def _apply_running_totals(rows: list[dict[str, str]]) -> list[dict[str, str]]:
         pnl = _safe_float(row.get("PNL_USD"))
         trade_date = row.get("DATE", "")
 
+        existing_equity = _safe_float(row.get("EQUITY"))
+        computed_equity = PROP_ACCOUNT_SIZE + cumulative
+
         if outcome in RESOLVED_OUTCOMES and pnl is not None:
             cumulative += pnl
             daily_totals[trade_date] = daily_totals.get(trade_date, 0.0) + pnl
+            computed_equity = PROP_ACCOUNT_SIZE + cumulative
             row["CUMULATIVE_PNL"] = f"{cumulative:.2f}"
-            row["EQUITY"] = f"{PROP_ACCOUNT_SIZE + cumulative:.2f}"
+            # Never overwrite a logged EQUITY value — last-row EQUITY is ground truth.
+            if existing_equity is None:
+                row["EQUITY"] = f"{computed_equity:.2f}"
             row["DAILY_PNL"] = f"{daily_totals[trade_date]:.2f}"
         elif cumulative != 0.0 or daily_totals:
             row["CUMULATIVE_PNL"] = f"{cumulative:.2f}"
-            row["EQUITY"] = f"{PROP_ACCOUNT_SIZE + cumulative:.2f}"
+            if existing_equity is None:
+                row["EQUITY"] = f"{computed_equity:.2f}"
             if trade_date in daily_totals:
                 row["DAILY_PNL"] = f"{daily_totals[trade_date]:.2f}"
 
@@ -289,7 +296,16 @@ def compute_prop_account_snapshot(
     ]
 
     total_pnl = sum(_safe_float(row.get("PNL_USD")) or 0.0 for row in resolved_rows)
-    equity = PROP_ACCOUNT_SIZE + total_pnl + floating_pnl_usd
+
+    last_row = rows[-1] if rows else None
+    last_row_equity = _safe_float(last_row.get("EQUITY")) if last_row else None
+    last_row_trade_id = _strip(last_row.get("TRADE_ID")) if last_row else ""
+    if last_row_equity is not None:
+        equity = last_row_equity + floating_pnl_usd
+        equity_source = "last_row_EQUITY"
+    else:
+        equity = PROP_ACCOUNT_SIZE + total_pnl + floating_pnl_usd
+        equity_source = "fallback_baseline_plus_summed_pnl"
 
     daily_closed_pnl = sum(
         _safe_float(row.get("PNL_USD")) or 0.0
@@ -354,6 +370,9 @@ def compute_prop_account_snapshot(
         "total_closed_pnl_usd": round(total_pnl, 2),
         "floating_pnl_usd": round(floating_pnl_usd, 2),
         "current_equity_usd": round(equity, 2),
+        "equity_source": equity_source,
+        "last_row_trade_id": last_row_trade_id or None,
+        "last_row_equity_usd": round(last_row_equity, 2) if last_row_equity is not None else None,
         "profit_target_usd": PROP_PROFIT_TARGET_USD,
         "profit_remaining_usd": round(profit_remaining, 2),
         "challenge_passed": total_pnl >= PROP_PROFIT_TARGET_USD and min_trading_days_met,
@@ -393,7 +412,7 @@ def format_prop_account_snapshot(snapshot: dict[str, Any]) -> str:
     return f"""- Baseline account: ${snapshot['baseline_account_usd']:,}
 - Total closed PnL: ${snapshot['total_closed_pnl_usd']:,.2f}
 - Floating PnL (open trades): ${snapshot['floating_pnl_usd']:,.2f}
-- Current equity: ${snapshot['current_equity_usd']:,.2f}
+- Current equity: ${snapshot['current_equity_usd']:,.2f} (AUTHORITATIVE = last-row EQUITY on {snapshot.get('last_row_trade_id') or 'n/a'}; source={snapshot.get('equity_source')}; do NOT re-sum PnL)
 - Profit target remaining: ${snapshot['profit_remaining_usd']:,.2f} / ${snapshot['profit_target_usd']:,}
 - Challenge passed: {snapshot['challenge_passed']}
 - Today ({snapshot['today']}) closed PnL: ${snapshot['daily_closed_pnl_usd']:,.2f}
