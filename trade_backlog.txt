@@ -17,5 +17,8 @@ DATE,TRADE_ID,SIGNAL,ENTRY,STOP_LOSS,TAKE_PROFIT,OUTCOME,R_MULTIPLE,PNL_USD,RISK
 2026-07-07,TRADE_016,LONG,4162.5,4150.5,4186.5,LOSS,2.0,-$151.32,0.6,29.67,10,4.72,4267.85,29267.85,-151.32,when price reached the entry | the graph plummeted straight down to hit SL. I took the trade at 10:15PM and it liquidated at 3:30AM the day after.
 2026-07-10,TRADE_017,LONG,4126.5,4108.0,4163.5,LOSS,2.0,-$139.20,0.60,19.26,10,3.07,4128.65,29128.65,-139.20,Graph kept consolidating on a downtrend to hit SL. It didn't trend higher close to TP even | it only managed to slowly reach SL after many hours of consolidation.
 2026-07-30,TRADE_018,LONG,4094.0,4082.0,4118.0,WIN,2.0,+$350,0.83,14.58,10,2.14,4478.65,29478.65,350.00,Graph took a slight dip and then shot up to TP
-2026-08-03,TRADE_019,SHORT,4045.0,4057.5,4020.0,LOSS,2.0,-137.50,0.55,11.00,50,1.51,4341.15,29341.15,-137.50,Graph was consolidating and steadily rose up to sell limit and then went up again straight to SL.
-2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,190.01,0.9383,10,1.47,4569.15,29569.15,228.00,Graph rose straight up to TP
+2026-08-03,TRADE_019,SHORT,4045.0,4057.5,4020.0,LOSS,2.0,-137.50,0.55,11.00,50,1.51,4341.15,24500.15,-137.50,Graph was consolidating and steadily rose up to sell limit and then went up again straight to SL.
+2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,190.01,0.9383,10,1.47,4569.15,24728,228.00,Graph rose straight up to TP
+2026-08-10,TRADE_021,LONG,4354.50,4343.50,4376.50,WIN,1.0,+$159.10,79.55,7.2318,10,1.26,4728.25,24685.96,159.10,
+2026-08-13,TRADE_022,SHORT,4352,4364,4328,LOSS,2.0,-$111,,,,,4617.25,24584.96,-111.00,
+2026-08-17,TRADE_023,LONG,4428.40,4415.80,4453.60,LOSS,2.0,-$180.00,180.00,14.2857,50,2.14,4437.25,24387.67,-180.00,Graph reached the buy stop then plummeted down to SL

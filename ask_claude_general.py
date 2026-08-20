@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+ANTHROPIC_API_KEY = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-opus-5")
 MAX_TOKENS = int(os.getenv("ASK_CLAUDE_MAX_TOKENS", "8192"))
 EFFORT = os.getenv("ASK_CLAUDE_EFFORT", "medium")

@@ -213,7 +213,10 @@ POSITION SIZE + LEVERAGE (required for LONG/SHORT):
   risk_dollars = min(25000 × risk_pct, snapshot.recommended_max_risk_usd)
   xau_ounces = risk_dollars / stop_distance
   position_notional = xau_ounces × entry
-  effective_leverage = position_notional / current_equity (from snapshot, else $25,000)
+  current_equity = PROP ACCOUNT SNAPSHOT current_equity_usd = last-row EQUITY column, copied verbatim
+  FORBIDDEN for equity: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, floating P&L add-on
+  If a number you compute disagrees with current_equity_usd, print current_equity_usd — that snapshot wins
+  effective_leverage = position_notional / current_equity
   tradingview_preset:
     - STANDARD_50X mode + effective_leverage ≤ 50 → use 50:1 (preferred for challenge pace)
     - DEFENSIVE/CAUTIOUS mode → use 10:1 or 1:1 even if lower notional
@@ -257,8 +260,8 @@ If LONG or SHORT:
   Expected profit T1 / T2: $X / $X  (T1 must be ≥$200 on aligned trades)
   FundedNext / TradingView Risk Plan:
     Risk: X.XX% = $X | Daily room: $X / $625 soft, $750 hard | Max-loss room: $X / $1,250 soft, $1,500 hard
-    Profit progress: $X / $2,500 | Stop distance: $X/oz
-    XAUUSD size: X oz | Notional: $X | Effective leverage: X.XXx | TV preset: [1/10/50/100]:1
+    Profit progress: last-row EQUITY minus $25,000 = $X / $2,500 | Stop distance: $X/oz
+    XAUUSD size: X oz | Notional: $X | Effective leverage: X.XXx (equity $X = last-row EQUITY TRADE_ID — copy paste, never recompute) | TV preset: [1/10/50/100]:1
     Loss if stopped: $X | Verified T1 profit at stated oz: $X
   Edge (tier-ranked 1-5) | Confidence: [HIGH/MEDIUM/LOW]
 
@@ -1696,8 +1699,8 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
     snapshot = prop_account_state.get("snapshot", {})
     print(
         "[agent] Prop account snapshot: "
-        f"equity=${snapshot.get('current_equity_usd', PROP_ACCOUNT_SIZE):,.2f} "
-        f"closed_pnl=${snapshot.get('total_closed_pnl_usd', 0):,.2f} "
+        f"equity=${snapshot.get('current_equity_usd', 'MISSING')} "
+        f"(last-row EQUITY only last_row={snapshot.get('last_row_trade_id', 'n/a')}) "
         f"leverage_mode={snapshot.get('leverage_mode', 'n/a')} "
         f"tv={snapshot.get('recommended_tv_leverage', 'n/a')}:1"
     )
@@ -1715,7 +1718,9 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
         "fed_balance_sheet": fed_balance,
         "model_trade_log_context": _read_recent_text(MODEL_TRADE_LOG_TXT_PATH, max_chars=9000),
         "manual_trade_backlog_context": prop_account_state.get("table_text", ""),
-        "prop_account_snapshot": prop_account_state.get("snapshot", {}),
+        "prop_account_snapshot": prop_account_state.get(
+            "snapshot_for_agent", prop_account_state.get("snapshot", {})
+        ),
         "prop_account_snapshot_text": prop_account_state.get("snapshot_text", ""),
         "prop_account_rows": prop_account_state.get("rows", []),
     }
@@ -1847,10 +1852,10 @@ FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
 - Max single-trade risk: {PROP_MAX_SINGLE_TRADE_RISK_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_MAX_SINGLE_TRADE_RISK_PCT:,.0f})
 - Min trading days to pass: {PROP_MIN_TRADING_DAYS}
 - TradingView leverage presets: {", ".join(f"{x}:1" for x in TRADINGVIEW_LEVERAGE_OPTIONS)} — aligned default {PROP_PREFERRED_TV_LEVERAGE}:1 when snapshot allows
-- PROP ACCOUNT SNAPSHOT below is computed from trade_backlog.txt each cycle — use it for risk/leverage caps
+- PROP ACCOUNT SNAPSHOT equity is the EQUITY cell on the LAST ROW of trade_backlog.txt — copy it verbatim. Never re-sum PNL_USD, never use CUMULATIVE_PNL, never use $25,000 + profits.
 
 ===================================================================
-PROP ACCOUNT SNAPSHOT (from trade_backlog.txt aggregation)
+PROP ACCOUNT SNAPSHOT (last-row EQUITY only — do not recompute)
 ===================================================================
 
 {market_data.get('prop_account_snapshot_text', '(No prop account history yet.)')}
@@ -1941,7 +1946,7 @@ and re-entry conditions must use fresh levels from the intraday block below.
 {json.dumps(loopback_evaluation, indent=2, default=str)}
 
 ===================================================================
-TRADE HISTORY (trade_backlog.txt with running account columns)
+TRADE HISTORY (outcomes only — EQUITY/CUMULATIVE_PNL omitted on purpose)
 ===================================================================
 
 {market_data.get('manual_trade_backlog_context', '(No history yet.)')}
@@ -1950,9 +1955,10 @@ MODEL'S RECENT PREDICTIONS:
 {market_data.get('model_trade_log_context', '(No history yet.)')}
 
 TRADE HISTORY INSTRUCTIONS:
-- trade_backlog.txt is ground-truth execution; columns include PNL_USD, RISK_USD, XAU_OZ,
-  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL (running totals recomputed each cycle).
-- Fill PNL_USD, RISK_USD, XAU_OZ, and TV_LEVERAGE on every new trade row you execute.
+- trade_backlog.txt is ground-truth execution. Learn from SIGNAL/OUTCOME/NOTES/PNL_USD.
+- EQUITY for sizing = the LAST-ROW EQUITY line under the table (also snapshot current_equity_usd).
+  FORBIDDEN: summing PNL_USD, using CUMULATIVE_PNL, $25,000 + profits, or any earlier EQUITY cell.
+- Fill PNL_USD, RISK_USD, XAU_OZ, TV_LEVERAGE, and EQUITY on every new trade row you execute.
 - Use PROP ACCOUNT SNAPSHOT for daily/max drawdown room and recommended_tv_leverage before sizing.
 - Treat model_trade_log.txt as prior recommendations only.
 - Learn from mismatches (e.g. +$40 wins when 2R implied $200+) and adjust XAU_OZ + TV_LEVERAGE.

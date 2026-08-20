@@ -34,6 +34,9 @@ from zoneinfo import ZoneInfo
 import requests
 from dotenv import load_dotenv
 
+_ENV_PATH = Path(__file__).resolve().parent / ".env"
+load_dotenv(_ENV_PATH, override=True)
+
 try:
     from langgraph.graph import END, StateGraph
     HAS_LANGGRAPH = True
@@ -95,9 +98,15 @@ from token_tracker import log_token_usage, calculate_cost
 
 from prop_account_tracker import refresh_prop_account_state
 
-load_dotenv()
-
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+ANTHROPIC_API_KEY = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
+if ANTHROPIC_API_KEY:
+    _key_tail = ANTHROPIC_API_KEY[-4:]
+    print(
+        f"[env] ANTHROPIC_API_KEY loaded from {_ENV_PATH.name} "
+        f"(len={len(ANTHROPIC_API_KEY)}, ends …{_key_tail})"
+    )
+else:
+    print(f"[env] ANTHROPIC_API_KEY missing — set it in {_ENV_PATH}")
 
 # Day trading specific paths
 DAY_TRADING_INSIGHTS_PATH = Path(__file__).resolve().parent / "day_trading_insights.txt"
@@ -260,7 +269,9 @@ POSITION SIZE + LEVERAGE (required for LONG/SHORT):
   risk_dollars = min(25000 × risk_pct, snapshot.recommended_max_risk_usd)
   xau_ounces = risk_dollars / stop_distance
   position_notional = xau_ounces × entry
-  current_equity = last-row EQUITY from trade_backlog.txt (PROP ACCOUNT SNAPSHOT current_equity_usd) — never re-sum PnL or use $25,000 if a last-row EQUITY exists
+  current_equity = PROP ACCOUNT SNAPSHOT current_equity_usd = last-row EQUITY column, copied verbatim
+  FORBIDDEN for equity: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, floating P&L add-on
+  If a number you compute disagrees with current_equity_usd, print current_equity_usd — that snapshot wins
   effective_leverage = position_notional / current_equity
   tradingview_preset:
     - STANDARD_50X mode + effective_leverage ≤ 50 → use 50:1 (preferred for challenge pace)
@@ -341,8 +352,8 @@ If LONG or SHORT:
   Expected profit T1 / T2: $X / $X  (T1 must be ≥$200 on aligned trades)
   FundedNext / TradingView Risk Plan:
     Risk: X.XX% = $X | Daily room: $X / $625 soft, $750 hard | Max-loss room: $X / $1,250 soft, $1,500 hard
-    Profit progress: $X / $2,500 | Stop distance: $X/oz
-    XAUUSD size: X oz | Notional: $X | Effective leverage: X.XXx | TV preset: [1/10/50/100]:1
+    Profit progress: last-row EQUITY minus $25,000 = $X / $2,500 | Stop distance: $X/oz
+    XAUUSD size: X oz | Notional: $X | Effective leverage: X.XXx (equity $X = last-row EQUITY TRADE_ID — copy paste, never recompute) | TV preset: [1/10/50/100]:1
     Loss if stopped: $X | Verified T1 profit at stated oz: $X
   Edge (tier-ranked 1-5) | Confidence: [HIGH/MEDIUM/LOW]
 
@@ -386,7 +397,9 @@ CRITICAL RULES:
 12. LONG/SHORT entry_offset must respect CODE ENTRY FILL GUIDE (0.5×ATR15M or stated fallback)
 13. All actionable prices in the signal (entry, stop, targets, RECHECK LEVELS) must be XAUUSD SPOT.
     Convert proxy chart levels with CODE SPOT/PROXY BASIS before printing — never leave raw GC=F-only triggers.
-14. Equity for sizing = EQUITY on the last trade_backlog.txt row (snapshot current_equity_usd). Never re-sum PNL_USD.
+14. Equity: copy PROP ACCOUNT SNAPSHOT current_equity_usd (the EQUITY cell on the last trade_backlog.txt row).
+    FORBIDDEN: $25,000 + sum(PNL_USD), CUMULATIVE_PNL, any non-last EQUITY cell, averaging, or "fixing" missing PnL rows.
+    If last-row EQUITY is missing, do not invent equity — size as if you cannot trade.
 """
 
 
@@ -1465,7 +1478,7 @@ def search_gnews_for_disruptions(
     if not GNEWS_API_KEY:
         return [{
             "title": "GNews API key missing",
-            "description": "Set GNEWS_API_KEY or the project constant before using live internet scouting.",
+            "description": "Set GNEWS_API_KEY in .env (see .env.example). Do not hardcode keys.",
             "source": "agent",
             "published_at": datetime.now().isoformat(),
             "url": "",
@@ -1491,7 +1504,14 @@ def search_gnews_for_disruptions(
                 timeout=30,
             )
             response.raise_for_status()
-            articles = response.json().get("articles", [])
+            payload = response.json()
+            if payload.get("errors") or (
+                isinstance(payload.get("message"), str)
+                and "api key" in payload.get("message", "").lower()
+            ):
+                err = payload.get("errors") or payload.get("message") or payload
+                raise RuntimeError(f"GNews rejected the request: {err}")
+            articles = payload.get("articles", []) or []
         except Exception as exc:
             events.append({
                 "title": f"News scout failed for query: {query}",
@@ -2090,9 +2110,8 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
     snapshot = prop_account_state.get("snapshot", {})
     print(
         "[agent] Prop account snapshot: "
-        f"equity=${snapshot.get('current_equity_usd', PROP_ACCOUNT_SIZE):,.2f} "
-        f"(source={snapshot.get('equity_source', 'n/a')} last_row={snapshot.get('last_row_trade_id', 'n/a')}) "
-        f"closed_pnl=${snapshot.get('total_closed_pnl_usd', 0):,.2f} "
+        f"equity=${snapshot.get('current_equity_usd', 'MISSING')} "
+        f"(last-row EQUITY only last_row={snapshot.get('last_row_trade_id', 'n/a')}) "
         f"leverage_mode={snapshot.get('leverage_mode', 'n/a')} "
         f"tv={snapshot.get('recommended_tv_leverage', 'n/a')}:1"
     )
@@ -2110,7 +2129,9 @@ def collect_market_context(state: GoldAgentState) -> GoldAgentState:
         "fed_balance_sheet": fed_balance,
         "model_trade_log_context": _read_recent_text(MODEL_TRADE_LOG_TXT_PATH, max_chars=9000),
         "manual_trade_backlog_context": prop_account_state.get("table_text", ""),
-        "prop_account_snapshot": prop_account_state.get("snapshot", {}),
+        "prop_account_snapshot": prop_account_state.get(
+            "snapshot_for_agent", prop_account_state.get("snapshot", {})
+        ),
         "prop_account_snapshot_text": prop_account_state.get("snapshot_text", ""),
         "prop_account_rows": prop_account_state.get("rows", []),
     }
@@ -2303,10 +2324,10 @@ FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
 - Max single-trade risk: {PROP_MAX_SINGLE_TRADE_RISK_PCT:.2%} (${PROP_ACCOUNT_SIZE * PROP_MAX_SINGLE_TRADE_RISK_PCT:,.0f})
 - Min trading days to pass: {PROP_MIN_TRADING_DAYS}
 - TradingView leverage presets: {", ".join(f"{x}:1" for x in TRADINGVIEW_LEVERAGE_OPTIONS)} — aligned default {PROP_PREFERRED_TV_LEVERAGE}:1 when snapshot allows
-- PROP ACCOUNT SNAPSHOT equity is the EQUITY cell on the LAST ROW of trade_backlog.txt — cite it verbatim; never re-sum PNL_USD to invent equity
+- PROP ACCOUNT SNAPSHOT equity is the EQUITY cell on the LAST ROW of trade_backlog.txt — copy it verbatim. Never re-sum PNL_USD, never use CUMULATIVE_PNL, never use $25,000 + profits.
 
 ===================================================================
-PROP ACCOUNT SNAPSHOT (equity = last-row EQUITY only — do not recompute)
+PROP ACCOUNT SNAPSHOT (last-row EQUITY only — do not recompute)
 ===================================================================
 
 {market_data.get('prop_account_snapshot_text', '(No prop account history yet.)')}
@@ -2407,7 +2428,7 @@ and re-entry conditions must use fresh levels from the intraday block below.
 {json.dumps(loopback_evaluation, indent=2, default=str)}
 
 ===================================================================
-TRADE HISTORY (trade_backlog.txt with running account columns)
+TRADE HISTORY (outcomes only — EQUITY/CUMULATIVE_PNL omitted on purpose)
 ===================================================================
 
 {market_data.get('manual_trade_backlog_context', '(No history yet.)')}
@@ -2416,11 +2437,10 @@ MODEL'S RECENT PREDICTIONS:
 {market_data.get('model_trade_log_context', '(No history yet.)')}
 
 TRADE HISTORY INSTRUCTIONS:
-- trade_backlog.txt is ground-truth execution; columns include PNL_USD, RISK_USD, XAU_OZ,
-  TV_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL.
-- EQUITY for sizing = the EQUITY value on the LAST ROW only. Cite it verbatim.
-  Do not add PNL_USD down the file. Do not start from $25,000 and rebuild.
-- Fill PNL_USD, RISK_USD, XAU_OZ, and TV_LEVERAGE on every new trade row you execute.
+- trade_backlog.txt is ground-truth execution. Learn from SIGNAL/OUTCOME/NOTES/PNL_USD.
+- EQUITY for sizing = the LAST-ROW EQUITY line under the table (also snapshot current_equity_usd).
+  FORBIDDEN: summing PNL_USD, using CUMULATIVE_PNL, $25,000 + profits, or any earlier EQUITY cell.
+- Fill PNL_USD, RISK_USD, XAU_OZ, TV_LEVERAGE, and EQUITY on every new trade row you execute.
 - Use PROP ACCOUNT SNAPSHOT for daily/max drawdown room and recommended_tv_leverage before sizing.
 - Treat model_trade_log.txt as prior recommendations only.
 - Learn from mismatches (e.g. +$40 wins when 2R implied $200+) and adjust XAU_OZ + TV_LEVERAGE.
@@ -2641,8 +2661,8 @@ def call_anthropic(system_prompt: str, user_message: str, mode: str) -> str:
             time.sleep(wait_s)
             continue
 
-        print(f"\nERROR: {last_error}")
-        return f"ERROR: {last_error}"
+        print(f"\nERROR [Anthropic HTTP {status_code}]: {last_error}")
+        return f"ERROR: Anthropic {status_code}: {last_error}"
     else:
         # Exhausted retries while still getting transient errors.
         print(f"\nERROR: {last_error} (after {ANTHROPIC_MAX_RETRIES} attempts)")

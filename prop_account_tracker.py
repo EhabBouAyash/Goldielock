@@ -213,24 +213,16 @@ def _apply_running_totals(rows: list[dict[str, str]]) -> list[dict[str, str]]:
         pnl = _safe_float(row.get("PNL_USD"))
         trade_date = row.get("DATE", "")
 
-        existing_equity = _safe_float(row.get("EQUITY"))
-        computed_equity = PROP_ACCOUNT_SIZE + cumulative
-
         if outcome in RESOLVED_OUTCOMES and pnl is not None:
             cumulative += pnl
             daily_totals[trade_date] = daily_totals.get(trade_date, 0.0) + pnl
-            computed_equity = PROP_ACCOUNT_SIZE + cumulative
             row["CUMULATIVE_PNL"] = f"{cumulative:.2f}"
-            # Never overwrite a logged EQUITY value — last-row EQUITY is ground truth.
-            if existing_equity is None:
-                row["EQUITY"] = f"{computed_equity:.2f}"
             row["DAILY_PNL"] = f"{daily_totals[trade_date]:.2f}"
         elif cumulative != 0.0 or daily_totals:
             row["CUMULATIVE_PNL"] = f"{cumulative:.2f}"
-            if existing_equity is None:
-                row["EQUITY"] = f"{computed_equity:.2f}"
             if trade_date in daily_totals:
                 row["DAILY_PNL"] = f"{daily_totals[trade_date]:.2f}"
+        # Never write EQUITY from $25k + summed PNL. Last-row EQUITY is user-logged only.
 
     return rows
 
@@ -300,12 +292,14 @@ def compute_prop_account_snapshot(
     last_row = rows[-1] if rows else None
     last_row_equity = _safe_float(last_row.get("EQUITY")) if last_row else None
     last_row_trade_id = _strip(last_row.get("TRADE_ID")) if last_row else ""
+    # Equity for the agent is the last row's EQUITY cell only — never $25k + PnL,
+    # never CUMULATIVE_PNL, never floating add-on, never an earlier EQUITY cell.
     if last_row_equity is not None:
-        equity = last_row_equity + floating_pnl_usd
+        equity = last_row_equity
         equity_source = "last_row_EQUITY"
     else:
-        equity = PROP_ACCOUNT_SIZE + total_pnl + floating_pnl_usd
-        equity_source = "fallback_baseline_plus_summed_pnl"
+        equity = None
+        equity_source = "missing_last_row_EQUITY"
 
     daily_closed_pnl = sum(
         _safe_float(row.get("PNL_USD")) or 0.0
@@ -316,9 +310,16 @@ def compute_prop_account_snapshot(
 
     daily_loss_room_hard = PROP_DAILY_LOSS_HARD_USD + daily_pnl
     daily_loss_room_soft = PROP_DAILY_LOSS_SOFT_USD + daily_pnl
-    max_loss_room_hard = equity - PROP_EQUITY_FLOOR_USD
-    max_loss_room_soft = equity - PROP_EQUITY_SOFT_FLOOR_USD
-    profit_remaining = PROP_PROFIT_TARGET_USD - total_pnl
+    if equity is None:
+        max_loss_room_hard = 0.0
+        max_loss_room_soft = 0.0
+        profit_from_start = None
+        profit_remaining = PROP_PROFIT_TARGET_USD
+    else:
+        max_loss_room_hard = equity - PROP_EQUITY_FLOOR_USD
+        max_loss_room_soft = equity - PROP_EQUITY_SOFT_FLOOR_USD
+        profit_from_start = equity - PROP_ACCOUNT_SIZE
+        profit_remaining = PROP_PROFIT_TARGET_USD - profit_from_start
 
     wins = [
         row for row in resolved_rows
@@ -343,7 +344,7 @@ def compute_prop_account_snapshot(
     if max_loss_room_hard <= 400 or daily_loss_room_hard <= 250:
         leverage_mode = "DEFENSIVE"
         recommended_tv_leverage = 10
-    elif total_pnl < 0 and abs(total_pnl) >= 500:
+    elif profit_from_start is not None and profit_from_start < 0 and abs(profit_from_start) >= 500:
         leverage_mode = "CAUTIOUS"
         recommended_tv_leverage = 10
     elif daily_loss_room_soft >= 300 and max_loss_room_soft >= 500:
@@ -369,13 +370,19 @@ def compute_prop_account_snapshot(
         "baseline_account_usd": PROP_ACCOUNT_SIZE,
         "total_closed_pnl_usd": round(total_pnl, 2),
         "floating_pnl_usd": round(floating_pnl_usd, 2),
-        "current_equity_usd": round(equity, 2),
+        "current_equity_usd": round(equity, 2) if equity is not None else None,
         "equity_source": equity_source,
+        "equity_rule": "last_row_EQUITY_column_only",
         "last_row_trade_id": last_row_trade_id or None,
         "last_row_equity_usd": round(last_row_equity, 2) if last_row_equity is not None else None,
+        "profit_from_start_usd": round(profit_from_start, 2) if profit_from_start is not None else None,
         "profit_target_usd": PROP_PROFIT_TARGET_USD,
         "profit_remaining_usd": round(profit_remaining, 2),
-        "challenge_passed": total_pnl >= PROP_PROFIT_TARGET_USD and min_trading_days_met,
+        "challenge_passed": (
+            profit_from_start is not None
+            and profit_from_start >= PROP_PROFIT_TARGET_USD
+            and min_trading_days_met
+        ),
         "daily_closed_pnl_usd": round(daily_closed_pnl, 2),
         "daily_pnl_usd": round(daily_pnl, 2),
         "daily_loss_room_soft_usd": round(daily_loss_room_soft, 2),
@@ -402,23 +409,28 @@ def compute_prop_account_snapshot(
         ),
         "daily_breached_soft": daily_pnl <= -PROP_DAILY_LOSS_SOFT_USD,
         "daily_breached_hard": daily_pnl <= -PROP_DAILY_LOSS_HARD_USD,
-        "max_loss_breached_soft": equity <= PROP_EQUITY_SOFT_FLOOR_USD,
-        "max_loss_breached_hard": equity <= PROP_EQUITY_FLOOR_USD,
+        "max_loss_breached_soft": equity is not None and equity <= PROP_EQUITY_SOFT_FLOOR_USD,
+        "max_loss_breached_hard": equity is not None and equity <= PROP_EQUITY_FLOOR_USD,
         "today": today,
     }
 
 
 def format_prop_account_snapshot(snapshot: dict[str, Any]) -> str:
-    return f"""- Baseline account: ${snapshot['baseline_account_usd']:,}
-- Total closed PnL: ${snapshot['total_closed_pnl_usd']:,.2f}
-- Floating PnL (open trades): ${snapshot['floating_pnl_usd']:,.2f}
-- Current equity: ${snapshot['current_equity_usd']:,.2f} (AUTHORITATIVE = last-row EQUITY on {snapshot.get('last_row_trade_id') or 'n/a'}; source={snapshot.get('equity_source')}; do NOT re-sum PnL)
-- Profit target remaining: ${snapshot['profit_remaining_usd']:,.2f} / ${snapshot['profit_target_usd']:,}
+    equity = snapshot.get("current_equity_usd")
+    equity_text = f"${equity:,.2f}" if equity is not None else "MISSING — last-row EQUITY required"
+    profit_from_start = snapshot.get("profit_from_start_usd")
+    profit_text = (
+        f"${profit_from_start:,.2f}"
+        if profit_from_start is not None
+        else "n/a (no last-row EQUITY)"
+    )
+    return f"""- LAST-ROW EQUITY (ONLY number allowed for sizing/leverage): {equity_text} on {snapshot.get('last_row_trade_id') or 'n/a'}
+- Equity rule: last-row EQUITY column only. FORBIDDEN: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, adding floating P&L
+- Profit vs $25,000 start (last-row EQUITY minus $25,000 — not a PnL sum): {profit_text} / ${snapshot['profit_target_usd']:,}
 - Challenge passed: {snapshot['challenge_passed']}
 - Today ({snapshot['today']}) closed PnL: ${snapshot['daily_closed_pnl_usd']:,.2f}
-- Today total PnL incl. float: ${snapshot['daily_pnl_usd']:,.2f}
 - Daily loss room: ${snapshot['daily_loss_room_soft_usd']:,.2f} soft / ${snapshot['daily_loss_room_hard_usd']:,.2f} hard
-- Max drawdown room: ${snapshot['max_loss_room_soft_usd']:,.2f} soft / ${snapshot['max_loss_room_hard_usd']:,.2f} hard (floor ${snapshot['equity_floor_hard_usd']:,})
+- Max drawdown room (from last-row EQUITY): ${snapshot['max_loss_room_soft_usd']:,.2f} soft / ${snapshot['max_loss_room_hard_usd']:,.2f} hard (floor ${snapshot['equity_floor_hard_usd']:,})
 - Record: {snapshot['wins']} wins / {snapshot['losses']} losses over {snapshot['trading_days_with_trades']} days ({snapshot['resolved_trades']} resolved trades)
 - Avg win: ${snapshot['avg_win_usd']:,.2f} | Avg loss: ${snapshot['avg_loss_usd']:,.2f}
 - Min trading days met: {snapshot['min_trading_days_met']} ({snapshot['trading_days_with_trades']}/{snapshot['min_trading_days_required']})
@@ -428,16 +440,72 @@ def format_prop_account_snapshot(snapshot: dict[str, Any]) -> str:
 - Breach flags: daily_soft={snapshot['daily_breached_soft']} daily_hard={snapshot['daily_breached_hard']} max_soft={snapshot['max_loss_breached_soft']} max_hard={snapshot['max_loss_breached_hard']}"""
 
 
+_AGENT_SNAPSHOT_KEYS = (
+    "equity_rule",
+    "current_equity_usd",
+    "last_row_trade_id",
+    "last_row_equity_usd",
+    "profit_from_start_usd",
+    "profit_target_usd",
+    "profit_remaining_usd",
+    "challenge_passed",
+    "daily_closed_pnl_usd",
+    "daily_loss_room_soft_usd",
+    "daily_loss_room_hard_usd",
+    "max_loss_room_soft_usd",
+    "max_loss_room_hard_usd",
+    "equity_floor_hard_usd",
+    "equity_floor_soft_usd",
+    "wins",
+    "losses",
+    "trading_days_with_trades",
+    "leverage_mode",
+    "recommended_tv_leverage",
+    "recommended_max_risk_usd",
+    "recommended_min_risk_usd",
+    "daily_breached_soft",
+    "daily_breached_hard",
+    "max_loss_breached_soft",
+    "max_loss_breached_hard",
+    "today",
+)
+
+
+def snapshot_for_agent(snapshot: dict[str, Any]) -> dict[str, Any]:
+    """Fields the LLM may use. Omits summed PnL so it cannot rebuild equity."""
+    slim = {key: snapshot.get(key) for key in _AGENT_SNAPSHOT_KEYS}
+    slim["do_not_sum_pnl_usd"] = True
+    slim["do_not_use_cumulative_pnl"] = True
+    slim["equity_rule"] = "last_row_EQUITY_column_only"
+    return slim
+
+
 def format_trade_backlog_table(rows: list[dict[str, str]], *, max_rows: int = 15) -> str:
     if not rows:
         return "(No trades logged yet.)"
+    display_columns = [
+        column
+        for column in TRADE_BACKLOG_COLUMNS
+        if column not in {"CUMULATIVE_PNL", "EQUITY"}
+    ]
     display_rows = rows[-max_rows:]
-    header = " | ".join(TRADE_BACKLOG_COLUMNS)
+    header = " | ".join(display_columns)
     lines = [header, "-" * min(len(header), 180)]
     for row in display_rows:
-        lines.append(" | ".join(_strip(row.get(column, "")) for column in TRADE_BACKLOG_COLUMNS))
+        lines.append(" | ".join(_strip(row.get(column, "")) for column in display_columns))
     if len(rows) > max_rows:
         lines.append(f"... ({len(rows) - max_rows} older trades omitted)")
+    last = rows[-1]
+    last_equity = _strip(last.get("EQUITY"))
+    last_id = _strip(last.get("TRADE_ID")) or "n/a"
+    lines.append("")
+    lines.append(
+        f"LAST-ROW EQUITY (ONLY number for sizing): {last_id} EQUITY={last_equity or 'MISSING'}"
+    )
+    lines.append(
+        "Do not sum PNL_USD. Do not use CUMULATIVE_PNL. Do not use $25,000 + profits. "
+        "Do not use any earlier EQUITY cell."
+    )
     return "\n".join(lines)
 
 
@@ -457,6 +525,7 @@ def refresh_prop_account_state(
 
     return {
         "snapshot": snapshot,
+        "snapshot_for_agent": snapshot_for_agent(snapshot),
         "rows": rows,
         "table_text": format_trade_backlog_table(rows),
         "snapshot_text": format_prop_account_snapshot(snapshot),
@@ -472,8 +541,8 @@ def trade_backlog_template() -> str:
     return f"""# Manual Trade Backlog — FundedNext Stellar 1-Step ($25K)
 # One CSV row per executed trade. Running totals are auto-recomputed each agent cycle.
 # Required on each new trade: DATE, TRADE_ID, SIGNAL, ENTRY, STOP_LOSS, TAKE_PROFIT, OUTCOME,
-# R_MULTIPLE, PNL_USD, RISK_USD, XAU_OZ, TV_LEVERAGE (use 50 when permitted).
-# Auto-filled columns: EFFECTIVE_LEVERAGE, CUMULATIVE_PNL, EQUITY, DAILY_PNL
+# R_MULTIPLE, PNL_USD, RISK_USD, XAU_OZ, TV_LEVERAGE (use 50 when permitted), EQUITY (last-row EQUITY is the only equity the agent may use — log it yourself; it is never recomputed from PnL).
+# Auto-filled columns: EFFECTIVE_LEVERAGE, CUMULATIVE_PNL, DAILY_PNL
 {header}
 {example}
 """

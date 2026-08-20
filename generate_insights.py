@@ -19,7 +19,8 @@ from additional_news import format_for_claude as format_additional_news_for_prom
 from io import StringIO
 import pandas as pd
 import yfinance as yf
-load_dotenv()
+
+load_dotenv(Path(__file__).resolve().parent / ".env", override=True)
 
 COT_DISAGG_FUTURES_ZIP = (
     "https://www.cftc.gov/files/dea/history/fut_disagg_txt_{year}.zip"
@@ -53,9 +54,9 @@ KITCO_MAX_WORDS_PER_ARTICLE = 500
 KITCO_MAX_ARTICLES = 18
 KITCO_REQUEST_TIMEOUT = 60
 
-FRED_API_KEY = "f9907d39b0c9d8e1c050a811651ae74a"  # register at fred.stlouisfed.org
-GNEWS_API_KEY = "b8d23345a7561fa41a308d1b6fc1a443"  # register at gnews.io
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+FRED_API_KEY = (os.getenv("FRED_API_KEY") or "f9907d39b0c9d8e1c050a811651ae74a").strip()
+GNEWS_API_KEY = (os.getenv("GNEWS_API_KEY") or "").strip()
+ANTHROPIC_API_KEY = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
 
 # Import token tracker
 try:
@@ -210,6 +211,8 @@ def fetch_yf_last_close(symbol):
     return round(float(hist.iloc[-1]), 3)
 
 def fetch_news(query):
+    if not GNEWS_API_KEY:
+        return []
     res = requests.get(
         "https://gnews.io/api/v4/search",
         params={
@@ -217,9 +220,13 @@ def fetch_news(query):
             "token": GNEWS_API_KEY,
             "lang": "en",
             "max": 5
-        }
+        },
+        timeout=30,
     )
-    return [a["title"] for a in res.json().get("articles", [])]
+    payload = res.json() if res.content else {}
+    if res.status_code != 200:
+        return []
+    return [a["title"] for a in payload.get("articles", []) if a.get("title")]
 
 
 def _kitco_html_to_text(fragment: str) -> str:
