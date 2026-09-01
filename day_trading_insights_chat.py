@@ -239,8 +239,58 @@ PATTERNS (15M/5M): Pullback to SMA9/21 + RSI hold; H&S / inverse H&S; double top
 
 OUTPUT FORMAT:
 
+The FIRST thing in every cycle output is the ORDER CARD. Then DISRUPTION WATCH,
+then the existing analysis below. Do not put analysis above the ORDER CARD.
+
 ═══════════════════════════════════════════════════════════════════
-DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
+ORDER CARD
+═══════════════════════════════════════════════════════════════════
+SIGNAL TIME: [copy CODE SIGNAL TIME from the live payload verbatim — do not invent]
+
+ACTION: choose exactly one of:
+  BUY AT MARKET
+  SELL AT MARKET
+  PLACE BUY LIMIT AT [price]
+  PLACE SELL LIMIT AT [price]
+  PLACE BUY STOP AT [price]
+  PLACE SELL STOP AT [price]
+  NO TRADE
+
+Map internal entry type → ACTION:
+  MARKET_NOW + LONG  → BUY AT MARKET
+  MARKET_NOW + SHORT → SELL AT MARKET
+  LIMIT_PULLBACK + LONG  → PLACE BUY LIMIT AT [entry]
+  LIMIT_PULLBACK + SHORT → PLACE SELL LIMIT AT [entry]
+  STOP_BREAKOUT + LONG  → PLACE BUY STOP AT [entry]
+  STOP_BREAKOUT + SHORT → PLACE SELL STOP AT [entry]
+  NO-TRADE / NEUTRAL → NO TRADE
+
+If ACTION is BUY AT MARKET or SELL AT MARKET:
+  ENTER NOW AT [current XAUUSD price at SIGNAL TIME] — no further price trigger or confirmation is required.
+
+If ACTION is PLACE BUY/SELL LIMIT or PLACE BUY/SELL STOP:
+  WAIT — do not enter at market. Entry is allowed only if price reaches [order price].
+  Price must RISE to reach it.   ← buy stop or sell limit
+  Price must FALL to reach it.   ← buy limit or sell stop
+  (Print exactly one of those two RISE/FALL lines.)
+
+If ACTION is a valid trade (any of the six buy/sell actions), list immediately:
+  STOP LOSS: [price]
+  TARGET 1: [price] ([R multiple])
+  TARGET 2: [price] ([R multiple])   ← omit this line if no second target
+
+If ACTION is NO TRADE:
+  NO TRADE — NEUTRAL/NO VALID SIGNAL
+  Do not provide an actionable entry, STOP LOSS, or TARGET.
+
+ORDER CARD wording rules:
+- Do not use the word "spot" anywhere in the ORDER CARD.
+- Use dollar prices only. Convert GC=F levels with CODE SPOT/PROXY BASIS first.
+
+After the ORDER CARD, continue the existing analysis unchanged:
+
+═══════════════════════════════════════════════════════════════════
+DAY TRADING SIGNAL - XAUUSD
 ═══════════════════════════════════════════════════════════════════
 
 TIER 1 - MACRO: Clarity X/10, reasons, key factors (DXY, yields, Fed/Treasury, news, geopolitics, data), Bias, Conviction
@@ -298,7 +348,7 @@ Treat disruptive catalysts as highest-priority macro inputs. Examples include:
 - wars, attacks, sanctions, ceasefires, energy shocks, banking stress
 - central-bank gold reserve actions or market-liquidity shocks
 
-Before the normal signal, include a DISRUPTION WATCH section:
+After the ORDER CARD, include a DISRUPTION WATCH section:
 - Acute Move Risk: UP / DOWN / TWO-WAY / NONE
 - Disruptive Catalysts Found: list only fresh, relevant items
 - Transmission Mechanism: why each item should hit gold quickly
@@ -455,6 +505,21 @@ def _safe_float(value: Any) -> float | None:
         return float(str(value).replace(",", ""))
     except (TypeError, ValueError):
         return None
+
+
+def _format_signal_time(raw: Any = None) -> str:
+    et = ZoneInfo("America/New_York")
+    if raw in (None, "", "n/a"):
+        dt = datetime.now(et)
+    elif isinstance(raw, datetime):
+        dt = raw.astimezone(et) if raw.tzinfo else raw.replace(tzinfo=et)
+    else:
+        try:
+            parsed = datetime.fromisoformat(str(raw).strip().replace("Z", "+00:00"))
+            dt = parsed.astimezone(et) if parsed.tzinfo else parsed.replace(tzinfo=et)
+        except ValueError:
+            return str(raw).strip()
+    return dt.strftime("%Y-%m-%d %H:%M ET")
 
 
 def _safe_fetch(label: str, fetcher, fallback: Any) -> tuple[Any, str | None]:
@@ -1831,7 +1896,8 @@ LIVE LANGGRAPH GOLD DISRUPTION AGENT - CYCLE {state.get('cycle', 1)}
 ===================================================================
 
 CURRENT GOLD PRICES:
-- Spot gold (XAUUSD) decision price: ${gold_spot.get('price', 'n/a')}
+- CODE SIGNAL TIME (BINDING — copy verbatim into ORDER CARD): {_format_signal_time(market_data.get('timestamp_et'))}
+- XAUUSD decision price: ${gold_spot.get('price', 'n/a')}
 - XAUUSD source: {gold_spot.get('source', 'n/a')}
 - XAUUSD bid/ask: ${gold_spot.get('bid', 'n/a')} / ${gold_spot.get('ask', 'n/a')}
 - XAUUSD open/high/low: ${gold_spot.get('open', 'n/a')} / ${gold_spot.get('high', 'n/a')} / ${gold_spot.get('low', 'n/a')}
@@ -1969,9 +2035,13 @@ ANALYSIS REQUEST
 ===================================================================
 
 Apply the TOP-DOWN scoring system and produce a fresh trade signal. Start with
-DISRUPTION WATCH, then complete the normal tiered trading signal.
+the ORDER CARD (SIGNAL TIME + exactly one ACTION), then DISRUPTION WATCH, then
+the normal tiered trading signal.
 
 Required:
+0. Open with the ORDER CARD using CODE SIGNAL TIME verbatim. If there is no valid
+   trade, ACTION must be NO TRADE and the next line must be
+   "NO TRADE — NEUTRAL/NO VALID SIGNAL" with no STOP LOSS or TARGET lines.
 1. Start with DATA VALIDATION: cite each FAIL/WARN/OK category that affects the
    signal and state whether trade_permission allows trading.
 2. Identify whether any internet-scouted item can move gold acutely up or down.

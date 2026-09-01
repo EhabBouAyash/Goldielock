@@ -4,14 +4,14 @@ LIVE LANGGRAPH GOLD DISRUPTION AGENT - CYCLE 1
 ===================================================================
 
 CURRENT GOLD PRICES:
-- Spot gold (XAUUSD) decision price: $4515.3
+- Spot gold (XAUUSD) decision price: $4375.0
 - XAUUSD source: gold-api XAU
 - XAUUSD bid/ask: $None / $None
 - XAUUSD open/high/low: $None / $None / $None
 - XAUUSD change: None (None%)
-- Silver spot: $68.462997
-- Gold/Silver Ratio: 65.95
-- CODE SPOT/PROXY BASIS: SPOT $4515.30 | PROXY_15M $4563.40 | basis(proxy−spot)=$48.10 | convert: spot = proxy − $48.10
+- Silver spot: $64.959
+- Gold/Silver Ratio: 67.35
+- CODE SPOT/PROXY BASIS: SPOT $4375.00 | PROXY_15M $4423.20 | basis(proxy−spot)=$48.20 | convert: spot = proxy − $48.20
   (Use this for every level conversion: spot_level = proxy_level − basis. Print SPOT to the trader.)
 
 PRICE SOURCE VERIFICATION:
@@ -33,50 +33,50 @@ FUNDEDNEXT STELLAR 1-STEP CFD — $25,000 ACCOUNT:
 PROP ACCOUNT SNAPSHOT (last-row EQUITY only — do not recompute)
 ===================================================================
 
-- LAST-ROW EQUITY (ONLY number allowed for sizing/leverage): $24,387.67 on TRADE_023
+- LAST-ROW EQUITY (ONLY number allowed for sizing/leverage): $24,717.78 on TRADE_024
 - Equity rule: last-row EQUITY column only. FORBIDDEN: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, adding floating P&L
-- Profit vs $25,000 start (last-row EQUITY minus $25,000 — not a PnL sum): $-612.33 / $2,500
+- Profit vs $25,000 start (last-row EQUITY minus $25,000 — not a PnL sum): $-282.22 / $2,500
 - Challenge passed: False
-- Today (2026-08-20) closed PnL: $0.00
+- Today (2026-09-01) closed PnL: $0.00
 - Daily loss room: $625.00 soft / $750.00 hard
-- Max drawdown room (from last-row EQUITY): $637.67 soft / $887.67 hard (floor $23,500)
-- Record: 10 wins / 10 losses over 23 days (20 resolved trades)
-- Avg win: $643.27 | Avg loss: $-199.55
-- Min trading days met: True (23/2)
-- Leverage mode: CAUTIOUS
-- Recommended TradingView leverage: 10:1 (preferred aligned default: 50:1)
-- Recommended next-trade risk: $100–$159 (0.64% max)
+- Max drawdown room (from last-row EQUITY): $967.78 soft / $1,217.78 hard (floor $23,500)
+- Record: 11 wins / 10 losses over 24 days (21 resolved trades)
+- Avg win: $614.80 | Avg loss: $-199.55
+- Min trading days met: True (24/2)
+- Leverage mode: STANDARD_50X
+- Recommended TradingView leverage: 50:1 (preferred aligned default: 50:1)
+- Recommended next-trade risk: $150–$242 (0.97% max)
 - Breach flags: daily_soft=False daily_hard=False max_soft=False max_hard=False
 
 Snapshot JSON (for sizing math):
 {
   "equity_rule": "last_row_EQUITY_column_only",
-  "current_equity_usd": 24387.67,
-  "last_row_trade_id": "TRADE_023",
-  "last_row_equity_usd": 24387.67,
-  "profit_from_start_usd": -612.33,
+  "current_equity_usd": 24717.78,
+  "last_row_trade_id": "TRADE_024",
+  "last_row_equity_usd": 24717.78,
+  "profit_from_start_usd": -282.22,
   "profit_target_usd": 2500,
-  "profit_remaining_usd": 3112.33,
+  "profit_remaining_usd": 2782.22,
   "challenge_passed": false,
   "daily_closed_pnl_usd": 0,
   "daily_loss_room_soft_usd": 625.0,
   "daily_loss_room_hard_usd": 750.0,
-  "max_loss_room_soft_usd": 637.67,
-  "max_loss_room_hard_usd": 887.67,
+  "max_loss_room_soft_usd": 967.78,
+  "max_loss_room_hard_usd": 1217.78,
   "equity_floor_hard_usd": 23500,
   "equity_floor_soft_usd": 23750,
-  "wins": 10,
+  "wins": 11,
   "losses": 10,
-  "trading_days_with_trades": 23,
-  "leverage_mode": "CAUTIOUS",
-  "recommended_tv_leverage": 10,
-  "recommended_max_risk_usd": 159.42,
-  "recommended_min_risk_usd": 100.0,
+  "trading_days_with_trades": 24,
+  "leverage_mode": "STANDARD_50X",
+  "recommended_tv_leverage": 50,
+  "recommended_max_risk_usd": 241.94,
+  "recommended_min_risk_usd": 150.0,
   "daily_breached_soft": false,
   "daily_breached_hard": false,
   "max_loss_breached_soft": false,
   "max_loss_breached_hard": false,
-  "today": "2026-08-20",
+  "today": "2026-09-01",
   "do_not_sum_pnl_usd": true,
   "do_not_use_cumulative_pnl": true
 }
@@ -110,18 +110,18 @@ Breach consequences:
 - Floating losses count toward daily loss in real time.
 
 MACRO INDICATORS:
-- 10Y Real yield (TIPS, DFII10): 2.4100000000%
-- 10Y Breakeven inflation (T10YIE): 2.3%
-- DXY: 98.794 (open 98.835, high 98.896, low 98.557)
+- 10Y Real yield (TIPS, DFII10): 2.42%
+- 10Y Breakeven inflation (T10YIE): 2.31%
+- DXY: 99.605 (open 99.421, high 99.632, low 99.353)
 
 TREASURY DATA:
-- 10Y Treasury yield: 4.71% (-1.0 bps 1d, 1.0 bps 5d)
-- 2Y Treasury yield: 4.19% (0.0 bps 1d, -3.0 bps 5d)
-- Treasury General Account: $963.95B (56.63B weekly change)
+- 10Y Treasury yield: 4.73% (6.0 bps 1d, -1.0 bps 5d)
+- 2Y Treasury yield: 4.34% (14.0 bps 1d, 10.0 bps 5d)
+- Treasury General Account: $950.74B (-2.88B weekly change)
 
 FED BALANCE SHEET:
-- Total assets: $6.76T
-- 4-week change: $16.93B
+- Total assets: $6.731T
+- 4-week change: $-7.28B
 
 ===================================================================
 DATA VALIDATION REPORT
@@ -137,7 +137,7 @@ SUMMARY: {"ok": 18, "warn": 1, "fail": 0, "blocking_failures": [], "trade_permis
 CHECKS:
 - [OK] XAUUSD spot decision price
   Source: gold-api XAU
-  Value: 4515.3
+  Value: 4375.0
   Detail: Primary execution/logging price must be live spot gold versus USD.
 - [WARN] XAUUSD bid/ask spread
   Source: gold-api XAU
@@ -145,71 +145,71 @@ CHECKS:
   Detail: Bid/ask missing or invalid; include extra slippage buffer and do not over-size.
 - [OK] DXY
   Source: yahoo_direct
-  Value: {"value": 98.794, "high": 98.896, "low": 98.557, "open": 98.835, "change": -0.036, "change_pct": -0.036, "source": "yahoo_direct"}
+  Value: {"value": 99.605, "high": 99.632, "low": 99.353, "open": 99.421, "change": 0.175, "change_pct": 0.176, "source": "yahoo_direct"}
   Detail: DXY is a primary gold transmission driver; failed/zero values must lower macro confidence.
 - [OK] 10Y real yield DFII10
   Source: FRED DFII10
-  Value: "2.4100000000"
+  Value: "2.42"
   Detail: Daily macro series; valid but may be stale intraday.
 - [OK] 10Y breakeven T10YIE
   Source: FRED T10YIE
-  Value: "2.3"
+  Value: "2.31"
   Detail: Daily macro series; valid but may be stale intraday.
 - [OK] 10Y Treasury yield
   Source: FRED Treasury snapshot
-  Value: {"value": 4.71, "change_1d_bps": -1.0, "change_5d_bps": 1.0, "error": null}
+  Value: {"value": 4.73, "change_1d_bps": 6.0, "change_5d_bps": -1.0, "error": null}
   Detail: Treasury yield available.
 - [OK] 2Y Treasury yield
   Source: FRED Treasury snapshot
-  Value: {"value": 4.19, "change_1d_bps": 0.0, "change_5d_bps": -3.0, "error": null}
+  Value: {"value": 4.34, "change_1d_bps": 14.0, "change_5d_bps": 10.0, "error": null}
   Detail: Treasury yield available.
 - [OK] Fed balance sheet/liquidity
   Source: FRED WALCL
-  Value: {"latest_trillions": 6.76, "four_week_change_billions": 16.93}
+  Value: {"latest_trillions": 6.731, "four_week_change_billions": -7.28}
   Detail: Liquidity context available.
 - [OK] 5m XAUUSD chart data
   Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
-  Value: {"current_price": 4563.4, "rsi": 52.43, "sma_9": 4553.01, "sma_21": 4543.28, "sma_50": 4535.22, "candles": 120, "latest_candle": "2026-08-20T14:51:17+00:00", "age_minutes": 11.7}
+  Value: {"current_price": 4423.2, "rsi": 39.06, "sma_9": 4433.71, "sma_21": 4455.31, "sma_50": 4470.42, "candles": 120, "latest_candle": "2026-09-01T08:44:09+00:00", "age_minutes": 11.3}
   Detail: Usable current chart data.
 - [OK] 15m XAUUSD chart data
   Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
-  Value: {"current_price": 4563.4, "rsi": 62.79, "sma_9": 4544.68, "sma_21": 4538.76, "sma_50": 4543.65, "candles": 150, "latest_candle": "2026-08-20T14:51:17+00:00", "age_minutes": 11.7}
+  Value: {"current_price": 4423.2, "rsi": 43.93, "sma_9": 4455.91, "sma_21": 4470.31, "sma_50": 4484.79, "candles": 150, "latest_candle": "2026-09-01T08:44:09+00:00", "age_minutes": 11.3}
   Detail: Usable current chart data.
 - [OK] 1h XAUUSD chart data
   Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
-  Value: {"current_price": 4563.3, "rsi": 54.81, "sma_9": 4543.76, "sma_21": 4551.88, "sma_50": 4484.71, "candles": 170, "latest_candle": "2026-08-20T14:51:17+00:00", "age_minutes": 11.7}
+  Value: {"current_price": 4423.2, "rsi": 45.17, "sma_9": 4470.08, "sma_21": 4480.52, "sma_50": 4520.92, "candles": 170, "latest_candle": "2026-09-01T08:44:09+00:00", "age_minutes": 11.3}
   Detail: Usable current chart data.
 - [OK] 4h XAUUSD chart data
   Source: XAUUSD / GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
-  Value: {"current_price": 4563.3, "rsi": 63.05, "sma_9": 4539.99, "sma_21": 4482.42, "sma_50": 4458.87, "candles": 96, "latest_candle": "2026-08-20T14:51:17+00:00", "age_minutes": 11.7}
+  Value: {"current_price": 4423.2, "rsi": 50.19, "sma_9": 4475.67, "sma_21": 4544.92, "sma_50": 4620.83, "candles": 96, "latest_candle": "2026-09-01T08:44:09+00:00", "age_minutes": 11.3}
   Detail: Usable current chart data.
 - [OK] XAUUSD confluence tensor
   Source: GC=F chart proxy for XAUUSD technicals; gold-api spot for execution
-  Value: {"feature_names": ["price_vs_sma9", "ma_stack", "rsi_centered", "range_position", "momentum_5bar", "volume_pressure"], "feature_weights": {"price_vs_sma9": 0.25, "ma_stack": 0.25, "rsi_centered": 0.15, "range_position": 0.1, "momentum_5bar": 0.2, "volume_pressure": 0.05}, "timeframe_order": ["5m", "15m", "1h", "4h"], "timeframe_weights": {"5m": 0.15, "15m": 0.2, "1h": 0.25, "4h": 0.4}, "candle_limits": {"5m": 120, "15m": 150, "1h": 170, "4h": 96}, "matrix": [[1.0, 1.0, 0.0486, 0.9624, 0.0585, -0.8034], [1.0, 0.0, 0.2558, 0.8018, 0.1164, -0.2425], [1.0, 0.0, 0.0962, 0.8122, 0.0743, 1.0], [1.0, 1.0, 0.261, 0.9196, -0.0258, 0.7487]], "timeframe_scores": {"5m": 5.75, "15m": 3.8, "1h": 4.11, "4h": 6.63}, "aggregate_score": 5.3, "alignment_label": "BULLISH_CONFLUENCE", "scale_note": "Feature values are normalized -1..1; scores are directional -10 bearish to +10 bullish. Candle limits cap prompt context per timeframe to preserve signal quality."}
+  Value: {"feature_names": ["price_vs_sma9", "ma_stack", "rsi_centered", "range_position", "momentum_5bar", "volume_pressure"], "feature_weights": {"price_vs_sma9": 0.25, "ma_stack": 0.25, "rsi_centered": 0.15, "range_position": 0.1, "momentum_5bar": 0.2, "volume_pressure": 0.05}, "timeframe_order": ["5m", "15m", "1h", "4h"], "timeframe_weights": {"5m": 0.15, "15m": 0.2, "1h": 0.25, "4h": 0.4}, "candle_limits": {"5m": 120, "15m": 150, "1h": 170, "4h": 96}, "matrix": [[-1.0, -1.0, -0.2188, -0.8978, -0.0492, 0.0579], [-1.0, -1.0, -0.1213, -0.9173, -0.1952, 1.0], [-1.0, -1.0, -0.0966, -0.9721, -0.2324, 1.0], [-1.0, -1.0, 0.0038, -0.7037, -0.3501, -0.4614]], "timeframe_scores": {"5m": -6.3, "15m": -5.99, "1h": -6.08, "4h": -6.63}, "aggregate_score": -6.32, "alignment_label": "BEARISH_CONFLUENCE", "scale_note": "Feature values are normalized -1..1; scores are directional -10 bearish to +10 bullish. Candle limits cap prompt context per timeframe to preserve signal quality."}
   Detail: Confluence tensor available.
 - [OK] Chart volume / volume_pressure
   Source: GC=F Yahoo OHLCV (independent of gold-api bid/ask)
-  Value: {"label": "volume_pressure source=GC=F Yahoo OHLCV (independent of gold-api bid/ask); usable_tfs=4/4; forming_zero_bars_dropped=4; pressures={'5m': -0.8034, '15m': -0.2425, '1h': 1.0, '4h': 0.7487}", "pressures": {"5m": -0.8034, "15m": -0.2425, "1h": 1.0, "4h": 0.7487}, "forming_zero_bars_dropped": 4, "usable_timeframes": 4, "independent_of_bid_ask": true}
+  Value: {"label": "volume_pressure source=GC=F Yahoo OHLCV (independent of gold-api bid/ask); usable_tfs=4/4; forming_zero_bars_dropped=4; pressures={'5m': 0.0579, '15m': 1.0, '1h': 1.0, '4h': -0.4614}", "pressures": {"5m": 0.0579, "15m": 1.0, "1h": 1.0, "4h": -0.4614}, "forming_zero_bars_dropped": 4, "usable_timeframes": 4, "independent_of_bid_ask": true}
   Detail: Volume usable after excluding forming zero-volume bars.
 - [OK] USD high-impact economic calendar
   Source: Forex Factory this-week XML (full scan)
-  Value: {"status": "ok", "event_count": 4, "high_impact_count": 1, "nfp_related": [], "label": "USD high-impact calendar (FF this week): 08-19-2026 6:00pm FOMC Meeting Minutes (forecast=n/a)"}
+  Value: {"status": "ok", "event_count": 9, "high_impact_count": 4, "nfp_related": ["09-02-2026 12:15pm ADP Non-Farm Employment Change", "09-04-2026 12:30pm Non-Farm Employment Change", "09-04-2026 12:30pm Unemployment Rate", "09-04-2026 12:30pm Average Hourly Earnings m/m"], "label": "USD high-impact calendar (FF this week): 09-01-2026 2:00pm ISM Manufacturing PMI (forecast=55.2); 09-04-2026 12:30pm Non-Farm Employment Change (forecast=55K); 09-04-2026 12:30pm Unemployment Rate (forecast=4.1%); 09-04-2026 12:30pm Average Hourly Earnings m/m (forecast=0.3%)"}
   Detail: Dated FF schedule available — cite these times; do not mark known releases UNKNOWN.
 - [OK] Live news/catalyst events
   Source: GNews + public feeds + Forex Factory calendar
-  Value: {"events": 23, "failed_events": 6}
+  Value: {"events": 24, "failed_events": 7}
   Detail: At least one live/candidate event source returned.
 - [OK] Trade-log learning inputs
   Source: model_trade_log.txt + trade_backlog.txt
-  Value: {"model_log_chars": 8556, "manual_log_chars": 3910, "resolved_manual_outcomes": 0}
+  Value: {"model_log_chars": 8556, "manual_log_chars": 3937, "resolved_manual_outcomes": 0}
   Detail: Trade history available for feedback.
 - [OK] Loopback prior signal comparison
   Source: gold_agent_state.json
-  Value: {"status": "evaluated_prior_signal", "previous_spot_gold_price": 4484.7, "current_spot_gold_price": 4515.3, "signal_outcome": "NEUTRAL_MISSED_MOVE", "previous_price_verified_spot": true}
+  Value: {"status": "evaluated_prior_signal", "previous_spot_gold_price": 4420.5, "current_spot_gold_price": 4375.0, "signal_outcome": "NEUTRAL_MISSED_MOVE", "previous_price_verified_spot": true}
   Detail: Prior signal can be compared against verified XAUUSD spot.
 - [OK] Volatility regime (code)
   Source: fetch_intraday ADX/ATR%/BB-width
-  Value: {"label": "regime: trending, ATR at 92.0th percentile of last 50; ADX=20.6; BB_width_pct=100.0; breakout_trigger=False", "regime": "trending", "primary_timeframe": "15m", "gate_blocks_entries": false, "breakout_trigger": false, "breakout_direction": null}
+  Value: {"label": "regime: trending, ATR at 98.0th percentile of last 50; ADX=34.71; BB_width_pct=100.0; breakout_trigger=False", "regime": "trending", "primary_timeframe": "15m", "gate_blocks_entries": false, "breakout_trigger": false, "breakout_direction": null}
   Detail: Regime feature available for prompt + hard gate.
 
 ===================================================================
@@ -235,15 +235,26 @@ that is the timing; it is not UNKNOWN.
 
 STATUS: ok
 SOURCE: https://nfs.faireconomy.media/ff_calendar_thisweek.xml
-BINDING LABEL: USD high-impact calendar (FF this week): 08-19-2026 6:00pm FOMC Meeting Minutes (forecast=n/a)
+BINDING LABEL: USD high-impact calendar (FF this week): 09-01-2026 2:00pm ISM Manufacturing PMI (forecast=55.2); 09-04-2026 12:30pm Non-Farm Employment Change (forecast=55K); 09-04-2026 12:30pm Unemployment Rate (forecast=4.1%); 09-04-2026 12:30pm Average Hourly Earnings m/m (forecast=0.3%)
 
 RULE: Cite date/time from this block for NFP/CPI/ISM/etc. Do NOT write timing UNKNOWN when an event appears here.
 
 USD HIGH/MEDIUM EVENTS THIS WEEK:
-- [HIGH] 08-19-2026 6:00pm | FOMC Meeting Minutes | forecast=n/a prev=n/a
-- [MEDIUM] 08-19-2026 6:30pm | President Trump Speaks | forecast=n/a prev=n/a
-- [MEDIUM] 08-20-2026 12:30pm | Unemployment Claims | forecast=210K prev=209K
-- [MEDIUM] 08-20-2026 12:30pm | Philly Fed Manufacturing Index | forecast=24.1 prev=41.4
+- [HIGH] 09-01-2026 2:00pm | ISM Manufacturing PMI | forecast=55.2 prev=55.6
+- [MEDIUM] 09-01-2026 2:00pm | ISM Manufacturing Prices | forecast=70.5 prev=71.1
+- [MEDIUM] 09-01-2026 2:00pm | JOLTS Job Openings | forecast=7.33M prev=7.36M
+- [MEDIUM] 09-02-2026 12:15pm | ADP Non-Farm Employment Change | forecast=48K prev=44K
+- [MEDIUM] 09-03-2026 12:30pm | Unemployment Claims | forecast=205K prev=203K
+- [MEDIUM] 09-03-2026 2:00pm | ISM Services PMI | forecast=54.2 prev=54.1
+- [HIGH] 09-04-2026 12:30pm | Non-Farm Employment Change | forecast=55K prev=-23K
+- [HIGH] 09-04-2026 12:30pm | Unemployment Rate | forecast=4.1% prev=4.1%
+- [HIGH] 09-04-2026 12:30pm | Average Hourly Earnings m/m | forecast=0.3% prev=0.1%
+
+NFP / PAYROLLS CLUSTER (explicit):
+- 09-02-2026 12:15pm | ADP Non-Farm Employment Change | forecast=48K
+- 09-04-2026 12:30pm | Non-Farm Employment Change | forecast=55K
+- 09-04-2026 12:30pm | Unemployment Rate | forecast=4.1%
+- 09-04-2026 12:30pm | Average Hourly Earnings m/m | forecast=0.3%
 
 ===================================================================
 LIVE INTERNET DISRUPTION SCOUT
@@ -257,137 +268,126 @@ through XAUUSD spot price action, DXY, yields, and freshness.
 CLAUDE SEARCH PLAN:
 {
   "queries": [
-    "XAUUSD gold price today live intraday move August 20 2026",
-    "gold record high dollar Fed rate cut expectations September FOMC odds today",
-    "Jackson Hole 2026 symposium schedule Powell speech preview gold reaction",
-    "FOMC July 2026 minutes reaction Treasury yields dollar gold",
-    "US initial jobless claims today release reaction dollar yields",
-    "Forex Factory high impact USD events today August 20 2026 calendar",
-    "DXY dollar index today drivers intraday move news",
-    "10-year Treasury yield real yields TIPS auction today move basis points",
-    "Fed speakers today comments rate cuts inflation labor market",
-    "geopolitical risk headlines today Middle East Russia Ukraine ceasefire sanctions gold safe haven",
-    "central bank gold buying reserves demand latest data PBoC 2026",
-    "gold ETF inflows COMEX positioning futures open interest this week"
+    "spot gold price XAUUSD selloff today September 1 2026 reason",
+    "US 2-year Treasury yield jumps 14 basis points Fed rate cut odds repriced",
+    "Fed officials hawkish comments September 2026 rate path speculation",
+    "dollar index DXY rally today driver September 1 2026",
+    "ISM manufacturing PMI August 2026 release forecast today",
+    "gold ETF holdings outflows central bank gold buying latest report",
+    "Middle East Ukraine ceasefire talks headlines September 1 2026 safe haven",
+    "US nonfarm payrolls September 4 2026 preview expectations labor market",
+    "Forex Factory high impact USD events this week September 2026",
+    "Treasury auction schedule 10-year 30-year September 2026 demand yields",
+    "gold technical breakdown support level 4350 4300 analysts today",
+    "banking stress liquidity repo funding pressure news September 2026"
   ],
   "high_impact_watchlist": [
     {
-      "topic": "Jackson Hole symposium / Fed Chair policy remarks",
-      "why_gold_cares": "Repricing of the terminal rate and cut path moves real yields and the dollar, the two dominant gold discount-rate inputs",
-      "impact_threshold": "Explicit shift in guidance language or pushback on market-priced cuts; historically produces multi-dollar-per-ounce gaps within minutes",
+      "topic": "Front-end Treasury repricing (2Y yield surge / Fed cut odds)",
+      "why_gold_cares": "Higher short-end real rates raise the opportunity cost of holding non-yielding gold and support the dollar",
+      "impact_threshold": "Double-digit bps daily moves in 2Y or a visible shift in near-term Fed cut probabilities",
+      "directional_risk": "BEARISH_GOLD"
+    },
+    {
+      "topic": "Fed speakers / FOMC communication",
+      "why_gold_cares": "Guidance on the cut path resets real yield expectations, the dominant gold discount factor",
+      "impact_threshold": "Explicit pushback on near-term cuts, or a policymaker flagging inflation reacceleration",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "US labor data (weekly claims, payroll revisions, JOLTS)",
-      "why_gold_cares": "Labor deterioration accelerates cut pricing, lowers real yields and DXY, supporting gold; strength does the reverse",
-      "impact_threshold": "Surprise large enough versus consensus to move front-end yields materially; claims matter most when trending to a new range",
+      "topic": "US ISM manufacturing PMI and prices-paid component",
+      "why_gold_cares": "Growth/inflation mix drives yields and DXY within minutes of release; prices-paid feeds inflation expectations",
+      "impact_threshold": "Sizeable surprise versus consensus, especially divergence between headline and prices-paid",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "CPI / PCE inflation prints and breakeven repricing",
-      "why_gold_cares": "Nominal yield move minus breakeven move sets the real yield impulse; sticky inflation with dovish Fed is the most bullish mix",
-      "impact_threshold": "Core surprise that shifts the next-meeting probability distribution and the 10Y breakeven",
+      "topic": "Payrolls week data cluster (JOLTS, ADP, claims, NFP)",
+      "why_gold_cares": "Labor data is the primary input for the Fed path; weak prints ease real yields and lift gold",
+      "impact_threshold": "Consensus misses large enough to move 2Y yields and rate-cut pricing",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "10Y real yield (DFII10) and TIPS/long-bond auction results",
-      "why_gold_cares": "Gold has no carry; rising real yields raise its opportunity cost directly",
-      "impact_threshold": "Tail in an auction or a decisive same-day move in real yields rather than a stale daily print",
+      "topic": "US dollar index momentum",
+      "why_gold_cares": "Gold is dollar-denominated; sustained DXY strength mechanically compresses gold bids",
+      "impact_threshold": "Broad-based intraday DXY trend extension rather than noise, confirmed by EUR and JPY legs",
+      "directional_risk": "BEARISH_GOLD"
+    },
+    {
+      "topic": "Geopolitical de-escalation or escalation headlines (ceasefire, sanctions, strikes)",
+      "why_gold_cares": "Safe-haven premium is added or unwound quickly with no data lag",
+      "impact_threshold": "Official confirmation from governments/state media rather than unnamed-source reports",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "DXY and cross-currency policy divergence (ECB/BoJ/PBoC headlines)",
-      "why_gold_cares": "Dollar is the pricing numeraire; foreign policy shifts transmit to gold via the dollar leg",
-      "impact_threshold": "Intraday DXY move large enough to break the session range; today's DXY change has been negligible so far",
+      "topic": "Central bank gold demand and official reserve updates",
+      "why_gold_cares": "Structural bid underpins dips; slowdown removes a key support pillar after a parabolic advance",
+      "impact_threshold": "Monthly reserve reports or credible reports of pause/acceleration in official buying",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "Geopolitical shocks: Middle East, Russia/Ukraine, ceasefire or sanctions news",
-      "why_gold_cares": "Safe-haven bid and reserve-diversification flows; ceasefire headlines unwind risk premium quickly",
-      "impact_threshold": "Confirmed escalation/de-escalation from a primary source, not commentary; strikes on energy or shipping infrastructure",
+      "topic": "ETF flows, CME margin changes and positioning liquidation",
+      "why_gold_cares": "After large price extensions, margin hikes and ETF redemptions force mechanical selling and momentum unwinds",
+      "impact_threshold": "Exchange margin notices or multi-session outflow streaks in major gold ETFs",
+      "directional_risk": "BEARISH_GOLD"
+    },
+    {
+      "topic": "Treasury supply/auction demand and TGA-driven liquidity",
+      "why_gold_cares": "Weak auction demand pushes long yields up and can tighten dollar liquidity, pressuring gold before any safe-haven bid emerges",
+      "impact_threshold": "Notable tails, weak bid-to-cover, or high indirect/dealer takedown",
       "directional_risk": "TWO_WAY"
     },
     {
-      "topic": "Central bank gold demand and reserve diversification reports",
-      "why_gold_cares": "Persistent official-sector bid underpins dips and supports record-high regimes",
-      "impact_threshold": "Monthly reserve data or a new sovereign buyer announcement; slow-burn but shapes dip-buying behaviour",
+      "topic": "Banking/funding stress and credit events",
+      "why_gold_cares": "Systemic stress triggers flight-to-quality bids and prices in emergency easing",
+      "impact_threshold": "Named institution stress, spiking funding spreads, or emergency facility usage",
       "directional_risk": "BULLISH_GOLD"
-    },
-    {
-      "topic": "Fed independence / political pressure on the Fed and leadership headlines",
-      "why_gold_cares": "Threatens the inflation-fighting credibility premium, steepening curves and lifting gold as a monetary hedge",
-      "impact_threshold": "Concrete personnel or legal action rather than rhetoric",
-      "directional_risk": "BULLISH_GOLD"
-    },
-    {
-      "topic": "Banking/credit stress and funding-market strain (repo, SOFR spreads, credit spreads)",
-      "why_gold_cares": "Stress triggers safe-haven demand and expectations of liquidity provision, though acute margin events can force gold liquidation first",
-      "impact_threshold": "Named institution failure, sharp repo spread widening, or emergency facility usage",
-      "directional_risk": "TWO_WAY"
-    },
-    {
-      "topic": "Liquidity plumbing: TGA rebuild, Fed balance sheet, bill issuance",
-      "why_gold_cares": "Reserve drain tightens financial conditions and can pressure gold at the margin; reversal supports it",
-      "impact_threshold": "Large weekly TGA swings or a change in the balance-sheet runoff/reinvestment stance",
-      "directional_risk": "TWO_WAY"
-    },
-    {
-      "topic": "Positioning and flow: ETF holdings, COMEX open interest, options expiry",
-      "why_gold_cares": "At range highs crowded longs amplify downside air pockets; steady ETF inflows validate trend continuation",
-      "impact_threshold": "Extreme speculative net length or an expiry pin near a large strike",
-      "directional_risk": "TWO_WAY"
     }
   ],
   "impact_rubric": [
     {
-      "data_type": "Fed communication (Chair remarks, minutes, official speakers, Jackson Hole)",
+      "data_type": "XAUUSD spot price action and intraday confluence",
       "rank": 1,
-      "reason": "Directly repositions the rate path, which is the fastest and largest intraday transmission channel to gold"
+      "reason": "Final arbiter of thesis transmission; currently bearish-aligned across all timeframes with price below every key moving average"
     },
     {
-      "data_type": "Tier-1 US macro releases (CPI/PCE, NFP, claims, retail sales)",
+      "data_type": "Fresh, sourced catalyst headlines with clear transmission",
       "rank": 2,
-      "reason": "Scheduled volatility windows with immediate yield and dollar repricing"
+      "reason": "Only inputs capable of repricing gold instantly during a fast -1% intraday leg"
     },
     {
-      "data_type": "Real yields / nominal-breakeven decomposition",
+      "data_type": "Front-end yields / Fed cut pricing",
       "rank": 3,
-      "reason": "Core valuation anchor for a zero-carry asset; daily FRED prints can be stale so pair with live TIPS/futures moves"
+      "reason": "The 2Y move dominates gold's discount rate intraday and just shifted materially"
     },
     {
-      "data_type": "DXY intraday direction and magnitude",
+      "data_type": "Tier-1 US data releases (ISM, JOLTS, ADP, NFP, CPI/PCE)",
       "rank": 4,
-      "reason": "Pricing numeraire; only transmits when the move is large enough to break session ranges, which it has not today"
+      "reason": "Scheduled volatility windows with immediate yield and DXY passthrough"
     },
     {
-      "data_type": "Geopolitical shock headlines from primary sources",
+      "data_type": "DXY trend",
       "rank": 5,
-      "reason": "Unscheduled, can dominate all technicals for hours, but risk premium decays if unconfirmed"
+      "reason": "Transmits when the move is broad and sustained; small ticks carry little weight"
     },
     {
-      "data_type": "XAUUSD intraday confluence tensor (multi-timeframe MA/RSI/momentum)",
+      "data_type": "Geopolitical and safe-haven headlines",
       "rank": 6,
-      "reason": "Best for entry timing and confirmation once a macro direction is established; currently bullish-aligned with stretched range position"
+      "reason": "Can override macro instantly but often mean-reverts absent official confirmation"
     },
     {
-      "data_type": "Treasury supply, auctions, TGA and funding liquidity",
+      "data_type": "10Y real yield / breakevens (FRED)",
       "rank": 7,
-      "reason": "Sets the yield backdrop and dollar funding tone; matters intraday mainly around auction results"
+      "reason": "Structurally decisive but published daily, so frequently stale for intraday timing"
     },
     {
-      "data_type": "Positioning, ETF flows, expiries",
+      "data_type": "Positioning, ETF flows, margin and exchange notices",
       "rank": 8,
-      "reason": "Amplifier rather than initiator; explains overshoot and mean-reversion after catalysts"
+      "reason": "Explains follow-through and cascade risk after extended moves"
     },
     {
-      "data_type": "Central bank gold demand and reserve data",
+      "data_type": "Fed balance sheet / TGA liquidity",
       "rank": 9,
-      "reason": "Structural bid that shapes dip depth rather than the intraday impulse"
-    },
-    {
-      "data_type": "Fed balance sheet aggregates",
-      "rank": 10,
-      "reason": "Slow-moving macro context; low intraday weight unless the liquidity shift is abrupt"
+      "reason": "Slow-moving macro backdrop; only intraday relevant on large liquidity shocks"
     }
   ],
   "status": "claude_search_plan"
@@ -395,225 +395,236 @@ CLAUDE SEARCH PLAN:
 
 SEARCH QUERIES:
 [
-  "XAUUSD gold price today live intraday move August 20 2026",
-  "gold record high dollar Fed rate cut expectations September FOMC odds today",
-  "Jackson Hole 2026 symposium schedule Powell speech preview gold reaction",
-  "FOMC July 2026 minutes reaction Treasury yields dollar gold",
-  "US initial jobless claims today release reaction dollar yields",
-  "Forex Factory high impact USD events today August 20 2026 calendar",
-  "DXY dollar index today drivers intraday move news",
-  "10-year Treasury yield real yields TIPS auction today move basis points",
-  "Fed speakers today comments rate cuts inflation labor market",
-  "geopolitical risk headlines today Middle East Russia Ukraine ceasefire sanctions gold safe haven",
-  "central bank gold buying reserves demand latest data PBoC 2026",
-  "gold ETF inflows COMEX positioning futures open interest this week"
+  "spot gold price XAUUSD selloff today September 1 2026 reason",
+  "US 2-year Treasury yield jumps 14 basis points Fed rate cut odds repriced",
+  "Fed officials hawkish comments September 2026 rate path speculation",
+  "dollar index DXY rally today driver September 1 2026",
+  "ISM manufacturing PMI August 2026 release forecast today",
+  "gold ETF holdings outflows central bank gold buying latest report",
+  "Middle East Ukraine ceasefire talks headlines September 1 2026 safe haven",
+  "US nonfarm payrolls September 4 2026 preview expectations labor market",
+  "Forex Factory high impact USD events this week September 2026",
+  "Treasury auction schedule 10-year 30-year September 2026 demand yields",
+  "gold technical breakdown support level 4350 4300 analysts today",
+  "banking stress liquidity repo funding pressure news September 2026"
 ]
 
 DISRUPTIVE CATALYST CANDIDATES:
-- [score 6/10, BULLISH_GOLD] Bessent moves to curb Treasury yields, putting new pressure on Warsh's Fed (CNBC Politics, 2026-08-19T20:02:32+00:00)
-  Query: public RSS feed: politics
-  Summary: Treasury's move to buy back more long-term debt cooled a bond selloff, but economists warn it could raise new inflation and independence questions for the Fed
+- [score 62/10, TWO_WAY] Forex Factory High impact: USD ISM Manufacturing PMI (Forex Factory Calendar, 09-01-2026 2:00pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-01-2026 2:00pm. Forecast: 55.2; Previous: 55.6.
   Impact scoring: claude
-  Claude impact reason: Treasury buybacks of long-end debt plus implied political pressure on the Fed feed the debasement/independence-premium trade; suppresses nominal yields while raising inflation-expectation risk, a classic lower-real-yield, higher-gold mix.
-  URL: https://www.cnbc.com/2026/08/19/bessent-treasury-buybacks-yields-warsh-fed.html
-- [score 6/10, TWO_WAY] Claude high-impact gold catalyst watchlist (claude_market_knowledge, 2026-08-20T18:02:56.062330)
+  Claude impact reason: Tier-1 US release today at 14:00 ET (forecast 55.2 vs 55.6 prior); headline and prices-paid feed straight into yields, DXY and Fed path within minutes, with gold already pressured near 4375.
+  URL: https://www.forexfactory.com/calendar
+- [score 55/10, TWO_WAY] Forex Factory High impact: USD Non-Farm Employment Change (Forex Factory Calendar, 09-04-2026 12:30pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-04-2026 12:30pm. Forecast: 55K; Previous: -23K.
+  Impact scoring: claude
+  Claude impact reason: Friday NFP with a large expected swing (+55K vs -23K prior) anchors the week's Fed-path pricing; pre-positioning can cap gold volatility into the print.
+  URL: https://www.forexfactory.com/calendar
+- [score 42/10, TWO_WAY] Forex Factory High impact: USD Average Hourly Earnings m/m (Forex Factory Calendar, 09-04-2026 12:30pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-04-2026 12:30pm. Forecast: 0.3%; Previous: 0.1%.
+  Impact scoring: claude
+  Claude impact reason: Wage print (0.3% f/c vs 0.1%) released alongside NFP; inflation-relevant, so it can amplify or offset the payrolls reaction through breakevens and real yields.
+  URL: https://www.forexfactory.com/calendar
+- [score 38/10, TWO_WAY] Forex Factory High impact: USD Unemployment Rate (Forex Factory Calendar, 09-04-2026 12:30pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-04-2026 12:30pm. Forecast: 4.1%; Previous: 4.1%.
+  Impact scoring: claude
+  Claude impact reason: Steady 4.1% forecast; only a tenth-level surprise would materially shift cut odds, but it is a same-release component of the payrolls cluster.
+  URL: https://www.forexfactory.com/calendar
+- [score 30/10, TWO_WAY] Forex Factory Medium impact: EUR CPI Flash Estimate y/y (Forex Factory Calendar, 09-01-2026 9:00am)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-01-2026 9:00am. Forecast: 3.3%; Previous: 2.9%.
+  Impact scoring: claude
+  Claude impact reason: Eurozone flash CPI at 09:00 ET expected to jump to 3.3% from 2.9%; a hot print lifts EUR/pressures DXY, mechanically supporting gold, while a soft print aids the dollar rally.
+  URL: https://www.forexfactory.com/calendar
+- [score 26/10, TWO_WAY] Forex Factory Medium impact: EUR Core CPI Flash Estimate y/y (Forex Factory Calendar, 09-01-2026 9:00am)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-01-2026 9:00am. Forecast: 2.5%; Previous: 2.5%.
+  Impact scoring: claude
+  Claude impact reason: Core seen unchanged at 2.5%; ForexLive itself flags muted reaction unless core surprises, limiting transmission to DXY and gold.
+  URL: https://www.forexfactory.com/calendar
+- [score 24/10, TWO_WAY] Trump says U.S. growth could hit 20%. It’s happened only once since WWII (CNBC Politics, 2026-08-31T20:50:01+00:00)
+  Query: public RSS feed: politics
+  Summary: Trump argued rapid growth should not prompt Fed rate hikes, even as inflation remains above the central bank’s 2% target.
+  Impact scoring: claude
+  Claude impact reason: Political pressure on the Fed against hikes despite above-target inflation touches Fed-independence and inflation-expectation channels, but it is rhetoric with no policy change and is already a day old.
+  URL: https://www.cnbc.com/2026/08/31/trump-us-gdp-growth-20-percent-economy.html
+- [score 18/10, UNKNOWN] What are the main events for today? (ForexLive, 2026-09-01T06:36:31+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: EUROPEAN SESSION In the European session, we have the final PMIs for the major Eurozone economies and the UK, as well as the Eurozone Flash CPI report. The final PMIs and other low-tier indicators won't be market-moving, as the data won't change anything for the respective central banks. The Eurozone CPI Y/Y is expected at 3.3% vs 2.9% prior, while the Core Y/Y measure is seen at 2.5% vs 2.5% prior. Again, the market reaction will likely be muted unless the core inflation data surprises meaningf
+  Impact scoring: claude
+  Claude impact reason: Session preview aggregating EZ PMIs and flash CPI; useful timing context but explicitly says reaction should be muted, so no independent catalyst value.
+  URL: https://investinglive.com/news/what-are-the-main-events-for-today-32/
+- [score 16/10, TWO_WAY] Forex Factory Low impact: USD FOMC Member Barr Speaks (Forex Factory Calendar, 09-01-2026 1:05pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-01-2026 1:05pm. Forecast: n/a; Previous: n/a.
+  Impact scoring: claude
+  Claude impact reason: Fed speaker today just before ISM; Barr is typically regulation-focused, so policy-path relevance is limited unless he addresses the cut path.
+  URL: https://www.forexfactory.com/calendar
+- [score 15/10, TWO_WAY] Forex Factory Low impact: USD FOMC Member Waller Speaks (Forex Factory Calendar, 09-03-2026 12:30pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-03-2026 12:30pm. Forecast: n/a; Previous: n/a.
+  Impact scoring: claude
+  Claude impact reason: Waller is a high-signal speaker on the rate path, but the appearance is two sessions out and offers no intraday transmission now.
+  URL: https://www.forexfactory.com/calendar
+- [score 10/10, TWO_WAY] Forex Factory Low impact: USD FOMC Member Hammack Speaks (Forex Factory Calendar, 09-03-2026 7:00pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-03-2026 7:00pm. Forecast: n/a; Previous: n/a.
+  Impact scoring: claude
+  Claude impact reason: Future evening speaking slot with no data content; hawkish surprises possible but no near-term transmission.
+  URL: https://www.forexfactory.com/calendar
+- [score 10/10, TWO_WAY] Forex Factory Low impact: USD FOMC Member Goolsbee Speaks (Forex Factory Calendar, 09-03-2026 7:05pm)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-03-2026 7:05pm. Forecast: n/a; Previous: n/a.
+  Impact scoring: claude
+  Claude impact reason: Scheduled Sept 3 evening remarks; low liquidity window and no immediate bearing on today's gold tape.
+  URL: https://www.forexfactory.com/calendar
+- [score 9/10, UNKNOWN] Germany August final manufacturing PMI 54.3 vs 54.1 prelim (ForexLive, 2026-09-01T07:55:07+00:00)
+  Query: public RSS feed: fx_rates_macro
+  Summary: Prior was 52.2 Key findings: Production posts strongest growth since January 2022, supported by jump in orders Supply chain pressures intensify further, contributing to steep rise in purchasing Business expectations brightest since just before the outbreak of the Middle East war in February Comment: Phil Smith, Economics Associate Director at S&amp;P Global Market Intelligence: "The recovery in the German manufacturing sector kicked up a gear in August, with a jump in new orders helping propel o
+  Impact scoring: claude
+  Claude impact reason: Final revision of an already-known preliminary print; marginal EUR support at best and no Fed-path or real-yield channel.
+  URL: https://investinglive.com/news/germany-august-final-manufacturing-pmi-xx-vs-54-1-prelim/
+- [score 6/10, UNKNOWN] Forex Factory Medium impact: CHF CPI m/m (Forex Factory Calendar, 09-03-2026 6:30am)
+  Query: public RSS feed: economic_calendar
+  Summary: Calendar event for 09-03-2026 6:30am. Forecast: 0.0%; Previous: -0.1%.
+  Impact scoring: claude
+  Claude impact reason: Swiss inflation near zero has negligible spillover to USD real yields or gold pricing.
+  URL: https://www.forexfactory.com/calendar
+- [score 6/10, TWO_WAY] Claude high-impact gold catalyst watchlist (claude_market_knowledge, 2026-09-01T11:55:28.752632)
   Query: Claude-generated high-impact watchlist, not a live headline
   Summary: [
   {
-    "topic": "Jackson Hole symposium / Fed Chair policy remarks",
-    "why_gold_cares": "Repricing of the terminal rate and cut path moves real yields and the dollar, the two dominant gold discount-rate inputs",
-    "impact_threshold": "Explicit shift in guidance language or pushback on market-priced cuts; historically produces multi-dollar-per-ounce gaps within minutes",
+    "topic": "Front-end Treasury repricing (2Y yield surge / Fed cut odds)",
+    "why_gold_cares": "Higher short-end real rates raise the opportunity cost of holding non-yielding gold and support the dollar",
+    "impact_threshold": "Double-digit bps daily moves in 2Y or a visible shift in near-term Fed cut probabilities",
+    "directional_risk": "BEARISH_GOLD"
+  },
+  {
+    "topic": "Fed speakers / FOMC communication",
+    "why_gold_cares": "Guidance on the cut path resets real yield expectations, the dominant gold discount factor",
+    "impact_threshold": "Explicit pushback on near-term cuts, or a policymaker flagging inflation reacceleration",
     "directional_risk": "TWO_WAY"
   },
   {
-    "topic": "US labor data (weekly claims, payroll revisions, JOLTS)",
-    "why_gold_cares": "Labor deterioration accelerates cut pricing, lowers real yields and DXY, supporting gold; strength does the reverse",
-    "impact_threshold": "Surprise large enough versus consensus to move front-end yields materially; claims matter most when trending to a new range",
+    "topic": "US ISM manufacturing PMI and prices-paid component",
+    "why_gold_cares": "Growth/inflation mix drives yields and DXY within minutes of release; prices-paid feeds inflation expectations",
+    "impact_threshold": "Sizeable surprise versus consensus, especially divergence between headline and prices-paid",
     "directional_risk": "TWO_WAY"
   },
   {
-    "topic": "CPI / PCE inflation prints and breakeven repricing",
-    "why_gold_cares": "Nominal yield move minus breakeven move sets the real yield impulse; sticky inflation with dovish Fed is the most bullish mix",
-    "impact_threshold": "Core surprise that shifts the next-meeting probability distribution and the 10Y breakeven",
+    "topic": "Payrolls week data cluster (JOLTS, ADP, claims, NFP)",
+    "why_gold_cares": "Labor data is the primary input for the Fed path; weak prints ease real yields and lift gold",
+    "impact_threshold": "Consensus misses large enough to move 2Y yields and rate-cut pricing",
     "directional_risk": "TWO_WAY"
   },
   {
-    "topic": "10Y real yield (DFII10) and TIPS/long-bond auction results",
-    "why_gold_cares": "Gold has no carry; rising real yields raise its opportunity cost directly",
-    "impact_threshold": "Tail in an auction or a decisive same-day move in real yields rather than a stale daily print",
+    "topic": "US dollar index momentum",
+    "why_gold_cares": "Gold is dollar-denominated; sustained DXY strength mechanically compresses gold bids",
+    "impact_threshold": "Broad-based intraday DXY trend extension rather than noise, confirmed by EUR and JPY legs",
+    "directional_risk": "BEARISH_GOLD"
+  },
+  {
+    "topic": "Geopolitical de-escalation or escalation headlines (ceasefire, sanctions, strikes)",
+    "why_gold_cares": "Safe-haven premium is added or unwound quickly with no data lag",
+    "impact_threshold": "Official confirmation from governments/state media rather than unnamed-source reports",
     "directional_risk": "TWO_WAY"
   },
   {
-    "topic": "DXY and cross-currency policy divergence (ECB/BoJ/PBoC headlines)",
-    "why_gold_cares": "Dollar is the pricing numeraire; foreign policy shifts transmit to gold via the dollar leg",
-    "impact_threshold": "Intraday DXY move large enough to break the session range; today's DXY change has been negligible so far",
+    "topic": "Central bank gold demand and official reserve updates",
+    "why_gold_cares": "Structural bid underpins dips; slowdown removes a key support pillar after a parabolic advance",
+    "impact_threshold": "Monthly reserve reports or credible reports of pause/acceleration in official buying",
     "directional_risk": "TWO_WAY"
   },
   {
-    "topic": "Geopolitical shocks: Middle East, Russia/Ukraine, ceasefire or sanctions news",
-    "why_gold_cares": "Safe-haven bid and reserve-diversification flows; ceasefire headlines unwind risk premium quickly",
-    "impact_threshold": "Confirmed escalation/de-escalation from a primary source, not commentary; strikes on energy or shipping infrastructure",
-    "directional_risk": "TWO_WAY"
-  },
-  {
-    "topic": "Central bank gold demand and reserve diversification reports",
-    "why_gold_cares": "Persistent official-sector bid underpins dips and supports record-high regimes",
-    "impact_threshold": "Monthly reserve data or a new sovereign buyer announcement; slow-burn but shapes dip-buying behaviour",
-    "directional_risk": "BULLISH_GOLD"
-  },
-  {
-    "topic": "Fed independence / political pressure on the Fed and leadership headlines",
-    "why_gold_cares": "Threatens the inflation-fighting credibility premium, steepening curves and lifting gold as a monetary hedge",
-    "impact_threshold": "Concrete personnel or legal action rather than rhetoric",
-    "directional_risk": "BULLISH_GOLD"
+    "topic": "ETF flows, CME margin changes and positioning liquidation",
+    "why_gold_cares": "After large price extensions, margin hikes and ETF redemptions force mechanical selling and momentum unwinds",
+    "impact_threshold": "Exchange margin notices or multi-session outflow streaks in major gold ETFs",
+    "directional_risk": "BEARISH_GOLD"
   }
 ]
   Impact scoring: claude
   Claude impact reason: Claude-generated map of historically high-impact gold catalysts to monitor.
   URL: 
-- [score 5/10, TWO_WAY] Iran foreign minister plays down US president Trump's economic threat (ForexLive, 2026-08-20T07:19:49+00:00)
-  Query: public RSS feed: fx_rates_macro
-  Summary: From overnight:&nbsp; Trump vows crushing new economic operation against Iran, warns allies The threat by Trump pretty much underscores that we are still nowhere near any deal between the two sides. And after trying to brute force his way to getting Iran to concede, Trump is now having to find a different way of achieving that goal. But considering how US sanctions have not worked in the past, I'm not sure how much more they can push the issue from an economic perspective. So, we'll see. In any 
-  Impact scoring: claude
-  Claude impact reason: Live US-Iran escalation risk (Trump vowing a 'crushing economic operation') keeps a geopolitical premium in gold; de-escalatory tone from Tehran can bleed some of it out. Energy/sanctions channel also touches inflation expectations.
-  URL: https://investinglive.com/news/iran-foreign-minister-plays-down-us-president-trump-s-economic-threat/
-- [score 3/10, TWO_WAY] Forex Factory High impact: USD FOMC Meeting Minutes (Forex Factory Calendar, 08-19-2026 6:00pm)
+- [score 5/10, UNKNOWN] Forex Factory Medium impact: EUR German Prelim CPI m/m (Forex Factory Calendar, 08-31-2026 6:29am)
   Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-19-2026 6:00pm. Forecast: n/a; Previous: n/a.
+  Summary: Calendar event for 08-31-2026 6:29am. Forecast: 0.3%; Previous: 0.8%.
   Impact scoring: claude
-  Claude impact reason: Top-rank Fed communication channel, but this print was released yesterday 18:00 GMT and is already in the price; residual impact only via ongoing rate-path repricing into Jackson Hole.
+  Claude impact reason: Stale, already released yesterday and superseded by today's Eurozone flash CPI aggregate.
   URL: https://www.forexfactory.com/calendar
-- [score 3/10, BEARISH_GOLD] US August Philly Fed business index +47.4 vs +25.0 expected (ForexLive, 2026-08-20T12:30:42+00:00)
-  Query: public RSS feed: fx_rates_macro
-  Summary: Prior was +41.4 Details: New orders 30.1 versus 37.0 last month Shipments 27.7 versus 33.7 last month Unfilled orders 14.4 versus 18.1 last month Delivery times 3.7 versus 9.6 last month Inventories -3.7 versus 0.3 last month Prices paid 40.9 versus 53.9 last month Prices received 17.7 versus 27.4 last month Number of employees 27.9 versus 10.0 last month Average employee workweek 26.5 versus 14.0 last month Six-months from now indicators: 6 month index 73.6 vs 34.4 last month Capex index 6-mont
-  Impact scoring: claude
-  Claude impact reason: Large regional survey beat with a jump in employment components argues against imminent labor deterioration, marginally trimming cut odds and firming yields/DXY; offset by falling prices-paid/received which is disinflationary.
-  URL: https://investinglive.com/news/us-august-philly-fed-business-index-xx-vs-25-0-expected/
-- [score 2/10, TWO_WAY] investingLive European markets wrap: Dollar, yields recover some poise; Walmart shares slide after earnings (ForexLive, 2026-08-20T11:58:01+00:00)
-  Query: public RSS feed: fx_rates_macro
-  Summary: Headlines: Will the US Treasury buyback be a game changer for markets? Why gold and Bitcoin surged together: What Treasury buybacks teach investors about dollar debasement Chart of the day: Is the Nasdaq breakout retesting or failing? EUR/USD extends gains to fresh three-month highs after yesterday's break Iran foreign minister plays down US president Trump's economic threat Walmart shares fall on signal that consumers are pulling back on spending German producer prices nudge up again in July as
-  Impact scoring: claude
-  Claude impact reason: Aggregated session wrap: mild dollar/yield stabilization is a small gold headwind, while the Treasury-buyback/debasement narrative and weak US consumer signal are supportive. No single new transmitting catalyst.
-  URL: https://investinglive.com/news/investinglive-european-markets-wrap-dollar-yields-recover-some-poise-walmart-shares-slide-after-earnings/
-- [score 2/10, TWO_WAY] Forex Factory Medium impact: USD Unemployment Claims (Forex Factory Calendar, 08-20-2026 12:30pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-20-2026 12:30pm. Forecast: 210K; Previous: 209K.
-  Impact scoring: claude
-  Claude impact reason: Only US labor input of the session, but the forecast (210K vs 209K prior) implies a stable range and the release window has already passed with no headline surprise reported.
-  URL: https://www.forexfactory.com/calendar
-- [score 2/10, UNKNOWN] Additional public macro/news feed digest (additional_news_digest, 2026-08-20T18:02:16.600567)
+- [score 3/10, UNKNOWN] Additional public macro/news feed digest (additional_news_digest, 2026-09-01T11:54:56.340528)
   Query: public feeds: gold, Fed, economics, politics, markets, Forex Factory calendar
-  Summary: - investingLive European markets wrap: Dollar, yields recover some poise; Walmart shares slide after earnings
-  Source: ForexLive / fx_rates_macro
-  Published: 2026-08-20T11:58:01+00:00
-  Relevance score: 31
-  Summary: Headlines: Will the US Treasury buyback be a game changer for markets? Why gold and Bitcoin surged together: What Treasury buybacks teach investors about dollar debasement Chart of the day: Is the Nasdaq breakout retesting or failing? EUR/USD extends gains to fresh three-month highs after yesterday's break Iran foreign minister plays down US president Trump's economic threat Walmart shares fall on signal that consumers are pulling back on spending German producer prices nudge up again in July as
-  URL: https://investinglive.com/news/investinglive-european-markets-wrap-dollar-yields-recover-some-poise-walmart-shares-slide-after-earnings/
-- Forex Factory High impact: USD FOMC Meeting Minutes
+  Summary: - Forex Factory High impact: USD ISM Manufacturing PMI
   Source: Forex Factory Calendar / economic_calendar
-  Published: 08-19-2026 6:00pm
-  Relevance score: 27
-  Summary: Calendar event for 08-19-2026 6:00pm. Forecast: n/a; Previous: n/a.
+  Published: 09-01-2026 2:00pm
+  Relevance score: 22
+  Summary: Calendar event for 09-01-2026 2:00pm. Forecast: 55.2; Previous: 55.6.
   URL: https://www.forexfactory.com/calendar
-- Bessent moves to curb Treasury yields, putting new pressure on Warsh's Fed
-  Source: CNBC Politics / politics
-  Published: 2026-08-19T20:02:32+00:00
+- Forex Factory High impact: USD Non-Farm Employment Change
+  Source: Forex Factory Calendar / economic_calendar
+  Published: 09-04-2026 12:30pm
+  Relevance score: 22
+  Summary: Calendar event for 09-04-2026 12:30pm. Forecast: 55K; Previous: -23K.
+  URL: https://www.forexfactory.com/calendar
+- Forex Factory High impact: USD Unemployment Rate
+  Source: Forex Factory Calendar / economic_calendar
+  Published: 09-04-2026 12:30pm
+  Relevance score: 22
+  Summary: Calendar event for 09-04-2026 12:30pm. Forecast: 4.1%; Previous: 4.1%.
+  URL: https://www.forexfactory.com/calendar
+- What are the main events for today?
+  Source: ForexLive / fx_rates_macro
+  Published: 2026-09-01T06:36:31+00:00
   Relevance score: 20
-  Summary: Treasury's move to buy back more long-term debt cooled a bond selloff, but economists warn it could raise new inflation and independence questions for the Fed
-  URL: ht
+  Summary: EUROPEAN SESSION In the European session, we have the final PMIs for the major Eurozone economies and the UK, as well as the Eurozone Flash CPI report. The final PMIs and other low-tier indicators won't be market-moving, as the data won't change anything for the respective central banks. The Eurozone CPI Y/Y is expected at 3.3% vs 2.9% prior, while the Core Y/Y measure is seen at 2.5% vs 2.5% prior. Again, the market reaction will likely be muted unless the core inflation data surpri
   Impact scoring: claude
-  Claude impact reason: Digest of already-listed items; no incremental information beyond the Bessent buyback and Iran threads captured separately.
+  Claude impact reason: Duplicate aggregation of calendar items already scored individually; no standalone catalyst.
   URL: 
-- [score 1/10, UNKNOWN] Forex Factory High impact: CAD CPI m/m (Forex Factory Calendar, 08-17-2026 12:30pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-17-2026 12:30pm. Forecast: 0.4%; Previous: -0.4%.
-  Impact scoring: claude
-  Claude impact reason: Three days stale and CAD-specific; no US rate-path or dollar-index transmission of consequence.
-  URL: https://www.forexfactory.com/calendar
-- [score 1/10, UNKNOWN] Forex Factory High impact: CAD Median CPI y/y (Forex Factory Calendar, 08-17-2026 12:30pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-17-2026 12:30pm. Forecast: 2.0%; Previous: 1.9%.
-  Impact scoring: claude
-  Claude impact reason: Stale BoC core measure; irrelevant to XAUUSD discount-rate inputs.
-  URL: https://www.forexfactory.com/calendar
-- [score 1/10, UNKNOWN] Forex Factory High impact: CAD Trimmed CPI y/y (Forex Factory Calendar, 08-17-2026 12:30pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-17-2026 12:30pm. Forecast: 1.8%; Previous: 1.8%.
-  Impact scoring: claude
-  Claude impact reason: Stale, in-line with prior, and confined to CAD rate expectations.
-  URL: https://www.forexfactory.com/calendar
-- [score 1/10, UNKNOWN] Forex Factory High impact: GBP CPI y/y (Forex Factory Calendar, 08-19-2026 6:00am)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-19-2026 6:00am. Forecast: 2.9%; Previous: 2.6%.
-  Impact scoring: claude
-  Claude impact reason: Stale (released 19 Aug) and UK-specific; transmits to gold only weakly through the GBP leg of DXY.
-  URL: https://www.forexfactory.com/calendar
-- [score 1/10, UNKNOWN] Canada July PPI +0.6% vs -0.5% expected (ForexLive, 2026-08-20T12:30:27+00:00)
-  Query: public RSS feed: fx_rates_macro
-  Summary: Prior&nbsp;-1.4% PPI Y/Y +12.4% vs +12.4% prior Raw Material Price index M/M -2.2% vs -6.9% prior Raw Material Price index Y/Y +18.1% vs +20.7% prior The&nbsp;PPI&nbsp;increased&nbsp;0.6% m/m in July, following a&nbsp;1.4% decrease in June. Excluding energy and petroleum products, the&nbsp;PPI&nbsp;decreased&nbsp;0.2%. The resumption of the conflict between the United States and Iran in July contributed to higher prices for energy and petroleum products. Lower prices for primary non-ferrous meta
-  Impact scoring: claude
-  Claude impact reason: Canadian producer prices affect CAD only; no meaningful channel to US real yields, DXY basket weight is small, and the energy-driven beat is already explained by the Iran conflict.
-  URL: https://investinglive.com/news/canada-july-ppi-xx-vs-0-5-expected/
-- [score 1/10, TWO_WAY] At best, German economy may grow slightly in this quarter - Bundesbank (ForexLive, 2026-08-20T10:09:33+00:00)
-  Query: public RSS feed: fx_rates_macro
-  Summary: Poor weather conditions have hampered economic recovery Limited usable transport routes on major rivers likely to impair industrial output, export growth The low water levels are noticeably impacting overall economic activity in the third quarter ECB rate hikes are also dampening sentiment on corporate investment Inflation could rise even higher temporarily but outlook still largely dependent on Middle East conflict No evidence yet of second-round efects on inflation through wages at least For s
-  Impact scoring: claude
-  Claude impact reason: Soft German growth with sticky inflation risk is a marginal EUR/DXY input only; no direct US real-yield or Fed-path transmission for gold.
-  URL: https://investinglive.com/news/at-best-german-economy-may-grow-slightly-in-this-quarter-bundesbank/
-- [score 0/10, UNKNOWN] News scout failed for query: gold record high dollar Fed rate cut expectations September FOMC odds today (agent, 2026-08-20T18:02:01.506292)
-  Query: gold record high dollar Fed rate cut expectations September FOMC odds today
-  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=gold+record+high+dollar+Fed+rate+cut+expectations+September+FOMC+odds+today&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: US 2-year Treasury yield jumps 14 basis points Fed rate cut odds repriced (agent, 2026-09-01T11:54:47.583442)
+  Query: US 2-year Treasury yield jumps 14 basis points Fed rate cut odds repriced
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=US+2-year+Treasury+yield+jumps+14+basis+points+Fed+rate+cut+odds+repriced&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] News scout failed for query: US initial jobless claims today release reaction dollar yields (agent, 2026-08-20T18:02:05.479320)
-  Query: US initial jobless claims today release reaction dollar yields
-  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=US+initial+jobless+claims+today+release+reaction+dollar+yields&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: Fed officials hawkish comments September 2026 rate path speculation (agent, 2026-09-01T11:54:48.076915)
+  Query: Fed officials hawkish comments September 2026 rate path speculation
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Fed+officials+hawkish+comments+September+2026+rate+path+speculation&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] News scout failed for query: DXY dollar index today drivers intraday move news (agent, 2026-08-20T18:02:06.655137)
-  Query: DXY dollar index today drivers intraday move news
-  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=DXY+dollar+index+today+drivers+intraday+move+news&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: ISM manufacturing PMI August 2026 release forecast today (agent, 2026-09-01T11:54:49.072032)
+  Query: ISM manufacturing PMI August 2026 release forecast today
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=ISM+manufacturing+PMI+August+2026+release+forecast+today&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] News scout failed for query: 10-year Treasury yield real yields TIPS auction today move basis points (agent, 2026-08-20T18:02:07.192914)
-  Query: 10-year Treasury yield real yields TIPS auction today move basis points
-  Summary: 400 Client Error: Bad Request for url: https://gnews.io/api/v4/search?q=10-year+Treasury+yield+real+yields+TIPS+auction+today+move+basis+points&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: Middle East Ukraine ceasefire talks headlines September 1 2026 safe haven (agent, 2026-09-01T11:54:50.153176)
+  Query: Middle East Ukraine ceasefire talks headlines September 1 2026 safe haven
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Middle+East+Ukraine+ceasefire+talks+headlines+September+1+2026+safe+haven&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] News scout failed for query: Fed speakers today comments rate cuts inflation labor market (agent, 2026-08-20T18:02:07.713364)
-  Query: Fed speakers today comments rate cuts inflation labor market
-  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Fed+speakers+today+comments+rate+cuts+inflation+labor+market&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: Forex Factory high impact USD events this week September 2026 (agent, 2026-09-01T11:54:51.134064)
+  Query: Forex Factory high impact USD events this week September 2026
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Forex+Factory+high+impact+USD+events+this+week+September+2026&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] News scout failed for query: gold ETF inflows COMEX positioning futures open interest this week (agent, 2026-08-20T18:02:11.441866)
-  Query: gold ETF inflows COMEX positioning futures open interest this week
-  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=gold+ETF+inflows+COMEX+positioning+futures+open+interest+this+week&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+- [score 0/10, UNKNOWN] News scout failed for query: Treasury auction schedule 10-year 30-year September 2026 demand yields (agent, 2026-09-01T11:54:51.604406)
+  Query: Treasury auction schedule 10-year 30-year September 2026 demand yields
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=Treasury+auction+schedule+10-year+30-year+September+2026+demand+yields&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
   Impact scoring: static_prefilter
   Claude impact reason: n/a
   URL: 
-- [score 0/10, UNKNOWN] Forex Factory Medium impact: CAD Common CPI y/y (Forex Factory Calendar, 08-17-2026 12:30pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-17-2026 12:30pm. Forecast: 2.5%; Previous: 2.6%.
-  Impact scoring: claude
-  Claude impact reason: Stale medium-tier Canadian inflation gauge with no gold transmission path.
-  URL: https://www.forexfactory.com/calendar
-- [score 0/10, UNKNOWN] Forex Factory Low impact: CAD Core CPI m/m (Forex Factory Calendar, 08-17-2026 12:32pm)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-17-2026 12:32pm. Forecast: n/a; Previous: 0.1%.
-  Impact scoring: claude
-  Claude impact reason: Low-tier, stale, non-US release with no forecast; zero relevance to gold pricing.
-  URL: https://www.forexfactory.com/calendar
-- [score 0/10, UNKNOWN] Forex Factory Low impact: GBP Core CPI y/y (Forex Factory Calendar, 08-19-2026 6:00am)
-  Query: public RSS feed: economic_calendar
-  Summary: Calendar event for 08-19-2026 6:00am. Forecast: 2.5%; Previous: 2.6%.
-  Impact scoring: claude
-  Claude impact reason: Stale, low-tier UK detail print; no Fed-path, real-yield, or safe-haven channel.
-  URL: https://www.forexfactory.com/calendar
+- [score 0/10, UNKNOWN] News scout failed for query: banking stress liquidity repo funding pressure news September 2026 (agent, 2026-09-01T11:54:52.600176)
+  Query: banking stress liquidity repo funding pressure news September 2026
+  Summary: 429 Client Error: Too Many Requests for url: https://gnews.io/api/v4/search?q=banking+stress+liquidity+repo+funding+pressure+news+September+2026&token=b8d23345a7561fa41a308d1b6fc1a443&lang=en&max=5&sortby=publishedAt
+  Impact scoring: static_prefilter
+  Claude impact reason: n/a
+  URL: 
 
 ===================================================================
 TIER 2-5 - INTRADAY CHARTS
@@ -634,596 +645,547 @@ Requested primary symbol: XAUUSD
 Fallback note: XAUUSD spot intraday bars were unavailable, so proxy bars are included for chart structure only. Entries, stops, targets, and logging must still use XAUUSD spot.
 
 CODE SPOT/PROXY BASIS (BINDING FOR LEVEL CONVERSION):
-  SPOT $4515.30 | PROXY_15M $4563.40 | basis(proxy−spot)=$48.10 | convert: spot = proxy − $48.10
+  SPOT $4375.00 | PROXY_15M $4423.20 | basis(proxy−spot)=$48.20 | convert: spot = proxy − $48.20
   Formula: spot_level = proxy_level − (proxy_15m_close − live_spot)
-  15M range_high SPOT=$4516.4 (proxy $4564.5) | range_low SPOT=$4457.9 (proxy $4506.0)
+  15M range_high SPOT=$4446.5 (proxy $4494.7) | range_low SPOT=$4370.3 (proxy $4418.5)
   NO-TRADE recheck hint: LONG if spot 15M closes above range_high SPOT; SHORT if spot 15M closes below range_low SPOT.
   Rule: every Entry / Stop / Target / RECHECK LEVEL in the signal must be XAUUSD SPOT. Convert proxy levels before printing — never leave the trader to subtract basis.
 
 CONFLUENCE TENSOR:
   Features: price_vs_sma9, ma_stack, rsi_centered, range_position, momentum_5bar, volume_pressure
   Timeframes: 5m, 15m, 1h, 4h
-  Matrix: [[1.0, 1.0, 0.0486, 0.9624, 0.0585, -0.8034], [1.0, 0.0, 0.2558, 0.8018, 0.1164, -0.2425], [1.0, 0.0, 0.0962, 0.8122, 0.0743, 1.0], [1.0, 1.0, 0.261, 0.9196, -0.0258, 0.7487]]
-  Timeframe scores: {"5m": 5.75, "15m": 3.8, "1h": 4.11, "4h": 6.63}
+  Matrix: [[-1.0, -1.0, -0.2188, -0.8978, -0.0492, 0.0579], [-1.0, -1.0, -0.1213, -0.9173, -0.1952, 1.0], [-1.0, -1.0, -0.0966, -0.9721, -0.2324, 1.0], [-1.0, -1.0, 0.0038, -0.7037, -0.3501, -0.4614]]
+  Timeframe scores: {"5m": -6.3, "15m": -5.99, "1h": -6.08, "4h": -6.63}
   Candle caps: {"5m": 120, "15m": 150, "1h": 170, "4h": 96}
-  Aggregate: 5.3 (BULLISH_CONFLUENCE)
+  Aggregate: -6.32 (BEARISH_CONFLUENCE)
   Scale: Feature values are normalized -1..1; scores are directional -10 bearish to +10 bullish. Candle limits cap prompt context per timeframe to preserve signal quality.
 
 VOLATILITY REGIME SUMMARY (CODE-COMPUTED — BINDING):
-  regime: trending, ATR at 92.0th percentile of last 50; ADX=20.6; BB_width_pct=100.0; breakout_trigger=False
+  regime: trending, ATR at 98.0th percentile of last 50; ADX=34.71; BB_width_pct=100.0; breakout_trigger=False
   Primary TF: 15m
   Regime: trending
   gate_blocks_entries: False
   breakout_trigger: False
-  ADX14=20.6 | ATR_pct50=92.0 | BB_width_pct50=100.0
-  range_high(proxy)=4564.5 | range_low(proxy)=4506.0 — convert with CODE SPOT/PROXY BASIS before printing to trader
-  Reasons: ADX 20.6 transitional (20-25); ATR at 92.0th percentile of last 50; BB width at 100.0th percentile of last 50
-  Per-TF: {"5m": {"regime": "trending", "adx_14": 38.44, "atr_percentile_50": 38.0, "bb_width_percentile_50": 82.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4564.5, "range_low": 4524.1, "label_for_prompt": "regime: trending, ATR at 38.0th percentile of last 50; ADX=38.44; BB_width_pct=82.0; breakout_trigger=False"}, "15m": {"regime": "trending", "adx_14": 20.6, "atr_percentile_50": 92.0, "bb_width_percentile_50": 100.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4564.5, "range_low": 4506.0, "label_for_prompt": "regime: trending, ATR at 92.0th percentile of last 50; ADX=20.6; BB_width_pct=100.0; breakout_trigger=False"}, "1h": {"regime": "transitional", "adx_14": 23.68, "atr_percentile_50": 42.0, "bb_width_percentile_50": 22.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4583.8, "range_low": 4506.0, "label_for_prompt": "regime: transitional, ATR at 42.0th percentile of last 50; ADX=23.68; BB_width_pct=22.0; breakout_trigger=False"}, "4h": {"regime": "trending", "adx_14": 26.66, "atr_percentile_50": 96.0, "bb_width_percentile_50": 100.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4583.8, "range_low": 4378.0, "label_for_prompt": "regime: trending, ATR at 96.0th percentile of last 50; ADX=26.66; BB_width_pct=100.0; breakout_trigger=False"}}
+  ADX14=34.71 | ATR_pct50=98.0 | BB_width_pct50=100.0
+  range_high(proxy)=4494.7 | range_low(proxy)=4418.5 — convert with CODE SPOT/PROXY BASIS before printing to trader
+  Reasons: ADX 34.71 >= 25; ATR at 98.0th percentile of last 50; BB width at 100.0th percentile of last 50
+  Per-TF: {"5m": {"regime": "trending", "adx_14": 50.59, "atr_percentile_50": 90.0, "bb_width_percentile_50": 100.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4482.8, "range_low": 4418.5, "label_for_prompt": "regime: trending, ATR at 90.0th percentile of last 50; ADX=50.59; BB_width_pct=100.0; breakout_trigger=False"}, "15m": {"regime": "trending", "adx_14": 34.71, "atr_percentile_50": 98.0, "bb_width_percentile_50": 100.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4494.7, "range_low": 4418.5, "label_for_prompt": "regime: trending, ATR at 98.0th percentile of last 50; ADX=34.71; BB_width_pct=100.0; breakout_trigger=False"}, "1h": {"regime": "trending", "adx_14": 32.91, "atr_percentile_50": 46.0, "bb_width_percentile_50": 62.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4511.9, "range_low": 4418.5, "label_for_prompt": "regime: trending, ATR at 46.0th percentile of last 50; ADX=32.91; BB_width_pct=62.0; breakout_trigger=False"}, "4h": {"regime": "trending", "adx_14": 43.87, "atr_percentile_50": 82.0, "bb_width_percentile_50": 88.0, "breakout_trigger": false, "gate_blocks_entries": false, "range_high": 4688.0, "range_low": 4418.5, "label_for_prompt": "regime: trending, ATR at 82.0th percentile of last 50; ADX=43.87; BB_width_pct=88.0; breakout_trigger=False"}}
   Rule: if gate_blocks_entries=true → SIGNAL must be NO-TRADE (code hard-gate also enforces this).
 
 VOLUME PRESSURE QUALITY (CODE-COMPUTED):
-  volume_pressure source=GC=F Yahoo OHLCV (independent of gold-api bid/ask); usable_tfs=4/4; forming_zero_bars_dropped=4; pressures={'5m': -0.8034, '15m': -0.2425, '1h': 1.0, '4h': 0.7487}
+  volume_pressure source=GC=F Yahoo OHLCV (independent of gold-api bid/ask); usable_tfs=4/4; forming_zero_bars_dropped=4; pressures={'5m': 0.0579, '15m': 1.0, '1h': 1.0, '4h': -0.4614}
   Note: volume comes from GC=F Yahoo chart bars — independent of gold-api bid/ask WARN. Trailing zero-volume forming bars are excluded.
 
 ENTRY FILL GUIDE (CODE-COMPUTED — BINDING FOR LONG/SHORT):
-  ATR(15M)=$11.52/oz | max entry_offset aligned=0.5×ATR ($5.76) | scalp=0.35×ATR ($4.03)
-  atr_15m=11.5213 | max_entry_offset_aligned_usd=5.76 | max_entry_offset_scalp_usd=4.03 | fallback_used=False
+  ATR(15M)=$11.68/oz | max entry_offset aligned=0.5×ATR ($5.84) | scalp=0.35×ATR ($4.09)
+  atr_15m=11.6786 | max_entry_offset_aligned_usd=5.84 | max_entry_offset_scalp_usd=4.09 | fallback_used=False
   Rule: |entry − spot| must be ≤ max_entry_offset_aligned_usd (scalp → scalp cap). Else clip to cap + recompute size, or NO-TRADE. Never invent ATR.
 
 CANDLE COUNTS FED TO THIS PROMPT:
-  5m: 120 candles (available 1030, cap 120)
-  15m: 150 candles (available 345, cap 150)
-  1h: 170 candles (available 531, cap 170)
-  4h: 96 candles (available 144, cap 96)
+  5m: 120 candles (available 884, cap 120)
+  15m: 150 candles (available 296, cap 150)
+  1h: 170 candles (available 496, cap 170)
+  4h: 96 candles (available 135, cap 96)
 
 [5M]
-  Price: $4563.4
-  Open/High/Low: $4563.4 / $4563.4 / $4563.4
-  SMA(9):  $4553.01
-  SMA(21): $4543.28
-  SMA(50): $4535.22
-  RSI(14): 52.43
-  Confluence score: 5.75 (-10 bearish to +10 bullish)
-  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 1.0, "rsi_centered": 0.0486, "range_position": 0.9624, "momentum_5bar": 0.0585, "volume_pressure": -0.8034}
-  Volatility regime: regime: trending, ATR at 38.0th percentile of last 50; ADX=38.44; BB_width_pct=82.0; breakout_trigger=False
-  Volume quality: usable=True last=273.0 baseline20=1388.75 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
-  Candles fed to prompt: 120 (available 1030, cap 120)
+  Price: $4423.2
+  Open/High/Low: $4423.2 / $4423.2 / $4423.2
+  SMA(9):  $4433.71
+  SMA(21): $4455.31
+  SMA(50): $4470.42
+  RSI(14): 39.06
+  Confluence score: -6.3 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": -1.0, "rsi_centered": -0.2188, "range_position": -0.8978, "momentum_5bar": -0.0492, "volume_pressure": 0.0579}
+  Volatility regime: regime: trending, ATR at 90.0th percentile of last 50; ADX=50.59; BB_width_pct=100.0; breakout_trigger=False
+  Volume quality: usable=True last=1152.0 baseline20=1089.0 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
+  Candles fed to prompt: 120 (available 884, cap 120)
 
   OHLCV candle records fed to prompt (120 total):
-    2026-08-20T05:00:00+00:00 O:4546.0 H:4549.1 L:4545.8 C:4548.7 V:89
-    2026-08-20T05:05:00+00:00 O:4549.0 H:4551.4 L:4548.4 C:4548.4 V:207
-    2026-08-20T05:10:00+00:00 O:4548.2 H:4549.0 L:4541.5 C:4542.9 V:463
-    2026-08-20T05:15:00+00:00 O:4542.9 H:4544.5 L:4541.7 C:4542.2 V:291
-    2026-08-20T05:20:00+00:00 O:4541.9 H:4544.4 L:4541.0 C:4544.0 V:345
-    2026-08-20T05:25:00+00:00 O:4543.7 H:4543.7 L:4540.0 C:4540.5 V:323
-    2026-08-20T05:30:00+00:00 O:4540.0 H:4543.1 L:4536.6 C:4537.7 V:621
-    2026-08-20T05:35:00+00:00 O:4537.7 H:4538.9 L:4535.2 C:4537.5 V:431
-    2026-08-20T05:40:00+00:00 O:4537.5 H:4539.4 L:4536.3 C:4537.8 V:237
-    2026-08-20T05:45:00+00:00 O:4537.9 H:4539.0 L:4536.5 C:4538.6 V:183
-    2026-08-20T05:50:00+00:00 O:4538.6 H:4539.0 L:4535.6 C:4535.7 V:266
-    2026-08-20T05:55:00+00:00 O:4535.7 H:4540.5 L:4534.8 C:4538.5 V:350
-    2026-08-20T06:00:00+00:00 O:4538.6 H:4546.3 L:4537.2 C:4545.9 V:943
-    2026-08-20T06:05:00+00:00 O:4545.6 H:4548.9 L:4545.3 C:4547.3 V:544
-    2026-08-20T06:10:00+00:00 O:4547.5 H:4550.7 L:4547.2 C:4550.1 V:494
-    2026-08-20T06:15:00+00:00 O:4550.4 H:4553.5 L:4549.1 C:4551.3 V:1089
-    2026-08-20T06:20:00+00:00 O:4550.8 H:4551.9 L:4549.6 C:4550.5 V:415
-    2026-08-20T06:25:00+00:00 O:4550.8 H:4553.0 L:4550.5 C:4551.3 V:245
-    2026-08-20T06:30:00+00:00 O:4551.3 H:4552.8 L:4549.6 C:4552.5 V:393
-    2026-08-20T06:35:00+00:00 O:4552.6 H:4553.0 L:4550.8 C:4551.2 V:327
-    2026-08-20T06:40:00+00:00 O:4551.2 H:4552.0 L:4549.5 C:4550.1 V:274
-    2026-08-20T06:45:00+00:00 O:4550.4 H:4553.0 L:4550.1 C:4550.8 V:419
-    2026-08-20T06:50:00+00:00 O:4550.7 H:4550.8 L:4548.6 C:4549.4 V:449
-    2026-08-20T06:55:00+00:00 O:4549.2 H:4551.5 L:4548.5 C:4550.8 V:432
-    2026-08-20T07:00:00+00:00 O:4550.6 H:4551.0 L:4544.5 C:4545.8 V:638
-    2026-08-20T07:05:00+00:00 O:4545.5 H:4547.5 L:4544.6 C:4546.0 V:355
-    2026-08-20T07:10:00+00:00 O:4545.8 H:4547.1 L:4543.9 C:4544.5 V:265
-    2026-08-20T07:15:00+00:00 O:4544.4 H:4547.1 L:4543.4 C:4543.8 V:352
-    2026-08-20T07:20:00+00:00 O:4543.9 H:4544.8 L:4542.3 C:4542.3 V:296
-    2026-08-20T07:25:00+00:00 O:4542.2 H:4542.8 L:4540.1 C:4540.5 V:430
-    2026-08-20T07:30:00+00:00 O:4540.8 H:4546.5 L:4540.1 C:4546.5 V:531
-    2026-08-20T07:35:00+00:00 O:4546.3 H:4547.9 L:4545.5 C:4546.2 V:463
-    2026-08-20T07:40:00+00:00 O:4546.5 H:4550.2 L:4545.9 C:4547.9 V:526
-    2026-08-20T07:45:00+00:00 O:4547.5 H:4552.7 L:4546.2 C:4546.2 V:594
-    2026-08-20T07:50:00+00:00 O:4546.2 H:4547.9 L:4545.3 C:4547.8 V:212
-    2026-08-20T07:55:00+00:00 O:4548.0 H:4549.3 L:4545.9 C:4547.6 V:211
-    2026-08-20T08:00:00+00:00 O:4547.9 H:4552.2 L:4547.6 C:4549.4 V:569
-    2026-08-20T08:05:00+00:00 O:4549.3 H:4551.4 L:4548.1 C:4551.2 V:277
-    2026-08-20T08:10:00+00:00 O:4550.9 H:4552.3 L:4548.5 C:4551.4 V:605
-    2026-08-20T08:15:00+00:00 O:4551.1 H:4555.9 L:4550.8 C:4553.6 V:874
-    2026-08-20T08:20:00+00:00 O:4553.5 H:4555.2 L:4552.0 C:4552.7 V:424
-    2026-08-20T08:25:00+00:00 O:4552.6 H:4553.2 L:4547.0 C:4548.6 V:484
-    2026-08-20T08:30:00+00:00 O:4548.1 H:4550.0 L:4543.9 C:4550.0 V:1061
-    2026-08-20T08:35:00+00:00 O:4549.8 H:4552.4 L:4547.2 C:4548.7 V:392
-    2026-08-20T08:40:00+00:00 O:4548.7 H:4549.8 L:4547.2 C:4547.4 V:202
-    2026-08-20T08:45:00+00:00 O:4547.3 H:4548.4 L:4544.6 C:4544.9 V:267
-    2026-08-20T08:50:00+00:00 O:4544.8 H:4548.6 L:4544.7 C:4548.4 V:180
-    2026-08-20T08:55:00+00:00 O:4548.6 H:4549.0 L:4544.4 C:4546.1 V:195
-    2026-08-20T09:00:00+00:00 O:4546.2 H:4547.9 L:4545.2 C:4547.5 V:351
-    2026-08-20T09:05:00+00:00 O:4547.7 H:4550.0 L:4545.4 C:4548.3 V:259
-    2026-08-20T09:10:00+00:00 O:4548.7 H:4551.0 L:4548.1 C:4549.1 V:247
-    2026-08-20T09:15:00+00:00 O:4549.0 H:4550.5 L:4545.8 C:4545.9 V:312
-    2026-08-20T09:20:00+00:00 O:4546.0 H:4549.5 L:4544.7 C:4546.4 V:357
-    2026-08-20T09:25:00+00:00 O:4546.7 H:4547.5 L:4544.8 C:4546.8 V:290
-    2026-08-20T09:30:00+00:00 O:4546.6 H:4547.2 L:4543.8 C:4544.6 V:672
-    2026-08-20T09:35:00+00:00 O:4544.4 H:4545.0 L:4541.0 C:4542.8 V:417
-    2026-08-20T09:40:00+00:00 O:4542.8 H:4547.0 L:4542.3 C:4545.7 V:428
-    2026-08-20T09:45:00+00:00 O:4545.6 H:4545.6 L:4541.9 C:4542.1 V:250
-    2026-08-20T09:50:00+00:00 O:4542.2 H:4542.9 L:4538.2 C:4540.5 V:579
-    2026-08-20T09:55:00+00:00 O:4540.5 H:4541.1 L:4538.4 C:4538.9 V:398
-    2026-08-20T10:00:00+00:00 O:4539.1 H:4542.7 L:4537.0 C:4542.1 V:366
-    2026-08-20T10:05:00+00:00 O:4541.9 H:4546.6 L:4541.9 C:4546.1 V:544
-    2026-08-20T10:10:00+00:00 O:4546.1 H:4547.8 L:4544.8 C:4547.1 V:396
-    2026-08-20T10:15:00+00:00 O:4547.4 H:4548.2 L:4546.4 C:4547.3 V:543
-    2026-08-20T10:20:00+00:00 O:4547.1 H:4547.2 L:4542.6 C:4545.3 V:309
-    2026-08-20T10:25:00+00:00 O:4545.2 H:4550.5 L:4544.6 C:4550.2 V:471
-    2026-08-20T10:30:00+00:00 O:4550.3 H:4552.5 L:4549.0 C:4549.7 V:467
-    2026-08-20T10:35:00+00:00 O:4549.4 H:4551.3 L:4546.7 C:4546.9 V:466
-    2026-08-20T10:40:00+00:00 O:4546.7 H:4547.6 L:4546.5 C:4547.5 V:128
-    2026-08-20T10:45:00+00:00 O:4547.7 H:4547.7 L:4545.0 C:4546.7 V:168
-    2026-08-20T10:50:00+00:00 O:4546.8 H:4547.3 L:4543.8 C:4544.3 V:152
-    2026-08-20T10:55:00+00:00 O:4543.9 H:4547.1 L:4543.9 C:4546.4 V:161
-    2026-08-20T11:00:00+00:00 O:4546.7 H:4547.9 L:4544.2 C:4545.0 V:730
-    2026-08-20T11:05:00+00:00 O:4544.9 H:4544.9 L:4542.1 C:4543.8 V:1005
-    2026-08-20T11:10:00+00:00 O:4543.9 H:4544.0 L:4539.4 C:4541.8 V:701
-    2026-08-20T11:15:00+00:00 O:4541.7 H:4542.4 L:4537.6 C:4538.9 V:386
-    2026-08-20T11:20:00+00:00 O:4538.6 H:4544.0 L:4537.9 C:4544.0 V:517
-    2026-08-20T11:25:00+00:00 O:4543.8 H:4546.3 L:4540.7 C:4540.8 V:282
-    2026-08-20T11:30:00+00:00 O:4541.1 H:4542.5 L:4539.2 C:4541.2 V:358
-    2026-08-20T11:35:00+00:00 O:4541.2 H:4543.2 L:4536.3 C:4537.9 V:1218
-    2026-08-20T11:40:00+00:00 O:4537.8 H:4539.0 L:4530.1 C:4530.9 V:1207
-    2026-08-20T11:45:00+00:00 O:4530.8 H:4531.9 L:4522.0 C:4527.4 V:2288
-    2026-08-20T11:50:00+00:00 O:4527.6 H:4529.1 L:4522.2 C:4524.0 V:1144
-    2026-08-20T11:55:00+00:00 O:4523.3 H:4527.4 L:4521.2 C:4523.1 V:833
-    2026-08-20T12:00:00+00:00 O:4523.3 H:4523.4 L:4512.5 C:4513.6 V:2063
-    2026-08-20T12:05:00+00:00 O:4513.4 H:4514.5 L:4506.2 C:4512.4 V:3045
-    2026-08-20T12:10:00+00:00 O:4512.7 H:4521.8 L:4512.1 C:4518.0 V:1622
-    2026-08-20T12:15:00+00:00 O:4517.8 H:4522.9 L:4517.6 C:4522.5 V:1130
-    2026-08-20T12:20:00+00:00 O:4522.2 H:4523.4 L:4517.2 C:4519.2 V:1099
-    2026-08-20T12:25:00+00:00 O:4519.2 H:4519.2 L:4512.2 C:4514.3 V:1183
-    2026-08-20T12:30:00+00:00 O:4514.9 H:4516.6 L:4506.0 C:4508.6 V:1497
-    2026-08-20T12:35:00+00:00 O:4508.4 H:4518.2 L:4506.9 C:4518.2 V:1444
-    2026-08-20T12:40:00+00:00 O:4517.9 H:4522.3 L:4515.0 C:4522.0 V:1212
-    2026-08-20T12:45:00+00:00 O:4521.6 H:4526.5 L:4519.0 C:4526.3 V:1251
-    2026-08-20T12:50:00+00:00 O:4526.3 H:4530.4 L:4524.8 C:4527.2 V:1153
-    2026-08-20T12:55:00+00:00 O:4527.2 H:4532.3 L:4526.7 C:4529.7 V:824
-    2026-08-20T13:00:00+00:00 O:4529.8 H:4539.6 L:4528.7 C:4533.5 V:2316
-    2026-08-20T13:05:00+00:00 O:4533.7 H:4535.4 L:4527.8 C:4529.0 V:746
-    2026-08-20T13:10:00+00:00 O:4528.4 H:4530.8 L:4526.7 C:4527.9 V:720
-    2026-08-20T13:15:00+00:00 O:4528.2 H:4531.9 L:4525.9 C:4529.5 V:783
-    2026-08-20T13:20:00+00:00 O:4529.8 H:4531.9 L:4526.4 C:4529.6 V:423
-    2026-08-20T13:25:00+00:00 O:4528.6 H:4529.4 L:4525.0 C:4526.7 V:727
-    2026-08-20T13:30:00+00:00 O:4526.8 H:4532.4 L:4524.1 C:4530.6 V:1681
-    2026-08-20T13:35:00+00:00 O:4530.3 H:4541.1 L:4529.4 C:4538.5 V:3159
-    2026-08-20T13:40:00+00:00 O:4538.6 H:4543.0 L:4532.6 C:4541.9 V:1470
-    2026-08-20T13:45:00+00:00 O:4541.7 H:4544.4 L:4534.9 C:4537.0 V:1653
-    2026-08-20T13:50:00+00:00 O:4537.1 H:4541.6 L:4536.1 C:4540.9 V:1166
-    2026-08-20T13:55:00+00:00 O:4541.0 H:4541.8 L:4534.3 C:4537.0 V:1107
-    2026-08-20T14:00:00+00:00 O:4536.8 H:4545.9 L:4536.7 C:4538.6 V:2396
-    2026-08-20T14:05:00+00:00 O:4538.3 H:4542.0 L:4535.8 C:4540.5 V:1283
-    2026-08-20T14:10:00+00:00 O:4540.6 H:4544.8 L:4538.5 C:4541.0 V:1396
-    2026-08-20T14:15:00+00:00 O:4541.0 H:4545.4 L:4537.4 C:4537.7 V:1562
-    2026-08-20T14:20:00+00:00 O:4538.0 H:4549.9 L:4537.4 C:4546.7 V:1379
-    2026-08-20T14:25:00+00:00 O:4546.6 H:4549.0 L:4542.6 C:4547.4 V:1301
-    2026-08-20T14:30:00+00:00 O:4547.6 H:4553.5 L:4547.5 C:4550.1 V:1694
-    2026-08-20T14:35:00+00:00 O:4550.2 H:4556.6 L:4548.6 C:4551.6 V:1385
-    2026-08-20T14:40:00+00:00 O:4551.8 H:4556.9 L:4549.2 C:4555.1 V:789
-    2026-08-20T14:45:00+00:00 O:4555.0 H:4564.3 L:4554.5 C:4563.4 V:2148
-    2026-08-20T14:50:00+00:00 O:4563.8 H:4564.5 L:4561.3 C:4561.7 V:273
-    2026-08-20T14:51:17+00:00 O:4563.4 H:4563.4 L:4563.4 C:4563.4 V:0
+    2026-08-31T22:50:00+00:00 O:4495.6 H:4496.1 L:4494.3 C:4494.4 V:71
+    2026-08-31T22:55:00+00:00 O:4494.9 H:4496.6 L:4494.7 C:4495.5 V:57
+    2026-08-31T23:00:00+00:00 O:4495.8 H:4495.8 L:4494.6 C:4494.8 V:79
+    2026-08-31T23:05:00+00:00 O:4494.8 H:4495.4 L:4494.1 C:4494.6 V:129
+    2026-08-31T23:10:00+00:00 O:4494.5 H:4495.3 L:4492.3 C:4492.6 V:221
+    2026-08-31T23:15:00+00:00 O:4492.4 H:4492.5 L:4491.6 C:4491.7 V:131
+    2026-08-31T23:20:00+00:00 O:4491.7 H:4491.9 L:4490.3 C:4491.7 V:130
+    2026-08-31T23:25:00+00:00 O:4491.7 H:4492.8 L:4491.3 C:4491.9 V:100
+    2026-08-31T23:30:00+00:00 O:4492.0 H:4496.5 L:4491.8 C:4494.4 V:207
+    2026-08-31T23:35:00+00:00 O:4494.1 H:4494.7 L:4493.0 C:4493.5 V:79
+    2026-08-31T23:40:00+00:00 O:4493.5 H:4495.0 L:4491.6 C:4494.5 V:103
+    2026-08-31T23:45:00+00:00 O:4494.5 H:4498.3 L:4494.2 C:4494.9 V:158
+    2026-08-31T23:50:00+00:00 O:4495.3 H:4500.3 L:4495.0 C:4499.5 V:172
+    2026-08-31T23:55:00+00:00 O:4499.2 H:4501.0 L:4497.0 C:4501.0 V:192
+    2026-09-01T00:00:00+00:00 O:4501.3 H:4503.0 L:4495.0 C:4502.8 V:511
+    2026-09-01T00:05:00+00:00 O:4502.5 H:4505.0 L:4500.1 C:4504.4 V:242
+    2026-09-01T00:10:00+00:00 O:4504.0 H:4507.1 L:4501.6 C:4503.9 V:405
+    2026-09-01T00:15:00+00:00 O:4504.1 H:4507.2 L:4501.4 C:4506.5 V:242
+    2026-09-01T00:20:00+00:00 O:4506.4 H:4510.5 L:4506.3 C:4506.8 V:306
+    2026-09-01T00:25:00+00:00 O:4506.5 H:4510.2 L:4505.7 C:4509.2 V:286
+    2026-09-01T00:30:00+00:00 O:4509.5 H:4510.3 L:4505.3 C:4506.4 V:236
+    2026-09-01T00:35:00+00:00 O:4506.2 H:4506.2 L:4502.2 C:4503.7 V:222
+    2026-09-01T00:40:00+00:00 O:4504.2 H:4505.5 L:4500.7 C:4502.1 V:192
+    2026-09-01T00:45:00+00:00 O:4502.4 H:4505.8 L:4501.0 C:4505.0 V:181
+    2026-09-01T00:50:00+00:00 O:4504.8 H:4510.4 L:4504.6 C:4505.8 V:320
+    2026-09-01T00:55:00+00:00 O:4506.3 H:4506.3 L:4499.9 C:4502.7 V:282
+    2026-09-01T01:00:00+00:00 O:4502.6 H:4505.9 L:4497.0 C:4498.2 V:650
+    2026-09-01T01:05:00+00:00 O:4499.3 H:4499.6 L:4495.5 C:4496.1 V:252
+    2026-09-01T01:10:00+00:00 O:4496.0 H:4498.0 L:4494.2 C:4495.3 V:322
+    2026-09-01T01:15:00+00:00 O:4495.6 H:4496.7 L:4492.2 C:4492.2 V:359
+    2026-09-01T01:20:00+00:00 O:4492.3 H:4493.8 L:4487.6 C:4489.3 V:524
+    2026-09-01T01:25:00+00:00 O:4489.2 H:4489.5 L:4486.7 C:4488.6 V:214
+    2026-09-01T01:30:00+00:00 O:4488.8 H:4492.0 L:4485.2 C:4491.7 V:401
+    2026-09-01T01:35:00+00:00 O:4491.6 H:4494.6 L:4490.2 C:4492.9 V:391
+    2026-09-01T01:40:00+00:00 O:4493.2 H:4494.8 L:4490.2 C:4494.8 V:230
+    2026-09-01T01:45:00+00:00 O:4494.9 H:4495.6 L:4489.5 C:4489.8 V:208
+    2026-09-01T01:50:00+00:00 O:4490.1 H:4491.9 L:4488.3 C:4490.3 V:204
+    2026-09-01T01:55:00+00:00 O:4490.4 H:4493.3 L:4489.6 C:4493.1 V:143
+    2026-09-01T02:00:00+00:00 O:4492.9 H:4495.9 L:4491.6 C:4495.9 V:157
+    2026-09-01T02:05:00+00:00 O:4496.0 H:4497.7 L:4490.7 C:4490.9 V:303
+    2026-09-01T02:10:00+00:00 O:4490.9 H:4498.2 L:4490.9 C:4493.8 V:466
+    2026-09-01T02:15:00+00:00 O:4494.1 H:4495.6 L:4493.8 C:4495.6 V:132
+    2026-09-01T02:20:00+00:00 O:4496.0 H:4497.3 L:4491.4 C:4491.7 V:193
+    2026-09-01T02:25:00+00:00 O:4492.0 H:4492.3 L:4489.2 C:4489.2 V:209
+    2026-09-01T02:30:00+00:00 O:4489.2 H:4489.8 L:4483.9 C:4486.3 V:580
+    2026-09-01T02:35:00+00:00 O:4486.2 H:4486.4 L:4481.0 C:4481.9 V:696
+    2026-09-01T02:40:00+00:00 O:4482.2 H:4485.9 L:4480.7 C:4481.2 V:562
+    2026-09-01T02:45:00+00:00 O:4481.0 H:4485.5 L:4477.1 C:4484.3 V:935
+    2026-09-01T02:50:00+00:00 O:4485.0 H:4489.5 L:4484.0 C:4488.7 V:266
+    2026-09-01T02:55:00+00:00 O:4487.9 H:4492.6 L:4487.9 C:4492.4 V:201
+    2026-09-01T03:00:00+00:00 O:4492.7 H:4493.5 L:4488.9 C:4490.0 V:447
+    2026-09-01T03:05:00+00:00 O:4490.4 H:4491.6 L:4488.8 C:4490.2 V:263
+    2026-09-01T03:10:00+00:00 O:4489.5 H:4491.0 L:4487.8 C:4489.4 V:354
+    2026-09-01T03:15:00+00:00 O:4488.9 H:4489.6 L:4485.6 C:4486.0 V:112
+    2026-09-01T03:20:00+00:00 O:4485.9 H:4485.9 L:4481.6 C:4481.6 V:380
+    2026-09-01T03:25:00+00:00 O:4482.2 H:4485.5 L:4480.9 C:4483.5 V:352
+    2026-09-01T03:30:00+00:00 O:4483.4 H:4485.9 L:4482.6 C:4485.7 V:130
+    2026-09-01T03:35:00+00:00 O:4485.1 H:4486.9 L:4482.6 C:4486.9 V:250
+    2026-09-01T03:40:00+00:00 O:4486.9 H:4488.0 L:4486.3 C:4487.6 V:104
+    2026-09-01T03:45:00+00:00 O:4487.8 H:4492.1 L:4487.8 C:4490.4 V:649
+    2026-09-01T03:50:00+00:00 O:4490.3 H:4492.4 L:4490.2 C:4491.0 V:222
+    2026-09-01T03:55:00+00:00 O:4490.9 H:4490.9 L:4486.1 C:4487.0 V:425
+    2026-09-01T04:00:00+00:00 O:4485.7 H:4486.7 L:4484.6 C:4486.0 V:106
+    2026-09-01T04:05:00+00:00 O:4486.2 H:4486.4 L:4480.4 C:4480.7 V:355
+    2026-09-01T04:10:00+00:00 O:4480.6 H:4481.1 L:4478.9 C:4479.6 V:436
+    2026-09-01T04:15:00+00:00 O:4479.6 H:4482.5 L:4478.3 C:4478.5 V:298
+    2026-09-01T04:20:00+00:00 O:4479.0 H:4481.1 L:4478.3 C:4481.0 V:77
+    2026-09-01T04:25:00+00:00 O:4480.6 H:4481.7 L:4478.3 C:4478.5 V:121
+    2026-09-01T04:30:00+00:00 O:4478.2 H:4479.1 L:4477.1 C:4478.7 V:292
+    2026-09-01T04:35:00+00:00 O:4478.7 H:4479.4 L:4477.6 C:4478.1 V:138
+    2026-09-01T04:40:00+00:00 O:4478.2 H:4478.6 L:4475.2 C:4476.5 V:502
+    2026-09-01T04:45:00+00:00 O:4475.9 H:4478.1 L:4474.1 C:4475.6 V:739
+    2026-09-01T04:50:00+00:00 O:4475.4 H:4478.2 L:4473.9 C:4477.6 V:561
+    2026-09-01T04:55:00+00:00 O:4477.6 H:4478.0 L:4474.1 C:4475.2 V:282
+    2026-09-01T05:00:00+00:00 O:4475.4 H:4480.3 L:4474.7 C:4479.8 V:272
+    2026-09-01T05:05:00+00:00 O:4479.6 H:4481.3 L:4478.8 C:4479.4 V:131
+    2026-09-01T05:10:00+00:00 O:4479.6 H:4480.0 L:4477.5 C:4477.7 V:192
+    2026-09-01T05:15:00+00:00 O:4478.1 H:4479.0 L:4473.5 C:4474.1 V:195
+    2026-09-01T05:20:00+00:00 O:4474.4 H:4476.3 L:4474.4 C:4475.9 V:150
+    2026-09-01T05:25:00+00:00 O:4475.3 H:4476.7 L:4474.3 C:4475.2 V:176
+    2026-09-01T05:30:00+00:00 O:4474.9 H:4483.8 L:4471.9 C:4483.5 V:833
+    2026-09-01T05:35:00+00:00 O:4483.5 H:4491.5 L:4481.9 C:4488.4 V:469
+    2026-09-01T05:40:00+00:00 O:4488.2 H:4492.2 L:4486.9 C:4492.2 V:359
+    2026-09-01T05:45:00+00:00 O:4491.2 H:4494.6 L:4489.8 C:4493.8 V:415
+    2026-09-01T05:50:00+00:00 O:4493.9 H:4493.9 L:4490.0 C:4491.7 V:302
+    2026-09-01T05:55:00+00:00 O:4491.7 H:4494.7 L:4488.3 C:4489.0 V:296
+    2026-09-01T06:00:00+00:00 O:4488.5 H:4489.1 L:4484.1 C:4485.1 V:335
+    2026-09-01T06:05:00+00:00 O:4485.1 H:4487.2 L:4483.9 C:4483.9 V:207
+    2026-09-01T06:10:00+00:00 O:4484.3 H:4484.9 L:4480.2 C:4481.3 V:409
+    2026-09-01T06:15:00+00:00 O:4481.4 H:4483.8 L:4481.1 C:4482.8 V:322
+    2026-09-01T06:20:00+00:00 O:4482.8 H:4483.3 L:4479.6 C:4481.5 V:239
+    2026-09-01T06:25:00+00:00 O:4481.7 H:4482.1 L:4476.3 C:4477.6 V:360
+    2026-09-01T06:30:00+00:00 O:4477.7 H:4479.0 L:4477.0 C:4478.5 V:286
+    2026-09-01T06:35:00+00:00 O:4478.3 H:4482.6 L:4478.3 C:4481.9 V:192
+    2026-09-01T06:40:00+00:00 O:4481.8 H:4483.9 L:4481.2 C:4483.6 V:268
+    2026-09-01T06:45:00+00:00 O:4483.7 H:4484.1 L:4478.0 C:4478.5 V:168
+    2026-09-01T06:50:00+00:00 O:4478.5 H:4478.9 L:4476.7 C:4478.5 V:262
+    2026-09-01T06:55:00+00:00 O:4478.6 H:4479.5 L:4477.9 C:4478.0 V:122
+    2026-09-01T07:00:00+00:00 O:4478.1 H:4483.6 L:4477.9 C:4482.9 V:413
+    2026-09-01T07:05:00+00:00 O:4482.8 H:4482.8 L:4478.4 C:4478.9 V:270
+    2026-09-01T07:10:00+00:00 O:4479.0 H:4481.6 L:4478.1 C:4481.6 V:182
+    2026-09-01T07:15:00+00:00 O:4481.6 H:4482.3 L:4477.3 C:4478.1 V:355
+    2026-09-01T07:20:00+00:00 O:4477.8 H:4481.2 L:4475.1 C:4475.5 V:778
+    2026-09-01T07:25:00+00:00 O:4475.5 H:4478.3 L:4474.3 C:4474.5 V:883
+    2026-09-01T07:30:00+00:00 O:4474.3 H:4476.9 L:4467.5 C:4474.3 V:1384
+    2026-09-01T07:35:00+00:00 O:4473.9 H:4474.3 L:4461.3 C:4461.3 V:832
+    2026-09-01T07:40:00+00:00 O:4461.5 H:4470.5 L:4460.5 C:4466.8 V:731
+    2026-09-01T07:45:00+00:00 O:4466.6 H:4471.0 L:4465.4 C:4470.8 V:431
+    2026-09-01T07:50:00+00:00 O:4471.0 H:4471.9 L:4467.2 C:4467.7 V:318
+    2026-09-01T07:55:00+00:00 O:4468.1 H:4470.9 L:4465.7 C:4468.7 V:708
+    2026-09-01T08:00:00+00:00 O:4468.6 H:4468.6 L:4458.8 C:4459.9 V:1009
+    2026-09-01T08:05:00+00:00 O:4459.8 H:4467.3 L:4442.3 C:4444.9 V:2651
+    2026-09-01T08:10:00+00:00 O:4445.0 H:4455.7 L:4438.4 C:4454.3 V:2957
+    2026-09-01T08:15:00+00:00 O:4454.3 H:4454.9 L:4443.9 C:4444.3 V:800
+    2026-09-01T08:20:00+00:00 O:4444.2 H:4447.4 L:4433.1 C:4434.1 V:1640
+    2026-09-01T08:25:00+00:00 O:4434.4 H:4436.6 L:4430.7 C:4432.0 V:1078
+    2026-09-01T08:30:00+00:00 O:4432.1 H:4432.6 L:4421.5 C:4423.3 V:2230
+    2026-09-01T08:35:00+00:00 O:4423.7 H:4425.7 L:4418.5 C:4423.2 V:1391
+    2026-09-01T08:40:00+00:00 O:4423.3 H:4430.0 L:4419.1 C:4424.1 V:1152
+    2026-09-01T08:44:09+00:00 O:4423.2 H:4423.2 L:4423.2 C:4423.2 V:0
 
 [15M]
-  Price: $4563.4
-  Open/High/Low: $4563.4 / $4563.4 / $4563.4
-  SMA(9):  $4544.68
-  SMA(21): $4538.76
-  SMA(50): $4543.65
-  RSI(14): 62.79
-  Confluence score: 3.8 (-10 bearish to +10 bullish)
-  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 0.0, "rsi_centered": 0.2558, "range_position": 0.8018, "momentum_5bar": 0.1164, "volume_pressure": -0.2425}
-  Volatility regime: regime: trending, ATR at 92.0th percentile of last 50; ADX=20.6; BB_width_pct=100.0; breakout_trigger=False
-  Volume quality: usable=True last=2421.0 baseline20=3196.0 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
-  Candles fed to prompt: 150 (available 345, cap 150)
+  Price: $4423.2
+  Open/High/Low: $4423.2 / $4423.2 / $4423.2
+  SMA(9):  $4455.91
+  SMA(21): $4470.31
+  SMA(50): $4484.79
+  RSI(14): 43.93
+  Confluence score: -5.99 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": -1.0, "rsi_centered": -0.1213, "range_position": -0.9173, "momentum_5bar": -0.1952, "volume_pressure": 1.0}
+  Volatility regime: regime: trending, ATR at 98.0th percentile of last 50; ADX=34.71; BB_width_pct=100.0; breakout_trigger=False
+  Volume quality: usable=True last=4773.0 baseline20=1717.8 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
+  Candles fed to prompt: 150 (available 296, cap 150)
 
   OHLCV candle records fed to prompt (150 total):
-    2026-08-19T00:45:00+00:00 O:4397.6 H:4398.6 L:4390.7 C:4391.8 V:917
-    2026-08-19T01:00:00+00:00 O:4391.5 H:4397.6 L:4378.0 C:4397.4 V:3597
-    2026-08-19T01:15:00+00:00 O:4397.6 H:4400.0 L:4386.4 C:4396.1 V:2125
-    2026-08-19T01:30:00+00:00 O:4396.3 H:4411.1 L:4396.2 C:4409.4 V:1946
-    2026-08-19T01:45:00+00:00 O:4409.0 H:4410.2 L:4404.1 C:4410.2 V:1218
-    2026-08-19T02:00:00+00:00 O:4410.0 H:4410.9 L:4405.0 C:4407.0 V:1283
-    2026-08-19T02:15:00+00:00 O:4407.2 H:4415.8 L:4406.0 C:4413.4 V:1652
-    2026-08-19T02:30:00+00:00 O:4413.4 H:4413.9 L:4407.7 C:4408.6 V:1312
-    2026-08-19T02:45:00+00:00 O:4408.8 H:4410.4 L:4405.0 C:4408.5 V:749
-    2026-08-19T03:00:00+00:00 O:4408.4 H:4409.9 L:4405.4 C:4407.7 V:627
-    2026-08-19T03:15:00+00:00 O:4408.1 H:4411.8 L:4405.3 C:4410.8 V:613
-    2026-08-19T03:30:00+00:00 O:4411.1 H:4414.1 L:4409.8 C:4412.6 V:483
-    2026-08-19T03:45:00+00:00 O:4412.6 H:4413.0 L:4409.0 C:4409.0 V:219
-    2026-08-19T04:00:00+00:00 O:4408.9 H:4409.6 L:4406.9 C:4407.9 V:308
-    2026-08-19T04:15:00+00:00 O:4407.9 H:4408.0 L:4403.2 C:4404.2 V:807
-    2026-08-19T04:30:00+00:00 O:4404.8 H:4405.3 L:4398.2 C:4399.8 V:890
-    2026-08-19T04:45:00+00:00 O:4399.4 H:4401.8 L:4396.5 C:4401.8 V:717
-    2026-08-19T05:00:00+00:00 O:4401.7 H:4404.2 L:4391.9 C:4392.2 V:834
-    2026-08-19T05:15:00+00:00 O:4392.4 H:4399.1 L:4390.1 C:4398.9 V:1079
-    2026-08-19T05:30:00+00:00 O:4399.1 H:4399.3 L:4390.3 C:4395.8 V:1603
-    2026-08-19T05:45:00+00:00 O:4395.3 H:4395.4 L:4388.2 C:4389.0 V:1418
-    2026-08-19T06:00:00+00:00 O:4389.0 H:4395.3 L:4388.7 C:4390.8 V:1224
-    2026-08-19T06:15:00+00:00 O:4390.6 H:4401.9 L:4390.2 C:4396.3 V:1806
-    2026-08-19T06:30:00+00:00 O:4396.6 H:4399.3 L:4390.8 C:4395.4 V:1416
-    2026-08-19T06:45:00+00:00 O:4395.3 H:4403.1 L:4394.3 C:4402.8 V:1150
-    2026-08-19T07:00:00+00:00 O:4402.8 H:4407.6 L:4401.1 C:4404.3 V:1278
-    2026-08-19T07:15:00+00:00 O:4403.8 H:4410.8 L:4401.1 C:4410.5 V:1562
-    2026-08-19T07:30:00+00:00 O:4410.4 H:4417.2 L:4406.5 C:4408.2 V:1483
-    2026-08-19T07:45:00+00:00 O:4408.1 H:4411.4 L:4408.1 C:4408.3 V:610
-    2026-08-19T08:00:00+00:00 O:4408.4 H:4416.4 L:4404.8 C:4415.2 V:1917
-    2026-08-19T08:15:00+00:00 O:4415.3 H:4416.1 L:4411.1 C:4414.6 V:650
-    2026-08-19T08:30:00+00:00 O:4414.3 H:4417.2 L:4410.3 C:4416.4 V:687
-    2026-08-19T08:45:00+00:00 O:4416.4 H:4417.2 L:4408.7 C:4409.7 V:959
-    2026-08-19T09:00:00+00:00 O:4409.7 H:4413.9 L:4409.0 C:4410.3 V:739
-    2026-08-19T09:15:00+00:00 O:4410.2 H:4411.6 L:4407.4 C:4410.6 V:809
-    2026-08-19T09:30:00+00:00 O:4410.7 H:4415.4 L:4409.5 C:4413.3 V:774
-    2026-08-19T09:45:00+00:00 O:4413.3 H:4416.4 L:4412.5 C:4416.4 V:707
-    2026-08-19T10:00:00+00:00 O:4416.5 H:4418.8 L:4413.8 C:4418.4 V:909
-    2026-08-19T10:15:00+00:00 O:4418.4 H:4423.8 L:4418.1 C:4423.2 V:1208
-    2026-08-19T10:30:00+00:00 O:4423.4 H:4424.1 L:4420.4 C:4422.5 V:791
-    2026-08-19T10:45:00+00:00 O:4422.8 H:4424.1 L:4421.0 C:4422.2 V:375
-    2026-08-19T11:00:00+00:00 O:4422.4 H:4428.9 L:4422.2 C:4428.1 V:1242
-    2026-08-19T11:15:00+00:00 O:4428.4 H:4429.1 L:4423.6 C:4425.8 V:773
-    2026-08-19T11:30:00+00:00 O:4425.9 H:4426.5 L:4417.7 C:4418.4 V:1158
-    2026-08-19T11:45:00+00:00 O:4418.0 H:4422.3 L:4418.0 C:4419.1 V:882
-    2026-08-19T12:00:00+00:00 O:4419.7 H:4425.5 L:4417.0 C:4423.1 V:1286
-    2026-08-19T12:15:00+00:00 O:4423.2 H:4428.4 L:4420.7 C:4424.1 V:1980
-    2026-08-19T12:30:00+00:00 O:4424.3 H:4476.9 L:4423.4 C:4474.8 V:15898
-    2026-08-19T12:45:00+00:00 O:4475.1 H:4499.8 L:4468.0 C:4496.3 V:16893
-    2026-08-19T13:00:00+00:00 O:4496.3 H:4518.8 L:4480.8 C:4513.4 V:14438
-    2026-08-19T13:15:00+00:00 O:4513.6 H:4521.8 L:4512.4 C:4516.0 V:9462
-    2026-08-19T13:30:00+00:00 O:4516.2 H:4524.0 L:4500.8 C:4519.1 V:11694
-    2026-08-19T13:45:00+00:00 O:4518.8 H:4521.6 L:4502.4 C:4517.8 V:6655
-    2026-08-19T14:00:00+00:00 O:4518.0 H:4533.8 L:4513.5 C:4532.0 V:7695
-    2026-08-19T14:15:00+00:00 O:4532.2 H:4546.3 L:4528.4 C:4544.3 V:9782
-    2026-08-19T14:30:00+00:00 O:4544.4 H:4557.6 L:4542.3 C:4548.5 V:12239
-    2026-08-19T14:45:00+00:00 O:4548.6 H:4548.6 L:4536.9 C:4546.8 V:5982
-    2026-08-19T15:00:00+00:00 O:4547.0 H:4547.0 L:4538.4 C:4544.1 V:5251
-    2026-08-19T15:15:00+00:00 O:4544.1 H:4546.2 L:4536.5 C:4542.0 V:3547
-    2026-08-19T15:30:00+00:00 O:4541.9 H:4551.5 L:4538.5 C:4548.7 V:2616
-    2026-08-19T15:45:00+00:00 O:4548.4 H:4552.8 L:4546.9 C:4552.2 V:3482
-    2026-08-19T16:00:00+00:00 O:4552.2 H:4557.2 L:4549.5 C:4555.9 V:3749
-    2026-08-19T16:15:00+00:00 O:4556.0 H:4557.5 L:4548.5 C:4548.7 V:2562
-    2026-08-19T16:30:00+00:00 O:4549.1 H:4554.3 L:4548.4 C:4553.3 V:1702
-    2026-08-19T16:45:00+00:00 O:4552.7 H:4555.7 L:4550.9 C:4551.0 V:1379
-    2026-08-19T17:00:00+00:00 O:4551.0 H:4557.0 L:4546.4 C:4550.1 V:3692
-    2026-08-19T17:15:00+00:00 O:4550.3 H:4550.3 L:4544.0 C:4545.8 V:3591
-    2026-08-19T17:30:00+00:00 O:4545.9 H:4549.2 L:4541.9 C:4546.6 V:1361
-    2026-08-19T17:45:00+00:00 O:4546.2 H:4547.4 L:4542.0 C:4545.0 V:1055
-    2026-08-19T18:00:00+00:00 O:4544.9 H:4554.6 L:4543.4 C:4546.3 V:2944
-    2026-08-19T18:15:00+00:00 O:4546.1 H:4546.2 L:4531.1 C:4533.8 V:4949
-    2026-08-19T18:30:00+00:00 O:4533.9 H:4550.0 L:4530.4 C:4548.6 V:6779
-    2026-08-19T18:45:00+00:00 O:4548.6 H:4556.0 L:4547.5 C:4553.3 V:1772
-    2026-08-19T19:00:00+00:00 O:4553.3 H:4564.1 L:4552.3 C:4561.6 V:3290
-    2026-08-19T19:15:00+00:00 O:4561.5 H:4566.0 L:4560.8 C:4565.1 V:2158
-    2026-08-19T19:30:00+00:00 O:4565.2 H:4568.9 L:4559.1 C:4564.5 V:3069
-    2026-08-19T19:45:00+00:00 O:4564.5 H:4569.6 L:4562.6 C:4568.0 V:2032
-    2026-08-19T20:00:00+00:00 O:4568.4 H:4569.5 L:4562.8 C:4564.5 V:1222
-    2026-08-19T20:15:00+00:00 O:4564.7 H:4580.3 L:4564.2 C:4576.7 V:3150
-    2026-08-19T20:30:00+00:00 O:4576.7 H:4582.2 L:4576.2 C:4577.3 V:1003
-    2026-08-19T20:45:00+00:00 O:4578.3 H:4582.8 L:4577.9 C:4580.7 V:916
-    2026-08-19T22:00:00+00:00 O:4580.0 H:4583.8 L:4576.4 C:4577.6 V:360
-    2026-08-19T22:15:00+00:00 O:4577.5 H:4578.7 L:4576.2 C:4578.0 V:467
-    2026-08-19T22:30:00+00:00 O:4577.7 H:4579.0 L:4574.8 C:4575.7 V:679
-    2026-08-19T22:45:00+00:00 O:4575.9 H:4579.2 L:4573.5 C:4575.9 V:579
-    2026-08-19T23:00:00+00:00 O:4576.4 H:4581.2 L:4574.8 C:4577.0 V:750
-    2026-08-19T23:15:00+00:00 O:4576.6 H:4577.6 L:4572.3 C:4574.8 V:556
-    2026-08-19T23:30:00+00:00 O:4575.1 H:4575.5 L:4570.7 C:4571.6 V:604
-    2026-08-19T23:45:00+00:00 O:4571.7 H:4574.9 L:4568.4 C:4569.2 V:644
-    2026-08-20T00:00:00+00:00 O:4568.7 H:4576.3 L:4567.7 C:4573.8 V:806
-    2026-08-20T00:15:00+00:00 O:4574.0 H:4578.6 L:4565.8 C:4567.8 V:1104
-    2026-08-20T00:30:00+00:00 O:4566.8 H:4570.4 L:4560.2 C:4563.6 V:1198
-    2026-08-20T00:45:00+00:00 O:4563.4 H:4567.9 L:4561.4 C:4562.0 V:1155
-    2026-08-20T01:00:00+00:00 O:4562.3 H:4567.9 L:4549.4 C:4550.8 V:3716
-    2026-08-20T01:15:00+00:00 O:4551.3 H:4561.1 L:4550.9 C:4558.3 V:1515
-    2026-08-20T01:30:00+00:00 O:4558.0 H:4559.0 L:4551.0 C:4551.3 V:1115
-    2026-08-20T01:45:00+00:00 O:4551.5 H:4553.0 L:4542.1 C:4547.4 V:2392
-    2026-08-20T02:00:00+00:00 O:4547.3 H:4557.6 L:4546.1 C:4555.5 V:1789
-    2026-08-20T02:15:00+00:00 O:4555.3 H:4555.6 L:4547.1 C:4550.6 V:975
-    2026-08-20T02:30:00+00:00 O:4550.1 H:4552.1 L:4547.6 C:4548.2 V:836
-    2026-08-20T02:45:00+00:00 O:4547.9 H:4552.0 L:4546.5 C:4548.1 V:795
-    2026-08-20T03:00:00+00:00 O:4548.2 H:4554.5 L:4545.7 C:4550.1 V:799
-    2026-08-20T03:15:00+00:00 O:4549.9 H:4554.2 L:4547.9 C:4551.1 V:788
-    2026-08-20T03:30:00+00:00 O:4550.8 H:4556.7 L:4550.0 C:4555.7 V:831
-    2026-08-20T03:45:00+00:00 O:4555.6 H:4558.8 L:4554.8 C:4555.7 V:614
-    2026-08-20T04:00:00+00:00 O:4556.4 H:4556.6 L:4552.4 C:4553.6 V:886
-    2026-08-20T04:15:00+00:00 O:4553.6 H:4554.3 L:4547.1 C:4547.4 V:702
-    2026-08-20T04:30:00+00:00 O:4547.2 H:4548.3 L:4543.4 C:4544.4 V:808
-    2026-08-20T04:45:00+00:00 O:4544.3 H:4549.1 L:4544.1 C:4546.1 V:479
-    2026-08-20T05:00:00+00:00 O:4546.0 H:4551.4 L:4541.5 C:4542.9 V:759
-    2026-08-20T05:15:00+00:00 O:4542.9 H:4544.5 L:4540.0 C:4540.5 V:959
-    2026-08-20T05:30:00+00:00 O:4540.0 H:4543.1 L:4535.2 C:4537.8 V:1289
-    2026-08-20T05:45:00+00:00 O:4537.9 H:4540.5 L:4534.8 C:4538.5 V:799
-    2026-08-20T06:00:00+00:00 O:4538.6 H:4550.7 L:4537.2 C:4550.1 V:1981
-    2026-08-20T06:15:00+00:00 O:4550.4 H:4553.5 L:4549.1 C:4551.3 V:1749
-    2026-08-20T06:30:00+00:00 O:4551.3 H:4553.0 L:4549.5 C:4550.1 V:994
-    2026-08-20T06:45:00+00:00 O:4550.4 H:4553.0 L:4548.5 C:4550.8 V:1300
-    2026-08-20T07:00:00+00:00 O:4550.6 H:4551.0 L:4543.9 C:4544.5 V:1258
-    2026-08-20T07:15:00+00:00 O:4544.4 H:4547.1 L:4540.1 C:4540.5 V:1078
-    2026-08-20T07:30:00+00:00 O:4540.8 H:4550.2 L:4540.1 C:4547.9 V:1520
-    2026-08-20T07:45:00+00:00 O:4547.5 H:4552.7 L:4545.3 C:4547.6 V:1017
-    2026-08-20T08:00:00+00:00 O:4547.9 H:4552.3 L:4547.6 C:4551.4 V:1451
-    2026-08-20T08:15:00+00:00 O:4551.1 H:4555.9 L:4547.0 C:4548.6 V:1782
-    2026-08-20T08:30:00+00:00 O:4548.1 H:4552.4 L:4543.9 C:4547.4 V:1655
-    2026-08-20T08:45:00+00:00 O:4547.3 H:4549.0 L:4544.4 C:4546.1 V:642
-    2026-08-20T09:00:00+00:00 O:4546.2 H:4551.0 L:4545.2 C:4549.1 V:857
-    2026-08-20T09:15:00+00:00 O:4549.0 H:4550.5 L:4544.7 C:4546.8 V:959
-    2026-08-20T09:30:00+00:00 O:4546.6 H:4547.2 L:4541.0 C:4545.7 V:1517
-    2026-08-20T09:45:00+00:00 O:4545.6 H:4545.6 L:4538.2 C:4538.9 V:1227
-    2026-08-20T10:00:00+00:00 O:4539.1 H:4547.8 L:4537.0 C:4547.1 V:1306
-    2026-08-20T10:15:00+00:00 O:4547.4 H:4550.5 L:4542.6 C:4550.2 V:1323
-    2026-08-20T10:30:00+00:00 O:4550.3 H:4552.5 L:4546.5 C:4547.5 V:1061
-    2026-08-20T10:45:00+00:00 O:4547.7 H:4547.7 L:4543.8 C:4546.4 V:481
-    2026-08-20T11:00:00+00:00 O:4546.7 H:4547.9 L:4539.4 C:4541.8 V:2436
-    2026-08-20T11:15:00+00:00 O:4541.7 H:4546.3 L:4537.6 C:4540.8 V:1185
-    2026-08-20T11:30:00+00:00 O:4541.1 H:4543.2 L:4530.1 C:4530.9 V:2783
-    2026-08-20T11:45:00+00:00 O:4530.8 H:4531.9 L:4521.2 C:4523.1 V:4265
-    2026-08-20T12:00:00+00:00 O:4523.3 H:4523.4 L:4506.2 C:4518.0 V:6730
-    2026-08-20T12:15:00+00:00 O:4517.8 H:4523.4 L:4512.2 C:4514.3 V:3412
-    2026-08-20T12:30:00+00:00 O:4514.9 H:4522.3 L:4506.0 C:4522.0 V:4153
-    2026-08-20T12:45:00+00:00 O:4521.6 H:4532.3 L:4519.0 C:4529.7 V:3228
-    2026-08-20T13:00:00+00:00 O:4529.8 H:4539.6 L:4526.7 C:4527.9 V:3782
-    2026-08-20T13:15:00+00:00 O:4528.2 H:4531.9 L:4525.0 C:4526.7 V:1933
-    2026-08-20T13:30:00+00:00 O:4526.8 H:4543.0 L:4524.1 C:4541.9 V:6310
-    2026-08-20T13:45:00+00:00 O:4541.7 H:4544.4 L:4534.3 C:4537.0 V:3926
-    2026-08-20T14:00:00+00:00 O:4536.8 H:4545.9 L:4535.8 C:4541.0 V:5075
-    2026-08-20T14:15:00+00:00 O:4541.0 H:4549.9 L:4537.4 C:4547.4 V:4242
-    2026-08-20T14:30:00+00:00 O:4547.6 H:4556.9 L:4547.5 C:4555.1 V:3868
-    2026-08-20T14:45:00+00:00 O:4555.0 H:4564.5 L:4554.5 C:4561.7 V:2421
-    2026-08-20T14:51:17+00:00 O:4563.4 H:4563.4 L:4563.4 C:4563.4 V:0
+    2026-08-28T17:30:00+00:00 O:4528.5 H:4532.1 L:4510.5 C:4517.5 V:5203
+    2026-08-28T17:45:00+00:00 O:4517.3 H:4526.1 L:4516.7 C:4519.7 V:4376
+    2026-08-28T18:00:00+00:00 O:4519.7 H:4521.9 L:4509.5 C:4511.1 V:5140
+    2026-08-28T18:15:00+00:00 O:4511.1 H:4513.5 L:4502.4 C:4506.2 V:4791
+    2026-08-28T18:30:00+00:00 O:4505.9 H:4508.5 L:4495.0 C:4501.0 V:4011
+    2026-08-28T18:45:00+00:00 O:4500.5 H:4507.9 L:4498.0 C:4506.5 V:1656
+    2026-08-28T19:00:00+00:00 O:4506.5 H:4512.6 L:4502.4 C:4506.7 V:2486
+    2026-08-28T19:15:00+00:00 O:4506.5 H:4513.2 L:4504.7 C:4512.0 V:1198
+    2026-08-28T19:30:00+00:00 O:4511.6 H:4517.2 L:4510.8 C:4514.6 V:1876
+    2026-08-28T19:45:00+00:00 O:4514.4 H:4514.4 L:4502.3 C:4507.9 V:2743
+    2026-08-28T20:00:00+00:00 O:4507.9 H:4512.3 L:4504.9 C:4507.5 V:1399
+    2026-08-28T20:15:00+00:00 O:4507.7 H:4510.2 L:4503.2 C:4507.4 V:412
+    2026-08-28T20:30:00+00:00 O:4507.5 H:4507.5 L:4503.4 C:4506.6 V:458
+    2026-08-28T20:45:00+00:00 O:4507.0 H:4529.9 L:4502.7 C:4529.9 V:882
+    2026-08-30T22:00:00+00:00 O:4506.3 H:4510.0 L:4505.0 C:4509.2 V:561
+    2026-08-30T22:15:00+00:00 O:4508.8 H:4515.9 L:4506.2 C:4509.2 V:1991
+    2026-08-30T22:30:00+00:00 O:4509.0 H:4512.0 L:4502.2 C:4507.3 V:1116
+    2026-08-30T22:45:00+00:00 O:4507.2 H:4512.0 L:4506.4 C:4510.9 V:643
+    2026-08-30T23:00:00+00:00 O:4510.8 H:4516.6 L:4508.8 C:4509.8 V:841
+    2026-08-30T23:15:00+00:00 O:4509.9 H:4514.4 L:4503.9 C:4506.8 V:1126
+    2026-08-30T23:30:00+00:00 O:4506.4 H:4507.0 L:4495.7 C:4496.5 V:1286
+    2026-08-30T23:45:00+00:00 O:4496.2 H:4509.6 L:4485.2 C:4507.8 V:2396
+    2026-08-31T00:00:00+00:00 O:4507.8 H:4512.9 L:4502.4 C:4511.3 V:1603
+    2026-08-31T00:15:00+00:00 O:4511.0 H:4514.6 L:4501.4 C:4505.7 V:885
+    2026-08-31T00:30:00+00:00 O:4506.2 H:4521.5 L:4506.2 C:4514.5 V:1499
+    2026-08-31T00:45:00+00:00 O:4514.5 H:4518.3 L:4505.5 C:4505.7 V:1114
+    2026-08-31T01:00:00+00:00 O:4505.8 H:4512.4 L:4485.3 C:4493.3 V:4457
+    2026-08-31T01:15:00+00:00 O:4492.8 H:4503.5 L:4491.8 C:4493.5 V:1723
+    2026-08-31T01:30:00+00:00 O:4493.0 H:4503.1 L:4485.6 C:4500.2 V:1970
+    2026-08-31T01:45:00+00:00 O:4500.2 H:4501.9 L:4485.0 C:4489.6 V:2086
+    2026-08-31T02:00:00+00:00 O:4489.1 H:4490.7 L:4466.0 C:4474.0 V:4993
+    2026-08-31T02:15:00+00:00 O:4473.9 H:4477.2 L:4467.5 C:4472.4 V:1418
+    2026-08-31T02:30:00+00:00 O:4472.1 H:4475.7 L:4451.2 C:4452.1 V:4314
+    2026-08-31T02:45:00+00:00 O:4452.1 H:4472.4 L:4445.6 C:4472.3 V:2818
+    2026-08-31T03:00:00+00:00 O:4472.3 H:4477.8 L:4471.1 C:4477.8 V:1449
+    2026-08-31T03:15:00+00:00 O:4478.0 H:4483.6 L:4476.0 C:4477.3 V:1604
+    2026-08-31T03:30:00+00:00 O:4477.2 H:4477.3 L:4469.5 C:4472.3 V:952
+    2026-08-31T03:45:00+00:00 O:4472.5 H:4476.8 L:4471.1 C:4472.0 V:558
+    2026-08-31T04:00:00+00:00 O:4472.3 H:4472.5 L:4466.4 C:4471.1 V:1349
+    2026-08-31T04:15:00+00:00 O:4471.2 H:4471.3 L:4465.5 C:4465.5 V:544
+    2026-08-31T04:30:00+00:00 O:4465.5 H:4471.9 L:4462.5 C:4469.9 V:920
+    2026-08-31T04:45:00+00:00 O:4470.1 H:4475.0 L:4468.6 C:4474.6 V:657
+    2026-08-31T05:00:00+00:00 O:4474.6 H:4477.0 L:4469.2 C:4473.0 V:1046
+    2026-08-31T05:15:00+00:00 O:4472.6 H:4490.5 L:4472.0 C:4489.9 V:1174
+    2026-08-31T05:30:00+00:00 O:4490.3 H:4491.9 L:4480.4 C:4486.6 V:1429
+    2026-08-31T05:45:00+00:00 O:4487.1 H:4493.5 L:4483.9 C:4492.7 V:1356
+    2026-08-31T06:00:00+00:00 O:4492.7 H:4493.0 L:4478.9 C:4482.0 V:1192
+    2026-08-31T06:15:00+00:00 O:4482.3 H:4489.0 L:4481.2 C:4486.0 V:1504
+    2026-08-31T06:30:00+00:00 O:4485.7 H:4491.1 L:4481.3 C:4489.5 V:869
+    2026-08-31T06:45:00+00:00 O:4489.5 H:4493.0 L:4486.7 C:4489.4 V:706
+    2026-08-31T07:00:00+00:00 O:4489.2 H:4491.6 L:4485.5 C:4485.9 V:783
+    2026-08-31T07:15:00+00:00 O:4486.0 H:4498.5 L:4485.0 C:4494.1 V:1950
+    2026-08-31T07:30:00+00:00 O:4494.1 H:4497.3 L:4491.3 C:4496.7 V:951
+    2026-08-31T07:45:00+00:00 O:4496.9 H:4498.2 L:4490.9 C:4493.3 V:773
+    2026-08-31T08:00:00+00:00 O:4493.3 H:4499.7 L:4487.1 C:4489.1 V:1247
+    2026-08-31T08:15:00+00:00 O:4489.0 H:4491.4 L:4486.2 C:4490.5 V:819
+    2026-08-31T08:30:00+00:00 O:4490.2 H:4490.2 L:4484.4 C:4485.5 V:589
+    2026-08-31T08:45:00+00:00 O:4485.4 H:4487.0 L:4483.9 C:4485.6 V:732
+    2026-08-31T09:00:00+00:00 O:4485.8 H:4493.1 L:4485.7 C:4493.1 V:1099
+    2026-08-31T09:15:00+00:00 O:4493.3 H:4494.5 L:4488.0 C:4489.5 V:546
+    2026-08-31T09:30:00+00:00 O:4489.6 H:4495.2 L:4489.3 C:4493.7 V:787
+    2026-08-31T09:45:00+00:00 O:4493.7 H:4496.0 L:4491.8 C:4496.0 V:493
+    2026-08-31T10:00:00+00:00 O:4495.9 H:4504.2 L:4495.2 C:4502.0 V:1325
+    2026-08-31T10:15:00+00:00 O:4502.4 H:4502.8 L:4496.8 C:4499.1 V:826
+    2026-08-31T10:30:00+00:00 O:4499.2 H:4502.9 L:4498.5 C:4501.7 V:745
+    2026-08-31T10:45:00+00:00 O:4501.9 H:4506.7 L:4500.2 C:4504.5 V:963
+    2026-08-31T11:00:00+00:00 O:4504.6 H:4508.4 L:4503.8 C:4504.4 V:790
+    2026-08-31T11:15:00+00:00 O:4504.5 H:4514.9 L:4503.1 C:4514.1 V:1346
+    2026-08-31T11:30:00+00:00 O:4514.1 H:4514.9 L:4504.5 C:4505.3 V:1455
+    2026-08-31T11:45:00+00:00 O:4505.7 H:4507.1 L:4503.2 C:4506.2 V:906
+    2026-08-31T12:00:00+00:00 O:4506.1 H:4511.9 L:4500.8 C:4508.2 V:2772
+    2026-08-31T12:15:00+00:00 O:4508.3 H:4509.7 L:4497.8 C:4498.7 V:2108
+    2026-08-31T12:30:00+00:00 O:4498.4 H:4500.9 L:4489.8 C:4491.6 V:2801
+    2026-08-31T12:45:00+00:00 O:4491.4 H:4492.9 L:4486.5 C:4486.9 V:2443
+    2026-08-31T13:00:00+00:00 O:4486.7 H:4497.8 L:4484.8 C:4497.0 V:3032
+    2026-08-31T13:15:00+00:00 O:4497.1 H:4499.5 L:4490.5 C:4497.3 V:1496
+    2026-08-31T13:30:00+00:00 O:4497.4 H:4498.5 L:4483.1 C:4484.6 V:3434
+    2026-08-31T13:45:00+00:00 O:4484.7 H:4484.8 L:4466.4 C:4469.1 V:7235
+    2026-08-31T14:00:00+00:00 O:4469.3 H:4478.5 L:4466.7 C:4477.6 V:3378
+    2026-08-31T14:15:00+00:00 O:4477.7 H:4481.6 L:4466.9 C:4470.6 V:3092
+    2026-08-31T14:30:00+00:00 O:4470.5 H:4487.2 L:4470.0 C:4483.1 V:3639
+    2026-08-31T14:45:00+00:00 O:4483.5 H:4486.3 L:4476.2 C:4481.7 V:2447
+    2026-08-31T15:00:00+00:00 O:4481.7 H:4487.7 L:4477.9 C:4485.2 V:2107
+    2026-08-31T15:15:00+00:00 O:4485.4 H:4487.9 L:4478.9 C:4482.9 V:1859
+    2026-08-31T15:30:00+00:00 O:4482.4 H:4484.0 L:4476.0 C:4477.2 V:2108
+    2026-08-31T15:45:00+00:00 O:4477.3 H:4483.6 L:4474.3 C:4475.5 V:1727
+    2026-08-31T16:00:00+00:00 O:4475.9 H:4487.1 L:4473.0 C:4484.4 V:2265
+    2026-08-31T16:15:00+00:00 O:4484.7 H:4488.7 L:4482.9 C:4488.3 V:991
+    2026-08-31T16:30:00+00:00 O:4488.6 H:4490.3 L:4481.0 C:4485.4 V:1671
+    2026-08-31T16:45:00+00:00 O:4485.2 H:4487.1 L:4481.8 C:4482.6 V:1149
+    2026-08-31T17:00:00+00:00 O:4482.8 H:4484.6 L:4480.0 C:4482.9 V:905
+    2026-08-31T17:15:00+00:00 O:4483.0 H:4486.6 L:4477.8 C:4479.8 V:3300
+    2026-08-31T17:30:00+00:00 O:4479.8 H:4486.3 L:4479.1 C:4486.0 V:1359
+    2026-08-31T17:45:00+00:00 O:4485.9 H:4489.7 L:4485.1 C:4485.6 V:949
+    2026-08-31T18:00:00+00:00 O:4486.0 H:4486.1 L:4479.5 C:4483.2 V:1038
+    2026-08-31T18:15:00+00:00 O:4483.1 H:4484.0 L:4478.9 C:4478.9 V:716
+    2026-08-31T18:30:00+00:00 O:4478.9 H:4479.5 L:4475.5 C:4478.6 V:913
+    2026-08-31T18:45:00+00:00 O:4478.6 H:4484.0 L:4478.4 C:4480.3 V:644
+    2026-08-31T19:00:00+00:00 O:4480.7 H:4484.7 L:4478.4 C:4482.8 V:741
+    2026-08-31T19:15:00+00:00 O:4483.1 H:4491.7 L:4482.1 C:4489.8 V:1608
+    2026-08-31T19:30:00+00:00 O:4489.8 H:4494.8 L:4488.4 C:4492.5 V:1402
+    2026-08-31T19:45:00+00:00 O:4492.2 H:4502.7 L:4490.8 C:4502.0 V:2850
+    2026-08-31T20:00:00+00:00 O:4502.3 H:4504.9 L:4499.1 C:4499.2 V:888
+    2026-08-31T20:15:00+00:00 O:4499.3 H:4499.6 L:4496.1 C:4496.5 V:338
+    2026-08-31T20:30:00+00:00 O:4496.5 H:4498.8 L:4495.9 C:4497.3 V:209
+    2026-08-31T20:45:00+00:00 O:4497.4 H:4498.9 L:4496.2 C:4497.3 V:324
+    2026-08-31T22:00:00+00:00 O:4498.7 H:4504.8 L:4496.5 C:4500.4 V:305
+    2026-08-31T22:15:00+00:00 O:4500.4 H:4500.7 L:4496.4 C:4498.6 V:472
+    2026-08-31T22:30:00+00:00 O:4498.5 H:4500.0 L:4495.9 C:4496.9 V:284
+    2026-08-31T22:45:00+00:00 O:4496.6 H:4496.9 L:4494.3 C:4495.5 V:191
+    2026-08-31T23:00:00+00:00 O:4495.8 H:4495.8 L:4492.3 C:4492.6 V:429
+    2026-08-31T23:15:00+00:00 O:4492.4 H:4492.8 L:4490.3 C:4491.9 V:361
+    2026-08-31T23:30:00+00:00 O:4492.0 H:4496.5 L:4491.6 C:4494.5 V:389
+    2026-08-31T23:45:00+00:00 O:4494.5 H:4501.0 L:4494.2 C:4501.0 V:522
+    2026-09-01T00:00:00+00:00 O:4501.3 H:4507.1 L:4495.0 C:4503.9 V:1158
+    2026-09-01T00:15:00+00:00 O:4504.1 H:4510.5 L:4501.4 C:4509.2 V:834
+    2026-09-01T00:30:00+00:00 O:4509.5 H:4510.3 L:4500.7 C:4502.1 V:650
+    2026-09-01T00:45:00+00:00 O:4502.4 H:4510.4 L:4499.9 C:4502.7 V:783
+    2026-09-01T01:00:00+00:00 O:4502.6 H:4505.9 L:4494.2 C:4495.3 V:1224
+    2026-09-01T01:15:00+00:00 O:4495.6 H:4496.7 L:4486.7 C:4488.6 V:1097
+    2026-09-01T01:30:00+00:00 O:4488.8 H:4494.8 L:4485.2 C:4494.8 V:1022
+    2026-09-01T01:45:00+00:00 O:4494.9 H:4495.6 L:4488.3 C:4493.1 V:555
+    2026-09-01T02:00:00+00:00 O:4492.9 H:4498.2 L:4490.7 C:4493.8 V:926
+    2026-09-01T02:15:00+00:00 O:4494.1 H:4497.3 L:4489.2 C:4489.2 V:534
+    2026-09-01T02:30:00+00:00 O:4489.2 H:4489.8 L:4480.7 C:4481.2 V:1838
+    2026-09-01T02:45:00+00:00 O:4481.0 H:4492.6 L:4477.1 C:4492.4 V:1402
+    2026-09-01T03:00:00+00:00 O:4492.7 H:4493.5 L:4487.8 C:4489.4 V:1064
+    2026-09-01T03:15:00+00:00 O:4488.9 H:4489.6 L:4480.9 C:4483.5 V:844
+    2026-09-01T03:30:00+00:00 O:4483.4 H:4488.0 L:4482.6 C:4487.6 V:484
+    2026-09-01T03:45:00+00:00 O:4487.8 H:4492.4 L:4486.1 C:4487.0 V:1296
+    2026-09-01T04:00:00+00:00 O:4485.7 H:4486.7 L:4478.9 C:4479.6 V:897
+    2026-09-01T04:15:00+00:00 O:4479.6 H:4482.5 L:4478.3 C:4478.5 V:496
+    2026-09-01T04:30:00+00:00 O:4478.2 H:4479.4 L:4475.2 C:4476.5 V:932
+    2026-09-01T04:45:00+00:00 O:4475.9 H:4478.2 L:4473.9 C:4475.2 V:1582
+    2026-09-01T05:00:00+00:00 O:4475.4 H:4481.3 L:4474.7 C:4477.7 V:595
+    2026-09-01T05:15:00+00:00 O:4478.1 H:4479.0 L:4473.5 C:4475.2 V:521
+    2026-09-01T05:30:00+00:00 O:4474.9 H:4492.2 L:4471.9 C:4492.2 V:1661
+    2026-09-01T05:45:00+00:00 O:4491.2 H:4494.7 L:4488.3 C:4489.0 V:1013
+    2026-09-01T06:00:00+00:00 O:4488.5 H:4489.1 L:4480.2 C:4481.3 V:951
+    2026-09-01T06:15:00+00:00 O:4481.4 H:4483.8 L:4476.3 C:4477.6 V:921
+    2026-09-01T06:30:00+00:00 O:4477.7 H:4483.9 L:4477.0 C:4483.6 V:746
+    2026-09-01T06:45:00+00:00 O:4483.7 H:4484.1 L:4476.7 C:4478.0 V:552
+    2026-09-01T07:00:00+00:00 O:4478.1 H:4483.6 L:4477.9 C:4481.6 V:865
+    2026-09-01T07:15:00+00:00 O:4481.6 H:4482.3 L:4474.3 C:4474.5 V:2016
+    2026-09-01T07:30:00+00:00 O:4474.3 H:4476.9 L:4460.5 C:4466.8 V:2947
+    2026-09-01T07:45:00+00:00 O:4466.6 H:4471.9 L:4465.4 C:4468.7 V:1457
+    2026-09-01T08:00:00+00:00 O:4468.6 H:4468.6 L:4438.4 C:4454.3 V:6617
+    2026-09-01T08:15:00+00:00 O:4454.3 H:4454.9 L:4430.7 C:4432.0 V:3518
+    2026-09-01T08:30:00+00:00 O:4432.1 H:4432.6 L:4418.5 C:4424.1 V:4773
+    2026-09-01T08:44:09+00:00 O:4423.2 H:4423.2 L:4423.2 C:4423.2 V:0
 
 [1H]
-  Price: $4563.3
-  Open/High/Low: $4563.3 / $4563.3 / $4563.3
-  SMA(9):  $4543.76
-  SMA(21): $4551.88
-  SMA(50): $4484.71
-  RSI(14): 54.81
-  Confluence score: 4.11 (-10 bearish to +10 bullish)
-  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 0.0, "rsi_centered": 0.0962, "range_position": 0.8122, "momentum_5bar": 0.0743, "volume_pressure": 1.0}
-  Volatility regime: regime: transitional, ATR at 42.0th percentile of last 50; ADX=23.68; BB_width_pct=22.0; breakout_trigger=False
-  Volume quality: usable=True last=15606.0 baseline20=7392.7 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
-  Candles fed to prompt: 170 (available 531, cap 170)
+  Price: $4423.2
+  Open/High/Low: $4423.2 / $4423.2 / $4423.2
+  SMA(9):  $4470.08
+  SMA(21): $4480.52
+  SMA(50): $4520.92
+  RSI(14): 45.17
+  Confluence score: -6.08 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": -1.0, "rsi_centered": -0.0966, "range_position": -0.9721, "momentum_5bar": -0.2324, "volume_pressure": 1.0}
+  Volatility regime: regime: trending, ATR at 46.0th percentile of last 50; ADX=32.91; BB_width_pct=62.0; breakout_trigger=False
+  Volume quality: usable=True last=14908.0 baseline20=6020.5 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
+  Candles fed to prompt: 170 (available 496, cap 170)
 
   OHLCV candle records fed to prompt (170 total):
-    2026-08-11T08:00:00+00:00 O:4417.1 H:4435.5 L:4416.1 C:4428.1 V:5302
-    2026-08-11T09:00:00+00:00 O:4428.0 H:4434.4 L:4426.1 C:4431.4 V:3621
-    2026-08-11T10:00:00+00:00 O:4431.3 H:4441.2 L:4430.0 C:4441.2 V:3376
-    2026-08-11T11:00:00+00:00 O:4441.1 H:4451.8 L:4439.1 C:4446.1 V:6290
-    2026-08-11T12:00:00+00:00 O:4446.2 H:4458.8 L:4442.2 C:4450.6 V:10861
-    2026-08-11T13:00:00+00:00 O:4450.7 H:4463.3 L:4442.9 C:4448.2 V:11799
-    2026-08-11T14:00:00+00:00 O:4448.2 H:4457.4 L:4439.9 C:4453.6 V:10180
-    2026-08-11T15:00:00+00:00 O:4453.6 H:4458.2 L:4428.2 C:4443.2 V:10280
-    2026-08-11T16:00:00+00:00 O:4443.5 H:4445.3 L:4438.2 C:4443.1 V:3312
-    2026-08-11T17:00:00+00:00 O:4443.3 H:4445.7 L:4428.2 C:4428.3 V:6560
-    2026-08-11T18:00:00+00:00 O:4428.5 H:4431.9 L:4419.7 C:4430.4 V:5781
-    2026-08-11T19:00:00+00:00 O:4430.4 H:4433.6 L:4420.0 C:4429.7 V:6076
-    2026-08-11T20:00:00+00:00 O:4429.3 H:4430.0 L:4426.1 C:4427.8 V:905
-    2026-08-11T22:00:00+00:00 O:4430.0 H:4437.8 L:4426.1 C:4427.9 V:0
-    2026-08-11T23:00:00+00:00 O:4428.7 H:4433.0 L:4421.4 C:4430.4 V:3462
-    2026-08-12T00:00:00+00:00 O:4430.6 H:4442.9 L:4426.0 C:4440.2 V:2359
-    2026-08-12T01:00:00+00:00 O:4440.3 H:4456.9 L:4438.0 C:4456.2 V:4737
-    2026-08-12T02:00:00+00:00 O:4456.1 H:4474.2 L:4453.9 C:4470.8 V:5861
-    2026-08-12T03:00:00+00:00 O:4471.1 H:4475.7 L:4460.6 C:4461.8 V:3612
-    2026-08-12T04:00:00+00:00 O:4462.4 H:4463.1 L:4455.3 C:4461.0 V:2339
-    2026-08-12T05:00:00+00:00 O:4460.9 H:4465.1 L:4444.0 C:4451.0 V:4539
-    2026-08-12T06:00:00+00:00 O:4450.9 H:4466.1 L:4445.3 C:4463.2 V:4554
-    2026-08-12T07:00:00+00:00 O:4463.0 H:4469.5 L:4457.4 C:4465.9 V:4437
-    2026-08-12T08:00:00+00:00 O:4465.9 H:4470.1 L:4460.6 C:4460.6 V:2833
-    2026-08-12T09:00:00+00:00 O:4460.9 H:4484.2 L:4460.9 C:4475.4 V:6664
-    2026-08-12T10:00:00+00:00 O:4475.5 H:4480.4 L:4465.9 C:4472.0 V:4110
-    2026-08-12T11:00:00+00:00 O:4472.3 H:4476.6 L:4467.2 C:4472.4 V:4117
-    2026-08-12T12:00:00+00:00 O:4472.4 H:4499.3 L:4440.0 C:4498.2 V:25595
-    2026-08-12T13:00:00+00:00 O:4497.8 H:4502.7 L:4468.0 C:4487.4 V:18383
-    2026-08-12T14:00:00+00:00 O:4487.5 H:4499.8 L:4475.8 C:4481.4 V:14963
-    2026-08-12T15:00:00+00:00 O:4481.2 H:4489.5 L:4470.2 C:4480.4 V:7526
-    2026-08-12T16:00:00+00:00 O:4480.2 H:4486.2 L:4455.9 C:4461.7 V:9101
-    2026-08-12T17:00:00+00:00 O:4461.7 H:4471.7 L:4459.0 C:4459.6 V:7606
-    2026-08-12T18:00:00+00:00 O:4459.3 H:4478.1 L:4456.0 C:4473.2 V:3850
-    2026-08-12T19:00:00+00:00 O:4473.2 H:4478.3 L:4468.5 C:4473.9 V:2697
-    2026-08-12T20:00:00+00:00 O:4473.7 H:4474.3 L:4466.7 C:4469.0 V:1340
-    2026-08-12T22:00:00+00:00 O:4468.8 H:4470.3 L:4456.5 C:4459.9 V:0
-    2026-08-12T23:00:00+00:00 O:4460.1 H:4473.2 L:4459.9 C:4473.1 V:1352
-    2026-08-13T00:00:00+00:00 O:4473.2 H:4509.1 L:4471.9 C:4486.9 V:9057
-    2026-08-13T01:00:00+00:00 O:4486.7 H:4494.1 L:4464.7 C:4467.0 V:6179
-    2026-08-13T02:00:00+00:00 O:4466.8 H:4472.6 L:4457.0 C:4465.7 V:3645
-    2026-08-13T03:00:00+00:00 O:4465.8 H:4470.7 L:4458.0 C:4458.3 V:2730
-    2026-08-13T04:00:00+00:00 O:4458.7 H:4458.7 L:4449.4 C:4455.5 V:3702
-    2026-08-13T05:00:00+00:00 O:4455.2 H:4465.2 L:4437.2 C:4440.4 V:6386
-    2026-08-13T06:00:00+00:00 O:4440.3 H:4443.0 L:4425.6 C:4437.7 V:6345
-    2026-08-13T07:00:00+00:00 O:4437.8 H:4438.6 L:4425.8 C:4426.4 V:4677
-    2026-08-13T08:00:00+00:00 O:4426.4 H:4435.7 L:4420.3 C:4432.4 V:4515
-    2026-08-13T09:00:00+00:00 O:4432.3 H:4441.9 L:4428.6 C:4441.8 V:3402
-    2026-08-13T10:00:00+00:00 O:4441.9 H:4451.5 L:4438.8 C:4449.9 V:3161
-    2026-08-13T11:00:00+00:00 O:4449.6 H:4454.2 L:4439.6 C:4444.4 V:4946
-    2026-08-13T12:00:00+00:00 O:4444.5 H:4460.0 L:4437.1 C:4458.9 V:9126
-    2026-08-13T13:00:00+00:00 O:4458.5 H:4459.0 L:4427.1 C:4429.1 V:12370
-    2026-08-13T14:00:00+00:00 O:4429.3 H:4444.7 L:4408.8 C:4440.9 V:14838
-    2026-08-13T15:00:00+00:00 O:4441.2 H:4443.1 L:4413.6 C:4422.4 V:9700
-    2026-08-13T16:00:00+00:00 O:4422.3 H:4425.6 L:4407.5 C:4424.2 V:8482
-    2026-08-13T17:00:00+00:00 O:4424.3 H:4430.6 L:4412.0 C:4412.4 V:7369
-    2026-08-13T18:00:00+00:00 O:4412.6 H:4420.5 L:4411.4 C:4413.6 V:3519
-    2026-08-13T19:00:00+00:00 O:4414.0 H:4415.5 L:4400.0 C:4406.2 V:4655
-    2026-08-13T20:00:00+00:00 O:4406.2 H:4408.4 L:4402.9 C:4407.1 V:1913
-    2026-08-13T22:00:00+00:00 O:4408.2 H:4418.4 L:4406.6 C:4410.3 V:0
-    2026-08-13T23:00:00+00:00 O:4411.5 H:4419.4 L:4405.1 C:4411.8 V:3512
-    2026-08-14T00:00:00+00:00 O:4411.6 H:4417.4 L:4385.1 C:4396.4 V:5728
-    2026-08-14T01:00:00+00:00 O:4396.2 H:4397.1 L:4367.5 C:4373.7 V:9506
-    2026-08-14T02:00:00+00:00 O:4373.7 H:4378.0 L:4365.5 C:4370.7 V:4982
-    2026-08-14T03:00:00+00:00 O:4370.7 H:4383.8 L:4368.9 C:4379.6 V:2551
-    2026-08-14T04:00:00+00:00 O:4379.2 H:4384.6 L:4378.3 C:4382.0 V:1800
-    2026-08-14T05:00:00+00:00 O:4382.2 H:4389.5 L:4365.6 C:4389.5 V:4331
-    2026-08-14T06:00:00+00:00 O:4389.6 H:4392.6 L:4383.6 C:4391.6 V:3066
-    2026-08-14T07:00:00+00:00 O:4391.4 H:4401.6 L:4385.7 C:4399.8 V:3733
-    2026-08-14T08:00:00+00:00 O:4399.8 H:4405.7 L:4398.1 C:4404.7 V:3608
-    2026-08-14T09:00:00+00:00 O:4404.5 H:4413.8 L:4402.0 C:4413.6 V:3922
-    2026-08-14T10:00:00+00:00 O:4413.6 H:4415.1 L:4403.7 C:4405.5 V:4193
-    2026-08-14T11:00:00+00:00 O:4405.5 H:4426.0 L:4404.7 C:4425.8 V:4534
-    2026-08-14T12:00:00+00:00 O:4425.5 H:4444.0 L:4421.8 C:4430.9 V:12963
-    2026-08-14T13:00:00+00:00 O:4430.7 H:4454.6 L:4427.3 C:4442.0 V:13285
-    2026-08-14T14:00:00+00:00 O:4441.6 H:4452.2 L:4436.2 C:4438.6 V:9581
-    2026-08-14T15:00:00+00:00 O:4438.7 H:4452.3 L:4436.4 C:4449.0 V:9824
-    2026-08-14T16:00:00+00:00 O:4449.0 H:4454.3 L:4437.2 C:4442.7 V:4686
-    2026-08-14T17:00:00+00:00 O:4443.0 H:4443.4 L:4433.6 C:4435.5 V:4557
-    2026-08-14T18:00:00+00:00 O:4435.9 H:4439.6 L:4427.5 C:4430.3 V:5830
-    2026-08-14T19:00:00+00:00 O:4430.3 H:4435.6 L:4428.6 C:4431.5 V:3055
-    2026-08-14T20:00:00+00:00 O:4431.4 H:4432.4 L:4426.9 C:4432.1 V:1870
-    2026-08-14T21:00:00+00:00 O:4432.0 H:4437.3 L:4432.0 C:4437.3 V:1
-    2026-08-16T22:00:00+00:00 O:4433.7 H:4442.5 L:4429.3 C:4441.6 V:1615
-    2026-08-16T23:00:00+00:00 O:4441.8 H:4441.9 L:4422.3 C:4425.5 V:2616
-    2026-08-17T00:00:00+00:00 O:4426.0 H:4459.4 L:4423.5 C:4457.3 V:5088
-    2026-08-17T01:00:00+00:00 O:4457.1 H:4473.2 L:4448.6 C:4452.0 V:7212
-    2026-08-17T02:00:00+00:00 O:4451.9 H:4454.7 L:4444.9 C:4449.8 V:3034
-    2026-08-17T03:00:00+00:00 O:4450.2 H:4453.8 L:4444.5 C:4453.7 V:1901
-    2026-08-17T04:00:00+00:00 O:4453.5 H:4456.3 L:4445.5 C:4447.1 V:2263
-    2026-08-17T05:00:00+00:00 O:4447.3 H:4457.7 L:4443.4 C:4451.3 V:3266
-    2026-08-17T06:00:00+00:00 O:4451.6 H:4460.7 L:4449.1 C:4459.3 V:3790
-    2026-08-17T07:00:00+00:00 O:4459.0 H:4467.9 L:4452.2 C:4461.5 V:4780
-    2026-08-17T08:00:00+00:00 O:4461.8 H:4461.8 L:4448.8 C:4451.1 V:2809
-    2026-08-17T09:00:00+00:00 O:4451.3 H:4457.0 L:4449.2 C:4452.4 V:3179
-    2026-08-17T10:00:00+00:00 O:4452.4 H:4462.6 L:4445.7 C:4455.8 V:4781
-    2026-08-17T11:00:00+00:00 O:4455.9 H:4461.8 L:4451.8 C:4453.4 V:3769
-    2026-08-17T12:00:00+00:00 O:4453.1 H:4455.4 L:4433.4 C:4441.4 V:9175
-    2026-08-17T13:00:00+00:00 O:4441.7 H:4473.0 L:4438.1 C:4465.3 V:10618
-    2026-08-17T14:00:00+00:00 O:4465.3 H:4484.9 L:4460.4 C:4474.5 V:15673
-    2026-08-17T15:00:00+00:00 O:4474.6 H:4485.3 L:4471.8 C:4484.8 V:6321
-    2026-08-17T16:00:00+00:00 O:4485.0 H:4486.5 L:4479.7 C:4481.5 V:4696
-    2026-08-17T17:00:00+00:00 O:4481.7 H:4483.7 L:4468.2 C:4471.0 V:7291
-    2026-08-17T18:00:00+00:00 O:4471.3 H:4474.0 L:4454.5 C:4463.1 V:7947
-    2026-08-17T19:00:00+00:00 O:4462.9 H:4477.0 L:4456.6 C:4475.7 V:4630
-    2026-08-17T20:00:00+00:00 O:4475.9 H:4477.5 L:4471.1 C:4473.1 V:1067
-    2026-08-17T22:00:00+00:00 O:4473.4 H:4475.9 L:4466.5 C:4467.9 V:0
-    2026-08-17T23:00:00+00:00 O:4468.0 H:4482.1 L:4466.0 C:4482.0 V:2172
-    2026-08-18T00:00:00+00:00 O:4482.3 H:4491.7 L:4475.0 C:4491.2 V:4382
-    2026-08-18T01:00:00+00:00 O:4491.6 H:4493.1 L:4460.9 C:4464.6 V:5713
-    2026-08-18T02:00:00+00:00 O:4464.6 H:4464.9 L:4450.0 C:4456.1 V:4781
-    2026-08-18T03:00:00+00:00 O:4456.1 H:4460.5 L:4446.3 C:4448.1 V:3013
-    2026-08-18T04:00:00+00:00 O:4447.4 H:4450.9 L:4444.0 C:4448.9 V:2669
-    2026-08-18T05:00:00+00:00 O:4448.7 H:4453.2 L:4441.4 C:4450.2 V:3095
-    2026-08-18T06:00:00+00:00 O:4449.4 H:4455.6 L:4443.2 C:4454.1 V:3781
-    2026-08-18T07:00:00+00:00 O:4454.3 H:4459.5 L:4451.2 C:4451.2 V:3413
-    2026-08-18T08:00:00+00:00 O:4451.6 H:4454.2 L:4442.4 C:4448.9 V:4050
-    2026-08-18T09:00:00+00:00 O:4448.8 H:4451.3 L:4443.0 C:4449.7 V:2918
-    2026-08-18T10:00:00+00:00 O:4449.7 H:4456.2 L:4446.1 C:4454.4 V:2138
-    2026-08-18T11:00:00+00:00 O:4454.2 H:4455.8 L:4444.8 C:4452.3 V:2641
-    2026-08-18T12:00:00+00:00 O:4452.6 H:4457.3 L:4445.8 C:4450.7 V:6033
-    2026-08-18T13:00:00+00:00 O:4450.5 H:4463.0 L:4430.9 C:4451.0 V:16644
-    2026-08-18T14:00:00+00:00 O:4450.5 H:4462.8 L:4419.1 C:4422.3 V:19020
-    2026-08-18T15:00:00+00:00 O:4422.6 H:4434.1 L:4406.8 C:4420.2 V:16647
-    2026-08-18T16:00:00+00:00 O:4420.3 H:4427.0 L:4417.8 C:4419.0 V:4860
-    2026-08-18T17:00:00+00:00 O:4419.1 H:4423.8 L:4412.4 C:4413.2 V:4727
-    2026-08-18T18:00:00+00:00 O:4413.6 H:4416.5 L:4407.9 C:4409.4 V:3912
-    2026-08-18T19:00:00+00:00 O:4409.5 H:4413.7 L:4392.3 C:4400.0 V:7084
-    2026-08-18T20:00:00+00:00 O:4400.1 H:4401.2 L:4383.3 C:4389.5 V:3119
-    2026-08-18T22:00:00+00:00 O:4391.4 H:4395.3 L:4385.8 C:4386.8 V:0
-    2026-08-18T23:00:00+00:00 O:4387.2 H:4391.5 L:4379.6 C:4386.0 V:3354
-    2026-08-19T00:00:00+00:00 O:4386.1 H:4401.0 L:4384.6 C:4391.8 V:4774
-    2026-08-19T01:00:00+00:00 O:4391.5 H:4411.1 L:4378.0 C:4410.2 V:8886
-    2026-08-19T02:00:00+00:00 O:4410.0 H:4415.8 L:4405.0 C:4408.5 V:4996
-    2026-08-19T03:00:00+00:00 O:4408.4 H:4414.1 L:4405.3 C:4409.0 V:1942
-    2026-08-19T04:00:00+00:00 O:4408.9 H:4409.6 L:4396.5 C:4401.8 V:2722
-    2026-08-19T05:00:00+00:00 O:4401.7 H:4404.2 L:4388.2 C:4389.0 V:4934
-    2026-08-19T06:00:00+00:00 O:4389.0 H:4403.1 L:4388.7 C:4402.8 V:5596
-    2026-08-19T07:00:00+00:00 O:4402.8 H:4417.2 L:4401.1 C:4408.3 V:4933
-    2026-08-19T08:00:00+00:00 O:4408.4 H:4417.2 L:4404.8 C:4409.7 V:4213
-    2026-08-19T09:00:00+00:00 O:4409.7 H:4416.4 L:4407.4 C:4416.4 V:3029
-    2026-08-19T10:00:00+00:00 O:4416.5 H:4424.1 L:4413.8 C:4422.2 V:3283
-    2026-08-19T11:00:00+00:00 O:4422.4 H:4429.1 L:4417.7 C:4419.1 V:4055
-    2026-08-19T12:00:00+00:00 O:4419.7 H:4499.8 L:4417.0 C:4496.3 V:36057
-    2026-08-19T13:00:00+00:00 O:4496.3 H:4524.0 L:4480.8 C:4517.8 V:42249
-    2026-08-19T14:00:00+00:00 O:4518.0 H:4557.6 L:4513.5 C:4546.8 V:35698
-    2026-08-19T15:00:00+00:00 O:4547.0 H:4552.8 L:4536.5 C:4552.2 V:14896
-    2026-08-19T16:00:00+00:00 O:4552.2 H:4557.5 L:4548.4 C:4551.0 V:9392
-    2026-08-19T17:00:00+00:00 O:4551.0 H:4557.0 L:4541.9 C:4545.0 V:9699
-    2026-08-19T18:00:00+00:00 O:4544.9 H:4556.0 L:4530.4 C:4553.3 V:16444
-    2026-08-19T19:00:00+00:00 O:4553.3 H:4569.6 L:4552.3 C:4568.0 V:10549
-    2026-08-19T20:00:00+00:00 O:4568.4 H:4582.8 L:4562.8 C:4580.7 V:6291
-    2026-08-19T22:00:00+00:00 O:4580.0 H:4583.8 L:4573.5 C:4575.9 V:0
-    2026-08-19T23:00:00+00:00 O:4576.4 H:4581.2 L:4568.4 C:4569.2 V:2554
-    2026-08-20T00:00:00+00:00 O:4568.7 H:4578.6 L:4560.2 C:4562.0 V:4263
-    2026-08-20T01:00:00+00:00 O:4562.3 H:4567.9 L:4542.1 C:4547.4 V:8738
-    2026-08-20T02:00:00+00:00 O:4547.3 H:4557.6 L:4546.1 C:4548.1 V:4395
-    2026-08-20T03:00:00+00:00 O:4548.2 H:4558.8 L:4545.7 C:4555.7 V:3032
-    2026-08-20T04:00:00+00:00 O:4556.4 H:4556.6 L:4543.4 C:4546.1 V:2875
-    2026-08-20T05:00:00+00:00 O:4546.0 H:4551.4 L:4534.8 C:4538.5 V:3806
-    2026-08-20T06:00:00+00:00 O:4538.6 H:4553.5 L:4537.2 C:4550.8 V:6024
-    2026-08-20T07:00:00+00:00 O:4550.6 H:4552.7 L:4540.1 C:4547.6 V:4873
-    2026-08-20T08:00:00+00:00 O:4547.9 H:4555.9 L:4543.9 C:4546.1 V:5530
-    2026-08-20T09:00:00+00:00 O:4546.2 H:4551.0 L:4538.2 C:4538.9 V:4560
-    2026-08-20T10:00:00+00:00 O:4539.1 H:4552.5 L:4537.0 C:4546.4 V:4171
-    2026-08-20T11:00:00+00:00 O:4546.7 H:4547.9 L:4521.2 C:4523.1 V:10669
-    2026-08-20T12:00:00+00:00 O:4523.3 H:4532.3 L:4506.0 C:4529.7 V:17523
-    2026-08-20T13:00:00+00:00 O:4529.8 H:4544.4 L:4524.1 C:4537.0 V:15951
-    2026-08-20T14:00:00+00:00 O:4536.8 H:4564.5 L:4535.8 C:4561.7 V:15606
-    2026-08-20T14:51:17+00:00 O:4563.3 H:4563.3 L:4563.3 C:4563.3 V:0
+    2026-08-21T01:00:00+00:00 O:4567.2 H:4600.3 L:4565.5 C:4587.0 V:7141
+    2026-08-21T02:00:00+00:00 O:4586.8 H:4599.2 L:4574.0 C:4590.0 V:5560
+    2026-08-21T03:00:00+00:00 O:4590.0 H:4594.7 L:4582.6 C:4590.9 V:2465
+    2026-08-21T04:00:00+00:00 O:4591.5 H:4604.4 L:4591.2 C:4596.8 V:4033
+    2026-08-21T05:00:00+00:00 O:4596.4 H:4612.4 L:4585.4 C:4610.1 V:5908
+    2026-08-21T06:00:00+00:00 O:4609.9 H:4624.7 L:4601.8 C:4617.9 V:9132
+    2026-08-21T07:00:00+00:00 O:4617.8 H:4625.0 L:4615.4 C:4621.0 V:5890
+    2026-08-21T08:00:00+00:00 O:4621.4 H:4642.0 L:4615.8 C:4641.0 V:10338
+    2026-08-21T09:00:00+00:00 O:4641.1 H:4659.4 L:4637.6 C:4639.7 V:13836
+    2026-08-21T10:00:00+00:00 O:4639.4 H:4651.6 L:4634.5 C:4645.8 V:7281
+    2026-08-21T11:00:00+00:00 O:4645.5 H:4661.7 L:4644.3 C:4654.4 V:7950
+    2026-08-21T12:00:00+00:00 O:4654.7 H:4659.1 L:4620.5 C:4634.7 V:18190
+    2026-08-21T13:00:00+00:00 O:4634.6 H:4650.2 L:4630.0 C:4638.3 V:15060
+    2026-08-21T14:00:00+00:00 O:4638.1 H:4660.2 L:4636.5 C:4648.1 V:17876
+    2026-08-21T15:00:00+00:00 O:4648.5 H:4673.0 L:4644.1 C:4672.0 V:13380
+    2026-08-21T16:00:00+00:00 O:4672.1 H:4687.2 L:4666.3 C:4686.6 V:10785
+    2026-08-21T17:00:00+00:00 O:4686.7 H:4690.4 L:4673.4 C:4678.7 V:14697
+    2026-08-21T18:00:00+00:00 O:4679.0 H:4686.1 L:4677.5 C:4681.8 V:4955
+    2026-08-21T19:00:00+00:00 O:4682.1 H:4683.1 L:4673.0 C:4674.7 V:4668
+    2026-08-21T20:00:00+00:00 O:4674.6 H:4680.6 L:4661.0 C:4680.6 V:2580
+    2026-08-23T22:00:00+00:00 O:4675.4 H:4679.1 L:4663.0 C:4663.1 V:2062
+    2026-08-23T23:00:00+00:00 O:4663.5 H:4682.0 L:4661.9 C:4681.6 V:3548
+    2026-08-24T00:00:00+00:00 O:4681.6 H:4698.6 L:4651.8 C:4678.8 V:9593
+    2026-08-24T01:00:00+00:00 O:4679.0 H:4694.3 L:4664.6 C:4688.6 V:8902
+    2026-08-24T02:00:00+00:00 O:4688.7 H:4713.8 L:4684.3 C:4700.4 V:9983
+    2026-08-24T03:00:00+00:00 O:4700.4 H:4707.0 L:4690.0 C:4698.2 V:3505
+    2026-08-24T04:00:00+00:00 O:4698.2 H:4699.0 L:4688.9 C:4695.2 V:2400
+    2026-08-24T05:00:00+00:00 O:4695.8 H:4702.5 L:4685.5 C:4697.3 V:4068
+    2026-08-24T06:00:00+00:00 O:4697.5 H:4716.7 L:4695.8 C:4706.7 V:8329
+    2026-08-24T07:00:00+00:00 O:4706.4 H:4711.0 L:4686.0 C:4697.4 V:7294
+    2026-08-24T08:00:00+00:00 O:4697.8 H:4702.0 L:4684.2 C:4693.5 V:7467
+    2026-08-24T09:00:00+00:00 O:4693.7 H:4702.7 L:4688.8 C:4702.4 V:7635
+    2026-08-24T10:00:00+00:00 O:4702.4 H:4707.0 L:4698.6 C:4700.3 V:5452
+    2026-08-24T11:00:00+00:00 O:4700.1 H:4728.3 L:4696.2 C:4715.0 V:13924
+    2026-08-24T12:00:00+00:00 O:4715.2 H:4726.9 L:4702.0 C:4720.7 V:10683
+    2026-08-24T13:00:00+00:00 O:4720.9 H:4738.5 L:4713.3 C:4721.8 V:18757
+    2026-08-24T14:00:00+00:00 O:4721.5 H:4736.1 L:4712.0 C:4727.6 V:15969
+    2026-08-24T15:00:00+00:00 O:4727.8 H:4737.0 L:4696.5 C:4706.0 V:18113
+    2026-08-24T16:00:00+00:00 O:4706.0 H:4719.6 L:4697.9 C:4701.9 V:10523
+    2026-08-24T17:00:00+00:00 O:4702.1 H:4712.7 L:4686.6 C:4693.3 V:15426
+    2026-08-24T18:00:00+00:00 O:4693.0 H:4699.0 L:4681.2 C:4693.0 V:9639
+    2026-08-24T19:00:00+00:00 O:4692.7 H:4712.1 L:4692.2 C:4707.5 V:4546
+    2026-08-24T20:00:00+00:00 O:4707.9 H:4711.5 L:4703.4 C:4710.0 V:3322
+    2026-08-24T22:00:00+00:00 O:4710.1 H:4725.6 L:4708.4 C:4724.5 V:0
+    2026-08-24T23:00:00+00:00 O:4724.6 H:4740.6 L:4723.0 C:4737.2 V:4225
+    2026-08-25T00:00:00+00:00 O:4737.3 H:4755.0 L:4732.7 C:4741.0 V:7997
+    2026-08-25T01:00:00+00:00 O:4740.8 H:4743.3 L:4713.2 C:4714.7 V:9906
+    2026-08-25T02:00:00+00:00 O:4714.5 H:4718.3 L:4670.5 C:4685.5 V:14102
+    2026-08-25T03:00:00+00:00 O:4685.7 H:4697.7 L:4678.1 C:4688.3 V:4898
+    2026-08-25T04:00:00+00:00 O:4689.4 H:4693.5 L:4679.5 C:4681.1 V:2845
+    2026-08-25T05:00:00+00:00 O:4681.3 H:4704.0 L:4679.3 C:4698.5 V:6460
+    2026-08-25T06:00:00+00:00 O:4698.4 H:4709.6 L:4693.0 C:4694.6 V:4905
+    2026-08-25T07:00:00+00:00 O:4695.0 H:4700.3 L:4685.8 C:4686.1 V:5734
+    2026-08-25T08:00:00+00:00 O:4686.1 H:4702.0 L:4676.3 C:4685.7 V:7616
+    2026-08-25T09:00:00+00:00 O:4685.7 H:4698.1 L:4679.5 C:4691.7 V:6280
+    2026-08-25T10:00:00+00:00 O:4691.6 H:4698.2 L:4688.1 C:4695.0 V:3230
+    2026-08-25T11:00:00+00:00 O:4694.8 H:4703.5 L:4691.9 C:4698.4 V:4924
+    2026-08-25T12:00:00+00:00 O:4698.7 H:4699.6 L:4685.3 C:4695.7 V:8891
+    2026-08-25T13:00:00+00:00 O:4696.3 H:4696.6 L:4659.5 C:4671.4 V:18693
+    2026-08-25T14:00:00+00:00 O:4671.3 H:4696.0 L:4667.3 C:4691.6 V:16913
+    2026-08-25T15:00:00+00:00 O:4691.8 H:4716.4 L:4685.1 C:4709.5 V:13804
+    2026-08-25T16:00:00+00:00 O:4709.6 H:4710.2 L:4694.3 C:4700.8 V:9284
+    2026-08-25T17:00:00+00:00 O:4700.6 H:4705.8 L:4691.3 C:4705.8 V:7466
+    2026-08-25T18:00:00+00:00 O:4705.8 H:4711.8 L:4701.7 C:4711.4 V:3703
+    2026-08-25T19:00:00+00:00 O:4711.4 H:4725.6 L:4710.4 C:4723.4 V:7288
+    2026-08-25T20:00:00+00:00 O:4723.3 H:4726.0 L:4714.1 C:4715.9 V:2964
+    2026-08-25T22:00:00+00:00 O:4715.7 H:4730.9 L:4712.1 C:4729.7 V:0
+    2026-08-25T23:00:00+00:00 O:4729.7 H:4730.6 L:4710.3 C:4712.1 V:2587
+    2026-08-26T00:00:00+00:00 O:4711.9 H:4715.2 L:4691.1 C:4694.2 V:4918
+    2026-08-26T01:00:00+00:00 O:4694.6 H:4717.7 L:4686.2 C:4713.8 V:7488
+    2026-08-26T02:00:00+00:00 O:4713.6 H:4728.0 L:4711.6 C:4715.2 V:4529
+    2026-08-26T03:00:00+00:00 O:4715.4 H:4715.9 L:4699.6 C:4701.1 V:3853
+    2026-08-26T04:00:00+00:00 O:4699.8 H:4701.2 L:4695.7 C:4697.6 V:1898
+    2026-08-26T05:00:00+00:00 O:4697.5 H:4706.3 L:4692.2 C:4696.3 V:3455
+    2026-08-26T06:00:00+00:00 O:4696.2 H:4698.0 L:4681.1 C:4690.6 V:4644
+    2026-08-26T07:00:00+00:00 O:4690.6 H:4695.7 L:4682.6 C:4685.1 V:4051
+    2026-08-26T08:00:00+00:00 O:4684.9 H:4686.7 L:4677.3 C:4683.7 V:3655
+    2026-08-26T09:00:00+00:00 O:4684.0 H:4687.0 L:4671.3 C:4679.5 V:5668
+    2026-08-26T10:00:00+00:00 O:4679.6 H:4680.1 L:4668.8 C:4675.9 V:3722
+    2026-08-26T11:00:00+00:00 O:4676.3 H:4681.0 L:4672.1 C:4680.3 V:4055
+    2026-08-26T12:00:00+00:00 O:4680.6 H:4690.0 L:4666.0 C:4669.5 V:13147
+    2026-08-26T13:00:00+00:00 O:4670.0 H:4687.0 L:4653.3 C:4686.6 V:20169
+    2026-08-26T14:00:00+00:00 O:4686.7 H:4688.6 L:4658.0 C:4658.2 V:12459
+    2026-08-26T15:00:00+00:00 O:4658.5 H:4664.6 L:4638.2 C:4651.4 V:19020
+    2026-08-26T16:00:00+00:00 O:4651.6 H:4656.8 L:4640.8 C:4647.1 V:11736
+    2026-08-26T17:00:00+00:00 O:4647.1 H:4657.6 L:4645.9 C:4653.2 V:6138
+    2026-08-26T18:00:00+00:00 O:4653.1 H:4660.3 L:4647.5 C:4648.5 V:4792
+    2026-08-26T19:00:00+00:00 O:4648.8 H:4656.3 L:4645.7 C:4648.9 V:3508
+    2026-08-26T20:00:00+00:00 O:4649.0 H:4651.4 L:4638.6 C:4647.8 V:1738
+    2026-08-26T22:00:00+00:00 O:4650.0 H:4667.7 L:4648.1 C:4663.3 V:0
+    2026-08-26T23:00:00+00:00 O:4663.2 H:4678.9 L:4660.9 C:4677.5 V:3632
+    2026-08-27T00:00:00+00:00 O:4677.9 H:4681.0 L:4654.5 C:4659.2 V:4826
+    2026-08-27T01:00:00+00:00 O:4658.9 H:4695.4 L:4656.2 C:4694.6 V:7479
+    2026-08-27T02:00:00+00:00 O:4694.6 H:4697.7 L:4678.1 C:4683.7 V:5414
+    2026-08-27T03:00:00+00:00 O:4683.8 H:4693.1 L:4678.8 C:4679.0 V:2302
+    2026-08-27T04:00:00+00:00 O:4679.7 H:4681.8 L:4671.4 C:4673.0 V:2334
+    2026-08-27T05:00:00+00:00 O:4673.3 H:4675.8 L:4655.0 C:4661.2 V:6017
+    2026-08-27T06:00:00+00:00 O:4661.0 H:4665.7 L:4651.7 C:4654.3 V:6886
+    2026-08-27T07:00:00+00:00 O:4654.3 H:4659.7 L:4647.2 C:4653.4 V:4945
+    2026-08-27T08:00:00+00:00 O:4654.0 H:4660.5 L:4647.9 C:4652.3 V:3555
+    2026-08-27T09:00:00+00:00 O:4652.3 H:4653.8 L:4631.0 C:4633.2 V:8946
+    2026-08-27T10:00:00+00:00 O:4632.9 H:4643.6 L:4618.9 C:4643.0 V:7616
+    2026-08-27T11:00:00+00:00 O:4643.1 H:4653.7 L:4640.2 C:4652.3 V:6869
+    2026-08-27T12:00:00+00:00 O:4652.0 H:4654.7 L:4633.7 C:4639.3 V:8105
+    2026-08-27T13:00:00+00:00 O:4639.2 H:4646.4 L:4616.0 C:4625.9 V:14123
+    2026-08-27T14:00:00+00:00 O:4625.6 H:4652.0 L:4621.7 C:4645.1 V:13769
+    2026-08-27T15:00:00+00:00 O:4645.0 H:4665.5 L:4642.7 C:4664.5 V:7897
+    2026-08-27T16:00:00+00:00 O:4664.7 H:4670.9 L:4656.5 C:4669.3 V:6571
+    2026-08-27T17:00:00+00:00 O:4669.2 H:4670.7 L:4659.1 C:4660.4 V:4833
+    2026-08-27T18:00:00+00:00 O:4660.6 H:4665.2 L:4654.7 C:4664.3 V:3361
+    2026-08-27T19:00:00+00:00 O:4664.7 H:4672.4 L:4658.3 C:4662.7 V:3927
+    2026-08-27T20:00:00+00:00 O:4662.8 H:4663.6 L:4653.8 C:4654.8 V:1264
+    2026-08-27T22:00:00+00:00 O:4656.0 H:4664.1 L:4653.9 C:4664.1 V:0
+    2026-08-27T23:00:00+00:00 O:4664.0 H:4664.8 L:4647.3 C:4647.6 V:2426
+    2026-08-28T00:00:00+00:00 O:4647.8 H:4655.7 L:4638.5 C:4641.2 V:2843
+    2026-08-28T01:00:00+00:00 O:4642.4 H:4655.4 L:4628.1 C:4628.9 V:5299
+    2026-08-28T02:00:00+00:00 O:4628.6 H:4642.4 L:4628.0 C:4638.9 V:2512
+    2026-08-28T03:00:00+00:00 O:4638.7 H:4642.3 L:4630.9 C:4631.4 V:1786
+    2026-08-28T04:00:00+00:00 O:4632.3 H:4637.5 L:4630.0 C:4636.4 V:1614
+    2026-08-28T05:00:00+00:00 O:4636.7 H:4638.6 L:4623.0 C:4625.5 V:2952
+    2026-08-28T06:00:00+00:00 O:4625.7 H:4666.2 L:4624.5 C:4665.5 V:6108
+    2026-08-28T07:00:00+00:00 O:4665.4 H:4667.4 L:4648.7 C:4665.0 V:6239
+    2026-08-28T08:00:00+00:00 O:4664.9 H:4667.7 L:4654.3 C:4656.3 V:3772
+    2026-08-28T09:00:00+00:00 O:4656.4 H:4661.4 L:4653.5 C:4658.7 V:2904
+    2026-08-28T10:00:00+00:00 O:4658.8 H:4663.5 L:4650.3 C:4653.1 V:3350
+    2026-08-28T11:00:00+00:00 O:4653.1 H:4654.2 L:4643.6 C:4645.6 V:4445
+    2026-08-28T12:00:00+00:00 O:4645.6 H:4656.4 L:4641.2 C:4654.1 V:6831
+    2026-08-28T13:00:00+00:00 O:4654.2 H:4680.8 L:4645.9 C:4657.5 V:12968
+    2026-08-28T14:00:00+00:00 O:4657.4 H:4688.0 L:4580.2 C:4629.0 V:75096
+    2026-08-28T15:00:00+00:00 O:4629.3 H:4636.1 L:4574.8 C:4575.7 V:34399
+    2026-08-28T16:00:00+00:00 O:4575.9 H:4580.9 L:4515.3 C:4529.9 V:44119
+    2026-08-28T17:00:00+00:00 O:4530.1 H:4537.2 L:4510.5 C:4519.7 V:20382
+    2026-08-28T18:00:00+00:00 O:4519.7 H:4521.9 L:4495.0 C:4506.5 V:15598
+    2026-08-28T19:00:00+00:00 O:4506.5 H:4517.2 L:4502.3 C:4507.9 V:8303
+    2026-08-28T20:00:00+00:00 O:4507.9 H:4529.9 L:4502.7 C:4529.9 V:3151
+    2026-08-30T22:00:00+00:00 O:4506.3 H:4515.9 L:4502.2 C:4510.9 V:4311
+    2026-08-30T23:00:00+00:00 O:4510.8 H:4516.6 L:4485.2 C:4507.8 V:5649
+    2026-08-31T00:00:00+00:00 O:4507.8 H:4521.5 L:4501.4 C:4505.7 V:5101
+    2026-08-31T01:00:00+00:00 O:4505.8 H:4512.4 L:4485.0 C:4489.6 V:10236
+    2026-08-31T02:00:00+00:00 O:4489.1 H:4490.7 L:4445.6 C:4472.3 V:13543
+    2026-08-31T03:00:00+00:00 O:4472.3 H:4483.6 L:4469.5 C:4472.0 V:4563
+    2026-08-31T04:00:00+00:00 O:4472.3 H:4475.0 L:4462.5 C:4474.6 V:3470
+    2026-08-31T05:00:00+00:00 O:4474.6 H:4493.5 L:4469.2 C:4492.7 V:5005
+    2026-08-31T06:00:00+00:00 O:4492.7 H:4493.0 L:4478.9 C:4489.4 V:4271
+    2026-08-31T07:00:00+00:00 O:4489.2 H:4498.5 L:4485.0 C:4493.3 V:4457
+    2026-08-31T08:00:00+00:00 O:4493.3 H:4499.7 L:4483.9 C:4485.6 V:3387
+    2026-08-31T09:00:00+00:00 O:4485.8 H:4496.0 L:4485.7 C:4496.0 V:2925
+    2026-08-31T10:00:00+00:00 O:4495.9 H:4506.7 L:4495.2 C:4504.5 V:3859
+    2026-08-31T11:00:00+00:00 O:4504.6 H:4514.9 L:4503.1 C:4506.2 V:4497
+    2026-08-31T12:00:00+00:00 O:4506.1 H:4511.9 L:4486.5 C:4486.9 V:10124
+    2026-08-31T13:00:00+00:00 O:4486.7 H:4499.5 L:4466.4 C:4469.1 V:15197
+    2026-08-31T14:00:00+00:00 O:4469.3 H:4487.2 L:4466.7 C:4481.7 V:12556
+    2026-08-31T15:00:00+00:00 O:4481.7 H:4487.9 L:4474.3 C:4475.5 V:7801
+    2026-08-31T16:00:00+00:00 O:4475.9 H:4490.3 L:4473.0 C:4482.6 V:6076
+    2026-08-31T17:00:00+00:00 O:4482.8 H:4489.7 L:4477.8 C:4485.6 V:6513
+    2026-08-31T18:00:00+00:00 O:4486.0 H:4486.1 L:4475.5 C:4480.3 V:3311
+    2026-08-31T19:00:00+00:00 O:4480.7 H:4502.7 L:4478.4 C:4502.0 V:6601
+    2026-08-31T20:00:00+00:00 O:4502.3 H:4504.9 L:4495.9 C:4497.3 V:1759
+    2026-08-31T22:00:00+00:00 O:4498.7 H:4504.8 L:4494.3 C:4495.5 V:0
+    2026-08-31T23:00:00+00:00 O:4495.8 H:4501.0 L:4490.3 C:4501.0 V:1701
+    2026-09-01T00:00:00+00:00 O:4501.3 H:4510.5 L:4495.0 C:4502.7 V:3425
+    2026-09-01T01:00:00+00:00 O:4502.6 H:4505.9 L:4485.2 C:4493.1 V:3898
+    2026-09-01T02:00:00+00:00 O:4492.9 H:4498.2 L:4477.1 C:4492.4 V:4700
+    2026-09-01T03:00:00+00:00 O:4492.7 H:4493.5 L:4480.9 C:4487.0 V:3688
+    2026-09-01T04:00:00+00:00 O:4485.7 H:4486.7 L:4473.9 C:4475.2 V:3907
+    2026-09-01T05:00:00+00:00 O:4475.4 H:4494.7 L:4471.9 C:4489.0 V:3790
+    2026-09-01T06:00:00+00:00 O:4488.5 H:4489.1 L:4476.3 C:4478.0 V:3170
+    2026-09-01T07:00:00+00:00 O:4478.1 H:4483.6 L:4460.5 C:4468.7 V:7285
+    2026-09-01T08:00:00+00:00 O:4468.6 H:4468.6 L:4418.5 C:4424.1 V:14908
+    2026-09-01T08:44:09+00:00 O:4423.2 H:4423.2 L:4423.2 C:4423.2 V:0
 
 [4H]
-  Price: $4563.3
-  Open/High/Low: $4563.3 / $4563.3 / $4563.3
-  SMA(9):  $4539.99
-  SMA(21): $4482.42
-  SMA(50): $4458.87
-  RSI(14): 63.05
-  Confluence score: 6.63 (-10 bearish to +10 bullish)
-  Confluence vector: {"price_vs_sma9": 1.0, "ma_stack": 1.0, "rsi_centered": 0.261, "range_position": 0.9196, "momentum_5bar": -0.0258, "volume_pressure": 0.7487}
-  Volatility regime: regime: trending, ATR at 96.0th percentile of last 50; ADX=26.66; BB_width_pct=100.0; breakout_trigger=False
-  Volume quality: usable=True last=49080.0 baseline20=28066.5 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
-  Candles fed to prompt: 96 (available 144, cap 96)
+  Price: $4423.2
+  Open/High/Low: $4423.2 / $4423.2 / $4423.2
+  SMA(9):  $4475.67
+  SMA(21): $4544.92
+  SMA(50): $4620.83
+  RSI(14): 50.19
+  Confluence score: -6.63 (-10 bearish to +10 bullish)
+  Confluence vector: {"price_vs_sma9": -1.0, "ma_stack": -1.0, "rsi_centered": 0.0038, "range_position": -0.7037, "momentum_5bar": -0.3501, "volume_pressure": -0.4614}
+  Volatility regime: regime: trending, ATR at 82.0th percentile of last 50; ADX=43.87; BB_width_pct=88.0; breakout_trigger=False
+  Volume quality: usable=True last=14908.0 baseline20=27680.85 dropped_trailing_zeros=1 (excluded_forming_zero_volume_bar)
+  Candles fed to prompt: 96 (available 135, cap 96)
 
   OHLCV candle records fed to prompt (96 total):
-    2026-07-30T08:00:00+00:00 O:4096.1 H:4142.2 L:4093.9 C:4136.0 V:22420
-    2026-07-30T12:00:00+00:00 O:4136.0 H:4180.2 L:4123.2 C:4167.0 V:57675
-    2026-07-30T16:00:00+00:00 O:4166.8 H:4178.3 L:4157.1 C:4171.2 V:19785
-    2026-07-30T20:00:00+00:00 O:4171.3 H:4176.7 L:4158.0 C:4164.4 V:4650
-    2026-07-31T00:00:00+00:00 O:4164.8 H:4165.4 L:4129.7 C:4133.1 V:10408
-    2026-07-31T04:00:00+00:00 O:4132.6 H:4145.3 L:4124.7 C:4125.1 V:10710
-    2026-07-31T08:00:00+00:00 O:4125.4 H:4125.4 L:4106.5 C:4110.0 V:14909
-    2026-07-31T12:00:00+00:00 O:4110.3 H:4115.7 L:4076.4 C:4101.8 V:47274
-    2026-07-31T16:00:00+00:00 O:4101.8 H:4111.9 L:4097.2 C:4107.7 V:17656
-    2026-07-31T20:00:00+00:00 O:4107.6 H:4109.2 L:4097.4 C:4107.0 V:2513
-    2026-08-02T20:00:00+00:00 O:4131.1 H:4135.8 L:4119.0 C:4130.4 V:4169
-    2026-08-03T00:00:00+00:00 O:4130.5 H:4134.7 L:4102.7 C:4120.0 V:11890
-    2026-08-03T04:00:00+00:00 O:4120.4 H:4127.3 L:4107.3 C:4117.1 V:11382
-    2026-08-03T08:00:00+00:00 O:4117.0 H:4119.4 L:4101.7 C:4118.9 V:11670
-    2026-08-03T12:00:00+00:00 O:4119.0 H:4121.1 L:4074.0 C:4091.6 V:33792
-    2026-08-03T16:00:00+00:00 O:4091.6 H:4112.0 L:4085.4 C:4108.2 V:14431
-    2026-08-03T20:00:00+00:00 O:4108.3 H:4115.0 L:4104.6 C:4109.3 V:3619
-    2026-08-04T00:00:00+00:00 O:4109.2 H:4125.1 L:4098.2 C:4108.2 V:10832
-    2026-08-04T04:00:00+00:00 O:4107.4 H:4123.7 L:4106.4 C:4121.8 V:11501
-    2026-08-04T08:00:00+00:00 O:4121.9 H:4141.8 L:4101.4 C:4132.1 V:19760
-    2026-08-04T12:00:00+00:00 O:4132.3 H:4151.5 L:4117.2 C:4144.2 V:44791
-    2026-08-04T16:00:00+00:00 O:4144.4 H:4163.8 L:4132.1 C:4135.3 V:22320
-    2026-08-04T20:00:00+00:00 O:4135.6 H:4142.1 L:4121.6 C:4128.7 V:4247
-    2026-08-05T00:00:00+00:00 O:4128.6 H:4193.8 L:4126.3 C:4186.6 V:19228
-    2026-08-05T04:00:00+00:00 O:4186.1 H:4238.5 L:4186.0 C:4229.9 V:36240
-    2026-08-05T08:00:00+00:00 O:4229.9 H:4252.2 L:4209.1 C:4248.5 V:30316
-    2026-08-05T12:00:00+00:00 O:4248.5 H:4325.5 L:4243.1 C:4293.0 V:77865
-    2026-08-05T16:00:00+00:00 O:4293.6 H:4328.2 L:4285.0 C:4307.6 V:31775
-    2026-08-05T20:00:00+00:00 O:4307.9 H:4341.1 L:4303.5 C:4337.3 V:6938
-    2026-08-06T00:00:00+00:00 O:4337.2 H:4363.7 L:4319.6 C:4324.9 V:32976
-    2026-08-06T04:00:00+00:00 O:4324.5 H:4327.5 L:4306.2 C:4321.7 V:16086
-    2026-08-06T08:00:00+00:00 O:4322.0 H:4344.2 L:4312.7 C:4322.6 V:18844
-    2026-08-06T12:00:00+00:00 O:4322.2 H:4334.7 L:4285.2 C:4291.5 V:59778
-    2026-08-06T16:00:00+00:00 O:4291.8 H:4309.8 L:4281.2 C:4307.8 V:24762
-    2026-08-06T20:00:00+00:00 O:4307.7 H:4311.8 L:4293.6 C:4311.0 V:3250
-    2026-08-07T00:00:00+00:00 O:4310.7 H:4325.0 L:4288.0 C:4322.8 V:14776
-    2026-08-07T04:00:00+00:00 O:4325.3 H:4358.0 L:4320.2 C:4348.9 V:23243
-    2026-08-07T08:00:00+00:00 O:4349.2 H:4387.1 L:4347.9 C:4380.8 V:28868
-    2026-08-07T12:00:00+00:00 O:4380.6 H:4432.3 L:4361.0 C:4400.4 V:81706
-    2026-08-07T16:00:00+00:00 O:4400.4 H:4410.6 L:4387.4 C:4403.1 V:27948
-    2026-08-07T20:00:00+00:00 O:4403.0 H:4404.6 L:4395.3 C:4399.7 V:2589
-    2026-08-09T20:00:00+00:00 O:4398.0 H:4408.0 L:4390.8 C:4392.0 V:2761
-    2026-08-10T00:00:00+00:00 O:4391.9 H:4406.0 L:4373.9 C:4387.8 V:15250
-    2026-08-10T04:00:00+00:00 O:4387.7 H:4421.5 L:4383.6 C:4414.7 V:16661
-    2026-08-10T08:00:00+00:00 O:4415.0 H:4416.0 L:4386.3 C:4393.9 V:16189
-    2026-08-10T12:00:00+00:00 O:4393.8 H:4419.2 L:4375.0 C:4417.9 V:35007
-    2026-08-10T16:00:00+00:00 O:4418.1 H:4453.8 L:4408.6 C:4446.8 V:26899
-    2026-08-10T20:00:00+00:00 O:4447.0 H:4462.4 L:4443.2 C:4462.1 V:3847
-    2026-08-11T00:00:00+00:00 O:4462.3 H:4495.0 L:4453.0 C:4477.0 V:22500
     2026-08-11T04:00:00+00:00 O:4476.5 H:4480.3 L:4415.7 C:4416.6 V:23988
     2026-08-11T08:00:00+00:00 O:4417.1 H:4451.8 L:4416.1 C:4446.1 V:18589
     2026-08-11T12:00:00+00:00 O:4446.2 H:4463.3 L:4428.2 C:4443.2 V:43120
@@ -1267,10 +1229,59 @@ CANDLE COUNTS FED TO THIS PROMPT:
     2026-08-19T16:00:00+00:00 O:4552.2 H:4569.6 L:4530.4 C:4568.0 V:46084
     2026-08-19T20:00:00+00:00 O:4568.4 H:4583.8 L:4562.8 C:4569.2 V:8845
     2026-08-20T00:00:00+00:00 O:4568.7 H:4578.6 L:4542.1 C:4555.7 V:20428
-    2026-08-20T04:00:00+00:00 O:4556.4 H:4556.6 L:4534.8 C:4547.6 V:17578
+    2026-08-20T04:00:00+00:00 O:4556.4 H:4556.6 L:4534.8 C:4547.6 V:17658
     2026-08-20T08:00:00+00:00 O:4547.9 H:4555.9 L:4521.2 C:4523.1 V:24930
-    2026-08-20T12:00:00+00:00 O:4523.3 H:4564.5 L:4506.0 C:4561.7 V:49080
-    2026-08-20T14:51:17+00:00 O:4563.3 H:4563.3 L:4563.3 C:4563.3 V:0
+    2026-08-20T12:00:00+00:00 O:4523.3 H:4597.1 L:4506.0 C:4577.3 V:85235
+    2026-08-20T16:00:00+00:00 O:4577.5 H:4588.0 L:4559.2 C:4584.9 V:24901
+    2026-08-20T20:00:00+00:00 O:4584.5 H:4589.0 L:4571.0 C:4582.2 V:5466
+    2026-08-21T00:00:00+00:00 O:4582.3 H:4600.3 L:4565.5 C:4590.9 V:18292
+    2026-08-21T04:00:00+00:00 O:4591.5 H:4625.0 L:4585.4 C:4621.0 V:24963
+    2026-08-21T08:00:00+00:00 O:4621.4 H:4661.7 L:4615.8 C:4654.4 V:39405
+    2026-08-21T12:00:00+00:00 O:4654.7 H:4673.0 L:4620.5 C:4672.0 V:64506
+    2026-08-21T16:00:00+00:00 O:4672.1 H:4690.4 L:4666.3 C:4674.7 V:35105
+    2026-08-21T20:00:00+00:00 O:4674.6 H:4680.6 L:4661.0 C:4680.6 V:2580
+    2026-08-23T20:00:00+00:00 O:4675.4 H:4682.0 L:4661.9 C:4681.6 V:5610
+    2026-08-24T00:00:00+00:00 O:4681.6 H:4713.8 L:4651.8 C:4698.2 V:31983
+    2026-08-24T04:00:00+00:00 O:4698.2 H:4716.7 L:4685.5 C:4697.4 V:22091
+    2026-08-24T08:00:00+00:00 O:4697.8 H:4728.3 L:4684.2 C:4715.0 V:34478
+    2026-08-24T12:00:00+00:00 O:4715.2 H:4738.5 L:4696.5 C:4706.0 V:63522
+    2026-08-24T16:00:00+00:00 O:4706.0 H:4719.6 L:4681.2 C:4707.5 V:40134
+    2026-08-24T20:00:00+00:00 O:4707.9 H:4740.6 L:4703.4 C:4737.2 V:7547
+    2026-08-25T00:00:00+00:00 O:4737.3 H:4755.0 L:4670.5 C:4688.3 V:36903
+    2026-08-25T04:00:00+00:00 O:4689.4 H:4709.6 L:4679.3 C:4686.1 V:19944
+    2026-08-25T08:00:00+00:00 O:4686.1 H:4703.5 L:4676.3 C:4698.4 V:22050
+    2026-08-25T12:00:00+00:00 O:4698.7 H:4716.4 L:4659.5 C:4709.5 V:58301
+    2026-08-25T16:00:00+00:00 O:4709.6 H:4725.6 L:4691.3 C:4723.4 V:27741
+    2026-08-25T20:00:00+00:00 O:4723.3 H:4730.9 L:4710.3 C:4712.1 V:5551
+    2026-08-26T00:00:00+00:00 O:4711.9 H:4728.0 L:4686.2 C:4701.1 V:20788
+    2026-08-26T04:00:00+00:00 O:4699.8 H:4706.3 L:4681.1 C:4685.1 V:14048
+    2026-08-26T08:00:00+00:00 O:4684.9 H:4687.0 L:4668.8 C:4680.3 V:17100
+    2026-08-26T12:00:00+00:00 O:4680.6 H:4690.0 L:4638.2 C:4651.4 V:64795
+    2026-08-26T16:00:00+00:00 O:4651.6 H:4660.3 L:4640.8 C:4648.9 V:26174
+    2026-08-26T20:00:00+00:00 O:4649.0 H:4678.9 L:4638.6 C:4677.5 V:5370
+    2026-08-27T00:00:00+00:00 O:4677.9 H:4697.7 L:4654.5 C:4679.0 V:20021
+    2026-08-27T04:00:00+00:00 O:4679.7 H:4681.8 L:4647.2 C:4653.4 V:20182
+    2026-08-27T08:00:00+00:00 O:4654.0 H:4660.5 L:4618.9 C:4652.3 V:26986
+    2026-08-27T12:00:00+00:00 O:4652.0 H:4665.5 L:4616.0 C:4664.5 V:43894
+    2026-08-27T16:00:00+00:00 O:4664.7 H:4672.4 L:4654.7 C:4662.7 V:18692
+    2026-08-27T20:00:00+00:00 O:4662.8 H:4664.8 L:4647.3 C:4647.6 V:3690
+    2026-08-28T00:00:00+00:00 O:4647.8 H:4655.7 L:4628.0 C:4631.4 V:12440
+    2026-08-28T04:00:00+00:00 O:4632.3 H:4667.4 L:4623.0 C:4665.0 V:16913
+    2026-08-28T08:00:00+00:00 O:4664.9 H:4667.7 L:4643.6 C:4645.6 V:14471
+    2026-08-28T12:00:00+00:00 O:4645.6 H:4688.0 L:4574.8 C:4575.7 V:129294
+    2026-08-28T16:00:00+00:00 O:4575.9 H:4580.9 L:4495.0 C:4507.9 V:88402
+    2026-08-28T20:00:00+00:00 O:4507.9 H:4529.9 L:4502.7 C:4529.9 V:3151
+    2026-08-30T20:00:00+00:00 O:4506.3 H:4516.6 L:4485.2 C:4507.8 V:9960
+    2026-08-31T00:00:00+00:00 O:4507.8 H:4521.5 L:4445.6 C:4472.0 V:33443
+    2026-08-31T04:00:00+00:00 O:4472.3 H:4498.5 L:4462.5 C:4493.3 V:17203
+    2026-08-31T08:00:00+00:00 O:4493.3 H:4514.9 L:4483.9 C:4506.2 V:14668
+    2026-08-31T12:00:00+00:00 O:4506.1 H:4511.9 L:4466.4 C:4475.5 V:45678
+    2026-08-31T16:00:00+00:00 O:4475.9 H:4502.7 L:4473.0 C:4502.0 V:22501
+    2026-08-31T20:00:00+00:00 O:4502.3 H:4504.9 L:4490.3 C:4501.0 V:3460
+    2026-09-01T00:00:00+00:00 O:4501.3 H:4510.5 L:4477.1 C:4487.0 V:15711
+    2026-09-01T04:00:00+00:00 O:4485.7 H:4494.7 L:4460.5 C:4468.7 V:18152
+    2026-09-01T08:00:00+00:00 O:4468.6 H:4468.6 L:4418.5 C:4424.1 V:14908
+    2026-09-01T08:44:09+00:00 O:4423.2 H:4423.2 L:4423.2 C:4423.2 V:0
 
 
 
@@ -1288,53 +1299,53 @@ and re-entry conditions must use fresh levels from the intraday block below.
 
 {
   "status": "evaluated_prior_signal",
-  "timestamp_et": "2026-08-20T11:01:20.894394-04:00",
-  "previous_timestamp": "2026-08-20T16:57:36.809833",
+  "timestamp_et": "2026-09-01T04:54:12.185805-04:00",
+  "previous_timestamp": "2026-09-01T10:50:13.462620",
   "previous_signal": "NEUTRAL",
   "previous_confidence": null,
-  "previous_spot_gold_price": 4484.7,
+  "previous_spot_gold_price": 4420.5,
   "previous_price_verified_spot": true,
-  "current_spot_gold_price": 4515.3,
-  "price_change": 30.6,
-  "price_change_pct": 0.682,
+  "current_spot_gold_price": 4375.0,
+  "price_change": -45.5,
+  "price_change_pct": -1.029,
   "signal_outcome": "NEUTRAL_MISSED_MOVE",
   "ranked_data_influence": [
     {
       "data_type": "XAUUSD spot price action",
       "importance_score": 10,
-      "evidence": "4484.7 -> 4515.3 (0.682%)",
+      "evidence": "4420.5 -> 4375.0 (-1.029%)",
       "verdict": "Price movement is the final arbiter for whether the prior thesis transmitted."
     },
     {
       "data_type": "live catalyst/news flow",
-      "importance_score": 6,
-      "evidence": "Prior max disruption score 6/10",
+      "importance_score": 10,
+      "evidence": "Prior max disruption score 66/10",
       "verdict": "Fresh catalysts matter when source, freshness, and transmission mechanism are clear."
     },
     {
       "data_type": "XAUUSD intraday confluence tensor",
-      "importance_score": 5.3,
-      "evidence": "Available timeframes: 5m, 15m, 1h, 4h; aggregate tensor score 5.3 (BULLISH_CONFLUENCE)",
+      "importance_score": 6.32,
+      "evidence": "Available timeframes: 5m, 15m, 1h, 4h; aggregate tensor score -6.32 (BEARISH_CONFLUENCE)",
       "verdict": "RSI/MAs/candle momentum are now scored as a normalized tensor for entry timing and confirmation."
     },
     {
       "data_type": "DXY",
-      "importance_score": 0.22,
-      "evidence": "98.783 -> 98.794 (0.011%), not clearly aligned",
+      "importance_score": 0.3,
+      "evidence": "99.59 -> 99.605 (0.015%), aligned with gold move",
       "verdict": "Dollar moves usually matter when the intraday change is large enough to transmit to gold."
     },
     {
       "data_type": "10Y real yield",
       "importance_score": 0,
-      "evidence": "2.41% -> 2.41% (0.0 bps)",
+      "evidence": "2.42% -> 2.42% (0.0 bps)",
       "verdict": "Real yields are high-impact for gold when they change materially, but daily FRED data can be stale intraday."
     }
   ],
   "low_or_no_weight_data": [
     {
       "data_type": "Fed balance sheet/liquidity",
-      "importance_score": 1.69,
-      "evidence": "4-week change 16.93B",
+      "importance_score": 0.73,
+      "evidence": "4-week change -7.28B",
       "verdict": "Useful macro context, but usually lower intraday weight unless the liquidity shift is large."
     }
   ],
@@ -1347,7 +1358,6 @@ TRADE HISTORY (outcomes only — EQUITY/CUMULATIVE_PNL omitted on purpose)
 
 DATE | TRADE_ID | SIGNAL | ENTRY | STOP_LOSS | TAKE_PROFIT | OUTCOME | R_MULTIPLE | PNL_USD | RISK_USD | XAU_OZ | TV_LEVERAGE | EFFECTIVE_LEVERAGE | DAILY_PNL | NOTES
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-2026-05-28 | TRADE_009 | LONG | 4465 |  | 4505 | WIN | 2.0 | 40.00 |  | 1.0000 | 1 | 0.18 | 40.00 | Graph shot up directly to hit 4505 TP with PnL +$40
 2026-06-03 | TRADE_010 | SHORT | 4477.5 | 4490.5 | 4450.0 | LOSS | 2.0 | -121.95 | 0.5 | 4.62 | 1 | 0.83 | -121.95 | Signal was generated at about 3PM Beirut time and entry happened at 7:30AM the next day | market dipped a little towards TP but then shot up straight and hit SL. Entry price of 4477.5 was too far away from the price that it was (4450) | so macro and timechart data may have drastically changed overnight and the signal was far off from a short and went long instead.
 2026-06-06 | TRADE_011 | SHORT | 4372.0 | 4392.0 | 4332.0 | WIN | 2.0 | +283.37 | 0.8 | 10 | 1.57 | 283.65 | 283.37 | 
 2026-06-09 | TRADE_012 | SHORT | 4275.0 |  | 4255.74 | WIN | 2.0 | +$97.40 |  | 10 | 10 | 1.71 | 97.40 | Graph was headed bounced back to entry price after a steep decline | consolidated in one candle and then dipped in the same steep trend to fall to TP
@@ -1362,9 +1372,10 @@ DATE | TRADE_ID | SIGNAL | ENTRY | STOP_LOSS | TAKE_PROFIT | OUTCOME | R_MULTIPL
 2026-08-10 | TRADE_021 | LONG | 4354.50 | 4343.50 | 4376.50 | WIN | 1.0 | +$159.10 | 79.55 | 7.2318 | 10 | 1.26 | 159.10 | 
 2026-08-13 | TRADE_022 | SHORT | 4352 | 4364 | 4328 | LOSS | 2.0 | -$111 |  |  |  |  | -111.00 | 
 2026-08-17 | TRADE_023 | LONG | 4428.40 | 4415.80 | 4453.60 | LOSS | 2.0 | -$180.00 | 180.00 | 14.2857 | 50 | 2.14 | -180.00 | Graph reached the buy stop then plummeted down to SL
-... (8 older trades omitted)
+2026-08-21 | TRADE_024 | LONG | 4567.00 | 4552.00 | 4597.00 | WIN | 2.0 | +$330.11 | 164.89 | 10.9927 | 10 | 2.06 | 330.11 | 15M bull flag breakout filled the buy stop and hit T1
+... (9 older trades omitted)
 
-LAST-ROW EQUITY (ONLY number for sizing): TRADE_023 EQUITY=24387.67
+LAST-ROW EQUITY (ONLY number for sizing): TRADE_024 EQUITY=24717.78
 Do not sum PNL_USD. Do not use CUMULATIVE_PNL. Do not use $25,000 + profits. Do not use any earlier EQUITY cell.
 
 MODEL'S RECENT PREDICTIONS:

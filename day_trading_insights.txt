@@ -1,99 +1,92 @@
 ═══════════════════════════════════════════════════════════════════
-DISRUPTION WATCH — LIVE CATALYST SCAN (CYCLE 1)
+DISRUPTION WATCH — CYCLE 1
 ═══════════════════════════════════════════════════════════════════
 
-DATA VALIDATION FIRST:
-- SUMMARY: ok=18, warn=1, fail=0, blocking_failures=[] → trade_permission = TRADE_ALLOWED_IF_SETUP_CONFIRMS
-- [WARN] XAUUSD bid/ask null (gold-api) → add slippage buffer, do not over-size; volume evidence unaffected (GC=F OHLCV independent)
-- [OK] spot $4515.30, DXY 98.794, DFII10 2.41%, T10YIE 2.30%, UST 10Y 4.71%/2Y 4.19%, all 4 chart TFs fresh (11.7 min), tensor, regime, FF calendar, trade logs
-- [OK] Volatility regime: gate_blocks_entries = FALSE → no hard gate this cycle
+**Acute Move Risk: DOWN (with TWO-WAY spike risk at the 2:00pm FF ISM print)**
 
-Acute Move Risk: TWO-WAY, tilted UP
-Disruptive Catalysts Found (fresh, ranked):
-1. [6/10 BULLISH] Bessent/Treasury long-end buybacks + political pressure on Warsh's Fed (CNBC, 19-Aug 20:02Z). Transmission: buybacks cap nominal long yields while raising inflation-expectation/independence premium → lower forward real yields + debasement bid = fast, durable gold support. This is the mechanism behind yesterday's 12:30Z impulse (4419→4557 proxy on 128,900 lots).
-2. [5/10 TWO-WAY] Trump "crushing economic operation" vs Iran; Tehran downplays (ForexLive 07:19Z). Transmission: sanctions/energy channel → safe-haven + breakeven premium; de-escalation tone bleeds it out.
-3. [3/10 BEARISH] Philly Fed +47.4 vs +25.0 (12:30Z) with employment components jumping. Transmission: trims near-term cut odds → firmer front-end/DXY. Price rejected this: gold bottomed at spot ≈$4457.9 right on that print and has rallied ~$57 since. Prices-paid/received fell sharply (disinflationary), blunting the hawkish read.
-4. FOMC Minutes (FF: 08-19-2026 6:00pm) — already in price; residual only via Jackson Hole path repricing.
+**Data validation first:** SUMMARY ok=18, warn=1, fail=0, blocking_failures=[] → `trade_permission = TRADE_ALLOWED_IF_SETUP_CONFIRMS`. The single WARN is XAUUSD bid/ask null (gold-api) → add slippage buffer, do not max-size. All chart tiers OK (age 11.3 min), confluence tensor OK, volume OK (independent GC=F OHLCV), FF calendar OK, regime feature OK with `gate_blocks_entries=False`. Spot execution price $4375.00 verified from gold-api XAU.
 
-Transmission verdict: the dominant live mechanism is the Treasury-buyback/debasement trade with a flat dollar (DXY −0.036%, no range break) and a static real yield (2.41%, unchanged 0 bps — stale daily print, so weight down per loopback).
-Signal Change: YES — prior cycle NEUTRAL missed +0.68% ($4484.7→$4515.3). Bias flips from NEUTRAL to constructive LONG on breakout continuation, but sized under CAUTIOUS mode.
+**Disruptive catalysts found (fresh, relevant):**
+1. **Front-end yield repricing** — 2Y 4.34% **+14.0 bps 1d** (+10 bps 5d), 10Y 4.73% +6.0 bps. This is the dominant live catalyst; it clears the watchlist threshold ("double-digit bps daily move in 2Y").
+2. **ISM Manufacturing PMI — 09-01-2026 2:00pm (FF feed), forecast 55.2 vs 55.6 prior**, plus ISM Prices 70.5 f/c and JOLTS 7.33M same slot. HIGH impact, TWO-WAY.
+3. **FOMC Member Barr — 09-01-2026 1:05pm** (low impact, regulation-focused).
+4. **EUR Flash CPI 09-01-2026 9:00am, 3.3% f/c vs 2.9%** — hot print pressures DXY (mildly gold-supportive), soft print aids USD. ForexLive flags muted reaction unless core surprises.
+5. **NFP cluster ahead:** ADP 09-02 12:15pm; **NFP 09-04 12:30pm (55K f/c vs −23K)**, Unemployment 4.1%, AHE 0.3%.
+6. Gnews scout returned 429 on 7 queries — no geopolitical/banking-stress evidence retrieved either way. No confirmed war/ceasefire/liquidity shock this cycle.
+
+**Transmission mechanism:**
+- 2Y +14bp = near-term Fed cut odds being priced out → higher short real rates → higher opportunity cost of non-yielding gold + USD support. Direct, fast, bearish gold.
+- 10Y real yield 2.42% is far above the 1.5% bearish threshold — structural headwind.
+- DXY 99.605 (+0.176%) is *below* the 0.3% significance bar — dollar is a mild contributor, not the driver. The driver is the yield/positioning unwind after a parabolic advance (gold −1.03% since last cycle, −$45.5 in ~50 minutes).
+- ISM at 2:00pm can reverse or accelerate: strong headline/prices-paid → more yield upside → gold lower; big miss → cut odds return → sharp short-cover bounce.
+
+**Signal Change vs prior cycle:** YES. Prior signal NEUTRAL scored `NEUTRAL_MISSED_MOVE` (−1.03% down leg missed). Macro, yields and all four timeframes now agree bearish and the regime is **trending** (not consolidating) — flipping from NEUTRAL to SHORT continuation.
 
 ═══════════════════════════════════════════════════════════════════
 DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
 ═══════════════════════════════════════════════════════════════════
 
-TIER 1 — MACRO: Clarity 6/10
-- DXY 98.794, −0.036% (open 98.835, range 98.557–98.896): no session-range break → neutral, non-transmitting.
-- 10Y real yield 2.41% (unchanged): by rule >1.5% = structurally BEARISH gold. Flagged, not absorbed silently.
-- Breakeven 2.30%, 10Y 4.71% (−1bp), 2Y 4.19% (0bp): curve quiet → neutral.
-- Treasury buybacks + Fed-independence pressure: BULLISH gold (debasement/credibility premium).
-- Philly Fed beat: mildly BEARISH gold; Iran headlines: TWO-WAY.
-- Liquidity: TGA +$56.6B weekly drain (mild headwind), WALCL +$16.9B/4wk (mild support).
-Price-action reconciliation: real yields say bearish, price says otherwise — gold is +$130 off Tuesday's base and back at session highs after a $58 dip was bought. Dominant competing mechanism = monetary-debasement bid overriding carry cost. Price wins.
-Bias: BULLISH (moderate) | Conviction: MEDIUM
+**TIER 1 — MACRO: Clarity 7/10**
+- 2Y 4.34% **+14bp/1d** → hawkish front-end repricing → **BEARISH gold** (primary).
+- 10Y 4.73% +6bp; 10Y real yield 2.42% (>1.5% rule) → **BEARISH gold**.
+- Breakeven 2.31% — contained, no inflation-hedge bid → **NEUTRAL/mild bearish**.
+- DXY 99.605, +0.176% (<0.3% threshold) → **mildly bearish, low weight**.
+- Fed B/S $6.731T, −$7.28B/4wk (QT drip); TGA $950.7B −$2.88B → **slow bearish/neutral**.
+- Geopolitics: no confirmed escalation/de-escalation retrieved (scout 429s) → **no safe-haven premium change**.
+- Event risk: ISM 2:00pm today; NFP 09-04 12:30pm → **TWO-WAY later, not now**.
+- **Price-action reconciliation:** thesis says lower, price is making session lows on 2.8× baseline 15M volume. Price CONFIRMS thesis → no clarity downgrade. Not 8+ because DXY is not confirming with a >0.3% break and the news scout was partially blind.
+- **Bias: BEARISH | Conviction: MEDIUM-HIGH**
 
-TIER 2 — 4H: Trend UP. Price 4563.3 proxy > SMA9 4539.99 > SMA21 4482.42 > SMA50 4458.87 (full bullish stack). RSI 63.05. Regime trending, ADX 26.66, ATR 96th pct, volume pressure +0.75. Range: proxy 4583.8 high / 4378.0 low. Confirms macro? **YES**
+**TIER 2 — 4H:** Downtrend. Price $4423.2 proxy (**spot $4375**) below SMA9 4475.67 < SMA21 4544.92 < SMA50 4620.83 — full bearish stack. RSI 50.19 (no oversold shield). Tensor 4H = **−6.63** (most bearish TF). Key proxy levels: range_high 4688 / range_low 4418.5. **Confirms macro? YES**
 
-TIER 3 — 1H: Trend UP but corrective. Price > SMA9 4543.76; SMA9 < SMA21 4551.88 (stack unresolved after the dip), SMA50 4484.71 far below. RSI 54.81. Regime transitional (ADX 23.68, BB width 22nd pct). Volume pressure +1.00 (strongest of all TFs) — buyers dominating the recovery leg. Confirms 4H/macro? **MIXED-to-YES** (not opposing).
+**TIER 3 — 1H:** Downtrend, price below SMA9 4470.08 / SMA21 4480.52 / SMA50 4520.92. RSI 45.17, range_position −0.97 (bottom of range). Volume_pressure +1.0 with last bar 14,908 vs baseline 6,020 = distribution, not accumulation, given the −$50 candle. Tensor −6.08. ADX 32.91. **Confirms 4H/macro? YES**
 
-TIER 4 — 15M: Pattern = V-recovery + range-high retest / momentum breakout attempt. Price reclaimed SMA9 4544.68, SMA21 4538.76 and SMA50 4543.65 on rising bodies (13:30→14:45 proxy 4526.8→4564.5). RSI 62.79. ma_stack still 0 (SMA9 barely > SMA50), volume pressure −0.24 (last bar 2,421 vs 3,196 baseline — thinner). Execution chart? **YES** — clean level (proxy range_high 4564.5 = SPOT $4516.4) with a defined base.
+**TIER 4 — 15M:** **Pattern = support breakdown with volume expansion / momentum continuation.** 08:00 candle broke the 4460s shelf (proxy 4468.6→4438.4, V 6,617), 08:15 and 08:30 followed through (V 3,518 / 4,773 vs baseline 1,717). Price below SMA9 4455.91 / SMA21 4470.31 / SMA50 4484.79. RSI 43.93 — bearish but NOT oversold, room to extend. Tensor −5.99, ATR 98th pct, BB width 100th pct. **Execution chart? YES** — clean named pattern, live ATR, defined swing highs for a stop.
 
-TIER 5 — 5M: Trending, ADX 38.4, price above 9/21/50 stack; last bar volume 273 vs 1,388 baseline and pressure −0.80 → tape thinning at the high. Improves 15M? **NO** — 5M would tempt a chase into thin volume. Use 15M.
+**TIER 5 — 5M:** ADX 50.59, RSI 39.06, price below all MAs. Micro-structure: impulse leg 4468→4418.5 (proxy), then two inside-ish bars 4423/4424 = shallow pause, no reclaim of proxy 4432 pivot. Volume_pressure only +0.058 (fading, not reversing). **Improves 15M? NO** — 5M adds nothing beyond the 15M breakdown and would tempt a chase at the low. Timing only.
 
 DECISION:
-SIGNAL: **LONG**
-Confluence: **PARTIAL** (4H YES, 1H not opposing but MA stack unresolved, 15M ma_stack 0, macro clarity only 6 with real yields structurally bearish)
-Selected execution chart: **15M**
-Aggression: **CONSERVATIVE** — snapshot leverage_mode = CAUTIOUS (max 0.55% risk, 10:1) and this is not A+ full alignment. Regime label cited: "regime: trending, ATR at 92.0th percentile of last 50; ADX=20.6; BB_width_pct=100.0; breakout_trigger=False" — gate_blocks_entries = FALSE, so entries are permitted; trigger discipline supplies the confirmation the flag does not.
+**SIGNAL: SHORT**
+**Confluence: FULL** (macro 7 bearish; 4H YES; 1H YES; 15M named pattern + execution YES; aggregate tensor −6.32 BEARISH_CONFLUENCE, all four TFs between −5.99 and −6.63)
+**Selected execution chart: 15M**
+**Aggression: STANDARD** — full alignment but macro clarity 7 (not ≥8: DXY sub-threshold, scout partially blind, bid/ask WARN). Risk 0.70% = $175, inside snapshot cap $241.94.
+**Regime cite:** `regime: trending, ATR at 98.0th percentile of last 50; ADX=34.71; BB_width_pct=100.0; breakout_trigger=False` — `gate_blocks_entries=False`, so entries are permitted; this is a trending impulse, not the TRADE_019 consolidation trap.
 
 TIMEFRAME / EVENT GUIDANCE:
-  Workable TFs now: 4H bias (score 6.63) + 1H (4.11) support; 15M (3.8) is the execution chart on a stop-through of range high.
-  De-emphasize: 5M (score 5.75 but volume_pressure −0.80 and 273-lot last bar) — timing only, never the trigger.
-  Why (confluence): aggregate 5.3 BULLISH_CONFLUENCE, all four timeframe_scores positive, no opposing TF; range_position 0.80–0.96 everywhere = extended, which is why entry must be a breakout continuation, not a chase.
-  Upcoming macro announcements: Unemployment Claims 210K f/c and Philly Fed — FF 08-20-2026 12:30pm (already released, 12:30Z; no fresh claims surprise reported). FOMC Minutes FF 08-19-2026 6:00pm (past). Jackson Hole / Powell remarks: NOT listed in the CODE USD HIGH-IMPACT CALENDAR and not confirmed by scout → timing UNKNOWN; widen caution into the 08-21/08-22 window. Gold risk: TWO-WAY.
-  TF advice given event risk: no scheduled US high-impact print left today → normal 15M execution stands; HOLD-THROUGH permitted intraday, FLATTEN-BEFORE any confirmed Powell/Jackson Hole headline.
-  Next TF check: 15M close 15:00 UTC / 11:00 ET, then 15:15 UTC.
+- **Workable TFs now:** 4H + 1H bias BEARISH; **15M = execution chart**; 5M for fill timing only.
+- **De-emphasize:** 5M as a decision chart (volume_pressure 0.058 = noise at the low); 4H as an entry chart (too coarse, RSI 50 mid).
+- **Why (confluence):** aggregate **−6.32 BEARISH_CONFLUENCE**; timeframe_scores 5m −6.30 / 15m −5.99 / 1h −6.08 / 4h −6.63 — same-direction across 4H→1H→15M, which is the "prefer 15M execution" case.
+- **Upcoming macro announcements:**
+  - **ISM Manufacturing PMI | 09-01-2026 2:00pm (FF feed) | forecast 55.2 vs 55.6 | TWO-WAY** | source: FF this-week XML (binding calendar block)
+  - ISM Prices 70.5 f/c & JOLTS 7.33M, same 2:00pm slot | TWO-WAY
+  - FOMC Barr | 09-01-2026 1:05pm | TWO-WAY, low
+  - ADP | 09-02 12:15pm 48K | **NFP + Unemployment + AHE | 09-04 12:30pm** | TWO-WAY
+- **TF advice given event risk:** the next high-impact print is ~5 hours out (current bar 08:44 UTC), i.e. **>1–4h away → normal TF selection stands** and 15M entries are allowed now. **FLATTEN-BEFORE guidance:** take T1 or move stop to breakeven ahead of the 1:05pm Barr / 2:00pm ISM window; do not carry full initial risk into the print, and open no fresh 15M/5M entries between 1:00pm and 2:15pm.
+- **Next TF check:** next 15M close (09:00 UTC / 05:00 ET), then hourly until the ISM window.
 
-LONG PLAN (all prices SPOT XAUUSD; proxy levels converted with basis $48.10):
-  Pattern: 15M momentum breakout of session range high after buyers absorbed the 12:00Z flush
-  Entry: **$4517.50 SPOT** (STOP_BREAKOUT above range_high SPOT $4516.40 / proxy 4564.5)
-  Stop: **$4503.50 SPOT** (proxy 4551.60 — below the 14:30 breakout base and the reclaimed 15M SMA9 cluster; invalidates the breakout, not noise)
-  Target 1: **$4545.50 SPOT** (2.0R)
-  Target 2: **$4556.00 SPOT** (2.75R; below yesterday's proxy 4583.8 high = SPOT $4535.7 … note this is ABOVE that level, so T2 is a stretch — take T1 first, trail stop to breakeven at T1)
-  → Correction for discipline: **T2 = $4556.00 is beyond prior swing supply; scale 70% at T1, trail the remainder.**
-  Entry type: STOP_BREAKOUT
-  Entry offset: $2.20/oz vs spot $4515.30 | Cap: $5.76 (ENTRY FILL GUIDE, 0.5×ATR15M $11.52) | Within cap? **YES**
-  Order validity: expire after 2×15M closes (by 15:30 UTC) | Unfilled action: CANCEL and re-run agent
-  Expected profit T1 / T2: **$275 / $378**
+**If SHORT:**
+- **Pattern:** 15M support breakdown + volume expansion, momentum continuation below all MAs
+- **Entry (SPOT): $4,380.00** — shallow retest of the broken shelf (proxy $4,428.20)
+- **Stop (SPOT): $4,400.00** — above the 5M swing high at proxy $4,447.4 (= spot $4,399.2) that capped the breakdown leg; invalidates the continuation. Stop distance $20.00/oz (>$6 min, ≈1.7× ATR15M — structural, not noise)
+- **Target 1 (SPOT): $4,340.00 (2.0R)** — measured move of the 08:00–08:30 impulse projected from the shelf
+- **Target 2 (SPOT): $4,330.00 (2.5R)** — extension leg / next round-number liquidity
+- **Entry type: LIMIT_PULLBACK**
+- **Entry offset: $5.00/oz vs spot $4,375.00 | Cap: $5.84 (ENTRY FILL GUIDE, 0.5×ATR15M with ATR=$11.68) | Within cap? YES**
+- **Order validity:** expire after 2×15M closes (~30 min, by 09:15 UTC) | **Unfilled action: CANCEL** and re-run agent; also cancel immediately if spot trades more than $5.84 below the limit without filling (edge already spent).
+- **Expected profit T1 / T2: $350 / $437.50**
 
-  FundedNext / TradingView Risk Plan:
-    Risk: 0.55% = $137.50 (≤ snapshot recommended_max_risk_usd $159.42; CAUTIOUS cap 0.55%)
-    Daily room: $625.00 soft / $750.00 hard — trade uses $137.50 (22% of soft room, under the 50% combined-risk rule)
-    Max-loss room: $637.67 soft / $887.67 hard (floor $23,500) — worst case leaves $500.17 soft room
-    Profit progress: last-row EQUITY $24,387.67 minus $25,000 = **−$612.33** / $2,500
-    Stop distance: $14.00/oz
-    XAUUSD size: **9.82 oz** | Notional: $44,361.85 | Effective leverage: **1.82x** (equity $24,387.67 = last-row EQUITY TRADE_023 — copy paste, never recompute) | TV preset: **10:1** (CAUTIOUS mode binding, 50:1 not permitted)
-    Margin at TV: $4,436.19 ≤ equity ✓
-    Loss if stopped: $137.50 (+spread buffer for null bid/ask WARN) | Verified T1 profit at 9.82 oz: 9.82 × $28.00 = **$274.96** ✓ ≥$200
+**FundedNext / TradingView Risk Plan:**
+- Risk: **0.70% = $175.00** (≤ snapshot recommended_max_risk_usd $241.94) | Daily room: **$625.00 soft / $750.00 hard** (today closed PnL $0.00) | Max-loss room: **$967.78 soft / $1,217.78 hard** (floor $23,500)
+- Profit progress: last-row EQUITY $24,717.78 minus $25,000 = **−$282.22 / $2,500** | Stop distance: **$20.00/oz**
+- XAUUSD size: **8.75 oz** ($175 ÷ $20) | Notional: **$38,325.00** (8.75 × $4,380) | Effective leverage: **1.55x** (equity **$24,717.78 = last-row EQUITY TRADE_024 — copy paste, never recompute**) | **TV preset: 50:1** (STANDARD_50X, eff. lev ≤ 50) | Margin at TV: $766.50 ≤ equity ✓
+- Loss if stopped: **$175** + spread buffer (bid/ask WARN → assume ~$0.5–1.0/oz slippage, worst case ≈$184) — **23% of daily soft room, 18% of max-loss soft room. Combined open risk ≤50% of $625 daily soft room ✓**
+- Verified T1 profit at stated oz: **8.75 × $40 = $350.00 ≥ $200 ✓**
 
-  Edge (tier-ranked):
-   1. MACRO — Treasury buyback/debasement bid with a non-transmitting DXY
-   2. 4H — full bullish MA stack, ADX 26.7, volume pressure +0.75
-   3. 1H — volume_pressure +1.00 on the recovery leg
-   4. 15M — reclaim of all three MAs, defined base at SPOT $4503–4506
-   5. 5M — trending but thin; timing veto only
-  Confidence: **MEDIUM**
+**Edge (tier-ranked):** 1) Macro — 2Y +14bp hawkish repricing + 2.42% real yield, both bearish-gold channels live. 2) 4H — deepest bearish tensor (−6.63), full bearish MA stack. 3) 1H — price at bottom of range (−0.97), below all MAs, ADX 32.9. 4) 15M — volume-confirmed breakdown, RSI 43.9 with room. 5) 5M — no reclaim of the broken pivot, ADX 50.6.
+**Confidence: MEDIUM-HIGH**
 
-LOOPBACK WEIGHT ADJUSTMENTS THIS CYCLE:
-- GAIN weight: XAUUSD spot price action (10) — it invalidated the prior NEUTRAL; confluence tensor (5.3) — all TFs positive and it called the recovery; live catalyst flow (6) — buyback/debasement thread is the transmitting mechanism.
-- LOSE weight: 10Y real yield (0 bps change, stale daily FRED print) and DXY (0.011% — no transmission), Fed balance sheet (1.69, slow-moving). Do not let the static 2.41% real yield veto a bid market again.
+**Loopback weight adjustments this cycle:**
+- **GAIN weight:** XAUUSD spot price action (10) — it, not the macro feed, called the −1.03% leg the prior NEUTRAL missed; **confluence tensor (6.32)** — it was already bearish and is now confirmed; **front-end yields (2Y)** — the only macro input that actually moved.
+- **LOSE weight:** **DXY** (0.015% change last cycle, +0.176% today — non-transmitting at this magnitude); **10Y real yield** (0.0 bps change, stale daily FRED); **Fed balance sheet/TGA** (0.73, background only); **gnews scout** (7/12 queries failed with 429 — treat absence of geopolitical headlines as unknown, not as "no risk").
 
-FALLBACK IF NOT TRIGGERED (SPOT XAUUSD):
-  Live spot now: $4,515.30
-  Proxy→spot basis this cycle: $48.10 (proxy 4563.40 − spot 4515.30)
-  LONG recheck / trigger: spot 15M close above **$4,516.40** (proxy 4564.5) → the stop order above is live
-  SHORT recheck: only if spot 15M closes below **$4,457.90** (proxy 4506.0) — that breaks the recovery base and flips bias
-  Between those levels: stay flat; next clock check 11:00 ET (15:00 UTC) 15M close
-  Abort plan if: confirmed Powell/Jackson Hole headline hits, or basis widens >$5 from $48.10
-
-GOLD_SIGNAL=LONG
+GOLD_SIGNAL=SHORT

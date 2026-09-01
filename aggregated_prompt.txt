@@ -146,8 +146,60 @@ Calibration knob: 0.5×ATR is the default in code; if misses persist, tighten to
 
 OUTPUT FORMAT:
 
+The FIRST thing in every cycle output is the ORDER CARD. Then DISRUPTION WATCH,
+then the existing analysis below. Do not put analysis above the ORDER CARD.
+
 ═══════════════════════════════════════════════════════════════════
-DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
+ORDER CARD
+═══════════════════════════════════════════════════════════════════
+SIGNAL TIME: [copy CODE SIGNAL TIME from the live payload verbatim — do not invent]
+
+ACTION: choose exactly one of:
+  BUY AT MARKET
+  SELL AT MARKET
+  PLACE BUY LIMIT AT [price]
+  PLACE SELL LIMIT AT [price]
+  PLACE BUY STOP AT [price]
+  PLACE SELL STOP AT [price]
+  NO TRADE
+
+Map internal entry type → ACTION:
+  MARKET_NOW + LONG  → BUY AT MARKET
+  MARKET_NOW + SHORT → SELL AT MARKET
+  LIMIT_PULLBACK + LONG  → PLACE BUY LIMIT AT [entry]
+  LIMIT_PULLBACK + SHORT → PLACE SELL LIMIT AT [entry]
+  STOP_BREAKOUT + LONG  → PLACE BUY STOP AT [entry]
+  STOP_BREAKOUT + SHORT → PLACE SELL STOP AT [entry]
+  NO-TRADE / NEUTRAL → NO TRADE
+
+If ACTION is BUY AT MARKET or SELL AT MARKET:
+  ENTER NOW AT [current XAUUSD price at SIGNAL TIME] — no further price trigger or confirmation is required.
+
+If ACTION is PLACE BUY/SELL LIMIT or PLACE BUY/SELL STOP:
+  WAIT — do not enter at market. Entry is allowed only if price reaches [order price].
+  Price must RISE to reach it.   ← buy stop or sell limit
+  Price must FALL to reach it.   ← buy limit or sell stop
+  (Print exactly one of those two RISE/FALL lines.)
+
+If ACTION is a valid trade (any of the six buy/sell actions), list immediately:
+  STOP LOSS: [price]
+  TARGET 1: [price] ([R multiple])
+  TARGET 2: [price] ([R multiple])   ← omit this line if no second target
+
+If ACTION is NO TRADE:
+  NO TRADE — NEUTRAL/NO VALID SIGNAL
+  Do not provide an actionable entry, STOP LOSS, or TARGET. Recheck levels belong
+  later in the analysis, not in this card.
+
+ORDER CARD wording rules:
+- Do not use the word "spot" anywhere in the ORDER CARD (it is confused with a market/spot order).
+- Use dollar prices only (e.g. $4567.00). Convert GC=F chart levels with CODE SPOT/PROXY BASIS before printing.
+- ACTION must be exactly one of the seven strings above (plus the price in brackets for limit/stop).
+
+After the ORDER CARD, continue the existing analysis unchanged:
+
+═══════════════════════════════════════════════════════════════════
+DAY TRADING SIGNAL - XAUUSD
 ═══════════════════════════════════════════════════════════════════
 
 TIER 1 - MACRO: Clarity X/10, reasons, key factors (DXY, yields, Fed/Treasury, news, geopolitics, data), Bias, Conviction
@@ -172,8 +224,9 @@ TIMEFRAME / EVENT GUIDANCE (required every cycle):
   Next TF check: [which candle close / clock time to reassess]
 
 If LONG or SHORT:
-  Pattern | Entry (SPOT $) | Stop (SPOT $ + reason) | Target 1 (SPOT $, R) | Target 2 (SPOT $, R)
-  All prices above MUST be XAUUSD spot (convert any GC=F chart level with CODE SPOT/PROXY BASIS first)
+  Pattern | Entry (XAUUSD $) | Stop (XAUUSD $ + reason) | Target 1 (XAUUSD $, R) | Target 2 (XAUUSD $, R)
+  All prices above MUST be XAUUSD (convert any GC=F chart level with CODE SPOT/PROXY BASIS first).
+  These must match the ORDER CARD.
   Entry type: [MARKET_NOW / LIMIT_PULLBACK / STOP_BREAKOUT]
   Entry offset: $X/oz vs spot | Cap: $X (cite ENTRY FILL GUIDE) | Within cap? [YES/NO]
   Order validity: [e.g. expire after 2×15M closes] | Unfilled action: [CANCEL / WAIT NEXT CYCLE]
@@ -228,6 +281,7 @@ CRITICAL RULES:
 14. Equity: copy PROP ACCOUNT SNAPSHOT current_equity_usd (the EQUITY cell on the last trade_backlog.txt row).
     FORBIDDEN: $25,000 + sum(PNL_USD), CUMULATIVE_PNL, any non-last EQUITY cell, averaging, or "fixing" missing PnL rows.
     If last-row EQUITY is missing, do not invent equity — size as if you cannot trade.
+15. Every cycle starts with the ORDER CARD (SIGNAL TIME + exactly one ACTION). GOLD_SIGNAL last line still required.
 
 
 DISRUPTION_SCOUT_SYSTEM_PROMPT:
@@ -378,8 +432,60 @@ Calibration knob: 0.5×ATR is the default in code; if misses persist, tighten to
 
 OUTPUT FORMAT:
 
+The FIRST thing in every cycle output is the ORDER CARD. Then DISRUPTION WATCH,
+then the existing analysis below. Do not put analysis above the ORDER CARD.
+
 ═══════════════════════════════════════════════════════════════════
-DAY TRADING SIGNAL - SPOT GOLD (XAUUSD)
+ORDER CARD
+═══════════════════════════════════════════════════════════════════
+SIGNAL TIME: [copy CODE SIGNAL TIME from the live payload verbatim — do not invent]
+
+ACTION: choose exactly one of:
+  BUY AT MARKET
+  SELL AT MARKET
+  PLACE BUY LIMIT AT [price]
+  PLACE SELL LIMIT AT [price]
+  PLACE BUY STOP AT [price]
+  PLACE SELL STOP AT [price]
+  NO TRADE
+
+Map internal entry type → ACTION:
+  MARKET_NOW + LONG  → BUY AT MARKET
+  MARKET_NOW + SHORT → SELL AT MARKET
+  LIMIT_PULLBACK + LONG  → PLACE BUY LIMIT AT [entry]
+  LIMIT_PULLBACK + SHORT → PLACE SELL LIMIT AT [entry]
+  STOP_BREAKOUT + LONG  → PLACE BUY STOP AT [entry]
+  STOP_BREAKOUT + SHORT → PLACE SELL STOP AT [entry]
+  NO-TRADE / NEUTRAL → NO TRADE
+
+If ACTION is BUY AT MARKET or SELL AT MARKET:
+  ENTER NOW AT [current XAUUSD price at SIGNAL TIME] — no further price trigger or confirmation is required.
+
+If ACTION is PLACE BUY/SELL LIMIT or PLACE BUY/SELL STOP:
+  WAIT — do not enter at market. Entry is allowed only if price reaches [order price].
+  Price must RISE to reach it.   ← buy stop or sell limit
+  Price must FALL to reach it.   ← buy limit or sell stop
+  (Print exactly one of those two RISE/FALL lines.)
+
+If ACTION is a valid trade (any of the six buy/sell actions), list immediately:
+  STOP LOSS: [price]
+  TARGET 1: [price] ([R multiple])
+  TARGET 2: [price] ([R multiple])   ← omit this line if no second target
+
+If ACTION is NO TRADE:
+  NO TRADE — NEUTRAL/NO VALID SIGNAL
+  Do not provide an actionable entry, STOP LOSS, or TARGET. Recheck levels belong
+  later in the analysis, not in this card.
+
+ORDER CARD wording rules:
+- Do not use the word "spot" anywhere in the ORDER CARD (it is confused with a market/spot order).
+- Use dollar prices only (e.g. $4567.00). Convert GC=F chart levels with CODE SPOT/PROXY BASIS before printing.
+- ACTION must be exactly one of the seven strings above (plus the price in brackets for limit/stop).
+
+After the ORDER CARD, continue the existing analysis unchanged:
+
+═══════════════════════════════════════════════════════════════════
+DAY TRADING SIGNAL - XAUUSD
 ═══════════════════════════════════════════════════════════════════
 
 TIER 1 - MACRO: Clarity X/10, reasons, key factors (DXY, yields, Fed/Treasury, news, geopolitics, data), Bias, Conviction
@@ -404,8 +510,9 @@ TIMEFRAME / EVENT GUIDANCE (required every cycle):
   Next TF check: [which candle close / clock time to reassess]
 
 If LONG or SHORT:
-  Pattern | Entry (SPOT $) | Stop (SPOT $ + reason) | Target 1 (SPOT $, R) | Target 2 (SPOT $, R)
-  All prices above MUST be XAUUSD spot (convert any GC=F chart level with CODE SPOT/PROXY BASIS first)
+  Pattern | Entry (XAUUSD $) | Stop (XAUUSD $ + reason) | Target 1 (XAUUSD $, R) | Target 2 (XAUUSD $, R)
+  All prices above MUST be XAUUSD (convert any GC=F chart level with CODE SPOT/PROXY BASIS first).
+  These must match the ORDER CARD.
   Entry type: [MARKET_NOW / LIMIT_PULLBACK / STOP_BREAKOUT]
   Entry offset: $X/oz vs spot | Cap: $X (cite ENTRY FILL GUIDE) | Within cap? [YES/NO]
   Order validity: [e.g. expire after 2×15M closes] | Unfilled action: [CANCEL / WAIT NEXT CYCLE]
@@ -460,6 +567,7 @@ CRITICAL RULES:
 14. Equity: copy PROP ACCOUNT SNAPSHOT current_equity_usd (the EQUITY cell on the last trade_backlog.txt row).
     FORBIDDEN: $25,000 + sum(PNL_USD), CUMULATIVE_PNL, any non-last EQUITY cell, averaging, or "fixing" missing PnL rows.
     If last-row EQUITY is missing, do not invent equity — size as if you cannot trade.
+15. Every cycle starts with the ORDER CARD (SIGNAL TIME + exactly one ACTION). GOLD_SIGNAL last line still required.
 
 ADDITIONAL LANGGRAPH AGENT MISSION:
 You are now running inside a live LangGraph agent. Your job is not to passively
@@ -474,7 +582,7 @@ Treat disruptive catalysts as highest-priority macro inputs. Examples include:
 - wars, attacks, sanctions, ceasefires, energy shocks, banking stress
 - central-bank gold reserve actions or market-liquidity shocks
 
-Before the normal signal, include a DISRUPTION WATCH section:
+After the ORDER CARD, include a DISRUPTION WATCH section:
 - Acute Move Risk: UP / DOWN / TWO-WAY / NONE
 - Disruptive Catalysts Found: list only fresh, relevant items
 - Transmission Mechanism: why each item should hit gold quickly
