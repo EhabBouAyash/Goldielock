@@ -21,4 +21,6 @@ DATE,TRADE_ID,SIGNAL,ENTRY,STOP_LOSS,TAKE_PROFIT,OUTCOME,R_MULTIPLE,PNL_USD,RISK
 2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,,,100:1,1.47,-$272,24728,228.00,Graph rose straight up to TP
 2026-08-10,TRADE_021,LONG,4354.50,4343.50,4376.50,WIN,1.0,+$159.10,,,,,-$315.04,24685.96,Graph rose straight to TP.
 2026-08-13,TRADE_022,SHORT,4352,4364,4328,LOSS,2.0,-$111,,,,,-$416.04,24584.96,Graph rose to SL immediately.
-2026-08-17,TRADE_023,LONG,4428.40,4415.80,4453.60,LOSS,2.0,-$180.00,180.00,14.2857,50,2.14,-$596.04,24387.67,-180.00,Graph reached the buy stop then plummeted down to SL 
+2026-08-17,TRADE_023,LONG,4428.40,4415.80,4453.60,LOSS,2.0,-$180.00,180.00,14.2857,50,2.14,-$596.04,24387.67,-180.00,Graph reached the buy stop then plummeted down to SL
+2026-08-21,TRADE_024,LONG,4567.00,4552.00,4597.00,WIN,2.0,+$330.11,164.89,10.9927,10,2.06,-$265.93,24716.93,330.11,15M bull flag breakout filled the buy stop and hit T1 
+2026-08-28,TRADE_024,SHORT,4477.10,4469.41,4443.71,WIN,2.0,92.00,,,,,,24840.00,92.00,"Price moved in the predicted bearish direction and came within a very small margin of TP, but TP was not hit. The position was manually closed later for a realized profit of +$92 instead of the approximately +$330 available near TP. The directional thesis was valid, but profit capture was inefficient; closer monitoring or an earlier manual exit could have secured more of the move.
