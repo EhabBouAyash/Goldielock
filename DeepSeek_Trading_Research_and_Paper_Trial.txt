@@ -1,0 +1,365 @@
+# DeepSeek trading research and paper-trial specification
+
+Research checked: 25 September 2026. Specification version: 2.0 (28 September 2026).
+
+Purpose: compare three completely specified strategies on a simulated USD 25,000 account, realistic execution costs, and FundedNext-style constraints. This is a research handoff, not an executed backtest, a deployed bot, or evidence of future profitability.
+
+Version 2.0 replaces the v1.0 gold H4 55/20, gold US-session M15 ORB, and Bitcoin H1 5/100 short-allowed rules. Those remain in git history as G1/G2/B1. They are not used in this trial.
+
+## Verification (must read before implementation)
+
+This section is the sense-check that was required before replacing v1.0. It is part of the frozen spec, not optional commentary.
+
+### Do these three make sense?
+
+**T1 — Gold trend-or-cash (daily 12-1 and 200-day, long or flat)** makes sense as a *family* (Moskowitz, Ooi & Pedersen 2012; Hurst, Ooi & Pedersen 2017). It does **not** make sense as a claim that a single XAUUSD CFD will match AQR portfolio results. Internal gold-only 12-1 long-only on HistData 2009–2026: +0.013R in 2009–2017 and +1.451R in 2018–2026, the latter dominated by the gold bull. Shorts lost. Adding “close above the 200-day” is a registered extra filter, not in the original TSMOM paper: it forces the book **flat in the September 2026 real-yield selloff** (spot under the 200-day near $4,540 while price is ~$4,150). A month of T1 NO_TRADE is a correct outcome, not a failed agent.
+
+**T2 — Gold compression breakout (H1, both sides)** makes sense as a *description of the current 15-minute/1-hour coil* after a trend day, and as a cousin of Crabel quiet-range / Donchian logic. It does **not** have a proven gold edge. Internal daily NR7: +0.087R train, **−0.002R test**. Internal daily Quiet Donchian 20 (ATR in the lowest quintile, then 20-bar break): +0.007R train, +0.579R test on only 28 trades, confidence interval includes zero. H1 instead of daily is an unvalidated timeframe change. Label T2 EXPERIMENTAL in every result. Do not advertise today’s compressed 15-minute range as evidence that T2 will win.
+
+**T3 — Bitcoin daily 5/100, long or cash** makes sense as a *crash-cut trend filter* (moving-average family in Corbet et al. 2019; later work is mixed, and Hudson & Urquhart found Bitcoin rules selected before 2018 lost in early 2018). Daily bars, long-or-cash, and weekend flatten match a FundedNext BTC CFD better than v1.0’s H1 band that also went short. This is still an adaptation: not a replication of any one paper’s exact horizon, costs, or venue.
+
+**Rejected as the third book:** a WTI Holmberg opening-range agent. Holmberg (2013) is the strongest published ORB evidence, but it is crude-oil futures, not gold, and this trial has no oil CFD plumbing. Do not silently substitute gold ORB and cite Holmberg. A WTI book can be a later fourth ledger; it is not T1–T3.
+
+**Rejected as “the gold strategy for this tape”:** Connors RSI(2)<5 (requires close above the 200-day; currently false), Asia-session long (structural overnight long into a liquidation and an event week), Brooks H2/L2, ICT, v1.0 G1 H4 55/20, v1.0 G2 US-session gold ORB.
+
+### Fully automated vs AI arbiter
+
+**All three are fully automated. None of them requires an AI arbiter to decide market conditions before entry.**
+
+| Strategy | What “market condition” actually is | Who computes it |
+|---|---|---|
+| T1 | 12-month skip-month return sign and close vs SMA(200) | Numerical engine |
+| T2 | H1 ATR(10) percentile vs the last 100 H1 ATR(10) values, then a Donchian 20 close break | Numerical engine |
+| T3 | SMA(5) vs SMA(100) with a 1% entry band | Numerical engine |
+
+Scheduled news, spread, quote age, weekend flatten, and FundedNext-style loss caps are also **code and calendar**, not a model opinion.
+
+An AI arbiter that may veto a valid T1/T2/T3 ticket because it “does not like Fed week”, “sees a war headline”, or “thinks the regime is consolidating” is a **different, unregistered strategy**. It is how paper books stop matching backtests. The live gold stack already has a vote-based 15-minute regime gate in `fetch_intraday.py` (ADX / ATR percentile / Bollinger width / ATR-as-%-of-price, plus volume-pressure and 5-bar momentum on the breakout). That gate was tuned after a losing trade. **Do not import it into this trial.** T2 uses the simpler frozen compression rule below.
+
+DeepSeek’s job is the same as in v1.0: implementation assistant and **decision auditor**. It copies a trusted ticket or emits NO_TRADE on mismatch/timeout. Protective exits never wait on the model. Narrative confidence is not a probability of winning.
+
+## Decision
+
+Test T1, T2 and T3 as independent virtual ledgers on the same recorded stream. Start implementation with T1: the state machine is two inequalities and is easy to audit, including the current FLAT state. Treat T2 as the weakest-evidence experiment. T1 and T3 are both slow trend/cash filters; they are not diversifying “alpha engines.” T2 is the only two-sided gold intraday rule in this set.
+
+None of the sources establishes that these exact variants will produce a high win rate, large average winners, and positive monthly returns on a current FundedNext account. Parameters are starting hypotheses, not optimized values.
+
+DeepSeek can implement and supervise exact rules; following instructions is a separate question from whether those rules make money.
+
+## Evidence, including findings that argue against easy profits
+
+| Evidence | What it supports | What it does not establish |
+|---|---|---|
+| Moskowitz, Ooi & Pedersen (2012), time-series momentum [S20] | Sign of each asset’s own 12-month return (skipping the most recent month), not a cross-sectional rank, has historically predicted the next month across futures. | A gold-only CFD, a 200-day extra filter, weekend flatten, or FundedNext monthly income. |
+| Hurst, Ooi & Pedersen (2017) [S1] | Diversified trend following across many markets, monthly rebalance, vol scaling, 1880–2016 simulation. | Gold-only H4/H1 profits or a current prop-account win rate. |
+| Curtis Faith, *Original Turtle Trading Rules* (2003) [S2] | Concrete channel, ATR stop and channel-exit mechanics; many breakouts lose. | Independent verification of a current gold bot. |
+| Internal `gold_edges` HistData XAUUSD 2009-03-15 to 2026-09-18, 1.6 bp + $0.10, 5% annual notional financing on daily holds [S21] | Gold 12-1 **shorts** lost in-sample; 12-1 long-only train was ~flat; Quiet Donchian train ~flat; NR7 failed the 2018–2026 test; Connors RSI(2)<5 needs the 200-day. | Proof that T1/T2/T3 as specified here will make money in the next month. |
+| Corbet, Eraslan, Lucey & Sensoy (2019) [S3] | Minute-frequency Bitfinex 2014–2018 support for some moving-average rules, especially variable-length. | A modern net-of-cost BTCUSD CFD on daily bars with an ATR stop. |
+| Hudson & Urquhart, published online 2019 [S4] | Broad technical-rule study; Bitcoin rules selected before 2018 produced negative out-of-sample returns in the first six months of 2018. | Permission to hide losing evidence or to treat H1 CFD results as the paper’s one-minute statistics. |
+| Holmberg, Lönnbark & Lundström (2013) [S5] | Opening-threshold breakout in **crude-oil futures**. | v1.0 gold first-30-minute ORB, or T2 H1 compression on gold. |
+| Crabel, *Day Trading with Short Term Price Patterns* [S22] | NR7 / quiet-range expansion as a published microstructure idea. | A profitable gold H1 implementation after costs. |
+| Jin (2022) [S8] | Negative check: Shanghai gold-futures 5-minute technical rules, 2018–2021, after costs and data-snooping controls. | A proof that every gold strategy fails. |
+| Batten et al. (2018) [S7] | Some longer gold MA combinations showed predictability; standard settings they first tested did not. | A generic MA edge. |
+
+Evidence ranking: diversified slow trend following is the strongest family; T1 is that family **with gold-only, long-or-flat, and extra 200-day packaging**. T3 is mixed market-specific MA evidence on Bitcoin. T2 is the lowest-confidence candidate. Record live win rate, average realized R, and monthly net return as UNKNOWN until this trial produces them.
+
+Do not add a fixed 2R target to T1 or T3 and claim TSMOM/Turtle results still apply. Do not convert daily research to H1 without recording that change (T2 does record it). Do not treat an AI veto as part of T1–T3.
+
+## Proposed strategies: fixed version 2 rules
+
+All entries use a completed candle followed by an executable quote. No entry is credited at a close that was only known after that close. The shared execution and risk rules later in this document override strategy entries. No optimization, discretionary override, confidence threshold, extra indicator, **or model opinion of “regime” / news / geopolitics** is permitted during the registered trial.
+
+### T1 — Gold trend-or-cash, daily, 12-1 and 200-day
+
+Instrument: the trial provider's XAUUSD CFD. Bars: one broker day, aligned to 17:00 America/New_York (the gold daily break in this project’s HistData). Convert UTC timestamps through IANA `America/New_York`; never hard-code DST. Use 260 completed warm-up days before trial decisions.
+
+At completed day t (close known):
+
+```
+ret_12_1 = close[t-21] / close[t-252] - 1
+sma200   = mean(close[t-199] through close[t])   # 200 completed closes including t
+allow_long = (ret_12_1 > 0) AND (close[t] > sma200)
+volatility = Wilder ATR(20) on daily bars, including completed bar t
+```
+
+If any input is missing or not finite, allow_long is false and the action is NO_TRADE / flatten according to the existing position, with reason DATA_MISSING.
+
+Equality on ret_12_1 or close vs sma200 is not a long. There is no short state.
+
+When flat and allow_long: buy at the first permitted quote of the next session (next day’s open auction equivalent: first executable quote after that daily close’s signal validity window — see common execution). When long and allow_long is false: close at the next permitted quote after that close. A skipped entry expires; do not backfill. Recompute every daily close; do not “remember to buy later” if the first quote failed.
+
+On entry: freeze volatility from the signal bar. Initial stop = actual fill minus 2 × volatility, rounded away from the fill to the tick grid before sizing. No take-profit, pyramiding, averaging down, or break-even move. Protective stop stays active between days. Ratchet: at each later daily close, a candidate stop at close[t] minus 2 × current ATR(20) may **raise** the stop only, never loosen it. If the candidate is already crossed by the executable exit quote, exit immediately.
+
+**Weekend:** gold CFDs often reopen Sunday. Prefer holding through the weekend if the provider allows it, paying the actual reopen spread. If the provider forbids weekend holding, flatten under the common weekend rule and, if allow_long is still true on the first completed day of the new week, treat that as a **new** entry (reason WEEKEND_CLIP in the ledger). Do not call WEEKEND_CLIP a Moskowitz replication.
+
+**Source relationship:** 12-1 sign from [S20]; diversified trend family [S1]. Daily gold CFD, AND with SMA(200), 2-ATR stop, 0.25% risk, optional weekend clip, and no vol targeting across a portfolio are modifications. This is not an AQR replication. As of specification date, spot below SMA(200) implies T1 stays cash until both inequalities are true.
+
+### T2 — Gold compression breakout, H1, both sides (EXPERIMENTAL)
+
+Instrument: the same XAUUSD CFD. Bars: 1 hour aligned to 00:00 UTC. Use 120 completed warm-up hours.
+
+At completed hour t:
+
+```
+atr10[t] = Wilder ATR(10), including bar t
+quiet[t] = atr10[t] <= the 20th percentile of atr10[t-99] through atr10[t]
+           (100 values, including t). If fewer than 100 finite atr10 values, quiet is false.
+upper20  = maximum high of bars t-20 through t-1
+lower20  = minimum low  of bars t-20 through t-1
+volatility = Wilder ATR(20), including bar t
+```
+
+The Donchian channel **excludes** bar t. Including t’s high and requiring close[t] > that high is impossible.
+
+When flat and quiet[t] is true:
+
+- buy if close[t] > upper20
+- sell if close[t] < lower20
+
+Equality is not a signal. If not quiet, remain flat even if price breaks the channel. A skipped signal expires. One position at a time. After an exit, wait for a later bar that is again quiet and breaks.
+
+Enter at the first permitted quote after the close. Initial long stop = fill minus 2 × volatility; initial short stop = fill plus 2 × volatility; round away from the fill. No fixed take-profit. Time exit: flatten at the first permitted quote after 24 completed hours in the trade, or earlier on stop / weekend / news-window / kill-switch. Do not reverse on the same decision event as an exit.
+
+**Do not** use ADX, Bollinger-width votes, ATR as a percent of price, volume pressure, 5-bar momentum, or `fetch_intraday._build_volatility_regime`. Those are a separate live gate. T2’s only regime filter is `quiet` as defined above.
+
+**Source relationship:** quiet-then-break idea from Crabel [S22] and internal Quiet Donchian [S21]. H1 vs daily, close confirmation, 24-hour time cap, CFD execution and the 20th-percentile threshold are proposed test choices. Label every T2 report EXPERIMENTAL.
+
+### T3 — Bitcoin moving-average, daily, 5/100, long or cash
+
+Instrument: the provider's BTCUSD CFD, with its actual sessions and quotes. Do not substitute a 24/7 exchange feed when assessing FundedNext execution. Bars: one UTC day, 00:00–24:00 UTC, last quote strictly before 24:00. Use 120 completed warm-up days. Crypto CFD trading is listed as weekdays only [S14]; flatten before the weekend under the common rule.
+
+At each completed daily bar t, simple unweighted averages of the most recent 5 and 100 closes, including t:
+
+```
+state = LONG if SMA5 > SMA100 * 1.01
+state = CASH otherwise
+```
+
+Equality and the region between SMA100 and SMA100 × 1.01 belong to CASH. There is no SHORT state.
+
+When cash, enter only on a transition into LONG from CASH. Initialize previous state from the final warm-up bar so an old trend is not a fresh signal on startup. Buy the next permitted quote. Initial stop = fill minus 2 × Wilder ATR(14) on daily bars, frozen. No take-profit, no trailing stop.
+
+Exit the long when state is no longer LONG, on the next tradable quote, or on the stop, weekend flatten, or kill-switch. After a stop, block re-entry in LONG until state has gone to CASH and then back to LONG. A missed transition is not retried on later unchanged-state bars. Cap accepted **entries** at two per server week (not per day: this is a daily system). Closes are never blocked by that cap.
+
+Preserve previous state over the weekend; do not invent Saturday/Sunday candles. After a forced Friday flatten, if Monday’s first completed day is still LONG, that is a new entry if risk checks pass (same WEEKEND_CLIP idea as T1).
+
+**Source relationship:** MA comparison belongs to [S3]. Daily vs H1, long-or-cash vs a short state, ATR stop, entry cap and session rules are unvalidated adaptations. Do not assign the research’s one-minute statistics to this system. Keep [S4] in the report as contradictory evidence.
+
+## Why these three and not five
+
+They have simple observable inputs, explicit states, and audit-friendly entries and exits. An AI “is this a good environment?” layer would duplicate T1’s 200-day, T2’s quiet flag, and T3’s MA band with an unreproducible veto.
+
+A fourth gold H4 Turtle 55/20 would duplicate T1’s slow-trend exposure on a shorter bar. Asia-session long is mechanical but is the wrong side of the current real-yield regime; it is not in this trial. Mean-reversion (Connors) is mechanical but gated off below the 200-day. Grid, martingale and latency approaches remain inappropriate.
+
+For a faithful literature benchmark, keep a separate project at the original published horizon and portfolio. Do not call T1 an AQR replication.
+
+## Account assumptions and verified FundedNext constraints
+
+Working assumption: a USD 25,000 Stellar 2-Step CFD-style account on MT5 with the applicable EA permission/add-on. The user did not specify the exact product, phase, platform or purchase terms. Treat these assumptions as configuration, not verified facts about an existing account. No purchase, account connection or deployment is part of this document.
+
+The firm describes its CFD program as simulated trading with virtual capital and performance-based rewards [S13]. The nominal USD 25,000 is not an amount that can all be lost, and simulated trading profit is not automatically an immediately withdrawable reward.
+
+| Item checked on 25 September 2026 | Consequence for this trial |
+|---|---|
+| MT4/MT5 automation is permitted below USD 50,000, subject to EA rules and an additional usage fee; cTrader/Match-Trader automation is prohibited [S9]. | Verify the actual platform/add-on before any later deployment. A prompt alone does not establish permission. |
+| The FundedNext Free Trial prohibits EAs and lasts 14 days [S10]. | Use an independent local paper simulator or an automation-permitted demo for this proposed month. Do not automate the Free Trial. |
+| Stellar 2-Step daily loss allowance is 5%; maximum loss is 10% [S11]. | At USD 25,000 these correspond to USD 1,250 daily and USD 2,500 total; overall equity must remain above USD 22,500. |
+| Daily loss includes closed and floating results, commission and swaps, resetting at server midnight [S12]. | Use the server day and firm calculation; a London-midnight balance-only check is inadequate. |
+| Current general rules list Stellar 2-Step commodities at 1:25 in the challenge and 1:15 in the funded phase; crypto is 1:1 [S13]. | Use actual symbol/account metadata. Historical/free-trial descriptions may differ. Never assume forex leverage applies to gold or BTC. |
+| Crypto CFD trading is listed as weekdays only; the help page permits overnight/weekend holding but no weekend transactions [S14]. | T3 must exit before weekends. T1 may hold gold over the weekend only if the provider allows it. |
+| Current funded-account rules specify a 3% risk limit [S15]. | This trial's own limits below are substantially smaller; the dashboard and exact rule remain authoritative. |
+| In the funded phase, only 40% of profit from trades opened or closed within ±5 minutes of a listed relevant high-impact event is counted; losses count fully, including SL/TP executions [S16]. | Track nominal and rule-adjusted results separately. Entry blocking alone does not prevent an existing stop from executing in that window. |
+| Restricted-strategy rules cover HFT, tick scalping, grid, arbitrage, settlement-window exploitation and other behaviours [S17]. | No strategy here intentionally relies on those mechanisms. These specifications do not certify acceptance. |
+
+The original-rule distinction also matters at payout: the funded-phase news adjustment and the reward split are separate reductions. Evaluation targets, payout timing, add-ons and actual contract terms still need to be loaded before calculating withdrawable rewards.
+
+## Common data and indicator definitions
+
+- Use provider bid/ask ticks for execution and construct signal OHLC from bid prices. Store timestamp_utc plus the provider's actual server timestamp/offset. Lower-frequency historical OHLC cannot reveal every intrabar event order.
+- A bar covers [start, end); its close is the last quote strictly before end. A decision is available only after end. Scheduled closed intervals contain no invented quotes. Reject unexplained gaps during an open session; log every rejected bar.
+- Prefer at least one-minute/tick history from the intended provider. Do not silently merge gold spot, futures, ETF and different broker histories. A continuous futures series needs explicit roll handling if used for source replication.
+- Wilder ATR(n): TR[t] = max(high-low, abs(high-previous_close), abs(low-previous_close)). For the first record use high-low. Seed ATR with the arithmetic mean of the first n true ranges; thereafter ATR[t] = ((n-1) × ATR[t-1] + TR[t]) / n. Persist indicator state and the exact warm-up start; do not reseed every API request.
+- SMA(n) = arithmetic mean of the latest n completed closes. Percentile of a window of length K is the empirical 20th percentile of those K values (inclusive of the current bar as specified). Donchian extrema use the exact bar indices defined above. No centered windows, future pivots or incomplete higher-timeframe bars.
+- Persist the calendar, data snapshot, indicator values, code hash, configuration hash and model/version identifier used by each decision. Server timezone changes must come from the platform/calendar, not an assumed perpetual UTC offset.
+
+## Common execution: exact paper rules
+
+1. New signal validity is 60 seconds after its candle close. Before an entry, quote age must be at most 2 seconds and bid/ask must be positive and ordered. After 60 seconds, cancel the idea; never backfill a missed signal. Risk-reducing exits remain pending until the first executable quote if the market is unavailable.
+2. No new entries from 00:00 through 02:00 server time (end exclusive), during a provider closure, or within 10 minutes before/after a listed high-impact event relevant to the instrument. Calendar absence or stale/missing market metadata means NO_TRADE. Existing protective orders stay active.
+3. Do not open in the final 60 minutes before the week's final trading close. Close positions 15 minutes before that close when the strategy or the provider requires a weekend flatten (mandatory for T3; for T1 only if weekend holding is forbidden). Use the actual holiday/session calendar, and disable entries until the next weekly session. On an unexpected inability to close, retain protection, log the incident and stop new entries; never record an imaginary fill.
+4. Entry price: ask for a buy, bid for a sell. Exit price: bid for a long, ask for a short. Long SL is triggered by bid; short SL by ask. Gaps fill at the next attainable quote, not necessarily the requested level.
+5. Baseline extra slippage assumption: one adverse minimum tick per market or stop execution, added to the executable quote. Use actual spread. T1 and T3 have no limit target. These are simulator assumptions, not broker guarantees.
+6. Stops must meet tick-size and minimum-distance constraints. Calculate size from the final rounded stop and expected executable entry; never enlarge size by rounding. If the final fill invalidates protection or exceeds the risk budget, reduce/close exposure immediately and record an incident. Do not silently widen the stop.
+7. Require quoted spread <= 10% of the planned entry-to-stop price distance. Require estimated round-trip commission plus adverse slippage <= 10% of planned initial cash stop risk. The spread is already included through entry/exit sides; avoid double-counting it in net P&L.
+8. Include actual commission per side and overnight financing, including instrument-specific triple-swap days. Current published rates are a starting check, not a substitute for symbol metadata. No pretending a cost-free paper book is comparable with a prop account.
+9. Maintain exactly one position per strategy per instrument. Give each order a unique key based on book, strategy version, instrument, bar end and action. On a timeout, query the order state before any retry. Never duplicate a trade because an acknowledgment was late.
+10. Re-evaluate risk before every entry. Broker-native protective stops must operate without a language-model response. Never postpone an SL to satisfy a minimum holding-time idea. Log accidental very short trades and evaluate the firm's Quick Strike restrictions before deployment.
+
+If only OHLC data is available and both stop and a time-exit could have occurred within a candle, flag that trade as ambiguous. Produce both pessimistic and optimistic results; do not quietly choose the favourable ordering. The fresh paper test should save tick/quote sequences so its replay can resolve these cases [S19].
+
+## USD 25,000 paper risk design
+
+These are proposed experiment limits, not FundedNext's published limits and not an optimal sizing claim.
+
+| Parameter | Registered setting |
+|---|---|
+| Starting balance, each independent strategy book | USD 25,000 |
+| Planned maximum initial loss per accepted trade, including estimated execution costs | USD 62.50 = 0.25% of initial balance |
+| Maximum sum of original planned risk of open positions in a combined book | USD 125 = 0.5% |
+| Internal daily stop | Flatten and stop new entries when closed P&L since server midnight plus current open P&L reaches -USD 250; include fees/swaps |
+| Internal trial stop | Flatten and suspend if equity reaches USD 24,000, or drawdown from the running equity high reaches USD 1,000, whichever occurs first |
+| Used-margin cap | 25% of current equity; reduce size to respect it |
+| Compounding | None during this initial trial; USD 62.50 is a cap, never a required exposure |
+| Scaling after losses | None |
+
+Before accepting an order, calculate account equity if all existing stops and the new stop were filled, including estimated remaining costs. Reject if that scenario would cross an internal or firm limit. Preserve at least USD 125 of extra headroom to the applicable firm daily and overall floors. If a configured firm limit is tighter than these defaults, the tighter gate wins. Stops cannot guarantee a loss ceiling through a market gap.
+
+Size using the platform's profit-calculation function at one lot from expected fill to stop. Let L be the absolute one-lot loss plus estimated per-lot execution costs. Start with lots = floor_to_volume_step(62.50 / L). Reduce further for margin, aggregate exposure or account headroom. If below minimum volume, skip. Never assume one gold lot or one BTC lot represents the same contract size at every provider.
+
+For example, at 1:1 leverage a USD 6,250 Bitcoin position uses roughly USD 6,250 margin. A 0.5% price move against it costs about USD 31.25 before fees. The margin cap may therefore make BTC trades risk less than USD 62.50. Report that actual risk; do not increase leverage or disguise it by comparing only dollar profit.
+
+The trial should initially keep three independent virtual ledgers on the same recorded market stream. That is a fair comparison of each strategy under the same starting capital; it is not permission to take three times the risk in one real account. If later testing one combined USD 25,000 book, apply aggregate gates; simultaneous conflicts use fixed priority T1, T3, T2. No overlapping opposite XAU positions in that combined book: T1 (long-only) wins; T2 may not open a short while T1 is long, and may not open a long that would exceed the aggregate risk cap. Log all rejected candidates. The combined book has to be evaluated separately.
+
+## DeepSeek architecture and precise responsibilities
+
+The reliable design is a market-data service, a numerical indicator/rule engine, an independent risk/execution controller, and DeepSeek as the implementation assistant and decision auditor. Give it structured data and state, not screenshots as the numerical source of truth. A language model's narrative confidence is not a calibrated probability of winning.
+
+**DeepSeek is not a market-condition arbiter.** It may not decide that T1 should stay long below the 200-day, that T2’s quiet flag should be ignored because “NFP is tomorrow”, or that T3 should short. If a future model is allowed to veto valid setups based on its own analysis, register that as a new strategy and test it against the unchanged reference.
+
+DeepSeek documents JSON output and tool calling [S18]. Valid JSON does not demonstrate correct arithmetic or a profitable strategy. Validate every field and order against independent code. Pin the exact available model/version and decoding settings for the trial; do not assume one unspecified 'DeepSeek' model has uniform tool support. No DeepSeek endpoint was called or benchmarked in this research.
+
+For each strategy run two paired paper books:
+
+- **Reference:** the deterministic rules act directly through the simulator.
+- **DeepSeek-supervised:** the same rules and risk gates apply, but a schema-valid, timely model instruction must agree with the reference before an entry is accepted. A refusal, timeout or mismatch results in NO_TRADE and an incident. Protective exits never depend on model agreement.
+
+Feed both from the same market record. When books diverge, retain their separate positions and risk states. Evaluate instruction compliance on identical input snapshots, and separately compare resulting P&L. Do not attribute a profitable market move to model intelligence when it simply followed the same rule.
+
+The trusted engine supplies eligible action and numeric ticket fields. DeepSeek may explain or flag missing data; it may not change price levels, risk, parameters or direction.
+
+### Implementation handoff prompt
+
+```
+Implement the attached version 2.0 research specification as a PAPER-ONLY
+event-driven system. Do not connect to a funded account or place real orders.
+
+Implement T1, T2 and T3 exactly. Preserve the stated indices, time zones,
+rounding, entry expiry, stops, session closures and cost assumptions.
+Treat each stated adaptation as an unvalidated test, not a proven result.
+T2 must be labelled EXPERIMENTAL in every report.
+
+Do not introduce RSI, ADX, Bollinger votes, volume pressure, supply/demand,
+confidence scores, martingale, pyramiding, news sentiment, geopolitical
+commentary, the fetch_intraday volatility-regime gate, different periods
+or optimization. Do not let the model veto a valid engine ticket.
+Do not generate missing prices, contract specifications or economic events.
+If any required input is unavailable, emit NO_TRADE with a reason code.
+
+Build deterministic feature, strategy, risk, simulation and reporting modules.
+Use a single strategy implementation for historical replay and live paper
+processing. Separate order intent from acknowledged order/position state.
+Persist all events and recover state without duplicate orders after restart.
+
+Before reporting performance, prove entry/exit and long/flat correctness
+on hand-checkable price paths, including T1 staying cash when close is
+below SMA(200), T2 ignoring Donchian breaks when quiet is false, T3 never
+shorting, gaps, and stop/time-exit ambiguity.
+Return the exact executable code, configuration, dependencies, dataset
+manifest, rejected-signal ledger, order ledger and trade ledger. Never claim
+a backtest ran unless the code executed and generated those artifacts.
+
+Freeze all settings before the trial. A bug fix receives a new version and
+preserves the original records. Do not choose parameters using the trial
+month or silently rewrite losing trades.
+
+Provide a daily report with P&L, risk, fills, skipped signals, state mismatches
+and data incidents. Keep market profitability separate from model compliance.
+A month of T1 NO_TRADE while gold is below the 200-day is a pass for T1
+rule integrity, not a reason to loosen the filter.
+```
+
+### Runtime decision contract
+
+Return one JSON object with exactly these fields; the controller checks types and permitted values. Ticket numbers are copied from the trusted engine, never computed in prose. This example deliberately represents no trade, not a market forecast:
+
+```json
+{
+  "spec_version": "2.0",
+  "strategy_id": "T1",
+  "event_id": "EXAMPLE_ONLY",
+  "snapshot_hash": "EXAMPLE_ONLY",
+  "decision_time_utc": "2026-09-28T21:00:01Z",
+  "action": "NO_TRADE",
+  "order_type": "NONE",
+  "side": "NONE",
+  "entry_reference": null,
+  "stop_loss": null,
+  "take_profit": null,
+  "volume_lots": 0,
+  "expires_at_utc": null,
+  "reason_code": "NO_SIGNAL"
+}
+```
+
+Allowed strategy_id: T1/T2/T3. Allowed action: NO_TRADE, HOLD, OPEN, CLOSE, AMEND_STOP. Allowed order_type: NONE, MARKET. Allowed side: NONE, BUY, SELL. Required reason codes: NO_SIGNAL, VALID_SIGNAL, SIGNAL_EXIT, STOP_UPDATE, DATA_MISSING, STALE_QUOTE, WINDOW_CLOSED, COST_TOO_HIGH, RISK_LIMIT, MARGIN_LIMIT, LOT_TOO_SMALL, STATE_MISMATCH, INVALID_OUTPUT, TIMEOUT, WEEKEND_CLIP, NOT_QUIET. The deterministic controller may emit STOP_HIT, TIME_EXIT, WEEKEND_EXIT and KILL_SWITCH for its own execution events without asking the model.
+
+T1 OPEN is BUY only. T3 OPEN is BUY only. T2 OPEN may be BUY or SELL. Numbers must be finite and match the trusted ticket within the provider's rounding precision. OPEN requires nonzero volume, a valid stop, side, MARKET and an expiry. T1/T2/T3 OPEN has take_profit=null. For CLOSE, side is the existing position side (the controller derives the opposite closing order); volume is the confirmed open volume, entry_reference/SL/TP/expiry are null. HOLD and NO_TRADE use NONE, zero volume and null ticket fields. AMEND_STOP uses the existing position side, NONE, zero volume, the new stop and other ticket fields null. Bad fields never reach execution.
+
+## Trial protocol and comparison
+
+The first month is an engineering and preliminary-performance trial. It is not enough to establish reliable monthly income, especially when T1 or T3 produces few trades or T1 stays cash.
+
+1. **Before day one:** resolve the account configuration, symbol metadata, licensed/available quote source and event calendar. Freeze code, settings and source assumptions. Validate 20 manually traceable trade or rejected-signal examples plus meaningful edge cases: T1 12-1 indexing (skip 21, lookback 252), T1 cash below SMA(200), T2 quiet false blocks a Donchian break, T2 channel excludes bar t, T3 never shorts, DST, midnight reset, weekend gaps, stale quotes, duplicate acknowledgments and stop vs time-exit in one bar. An implementation must pass; a bad win rate is not permission to rewrite rules.
+2. **Historical engineering check:** run the frozen code on available recent data, including the 2026 gold decline (T1 should be flat once below the 200-day) and at least one quiet-then-expansion window for T2. Treat any interval already inspected or used for modification as development data. An unseen chronological holdout or subsequent paper period is required. Keep a cost-free diagnostic and realistic-cost result to identify cost drag, but judge viability on realistic costs.
+3. **30 calendar days:** feed all paired books concurrently. Capture every scheduled decision, including NO_TRADE. Make no strategy adjustments. Operational interruptions remain in the record. If a material bug forces a fix, start a new registered segment and retain the original results; do not present a stitched result as one untouched test.
+4. **Afterward:** replay the captured quotes through the same engine. Explain each difference from paper decisions/fills. Re-evaluate with wider spreads and two extra adverse ticks per market/stop fill to test execution fragility. This stress test is a proposed robustness check, not a model of every possible trading cost.
+5. **Continue selectively:** fewer than 30 closed trades means insufficient observations for even the preliminary comparison gate used here. Thirty is an operational threshold, not statistical proof. T1 and T3 may need several months. Extending time is preferable to weakening filters merely to generate more trades. Do not add an AI arbiter to “find trades” in a cash regime.
+
+| Metric | Exact interpretation |
+|---|---|
+| Net account return | End equity minus starting equity, divided by starting equity; mark open trades at executable liquidation quotes and show estimated closing costs. Do not hide open losses. |
+| Closed-trade win rate | Count trades with net realized P&L > 0 divided by all closed trades. Breakevens remain in the denominator and are reported separately. |
+| Realized payoff ratio | Mean positive net P&L divided by absolute mean negative net P&L. Also show those averages in R because position sizes can differ. |
+| R multiple | Net realized trade P&L divided by that trade's frozen initial planned cash risk including estimated costs. Gaps can make losses worse than -1R. |
+| Expectancy | Mean net R per closed trade, alongside mean net dollars. Do not substitute a target multiple for average realized wins. |
+| Profit factor | Sum of positive net closed-trade P&L divided by absolute sum of negative net P&L; if there are no losses, report undefined/no-loss sample, not proof of infinite profitability. |
+| Maximum equity drawdown | Largest running peak-to-trough decline using mark-to-market equity, in dollars and percent. Also show worst intraday decline and worst losing streak. |
+| Trading productivity | Closed trades, eligible signals, entries, rejected entries by reason, days exposed, turnover, average holding time and net profit per exposed day. More trades alone is not better. Days in CASH for T1/T3 are a first-class result. |
+| Costs | Spread paid through bid/ask, commission, slippage, swaps and model/hosting charges separately. Model/API charges are outside the broker ledger but inside economic profitability. |
+| Firm-adjusted result | Apply the configured funded-phase news-profit treatment separately from unadjusted P&L; then apply any known reward split/eligibility conditions. Do not assume a payout. |
+| Model compliance | Matches to the reference action and numeric ticket on identical snapshots, false entries, missed entries, invalid JSON, timeouts, duplicate orders, median/p95 latency and API cost. Report decision categories separately; many NO_TRADE matches must not conceal entry failures. Count arbiter-like extra vetoes as SPEC_VIOLATION even if they lose less money. |
+
+Rank eligible candidates first by rule integrity and survival, then realistic-cost expectancy/profit factor and equity drawdown. Show net dollars and win rate without giving either sole control over selection. A candidate with one lucky large winner needs more evidence. Results from correlated strategies and clustered market days are not independent samples.
+
+As an illustration of uncertainty, 12 wins in 20 trades is a 60% observed win rate but a roughly 39%–78% Wilson 95% interval under an independence assumption. Market clustering can make that assessment too optimistic. A best-of-three result after a month is a candidate for further testing, not a confirmed winner.
+
+There is no credible monthly earnings forecast from this research. T1 may print zero closed trades in a month. That is compatible with the September 2026 gold regime this version was written for.
+
+## Source register
+
+Sources are primary research, author/institutional records, official product documentation, or this repository’s frozen internal tests. Third-party strategy marketing, social screenshots and unverified backtest leaderboards were not used as performance evidence. Some publisher/repository full texts were inaccessible; those limitations are stated above.
+
+- **S1:** Hurst, B., Ooi, Y. H. & Pedersen, L. H. (2017). [A Century of Evidence on Trend-Following Investing — author-hosted journal paper](https://www.aqr.com/-/media/AQR/Documents/Insights/Journal-Article/AQR-JPM-Fall-2017.pdf).
+- **S2:** Faith, C. / OriginalTurtles.org (2003). [The Original Turtle Trading Rules — mirrored original document](https://oxfordstrat.com/coasdfASD32/uploads/2016/01/turtle-rules.pdf). This is the author's primary rules document, hosted by a third-party archive.
+- **S3:** Corbet, S., Eraslan, V., Lucey, B. & Sensoy, A. (2019). [The effectiveness of technical trading rules in cryptocurrency markets — university record and full manuscript](https://doras.dcu.ie/25053/). Finance Research Letters 31, 32–37. DOI: 10.1016/j.frl.2019.04.027.
+- **S4:** Hudson, R. & Urquhart, A. [Technical trading and cryptocurrencies — publisher full text](https://link.springer.com/article/10.1007/s10479-019-03357-1). Online publication 2019, subsequent journal volume 2021. DOI: 10.1007/s10479-019-03357-1.
+- **S5:** Holmberg, U., Lönnbark, C. & Lundström, C. (2013). [Assessing the profitability of intraday opening range breakout strategies — university-hosted journal paper](https://www.usbe.umu.se/digitalAssets/195/195397_ues948.pdf). Finance Research Letters 10, 27–33. DOI: 10.1016/j.frl.2012.09.001. Indexed abstract and market identification verified; full retrieval unsuccessful.
+- **S6:** Sönnert, T. (2015). [Intraday Momentum: Day trading on the gold futures market using Opening Range Breakouts and GARCH — Umeå thesis record](https://umu.diva-portal.org/smash/record.jsf?pid=diva2%3A845497). Student thesis; unused as a numerical benchmark.
+- **S7:** Batten, J. A. et al. (2018). [Does intraday technical trading have predictive power in precious metal markets? — Monash author record](https://research.monash.edu/en/publications/does-intraday-technical-trading-have-predictive-power-in-precious/). DOI: 10.1016/j.intfin.2017.06.005.
+- **S8:** Jin, X. (2022). [Performance of intraday technical trading in China's gold market — publisher record](https://www.sciencedirect.com/science/article/pii/S1042443121001876). DOI: 10.1016/j.intfin.2021.101481. Abstract and publisher-indexed text verified.
+- **S9:** FundedNext. [Is EA allowed in FundedNext?](https://help.fundednext.com/en/articles/8020763-is-ea-allowed-in-fundednext).
+- **S10:** FundedNext. [Free Trial Rules](https://help.fundednext.com/en/articles/8902893-fundednext-free-trial-rules).
+- **S11:** FundedNext. [Stellar 2-Step Challenge rules](https://help.fundednext.com/en/articles/8021076-what-rules-do-i-need-to-follow-in-the-stellar-2-step-challenge).
+- **S12:** FundedNext. [Daily loss calculation](https://help.fundednext.com/en/articles/8019811-how-can-i-calculate-the-daily-loss-limit).
+- **S13:** FundedNext. [CFD symbols and conditions](https://fundednext.com/general-rules/cfds/symbols-and-conditions).
+- **S14:** FundedNext. [Cryptocurrency availability, leverage and sessions](https://help.fundednext.com/en/articles/8925010-can-i-trade-cryptocurrencies-with-fundednext).
+- **S15:** FundedNext. [Risk limits on a FundedNext Account](https://help.fundednext.com/en/articles/14702245-what-are-the-risk-limits-on-a-fundednext-account).
+- **S16:** FundedNext. [Stellar 2-Step news trading](https://help.fundednext.com/en/articles/10701685-is-news-trading-allowed-in-the-stellar-2-step-account).
+- **S17:** FundedNext. [Restricted/prohibited strategies](https://help.fundednext.com/en/articles/8020351-what-are-the-restricted-prohibited-trading-strategies).
+- **S18:** DeepSeek. [JSON Output](https://api-docs.deepseek.com/guides/json_mode/) and [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls/). JSON page read; tool-calling capability verified in official indexed documentation. Exact deployed model support must be checked at implementation.
+- **S19:** TradingView. [Strategies: broker emulator and intrabar assumptions](https://www.tradingview.com/pine-script-docs/concepts/strategies/).
+- **S20:** Moskowitz, T. J., Ooi, Y. H. & Pedersen, L. H. (2012). Time series momentum. Journal of Financial Economics 104(2), 228–250. DOI: 10.1016/j.jfineco.2011.11.003.
+- **S21:** This repository, `gold_edges/results/daily.csv` and `gold_edges/strategies.py`, HistData XAUUSD 2009-03-15 to 2026-09-18, costs as in `gold_edges/README.md`. Internal engineering evidence, not a peer-reviewed result.
+- **S22:** Crabel, T. *Day Trading with Short Term Price Patterns and Opening Range Breakout*. Idea source for NR7 / quiet-range expansion; not independently backtested here as Crabel’s original markets and session definitions.
+
+Before any later account deployment, resolve the exact FundedNext product/phase/platform and EA permission, validate contract metadata and costs, and check the current terms against this dated research. No strategy in this document has been certified profitable or compliant by FundedNext.
