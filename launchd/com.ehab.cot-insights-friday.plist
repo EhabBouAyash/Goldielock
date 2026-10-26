@@ -9,6 +9,7 @@
 		<string>/bin/bash</string>
 		<string>/Users/ehab/work/solo_projects/scripts/friday_cot_insights.sh</string>
 	</array>
+	<!-- COT notes only. This job must not start day_trading_insights.py or publish a gold card. -->
 	<!-- Run daily at 6:00 PM ET (18:00). COT data will be included when available (Fridays). -->
 	<key>StartCalendarInterval</key>
 	<dict>

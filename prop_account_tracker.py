@@ -1,9 +1,10 @@
 """
 FundedNext Stellar 1-Step prop account tracking from trade_backlog.txt.
 
-Loads manual trade rows, backfills PnL from notes when missing, computes running
-account columns, aggregates snapshot metrics for the agent prompt, and writes
-the enriched CSV back to disk on each refresh.
+Loads manual trade rows (merging trade_backlog.txt and trade_backlog.csv when both
+exist), backfills PnL from notes when missing, computes running account columns,
+aggregates snapshot metrics for the agent prompt, and writes the enriched CSV
+back to both files on each refresh.
 """
 
 from __future__ import annotations
@@ -204,11 +205,18 @@ def _enrich_trade_row(row: dict[str, str]) -> dict[str, str]:
     return row
 
 
+def is_paper_row(row: dict[str, str]) -> bool:
+    """Autopilot paper trades share the journal but never touch account figures."""
+    return _strip(row.get("TRADE_ID")).upper().startswith("PAPER_")
+
+
 def _apply_running_totals(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     cumulative = 0.0
     daily_totals: dict[str, float] = {}
 
     for row in rows:
+        if is_paper_row(row):
+            continue
         outcome = row.get("OUTCOME", "").upper()
         pnl = _safe_float(row.get("PNL_USD"))
         trade_date = row.get("DATE", "")
@@ -227,7 +235,16 @@ def _apply_running_totals(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     return rows
 
 
-def load_trade_backlog_rows(path: Path) -> list[dict[str, str]]:
+def trade_backlog_companion_path(path: Path) -> Path:
+    suffix = path.suffix.lower()
+    if suffix == ".txt":
+        return path.with_suffix(".csv")
+    if suffix == ".csv":
+        return path.with_suffix(".txt")
+    return path.with_suffix(".csv")
+
+
+def _load_trade_backlog_file(path: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
 
@@ -264,13 +281,79 @@ def load_trade_backlog_rows(path: Path) -> list[dict[str, str]]:
     return [_enrich_trade_row(row) for row in rows if _strip(row.get("DATE"))]
 
 
+def _trade_row_key(row: dict[str, str], fallback: str) -> str:
+    trade_id = _strip(row.get("TRADE_ID"))
+    if trade_id:
+        return trade_id
+    date_value = _strip(row.get("DATE"))
+    return f"{date_value}|{fallback}" if date_value else fallback
+
+
+def _merge_trade_backlog_rows(
+    primary: list[dict[str, str]],
+    overlay: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Union by TRADE_ID. Overlay fills empty cells and longer NOTES; adds missing trades."""
+    merged: dict[str, dict[str, str]] = {}
+    order: list[str] = []
+
+    for index, row in enumerate(primary):
+        key = _trade_row_key(row, f"primary-{index}")
+        merged[key] = dict(row)
+        order.append(key)
+
+    for index, row in enumerate(overlay):
+        key = _trade_row_key(row, f"overlay-{index}")
+        if key not in merged:
+            merged[key] = dict(row)
+            order.append(key)
+            continue
+        existing = merged[key]
+        for column in TRADE_BACKLOG_COLUMNS:
+            current = _strip(existing.get(column))
+            incoming = _strip(row.get(column))
+            if not incoming:
+                continue
+            if not current:
+                existing[column] = row[column]
+            elif column == "NOTES" and len(incoming) > len(current):
+                existing[column] = row[column]
+        merged[key] = existing
+
+    return [merged[key] for key in order]
+
+
+def load_trade_backlog_rows(path: Path) -> list[dict[str, str]]:
+    """Load the backlog, merging trade_backlog.txt and trade_backlog.csv when both exist."""
+    companion = trade_backlog_companion_path(path)
+    path_rows = _load_trade_backlog_file(path)
+    if not companion.exists() or companion.resolve() == path.resolve():
+        return path_rows
+
+    companion_rows = _load_trade_backlog_file(companion)
+    if not companion_rows:
+        return path_rows
+    if not path_rows:
+        return companion_rows
+
+    path_mtime = path.stat().st_mtime if path.exists() else 0.0
+    companion_mtime = companion.stat().st_mtime
+    if companion_mtime >= path_mtime:
+        return _merge_trade_backlog_rows(path_rows, companion_rows)
+    return _merge_trade_backlog_rows(companion_rows, path_rows)
+
+
 def write_trade_backlog_rows(path: Path, rows: list[dict[str, str]]) -> None:
     buffer = StringIO()
     writer = csv.writer(buffer, lineterminator="\n")
     writer.writerow(TRADE_BACKLOG_COLUMNS)
     for row in rows:
         writer.writerow([row.get(column, "") for column in TRADE_BACKLOG_COLUMNS])
-    path.write_text(buffer.getvalue(), encoding="utf-8")
+    payload = buffer.getvalue()
+    path.write_text(payload, encoding="utf-8")
+    companion = trade_backlog_companion_path(path)
+    if companion.resolve() != path.resolve():
+        companion.write_text(payload, encoding="utf-8")
 
 
 def compute_prop_account_snapshot(
@@ -280,6 +363,7 @@ def compute_prop_account_snapshot(
     floating_pnl_usd: float = 0.0,
 ) -> dict[str, Any]:
     today = today or date.today().isoformat()
+    rows = [row for row in rows if not is_paper_row(row)]
     resolved_rows = [
         row
         for row in rows
@@ -424,8 +508,8 @@ def format_prop_account_snapshot(snapshot: dict[str, Any]) -> str:
         if profit_from_start is not None
         else "n/a (no last-row EQUITY)"
     )
-    return f"""- LAST-ROW EQUITY (ONLY number allowed for sizing/leverage): {equity_text} on {snapshot.get('last_row_trade_id') or 'n/a'}
-- Equity rule: last-row EQUITY column only. FORBIDDEN: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, adding floating P&L
+    return f"""- LAST-ROW EQUITY (handwritten note, not broker equity, not for sizing): {equity_text} on {snapshot.get('last_row_trade_id') or 'n/a'}
+- Equity rule: this column is an annotation. FORBIDDEN: summing PNL_USD, CUMULATIVE_PNL, $25,000 + profits, any earlier EQUITY cell, or treating a missing broker connection as zero open profit.
 - Profit vs $25,000 start (last-row EQUITY minus $25,000 — not a PnL sum): {profit_text} / ${snapshot['profit_target_usd']:,}
 - Challenge passed: {snapshot['challenge_passed']}
 - Today ({snapshot['today']}) closed PnL: ${snapshot['daily_closed_pnl_usd']:,.2f}
@@ -500,11 +584,11 @@ def format_trade_backlog_table(rows: list[dict[str, str]], *, max_rows: int = 15
     last_id = _strip(last.get("TRADE_ID")) or "n/a"
     lines.append("")
     lines.append(
-        f"LAST-ROW EQUITY (ONLY number for sizing): {last_id} EQUITY={last_equity or 'MISSING'}"
+        f"LAST-ROW EQUITY (handwritten note, not broker equity, not for sizing): {last_id} EQUITY={last_equity or 'MISSING'}"
     )
     lines.append(
         "Do not sum PNL_USD. Do not use CUMULATIVE_PNL. Do not use $25,000 + profits. "
-        "Do not use any earlier EQUITY cell."
+        "Do not use any earlier EQUITY cell. Do not size from this note."
     )
     return "\n".join(lines)
 
@@ -529,7 +613,21 @@ def refresh_prop_account_state(
         "rows": rows,
         "table_text": format_trade_backlog_table(rows),
         "snapshot_text": format_prop_account_snapshot(snapshot),
+        "authoritative_for_sizing": False,
+        "equity_meaning": "manual_backlog_annotation",
+        "floating_pnl_is_broker_floating": False,
+        "note": (
+            "The last EQUITY cell is a handwritten note. It is not broker equity. "
+            "A missing broker connection is unknown exposure, not a flat account."
+        ),
     }
+
+
+def review_manual_ledger(rows: list[dict[str, str]]) -> dict[str, Any]:
+    """Read the handwritten ledger and write nothing back to it."""
+    from performance_ledger import review_historical_rows
+
+    return review_historical_rows(rows)
 
 
 def trade_backlog_template() -> str:

@@ -1569,8 +1569,11 @@ NOTE: DO NOT QUESTION THE SOURCE DATA. IT IS CORRECT.
     return response_json["content"][0]["text"]
 
 def parse_gold_signal(insights_text: str) -> dict:
-    """
-    Extract the XAU (gold) signal details from the Claude insights text.
+    """Read an old prose signal for display.
+
+    This regex parse is not allowed to authorize a trade. The live pipeline
+    publishes only a card that already passed the code checks, and it derives
+    any GOLD_SIGNAL footer from that checked result.
 
     Returns dict with:
     signal, confidence, entry_low, entry_high, target1, target2, stop_loss,

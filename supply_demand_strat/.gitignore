@@ -1,0 +1,7 @@
+latest_analysis.json
+latest_signal.txt
+analysis_archive.jsonl
+.macro_context_cache.json
+.macro_calendar_cache.xml
+backtest_results/
+backtest_data/

@@ -1,0 +1,69 @@
+BROOKS HIGH 2 / LOW 2 - XAUUSD
+Data: HistData XAUUSD 1m bid (spread modelled at 1.6bp of price), 2021-01-03 -> 2026-09-18
+Train < 2023-11-01 <= Test. Costs: spread + $0.1 stop slippage
+Selection: highest train expectancy among configs with >= 100 train trades
+Grid: 7% of configs positive on test; train/test rank correlation 0.04
+
+Top 5 configs by TRAIN expectancy (test shown for honesty, not used to choose):
+  5min htf=1h stop=signal_bar 2.0R session=all
+      train n=143 win=37.1% exp=+0.000R | test n=351 win=29.9% exp=-0.145R
+  5min htf=1h stop=signal_bar 2.0R session=london_ny
+      train n=132 win=36.4% exp=-0.011R | test n=243 win=33.3% exp=-0.047R
+  1h htf=4h stop=pullback 2.0R session=london_ny
+      train n=111 win=37.8% exp=-0.030R | test n=139 win=37.4% exp=+0.066R
+  1h htf=- stop=pullback 2.0R session=london_ny
+      train n=142 win=37.3% exp=-0.058R | test n=186 win=37.6% exp=+0.084R
+  5min htf=- stop=pullback 2.0R session=all
+      train n=601 win=36.3% exp=-0.061R | test n=1191 win=34.0% exp=-0.064R
+
+== best_train_expectancy: 5min htf=1h stop=signal_bar 2.0R session=all
+  train: 143 trades (4.2/mo) | win 37.1% | exp +0.000R CI95 [-0.228, +0.232] | PF 1.0 | max DD 24.9R | t=0.0
+  test:  351 trades (10.2/mo) | win 29.9% | exp -0.145R CI95 [-0.287, -0.004] | PF 0.8 | max DD 74.6R | t=-1.99
+  test LONG : 162 trades | win 28.4% | exp -0.184R CI95 [-0.384, +0.028] | PF 0.75 | max DD 37.4R | t=-1.73
+  test SHORT: 189 trades | win 31.2% | exp -0.111R CI95 [-0.302, +0.090] | PF 0.84 | max DD 43.7R | t=-1.11
+  test exits: {'STOP': 245, 'TARGET': 101, 'TIME': 5}
+  by half-year: 2021H1 38/36.8%/-0.01R, 2021H2 14/14.3%/-0.65R, 2022H1 41/36.6%/+0.01R, 2022H2 29/44.8%/+0.22R, 2023H1 14/35.7%/-0.12R, 2023H2 12/58.3%/+0.68R, 2024H1 32/37.5%/+0.08R, 2024H2 27/44.4%/+0.23R, 2025H1 53/35.8%/+0.01R, 2025H2 56/25.0%/-0.28R, 2026H1 144/24.3%/-0.29R, 2026H2 34/29.4%/-0.19R
+  test_prop_0.5pct: {'risk_per_trade_pct': 0.5, 'return_pct': -25.42, 'max_drawdown_pct': 37.3, 'worst_day_pct': -1.58, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  test_prop_0.25pct: {'risk_per_trade_pct': 0.25, 'return_pct': -12.71, 'max_drawdown_pct': 18.65, 'worst_day_pct': -0.79, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  median risk $5.58 | median spread $0.532
+  test with extra commission +$0.2/oz: 351 trades (10.2/mo) | win 29.9% | exp -0.177R CI95 [-0.319, -0.036] | PF 0.76 | max DD 79.7R | t=-2.43
+  test with extra commission +$0.4/oz: 351 trades (10.2/mo) | win 29.9% | exp -0.209R CI95 [-0.351, -0.068] | PF 0.73 | max DD 84.9R | t=-2.87
+
+== best_train_expectancy_with_45pct_win: 15min htf=None stop=pullback 1.0R session=london_ny
+  train: 525 trades (15.5/mo) | win 49.1% | exp -0.063R CI95 [-0.151, +0.021] | PF 0.87 | max DD 39.8R | t=-1.48
+  test:  680 trades (19.7/mo) | win 46.8% | exp -0.074R CI95 [-0.147, +0.001] | PF 0.86 | max DD 59.0R | t=-1.97
+  test LONG : 349 trades | win 47.9% | exp -0.045R CI95 [-0.148, +0.059] | PF 0.91 | max DD 26.2R | t=-0.87
+  test SHORT: 331 trades | win 45.6% | exp -0.104R CI95 [-0.209, +0.002] | PF 0.81 | max DD 49.1R | t=-1.92
+  test exits: {'STOP': 330, 'TARGET': 297, 'TIME': 53}
+  by half-year: 2021H1 102/47.1%/-0.08R, 2021H2 96/56.2%/+0.05R, 2022H1 119/50.4%/-0.01R, 2022H2 108/49.1%/-0.10R, 2023H1 71/39.4%/-0.25R, 2023H2 57/52.6%/-0.00R, 2024H1 85/51.8%/+0.03R, 2024H2 110/40.9%/-0.22R, 2025H1 124/47.6%/-0.07R, 2025H2 122/42.6%/-0.10R, 2026H1 152/56.6%/+0.11R, 2026H2 59/28.8%/-0.41R
+  test_prop_0.5pct: {'risk_per_trade_pct': 0.5, 'return_pct': -25.12, 'max_drawdown_pct': 29.49, 'worst_day_pct': -1.54, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  test_prop_0.25pct: {'risk_per_trade_pct': 0.25, 'return_pct': -12.56, 'max_drawdown_pct': 14.74, 'worst_day_pct': -0.77, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  median risk $5.15 | median spread $0.372
+  test with extra commission +$0.2/oz: 680 trades (19.7/mo) | win 46.6% | exp -0.103R CI95 [-0.176, -0.028] | PF 0.81 | max DD 71.4R | t=-2.75
+  test with extra commission +$0.4/oz: 680 trades (19.7/mo) | win 46.6% | exp -0.132R CI95 [-0.206, -0.057] | PF 0.76 | max DD 90.2R | t=-3.52
+
+== planned_5m_1h_filter: 5min htf=1h stop=pullback 1.5R session=all
+  train: 394 trades (11.6/mo) | win 37.6% | exp -0.142R CI95 [-0.253, -0.029] | PF 0.77 | max DD 63.4R | t=-2.47
+  test:  729 trades (21.1/mo) | win 39.6% | exp -0.053R CI95 [-0.141, +0.033] | PF 0.91 | max DD 55.6R | t=-1.2
+  test LONG : 376 trades | win 39.1% | exp -0.061R CI95 [-0.180, +0.062] | PF 0.9 | max DD 26.2R | t=-0.98
+  test SHORT: 353 trades | win 40.2% | exp -0.045R CI95 [-0.170, +0.084] | PF 0.93 | max DD 39.7R | t=-0.71
+  test exits: {'STOP': 426, 'TARGET': 266, 'TIME': 37}
+  by half-year: 2021H1 88/40.9%/-0.05R, 2021H2 51/27.5%/-0.43R, 2022H1 107/34.6%/-0.18R, 2022H2 81/42.0%/-0.06R, 2023H1 44/43.2%/-0.02R, 2023H2 38/36.8%/-0.13R, 2024H1 84/42.9%/-0.00R, 2024H2 71/43.7%/+0.02R, 2025H1 121/40.5%/-0.05R, 2025H2 142/38.0%/-0.10R, 2026H1 226/38.9%/-0.04R, 2026H2 70/35.7%/-0.12R
+  test_prop_0.5pct: {'risk_per_trade_pct': 0.5, 'return_pct': -19.4, 'max_drawdown_pct': 27.8, 'worst_day_pct': -2.55, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  test_prop_0.25pct: {'risk_per_trade_pct': 0.25, 'return_pct': -9.7, 'max_drawdown_pct': 13.9, 'worst_day_pct': -1.28, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  median risk $5.15 | median spread $0.429
+  test with extra commission +$0.2/oz: 729 trades (21.1/mo) | win 39.5% | exp -0.085R CI95 [-0.173, +0.002] | PF 0.87 | max DD 69.2R | t=-1.91
+  test with extra commission +$0.4/oz: 729 trades (21.1/mo) | win 39.4% | exp -0.116R CI95 [-0.204, -0.029] | PF 0.82 | max DD 87.3R | t=-2.62
+
+== baseline_1h_no_filter: 1h htf=None stop=pullback 1.5R session=all
+  train: 286 trades (8.4/mo) | win 38.1% | exp -0.132R CI95 [-0.263, +0.000] | PF 0.79 | max DD 47.6R | t=-1.94
+  test:  334 trades (9.7/mo) | win 41.9% | exp +0.017R CI95 [-0.110, +0.145] | PF 1.03 | max DD 32.7R | t=0.26
+  test LONG : 197 trades | win 44.2% | exp +0.060R CI95 [-0.110, +0.230] | PF 1.11 | max DD 23.0R | t=0.69
+  test SHORT: 137 trades | win 38.7% | exp -0.044R CI95 [-0.240, +0.150] | PF 0.93 | max DD 17.1R | t=-0.44
+  test exits: {'STOP': 182, 'TARGET': 129, 'TIME': 23}
+  by half-year: 2021H1 53/37.7%/-0.13R, 2021H2 61/39.3%/-0.16R, 2022H1 45/42.2%/+0.01R, 2022H2 58/39.7%/-0.11R, 2023H1 38/31.6%/-0.27R, 2023H2 45/33.3%/-0.20R, 2024H1 46/19.6%/-0.49R, 2024H2 59/40.7%/+0.02R, 2025H1 60/55.0%/+0.34R, 2025H2 66/50.0%/+0.17R, 2026H1 65/43.1%/+0.05R, 2026H2 24/37.5%/-0.13R
+  test_prop_0.5pct: {'risk_per_trade_pct': 0.5, 'return_pct': 2.84, 'max_drawdown_pct': 16.37, 'worst_day_pct': -1.02, 'daily_limit_breaches': 0, 'total_limit_breached': True}
+  test_prop_0.25pct: {'risk_per_trade_pct': 0.25, 'return_pct': 1.42, 'max_drawdown_pct': 8.18, 'worst_day_pct': -0.51, 'daily_limit_breaches': 0, 'total_limit_breached': False}
+  median risk $6.87 | median spread $0.337
+  test with extra commission +$0.2/oz: 334 trades (9.7/mo) | win 41.9% | exp -0.004R CI95 [-0.131, +0.123] | PF 0.99 | max DD 35.8R | t=-0.07
+  test with extra commission +$0.4/oz: 334 trades (9.7/mo) | win 41.9% | exp -0.026R CI95 [-0.152, +0.102] | PF 0.96 | max DD 38.8R | t=-0.39

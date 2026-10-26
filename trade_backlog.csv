@@ -18,9 +18,12 @@ DATE,TRADE_ID,SIGNAL,ENTRY,STOP_LOSS,TAKE_PROFIT,OUTCOME,R_MULTIPLE,PNL_USD,RISK
 2026-07-10,TRADE_017,LONG,4126.5,4108.0,4163.5,LOSS,2.0,-$139.20,0.60,19.26,10,3.07,4128.65,29128.65,-139.20,Graph kept consolidating on a downtrend to hit SL. It didn't trend higher close to TP even | it only managed to slowly reach SL after many hours of consolidation.
 2026-07-30,TRADE_018,LONG,4094.0,4082.0,4118.0,WIN,2.0,+$350,0.83,14.58,10,2.14,4478.65,29478.65,350.00,Graph took a slight dip and then shot up to TP
 2026-08-03,TRADE_019,SHORT,4045.0,4057.5,4020.0,LOSS,2.0,-137.50,0.55,11.00,50,1.51,4341.15,24500.15,-137.50,Graph was consolidating and steadily rose up to sell limit and then went up again straight to SL.
-2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,,,100:1,1.47,-$272,24728,228.00,Graph rose straight up to TP
-2026-08-10,TRADE_021,LONG,4354.50,4343.50,4376.50,WIN,1.0,+$159.10,,,,,-$315.04,24685.96,Graph rose straight to TP.
-2026-08-13,TRADE_022,SHORT,4352,4364,4328,LOSS,2.0,-$111,,,,,-$416.04,24584.96,Graph rose to SL immediately.
-2026-08-17,TRADE_023,LONG,4428.40,4415.80,4453.60,LOSS,2.0,-$180.00,180.00,14.2857,50,2.14,-$596.04,24387.67,-180.00,Graph reached the buy stop then plummeted down to SL
-2026-08-21,TRADE_024,LONG,4567.00,4552.00,4597.00,WIN,2.0,+$330.11,164.89,10.9927,10,2.06,-$265.93,24716.93,330.11,15M bull flag breakout filled the buy stop and hit T1 
-2026-08-28,TRADE_025,SHORT,4477.10,4469.41,4443.71,WIN,2.0,92.00,,,,,,24840.00,92.00,"Price moved in the predicted bearish direction and came within a very small margin of TP, but TP was not hit. The position was manually closed later for a realized profit of +$92 instead of the approximately +$330 available near TP. The directional thesis was valid, but profit capture was inefficient; closer monitoring or an earlier manual exit could have secured more of the move.
+2026-08-05,TRADE_020,LONG,4024.0,4226.5,4267.0,WIN,2.0,+$228.0,190.01,0.9383,10,1.47,4569.15,24728,228.00,Graph rose straight up to TP
+2026-08-10,TRADE_021,LONG,4354.50,4343.50,4376.50,WIN,1.0,+$159.10,79.55,7.2318,10,1.26,4728.25,24685.96,159.10,Graph rose straight to TP.
+2026-08-13,TRADE_022,SHORT,4352,4364,4328,LOSS,2.0,-$111,,,,,4617.25,24584.96,-111.00,Graph rose to SL immediately.
+2026-08-17,TRADE_023,LONG,4428.40,4415.80,4453.60,LOSS,2.0,-$180.00,180.00,14.2857,50,2.14,4437.25,24387.67,-180.00,Graph reached the buy stop then plummeted down to SL
+2026-08-21,TRADE_024,LONG,4567.00,4552.00,4597.00,WIN,2.0,+$330.11,164.89,10.9927,10,2.06,4767.36,24717.78,330.11,15M bull flag breakout filled the buy stop and hit T1
+2026-08-28,TRADE_025,SHORT,4477.10,4469.41,4443.71,WIN,2.0,92.00,21.19,2.7553,1,0.49,4859.36,24753.00,92.00,"Price moved in the predicted bearish direction and came within a very small margin of TP, but TP was not hit. The position was manually closed later for a realized profit of +$92 instead of the approximately +$330 available near TP. The directional thesis was valid, but profit capture was inefficient; closer monitoring or an earlier manual exit could have secured more of the move."
+2026-09-03,TRADE_026,LONG,4491,4474,4525,LOSS,2.0,-181.00,,,,,4678.36,24680.00,-181.00,Before giving a long signal | Opus waited until 3 large green candles passed and decided against trading them for long positions. Upon entry on the 4th smaller green candle | The graph rejected a future long position and dove straight to SL.
+2026-09-15,TRADE_027,SHORT,4271,4287,4248,LOSS,2.0,-168.00,,,,,4510.36,-168.00,-168.00,Trade was entered 3 candles in a big dip | then the graph flipped to trend upwards and hit SL right after
+2026-09-15,TRADE_028,LONG,4372.50,4352.50,4412.50,LOSS,2.0,-$180.00,,,,,4330.36,$23840,-348.00,

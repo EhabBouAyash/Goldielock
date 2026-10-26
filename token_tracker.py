@@ -9,6 +9,7 @@ from datetime import datetime
 
 TOKEN_LOG_PATH = Path(__file__).resolve().parent / "token_usage.jsonl"
 TOKEN_STATS_PATH = Path(__file__).resolve().parent / "token_stats.json"
+STAGE_LATENCY_PATH = Path(__file__).resolve().parent / "stage_latency.jsonl"
 
 def log_token_usage(event_type, input_tokens=None, output_tokens=None, total_tokens=None, cost_usd=None, details=None):
     """
@@ -36,13 +37,39 @@ def log_token_usage(event_type, input_tokens=None, output_tokens=None, total_tok
     with open(TOKEN_LOG_PATH, 'a') as f:
         f.write(json.dumps(entry) + "\n")
 
-def calculate_cost(input_tokens, output_tokens, model="claude-3-5-sonnet"):
+def log_stage_latency(stage, duration_seconds, details=None):
+    """Record how long one pipeline stage took, including blocked and failed runs."""
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "stage": stage,
+        "duration_seconds": round(float(duration_seconds), 3),
+        "details": details or {},
+    }
+    with open(STAGE_LATENCY_PATH, "a", encoding="utf-8") as handle:
+        handle.write(json.dumps(entry) + "\n")
+    return entry
+
+
+def calculate_cost(input_tokens, output_tokens, model="claude-3-5-sonnet", cached_input_tokens=0):
     """Calculate estimated cost in USD."""
+    input_tokens = input_tokens or 0
+    output_tokens = output_tokens or 0
+    cached_input_tokens = min(cached_input_tokens or 0, input_tokens)
+    if model == "gpt-6.1-sol":
+        fresh_input = input_tokens - cached_input_tokens
+        cost = (
+            fresh_input * (2.0 / 1_000_000)
+            + cached_input_tokens * (0.10 / 1_000_000)
+            + output_tokens * (10.0 / 1_000_000)
+        )
+        return round(cost, 6)
     # Pricing per 1M tokens (thinking tokens are billed as output).
     rates = {
         "claude-3-5-sonnet": (3.0, 15.0),
         "claude-opus-5": (5.0, 25.0),
         "claude-opus-4-8": (5.0, 25.0),
+        # Gemini 3.8 Flash introductory pricing through 2026-12-31.
+        "gemini-3.8-flash": (0.75, 3.75),
     }
     input_rate, output_rate = rates.get(model, (0.0, 0.0))
     input_cost = input_tokens * (input_rate / 1_000_000)

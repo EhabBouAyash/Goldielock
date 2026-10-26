@@ -1,18 +1,19 @@
 """
 Reliable market data fetcher for XAUUSD and DXY.
 
-Bypasses yfinance SSL issues by calling Yahoo Finance chart API directly with
-verify=False, and provides multiple fallback data sources.
+Yahoo chart calls may skip SSL verification because of a local certificate
+problem. Those calls are contextual research only. An actionable gold quote
+never uses that bypass and never treats GC=F as a broker price.
 
 Data sources:
 - DXY: Yahoo chart API (DX-Y.NYB) with SSL bypass, or synthetic from FX rates
 - XAUUSD intraday bars: Yahoo chart API (GC=F as chart proxy) with SSL bypass
-- XAUUSD spot price: gold-api.com (used as the decision/logging price)
+- XAUUSD spot price: gold-api.com as an external reference, not a broker order price
 """
 
 import math
 import warnings
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import pandas as pd
@@ -224,43 +225,89 @@ def _gc_f_last_close() -> float | None:
     return None
 
 
+def describe_external_quote(
+    price: float | None,
+    *,
+    source: str,
+    is_fallback: bool,
+    observation_time: str | None = None,
+    received_time: str | None = None,
+    bid: Any = None,
+    ask: Any = None,
+    instrument: str = "XAU",
+) -> dict[str, Any]:
+    """A website price or a futures print. It cannot be used as the order price."""
+    return {
+        "price": price,
+        "last": price,
+        "bid": bid,
+        "ask": ask,
+        "source": source,
+        "instrument": instrument,
+        "role": "external_reference",
+        "observation_time": observation_time,
+        "received_time": received_time,
+        "execution_eligible": False,
+        "is_fallback": is_fallback,
+    }
+
+
+def fetch_actionable_broker_quote() -> dict[str, Any] | None:
+    """Live broker quote only. This path does not call Yahoo and does not skip SSL checks."""
+    from broker_account_feed import read_broker_quote
+
+    return read_broker_quote()
+
+
 def fetch_xauusd_spot_snapshot() -> dict[str, Any]:
     """
-    Fetch XAUUSD spot price for execution/logging.
+    Fetch a contextual XAUUSD price for display and research.
 
-    Primary: gold-api.com. Fallback: GC=F last close (Yahoo chart, SSL bypass).
+    Primary: gold-api.com. Fallback: GC=F last close. Neither one is executable.
     """
+    received = datetime.now(timezone.utc).isoformat()
     data = _gold_api_get("XAU")
     if data and data.get("price"):
-        return {
-            "price": round(float(data["price"]), 2),
-            "bid": data.get("bid"),
-            "ask": data.get("ask"),
+        quote = describe_external_quote(
+            round(float(data["price"]), 2),
+            source="gold-api XAU",
+            is_fallback=False,
+            observation_time=data.get("updatedAt"),
+            received_time=received,
+            bid=data.get("bid"),
+            ask=data.get("ask"),
+        )
+        quote.update({
             "change": data.get("ch"),
             "change_pct": data.get("chp"),
             "open": None,
             "high": None,
             "low": None,
-            "source": "gold-api XAU",
             "updated_at": data.get("updatedAt"),
-        }
+        })
+        return quote
 
     proxy_close = _gc_f_last_close()
     if proxy_close:
-        return {
-            "price": proxy_close,
-            "bid": None,
-            "ask": None,
+        quote = describe_external_quote(
+            proxy_close,
+            source="GC=F chart proxy (gold-api unavailable)",
+            is_fallback=True,
+            observation_time=None,
+            received_time=received,
+            instrument="GC=F",
+        )
+        quote.update({
             "change": None,
             "change_pct": None,
             "open": None,
             "high": None,
             "low": None,
-            "source": "GC=F chart proxy (gold-api unavailable)",
             "fallback": True,
-        }
+        })
+        return quote
 
-    return {"price": None, "source": "unavailable"}
+    return describe_external_quote(None, source="unavailable", is_fallback=True, received_time=received)
 
 
 def fetch_metals_spot_prices() -> dict[str, dict[str, Any]]:

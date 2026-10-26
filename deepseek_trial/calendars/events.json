@@ -1,1 +1,14 @@
-{"as_of_utc": "2026-09-28T00:00:00Z", "events": []}
+{
+  "as_of_utc": "2026-09-28T00:00:00Z",
+  "note": "Official NY local times from GOLD-OCT26-v1. Converted assuming US EDT (UTC-4) in October 2026. Load the provider list before live paper; do not let an LLM invent times.",
+  "events": [
+    {"title": "Employment Situation / NFP", "start_utc": "2026-10-02T12:30:00Z", "end_utc": "2026-10-02T12:30:00Z"},
+    {"title": "FOMC minutes", "start_utc": "2026-10-07T18:00:00Z", "end_utc": "2026-10-07T18:00:00Z"},
+    {"title": "US holiday (Columbus Day) — tag for liquidity review, not a high-impact flatten", "start_utc": "2026-10-12T13:30:00Z", "end_utc": "2026-10-12T20:00:00Z", "tag_only": true},
+    {"title": "CPI", "start_utc": "2026-10-14T12:30:00Z", "end_utc": "2026-10-14T12:30:00Z"},
+    {"title": "PPI", "start_utc": "2026-10-15T12:30:00Z", "end_utc": "2026-10-15T12:30:00Z"},
+    {"title": "FOMC decision + press conference", "start_utc": "2026-10-28T18:00:00Z", "end_utc": "2026-10-28T18:30:00Z", "block_afternoon": true},
+    {"title": "Advance Q3 GDP and PCE", "start_utc": "2026-10-29T12:30:00Z", "end_utc": "2026-10-29T12:30:00Z"},
+    {"title": "Employment Cost Index", "start_utc": "2026-10-30T12:30:00Z", "end_utc": "2026-10-30T12:30:00Z"}
+  ]
+}

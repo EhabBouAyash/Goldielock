@@ -13,6 +13,7 @@ import pandas as pd
 from fetch_intraday import fetch_intraday_bars, save_intraday_data, get_intraday_summary
 from token_tracker import update_token_stats, get_token_stats, log_token_usage
 from email_notifier import send_email
+from trade_plan_state import cycle_busy
 
 MONITOR_LOG_PATH = Path(__file__).resolve().parent / "monitor.log"
 TREND_DASHBOARD_PATH = Path(__file__).resolve().parent / "trend_dashboard.json"
@@ -39,6 +40,12 @@ def log_monitor_event(event_type, message, details=None):
 def run_trading_prediction():
     """Execute generate_insights.py with trading option."""
     try:
+        if cycle_busy():
+            log_monitor_event(
+                "PREDICTION_SKIPPED",
+                "Another gold cycle is already running. This run published nothing.",
+            )
+            return {"status": "skipped"}
         log_monitor_event("PREDICTION_START", "Running trading predictions...")
         
         result = subprocess.run(
@@ -46,7 +53,7 @@ def run_trading_prediction():
             cwd=GOLD_PROJECT_DIR,
             capture_output=True,
             text=True,
-            timeout=120
+            timeout=600,
         )
         
         if result.returncode == 0:
@@ -64,7 +71,7 @@ def run_trading_prediction():
                 "error": result.stderr[-500:] if result.stderr else "Unknown error"
             }
     except subprocess.TimeoutExpired:
-        log_monitor_event("PREDICTION_TIMEOUT", "Prediction script exceeded 120s timeout")
+        log_monitor_event("PREDICTION_TIMEOUT", "Prediction script exceeded 600s deadline")
         return {"status": "timeout"}
     except Exception as e:
         log_monitor_event("PREDICTION_EXCEPTION", str(e))
@@ -104,6 +111,8 @@ def update_trend_dashboard():
         dashboard = {
             "timestamp": datetime.now().isoformat(),
             "summary": {
+                "population": "directional_comparison",
+                "note": "These counts compare a later price with an old signal. They are not closed-trade results.",
                 "total_signals": int(total_signals),
                 "correct_signals": int(correct_signals),
                 "overall_accuracy": round(correct_signals / max(total_signals, 1) * 100, 2),

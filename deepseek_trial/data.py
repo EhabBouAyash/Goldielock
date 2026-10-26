@@ -1,87 +1,112 @@
-"""OHLC loaders for paper replay. Not a FundedNext quote feed."""
+"""M5 gold history and H4 warmup for GOLD-OCT26-v1.
+
+Yahoo GC=F last-trade OHLC is a chart proxy, not bid/ask midpoint from the
+intended execution feed. The source string says so.
+"""
 from __future__ import annotations
 
+import pickle
+import time
 from pathlib import Path
 
 import pandas as pd
 import requests
 
-from deepseek_trial.config import PACKAGE_DIR, ROOT
+from deepseek_trial.bars import ensure_utc, resample_ohlc
+from deepseek_trial.config import PACKAGE_DIR
 
 CACHE = PACKAGE_DIR / "data"
-GOLD_HOUR_PARQUET = ROOT / "brooks_h2_l2" / "research" / "gcf_1h_730d.parquet"
+HEADERS = {"User-Agent": "Mozilla/5.0"}
 
 
-def _ensure_utc_index(df: pd.DataFrame) -> pd.DataFrame:
-    out = df.copy()
-    idx = pd.to_datetime(out.index)
-    if idx.tz is None:
-        idx = idx.tz_localize("UTC")
-    else:
-        idx = idx.tz_convert("UTC")
-    out.index = idx
-    return out.sort_index()
-
-
-def gold_hourly() -> tuple[pd.DataFrame, str]:
-    """Prefer local GC=F 1h cache; otherwise Yahoo GC=F. Label the source."""
-    if GOLD_HOUR_PARQUET.is_file():
-        df = pd.read_parquet(GOLD_HOUR_PARQUET)
-        df = _ensure_utc_index(df)[["open", "high", "low", "close"]]
-        df = df[~df.index.duplicated(keep="last")]
-        return df.dropna(), f"parquet:{GOLD_HOUR_PARQUET.name}"
-    return yahoo_ohlc("GC=F", "1h", "730d")
-
-
-def gold_daily_et() -> tuple[pd.DataFrame, str]:
-    """Broker-style daily bars: 17:00 America/New_York session from hourly gold."""
-    hours, source = gold_hourly()
-    ny = hours.tz_convert("America/New_York")
-    daily = ny.resample("1D", label="left", closed="left", offset="17h").agg(
-        {"open": "first", "high": "max", "low": "min", "close": "last"}
-    ).dropna()
-    daily.index = daily.index.tz_convert("UTC")
-    return daily, f"{source}|resample:17h_ET"
-
-
-def btc_daily_utc() -> tuple[pd.DataFrame, str]:
-    return yahoo_ohlc("BTC-USD", "1d", "max")
-
-
-def yahoo_ohlc(symbol: str, interval: str, period: str) -> tuple[pd.DataFrame, str]:
-    """Yahoo chart API via requests (yfinance is optional)."""
-    CACHE.mkdir(parents=True, exist_ok=True)
-    range_map = {"max": "10y", "730d": "2y", "1h": "60d"}
-    yf_range = range_map.get(period, period)
-    url = (
-        "https://query1.finance.yahoo.com/v8/finance/chart/"
-        f"{symbol}?interval={interval}&range={yf_range}&includePrePost=false"
+def _chart_url(symbol: str, interval: str, span: str) -> str:
+    return (
+        f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+        f"?interval={interval}&range={span}&includePrePost=true"
     )
-    try:
-        resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-        resp.raise_for_status()
-        result = resp.json()["chart"]["result"][0]
-        ts = result["timestamp"]
-        q = result["indicators"]["quote"][0]
-        idx = pd.to_datetime(ts, unit="s", utc=True)
-        df = pd.DataFrame(
-            {"open": q["open"], "high": q["high"], "low": q["low"], "close": q["close"]},
-            index=idx,
-        ).dropna()
-        df = _ensure_utc_index(df)
-        if df.empty:
-            raise RuntimeError("empty yahoo chart")
-        return df, f"yahoo_chart:{symbol}:{interval}:{yf_range}"
-    except Exception:
-        import yfinance as yf
 
-        raw = yf.download(symbol, interval=interval, period=period, progress=False, auto_adjust=True)
-        if raw is None or raw.empty:
-            raise RuntimeError(f"yfinance returned no rows for {symbol} {interval}")
-        if isinstance(raw.columns, pd.MultiIndex):
-            raw.columns = [c[0].lower() for c in raw.columns]
-        else:
-            raw.columns = [str(c).lower() for c in raw.columns]
-        df = raw[["open", "high", "low", "close"]].dropna()
-        df = _ensure_utc_index(df)
-        return df, f"yfinance:{symbol}:{interval}:{period}"
+
+def _fetch_ohlc(symbol: str, interval: str, span: str) -> pd.DataFrame:
+    resp = requests.get(_chart_url(symbol, interval, span), timeout=60, headers=HEADERS)
+    resp.raise_for_status()
+    result = resp.json()["chart"]["result"][0]
+    ts = result["timestamp"]
+    q = result["indicators"]["quote"][0]
+    idx = pd.to_datetime(ts, unit="s", utc=True)
+    df = pd.DataFrame(
+        {"open": q["open"], "high": q["high"], "low": q["low"], "close": q["close"]},
+        index=idx,
+    ).dropna()
+    df = ensure_utc(df)
+    return df[~df.index.duplicated(keep="last")].sort_index()
+
+
+def _cache_load(path: Path, max_age_hours: float) -> pd.DataFrame | None:
+    if not path.is_file():
+        return None
+    if time.time() - path.stat().st_mtime > max_age_hours * 3600:
+        return None
+    try:
+        with path.open("rb") as handle:
+            return pickle.load(handle)
+    except (OSError, pickle.PickleError, EOFError):
+        return None
+
+
+def _cache_save(path: Path, df: pd.DataFrame) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as handle:
+        pickle.dump(df, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def gold_m5() -> tuple[pd.DataFrame, str]:
+    """Yahoo GC=F 5-minute last-trade bars (not XAUUSD bid/ask midpoint)."""
+    path = CACHE / "gc_f_m5_60d.pkl"
+    cached = _cache_load(path, 6)
+    if cached is not None and len(cached) > 100:
+        return cached, "yahoo_chart:GC=F:5m:60d:last_trade_ohlc_not_midpoint (cache)"
+    df = _fetch_ohlc("GC=F", "5m", "60d")
+    _cache_save(path, df)
+    return df, "yahoo_chart:GC=F:5m:60d:last_trade_ohlc_not_midpoint"
+
+
+def gold_h4_history() -> tuple[pd.DataFrame, str]:
+    """H4 from GC=F 1-hour bars so EMA warmup can reach 300 completed H4 candles.
+
+    5-minute Yahoo history is only ~60 days (~300 H4 bars). The spec requires 300 H4
+    of warm-up before trial decisions; without this longer H4 series a 5m replay
+    would evaluate only the last day. Same symbol, last-trade OHLC, labelled mix.
+    """
+    path = CACHE / "gc_f_h4_from_1h.pkl"
+    cached = _cache_load(path, 12)
+    if cached is not None and len(cached) > 300:
+        return cached, "yahoo_chart:GC=F:1h:730d->H4 (cache)"
+    df = None
+    used = ""
+    for span in ("730d", "2y", "1y"):
+        try:
+            raw = _fetch_ohlc("GC=F", "1h", span)
+            if len(raw) > 500:
+                df = raw
+                used = span
+                break
+        except (requests.RequestException, KeyError, IndexError, TypeError, ValueError):
+            continue
+    if df is None:
+        return pd.DataFrame(columns=["open", "high", "low", "close"]), "yahoo_chart:GC=F:1h:MISSING"
+    h4 = resample_ohlc(df, "4h", origin="epoch")
+    _cache_save(path, h4)
+    return h4, f"yahoo_chart:GC=F:1h:{used}->H4:last_trade_ohlc_not_midpoint"
+
+
+def merge_h4(h4_hist: pd.DataFrame, h4_live: pd.DataFrame) -> pd.DataFrame:
+    """Older 1h-derived H4, then 5m-derived H4 for the replay window (5m wins on overlap)."""
+    if h4_hist is None or len(h4_hist) == 0:
+        return h4_live
+    if len(h4_live) == 0:
+        return ensure_utc(h4_hist)
+    live = ensure_utc(h4_live)
+    hist = ensure_utc(h4_hist)
+    older = hist[hist.index < live.index[0]]
+    out = pd.concat([older, live])
+    return out[~out.index.duplicated(keep="last")].sort_index()

@@ -1,0 +1,108 @@
+GOLD-ORB-v2
+Status: unvalidated research specification.
+This file freezes the rules before anyone measures them.
+It is not a claim that the rules make money, and it is not permission to raise risk.
+
+Job of the system
+  Fixed code decides whether the data is usable, whether a setup exists,
+  where the stop and target go, and how large the trade may be.
+  A language model may explain the decision afterward.
+  It may not change the direction, the stop, the size, or a NO-TRADE.
+
+Market
+  The tradable price is the exact XAUUSD symbol on the FundedNext MT5 account.
+  Yahoo GC=F, a saved snapshot, and a daily yield are background only.
+  If the MT5 bars or the current bid/ask are missing or old: DATA_INVALID, then NO-TRADE.
+  The last closed 5-minute bar must be no older than 6 minutes.
+  A live quote must be no older than 5 seconds.
+  The candle that is still forming is never a signal.
+
+Bars
+  Closed 5-minute bars for the setup.
+  Closed 1-hour bars only when the hourly filter is turned on.
+  A higher-timeframe candle that has not closed yet is ignored.
+
+Session, Europe/London, weekdays
+  Opening range: 08:00 up to but not including 08:30.
+  The range needs all six 5-minute bars. A missing bar cancels the day.
+  Entries: 08:30 up to but not including 10:30.
+  Flat by 11:00. No new trade at the deadline.
+
+Setup
+  Breakout: a closed 5-minute bar closes outside the opening range.
+  Retest: within the next three 5-minute bars, price touches the broken edge
+  and the bar closes back on the breakout side.
+  The breakout bar itself is not the retest.
+  Entry in a replay: the open of the next 5-minute bar, treated as a mid,
+  then worsened by half the spread and by slippage.
+  Entry live: the MT5 ask for a long, or the bid for a short, plus slippage.
+  One filled trade per day. No adding, no averaging.
+  Once a setup is filled, rejected, or expired, a later cycle cannot rebuild it.
+
+Hourly filter, variant orb_h1_trend (the default specification)
+  Long: last closed 1-hour close is above EMA50, and EMA20 is above EMA50.
+  Short: the mirror image.
+  If those hourly values are not ready, NO-TRADE.
+  Variant orb_only is the same setup with this filter turned off.
+  Test orb_only and orb_h1_trend separately. Do not blend them into a third rule.
+  VWAP is not part of this version.
+
+Stop, target, costs
+  Stop: just beyond the retest bar's extreme by 0.10 times the closed 5-minute ATR14.
+  A trade with no protective stop is invalid.
+  Target: 2R from the actual entry to that stop.
+  No entry if that target sits beyond the prior day's opposing high (longs)
+  or opposing low (shorts). The prior day must already be known.
+  No entry if estimated round-trip friction is more than 0.10R.
+  If the stop and the target could both have been hit on the same bar, count the stop.
+  If the bar opens through the stop, exit at the open, not at the stop.
+
+Risk on a $25,000 account
+  Starting risk budget: 0.25% of the starting balance, which is $62.50.
+  Do not size from the 1% ($250) cap.
+  The budget is then the smallest of:
+    that $62.50,
+    daily room left under the $750 hard loss, minus a $25 buffer,
+    room left above the $23,500 equity floor, minus a $25 buffer,
+    room left in the one-idea cap, minus a $10 buffer.
+  Open trades and pending orders count as exposure. A second idea is NO-TRADE.
+  Round the lot size down. If the smallest lot does not fit, NO-TRADE.
+  Live sizing should use MT5's profit and margin calculations when the terminal
+  is connected. This code never calls order_send.
+
+News
+  The calendar file is mandatory. If it is missing or unreadable: NO-TRADE.
+  No new entry from 30 minutes before a timed event until 30 minutes after.
+  An event marked tag_only does not block.
+  An event marked block_afternoon stays blocked until 21:00 New York.
+  A position is closed from 15 minutes before the event.
+  Profit earned while the hold overlaps a restricted window is not counted as
+  payout-eligible profit. A loss still counts.
+  Headlines are deduplicated notes. A headline cannot approve a trade.
+  A headline with no timestamp is unusable as a timed event.
+
+Account
+  MT5 balance, equity, margin, positions, pending orders, and deal history
+  are the authority.
+  The handwritten trade backlog is a note. It does not set equity or loss room.
+  A withdrawal is not a trading loss. If the cash movements do not reconcile
+  to the balance within $1, NO-TRADE.
+  If the broker's daily reset time is unknown, NO-TRADE.
+  If any open or pending order has no stop, NO-TRADE.
+  Holds shorter than 5 minutes are flagged. Gains on those holds are not
+  counted as payout-eligible until the account terms confirm the rule.
+  Automation stays manual in this package even if a flag says an EA might be allowed.
+
+What is recorded
+  A signal row (created, rejected, or expired) is not a trade result.
+  An outcome row is written once: fill, stop, target, exit reason, cost,
+  slippage, the worst and best move while open, rule flags, and payout-eligible
+  profit. Comparing this signal with the previous signal is not an evaluation.
+
+What this version refuses to do
+  It does not treat a 50/20/12/10/8 score as an edge.
+  It does not treat yesterday's real yield as a five-minute confirmation.
+  It does not let a saved snapshot approve a fresh trade.
+  It does not let an explanation override a failed check.
+  It does not add VWAP, and it does not mix several strategies into one system
+  before any one of them has been measured on its own.

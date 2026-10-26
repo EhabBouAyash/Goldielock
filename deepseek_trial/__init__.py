@@ -1,4 +1,5 @@
-"""Paper-only T1/T2/T3 trial. No funded-account connection."""
+"""GOLD-OCT26-v1 paper trial: strategies A, B, C. No funded-account connection."""
 
-SPEC_VERSION = "2.0"
-MODEL_NAME = "deepseek-v4-pro"
+from deepseek_trial.config import SPEC_VERSION
+
+__all__ = ["SPEC_VERSION"]

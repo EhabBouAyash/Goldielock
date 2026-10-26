@@ -1,0 +1,24 @@
+
+5min htf=1h stop=pullback 1.5R session=all
+  H2/L2 with costs       n= 1123 win= 38.9% exp=-0.084R CI95=[-0.152, -0.014]
+  H2/L2 zero cost        n= 1001 win= 42.9% exp=+0.043R CI95=[-0.03, 0.116]
+  reversed, zero cost    n=   93 win= 43.0% exp=+0.065R CI95=[-0.184, 0.317]
+  random, zero cost      mean exp over 20 seeds -0.011R (range -0.072 .. +0.070)
+
+15min htf=None stop=pullback 1.0R session=london_ny
+  H2/L2 with costs       n= 1205 win= 47.8% exp=-0.069R CI95=[-0.126, -0.013]
+  H2/L2 zero cost        n= 1107 win= 51.9% exp=+0.046R CI95=[-0.011, 0.102]
+  reversed, zero cost    n=  113 win= 50.4% exp=-0.010R CI95=[-0.205, 0.18]
+  random, zero cost      mean exp over 20 seeds -0.012R (range -0.069 .. +0.061)
+
+1h htf=None stop=pullback 1.5R session=all
+  H2/L2 with costs       n=  620 win= 40.2% exp=-0.052R CI95=[-0.148, 0.039]
+  H2/L2 zero cost        n=  589 win= 43.1% exp=+0.040R CI95=[-0.057, 0.134]
+  reversed, zero cost    n=   84 win= 45.2% exp=+0.081R CI95=[-0.185, 0.355]
+  random, zero cost      mean exp over 20 seeds -0.010R (range -0.099 .. +0.143)
+
+1h htf=None stop=pullback 2.0R session=all
+  H2/L2 with costs       n=  613 win= 36.5% exp=-0.001R CI95=[-0.108, 0.108]
+  H2/L2 zero cost        n=  581 win= 39.1% exp=+0.090R CI95=[-0.022, 0.201]
+  reversed, zero cost    n=   84 win= 38.1% exp=+0.047R CI95=[-0.254, 0.363]
+  random, zero cost      mean exp over 20 seeds -0.007R (range -0.078 .. +0.166)

@@ -15,6 +15,7 @@ TRADE_BACKLOG_PATH = Path(__file__).resolve().parent / "trade_backlog.txt"
 TREND_DASHBOARD_PATH = Path(__file__).resolve().parent / "trend_dashboard.json"
 TOKEN_STATS_PATH = Path(__file__).resolve().parent / "token_stats.json"
 INTRADAY_DATA_PATH = Path(__file__).resolve().parent / "intraday_data.json"
+AUTHORITATIVE_PLAN_PATH = Path(__file__).resolve().parent / "gold_authoritative_plan.json"
 
 def read_latest_signal():
     """Read the latest signal from signal_log.csv"""
@@ -88,24 +89,56 @@ def safe_get(d, *keys, default="N/A"):
             return default
     return d if d is not None else default
 
+def read_authoritative_plan():
+    """The only card that email is allowed to describe as actionable."""
+    try:
+        if AUTHORITATIVE_PLAN_PATH.exists():
+            with open(AUTHORITATIVE_PLAN_PATH, "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            return payload if isinstance(payload, dict) else None
+    except Exception as exc:
+        return {"status": "UNREADABLE", "detail": str(exc)}
+    return None
+
+
 def format_email_body():
     """Build the formatted email body with all data"""
     
+    plan = read_authoritative_plan() or {}
     signal = read_latest_signal() or {}
     trends = read_trend_stats() or {}
     tokens = read_token_stats() or {}
     intraday = read_intraday_data() or {}
     trades = read_trade_backlog() or []
     
-    # Signal info
-    signal_type = "LONG 📈" if signal.get('LONG') == '1' else ("SHORT 📉" if signal.get('SHORT') == '1' else "NEUTRAL ➡️")
-    gold_price = safe_get(signal, 'GOLD_PRICE', default='N/A')
-    confidence = safe_get(signal, 'CONFIDENCE', default='N/A')
-    entry_low = safe_get(signal, 'ENTRY_LOW', default='N/A')
-    entry_high = safe_get(signal, 'ENTRY_HIGH', default='N/A')
-    target1 = safe_get(signal, 'TARGET1', default='N/A')
-    target2 = safe_get(signal, 'TARGET2', default='N/A')
-    stop_loss = safe_get(signal, 'STOP_LOSS', default='N/A')
+    # Only a checked, unexpired advisory is allowed to look like a recommendation.
+    proposal = plan.get("proposal") if isinstance(plan.get("proposal"), dict) else {}
+    active = plan.get("status") == "VALIDATED_ADVISORY"
+    if active:
+        signal_type = proposal.get("decision") or "VALIDATED"
+        gold_price = "see broker quote at entry"
+        confidence = proposal.get("confidence_label") or "n/a"
+        entry_low = proposal.get("entry_low", "N/A")
+        entry_high = proposal.get("entry_high", "N/A")
+        target1 = proposal.get("target_reference", "N/A")
+        target2 = "n/a"
+        stop_loss = proposal.get("stop_reference", "N/A")
+    else:
+        signal_type = "NEUTRAL" if proposal.get("decision") in {"WAIT", "NO_TRADE", None} else "NO ACTIVE CARD"
+        gold_price = "n/a"
+        confidence = proposal.get("confidence_label") or plan.get("status") or "NONE"
+        entry_low = "withheld"
+        entry_high = "withheld"
+        target1 = "withheld"
+        target2 = "withheld"
+        stop_loss = "withheld"
+    plan_id = plan.get("plan_id") or "none"
+    snapshot_time = plan.get("snapshot_time") or "unknown"
+    expires = plan.get("expires_at") or "not active"
+    macro_role = plan.get("macro_role") or "unknown"
+    reasons = ", ".join(str(item) for item in (plan.get("blocking_reasons") or [])) or "none"
+    model_reason = str(proposal.get("reconciliation_summary") or "").strip() or "The model did not write out why it stayed neutral."
+    reason_section = f"\nREASON\n{model_reason}\n" if signal_type == "NEUTRAL" else ""
     
     # Intraday data
     price_5m = safe_get(intraday, 'intervals', '5m', 'current_price', default='N/A')
@@ -161,16 +194,24 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}
 
 ═════════════════════════════════════════════════════════════
 
-🎯 CURRENT PREDICTION
+🎯 CURRENT CARD
 
-Signal: {signal_type}
-Confidence: {confidence}
-Gold Price: ${gold_price}
+Status: {signal_type}
+Plan ID: {plan_id}
+Snapshot time: {snapshot_time}
+Expires: {expires}
+Macro role: {macro_role}
+Blocking reasons: {reasons}
+Confidence label: {confidence}
+Reference price: {gold_price}
 
-Entry Range: ${entry_low} - ${entry_high}
-Target 1: ${target1}
-Target 2: ${target2}
-Stop Loss: {stop_loss}
+Permitted entry zone: {entry_low} to {entry_high}
+Target reference: {target1}
+Second target: {target2}
+Stop reference: {stop_loss}
+{reason_section}
+An expired card, a research note, or a raw model idea is historical information.
+It is not an active recommendation. Re-check before acting. The software does not send orders.
 
 ═════════════════════════════════════════════════════════════
 
@@ -182,7 +223,7 @@ Stop Loss: {stop_loss}
 
 ═════════════════════════════════════════════════════════════
 
-📈 TREND STATISTICS (Model Accuracy)
+📈 DIRECTIONAL COMPARISONS (not closed-trade results)
 
 Overall Accuracy: {overall_acc}%
 Total Signals: {total_sigs}

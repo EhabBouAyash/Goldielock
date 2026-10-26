@@ -1,0 +1,21 @@
+{
+  "profile_id": "research_unverified",
+  "programme": null,
+  "phase": "research",
+  "initial_balance": null,
+  "account_currency": null,
+  "daily_loss_rule": null,
+  "overall_loss_rule": null,
+  "cumulative_risk_rule": null,
+  "server_reset_schedule": {
+    "timezone": "Europe/Athens",
+    "hour": 0,
+    "minute": 0,
+    "note": "Broker midnight, not this computer's midnight. Research mode still does not authorize a live card."
+  },
+  "internal_reserves_usd": null,
+  "risk_policy_version": "2026-10-12",
+  "advisory_permissions": "research_only",
+  "automation_permissions": "prohibited",
+  "order_submission": false
+}

@@ -1,0 +1,32 @@
+{
+  "profile_id": "stellar_1step_25k",
+  "programme": "FundedNext Stellar 1-Step",
+  "phase": "challenge",
+  "initial_balance": 25000,
+  "account_currency": "USD",
+  "daily_loss_rule": {
+    "soft_usd": 625,
+    "hard_usd": 750,
+    "includes_floating": true
+  },
+  "overall_loss_rule": {
+    "soft_usd": 1250,
+    "hard_usd": 1500,
+    "equity_floor_usd": 23500
+  },
+  "cumulative_risk_rule": {
+    "max_open_risk_fraction_of_daily_soft": 0.5,
+    "note": "Open risk is the further loss from current price to existing stops, not a second copy of floating loss."
+  },
+  "server_reset_schedule": {
+    "timezone": "Europe/Athens",
+    "hour": 0,
+    "minute": 0,
+    "note": "FundedNext daily loss uses server midnight (GMT+2 or GMT+3), not the laptop clock."
+  },
+  "internal_reserves_usd": 25,
+  "risk_policy_version": "2026-10-12",
+  "advisory_permissions": "manual_review_only",
+  "automation_permissions": "prohibited",
+  "order_submission": false
+}

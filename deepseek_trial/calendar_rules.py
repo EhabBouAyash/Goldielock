@@ -1,20 +1,17 @@
-"""Session, weekend, and high-impact windows. Calendar absence blocks entries."""
+"""News blackouts, shock pause, session clocks. LLM must not invent event times."""
 from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
-from deepseek_trial.config import (
-    ENTRY_BLOCK_END_HOUR,
-    ENTRY_BLOCK_START_HOUR,
-    NEWS_BUFFER_MIN,
-    NO_ENTRY_BEFORE_WEEKEND_MINUTES,
-    PACKAGE_DIR,
-    WEEKEND_FLATTEN_MINUTES,
-)
+from deepseek_trial.config import PACKAGE_DIR
 
+LONDON = ZoneInfo("Europe/London")
+NEW_YORK = ZoneInfo("America/New_York")
+UTC = ZoneInfo("UTC")
 DEFAULT_CALENDAR = PACKAGE_DIR / "calendars" / "events.json"
 
 
@@ -22,19 +19,19 @@ DEFAULT_CALENDAR = PACKAGE_DIR / "calendars" / "events.json"
 class CalendarEvent:
     start_utc: datetime
     end_utc: datetime
-    instrument: str
     title: str
+    block_afternoon: bool = False
+    tag_only: bool = False
 
 
 def parse_iso(value: str) -> datetime:
     dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 
 def load_calendar(path: Path | None = None) -> tuple[list[CalendarEvent], str | None]:
-    """Return events and an error code if the calendar is missing or malformed."""
     cal_path = path or DEFAULT_CALENDAR
     if not cal_path.is_file():
         return [], "DATA_MISSING"
@@ -48,67 +45,101 @@ def load_calendar(path: Path | None = None) -> tuple[list[CalendarEvent], str | 
             events.append(CalendarEvent(
                 start_utc=start,
                 end_utc=end,
-                instrument=str(row.get("instrument", "*")).upper(),
                 title=str(row.get("title", "")),
+                block_afternoon=bool(row.get("block_afternoon", False)),
+                tag_only=bool(row.get("tag_only", False)),
             ))
         return events, None
     except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError):
         return [], "DATA_MISSING"
 
 
-def in_entry_blackout(now: datetime) -> bool:
-    hour = now.astimezone(timezone.utc).hour
-    return ENTRY_BLOCK_START_HOUR <= hour < ENTRY_BLOCK_END_HOUR
+def in_window(now: datetime, tz, start_hm: tuple[int, int], end_hm: tuple[int, int]) -> bool:
+    """Half-open [start, end) in local tz. Weekdays only."""
+    local = now.astimezone(tz)
+    if local.weekday() >= 5:
+        return False
+    sh, sm = start_hm
+    eh, em = end_hm
+    t = local.hour * 60 + local.minute
+    return sh * 60 + sm <= t < eh * 60 + em
 
 
-def near_high_impact(now: datetime, instrument: str, events: list[CalendarEvent]) -> bool:
-    buf = timedelta(minutes=NEWS_BUFFER_MIN)
-    name = instrument.upper()
+def london_a(now: datetime) -> bool:
+    return in_window(now, LONDON, (8, 0), (11, 0))
+
+
+def ny_a(now: datetime) -> bool:
+    return in_window(now, NEW_YORK, (8, 0), (11, 0))
+
+
+def london_b(now: datetime) -> bool:
+    return in_window(now, LONDON, (8, 0), (10, 30))
+
+
+def ny_c_entry(now: datetime) -> bool:
+    return in_window(now, NEW_YORK, (9, 45), (11, 15))
+
+
+def ny_c_breakout_deadline(now: datetime) -> bool:
+    """Breakout must confirm before 10:45 NY."""
+    return in_window(now, NEW_YORK, (9, 45), (10, 45))
+
+
+def ny_1545(now: datetime) -> datetime:
+    local = now.astimezone(NEW_YORK)
+    return local.replace(hour=15, minute=45, second=0, microsecond=0).astimezone(UTC)
+
+
+def london_1200(now: datetime) -> datetime:
+    local = now.astimezone(LONDON)
+    return local.replace(hour=12, minute=0, second=0, microsecond=0).astimezone(UTC)
+
+
+def merged_blackout(now: datetime, events: list[CalendarEvent]) -> bool:
+    """Entries disallowed E-15 through E+15. Overlapping windows merge."""
     for event in events:
-        inst = event.instrument.upper()
-        if inst not in ("*", name):
+        if event.tag_only:
             continue
-        if event.start_utc - buf <= now <= event.end_utc + buf:
+        start = event.start_utc - timedelta(minutes=15)
+        end = event.end_utc + timedelta(minutes=15)
+        if event.block_afternoon:
+            ny = event.start_utc.astimezone(NEW_YORK)
+            end = ny.replace(hour=21, minute=0, second=0, microsecond=0).astimezone(UTC)
+        if start <= now <= end:
             return True
     return False
 
 
-def friday_session_end(now: datetime) -> datetime | None:
-    """Approximate FX/crypto Friday close as 21:00 UTC (17:00 New York standard)."""
-    local = now.astimezone(timezone.utc)
-    weekday = local.weekday()
-    if weekday != 4:
-        return None
-    return local.replace(hour=21, minute=0, second=0, microsecond=0)
-
-
-def weekend_flatten_due(now: datetime, mandatory: bool) -> bool:
-    if not mandatory:
-        return False
-    close = friday_session_end(now)
-    if close is None:
-        return local_is_weekend(now)
-    return now >= close - timedelta(minutes=WEEKEND_FLATTEN_MINUTES)
-
-
-def local_is_weekend(now: datetime) -> bool:
-    wd = now.astimezone(timezone.utc).weekday()
-    hour = now.astimezone(timezone.utc).hour
-    if wd == 5:
-        return True
-    if wd == 6 and hour < 21:
-        return True
-    if wd == 4 and hour >= 21:
-        return True
+def news_flatten(now: datetime, events: list[CalendarEvent]) -> bool:
+    """Close existing positions at E-10."""
+    for event in events:
+        if event.tag_only:
+            continue
+        t = event.start_utc - timedelta(minutes=10)
+        if t <= now < event.start_utc:
+            return True
+        if event.block_afternoon and now >= t:
+            ny = event.start_utc.astimezone(NEW_YORK)
+            end = ny.replace(hour=21, minute=0, second=0, microsecond=0).astimezone(UTC)
+            if now <= end:
+                return True
     return False
 
 
-def no_new_entry_near_weekend(now: datetime) -> bool:
-    close = friday_session_end(now)
-    if close is None:
-        return local_is_weekend(now)
-    return now >= close - timedelta(minutes=NO_ENTRY_BEFORE_WEEKEND_MINUTES)
+def reference_overlaps_blackout(ref_start: datetime, ref_end: datetime, events: list[CalendarEvent]) -> bool:
+    for event in events:
+        if event.tag_only:
+            continue
+        b0 = event.start_utc - timedelta(minutes=15)
+        b1 = event.end_utc + timedelta(minutes=15)
+        if event.block_afternoon:
+            ny = event.start_utc.astimezone(NEW_YORK)
+            b1 = ny.replace(hour=21, minute=0, second=0, microsecond=0).astimezone(UTC)
+        if b0 < ref_end and b1 > ref_start:
+            return True
+    return False
 
 
 def iso(now: datetime) -> str:
-    return now.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return now.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")

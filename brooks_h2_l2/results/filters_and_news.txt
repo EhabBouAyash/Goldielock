@@ -1,0 +1,42 @@
+
+=== 5m + 1h filter, 1.5R  (share of baseline trades hit by a vol shock: 22%, open across a release: 22%)
+                                     variant  train_n  train_win  train_exp  test_n  test_win  test_exp
+                                    baseline      394       37.6     -0.142     729      39.6    -0.053
+             trades open across a US release      107       41.1     -0.058     145      44.1     0.077
+                    trades clear of releases      287       36.2     -0.173     584      38.5    -0.085
+       news filter: no entries near releases      273       37.7     -0.139     569      39.5    -0.062
+   ORACLE: drop trades hit by a 5x vol shock      267       31.8     -0.294     612      35.9    -0.145
+                          H2 at the EMA only      312       37.2     -0.136     589      39.4    -0.063
+                              ADX >= 25 only      268       39.2     -0.108     460      39.8    -0.049
+                      strong signal bar only      123       42.3     -0.066     177      41.8     0.001
+Brooks management: half at 1R, BE, runner 2R      393       42.2     -0.168     732      46.4    -0.073
+             ALL context rules + news filter       42       47.6      0.061      62      38.7    -0.098
+              ALL + news + Brooks management       42       54.8      0.134      62      41.9    -0.173
+
+=== 15m London/NY, 1R  (share of baseline trades hit by a vol shock: 22%, open across a release: 22%)
+                                     variant  train_n  train_win  train_exp  test_n  test_win  test_exp
+                                    baseline      525       49.1     -0.063     680      46.8    -0.074
+             trades open across a US release      124       47.6     -0.095     141      51.8     0.042
+                    trades clear of releases      401       49.6     -0.054     539      45.5    -0.104
+       news filter: no entries near releases      393       50.9     -0.029     534      46.1    -0.088
+   ORACLE: drop trades hit by a 5x vol shock      376       44.9     -0.157     567      45.3    -0.102
+                          H2 at the EMA only      411       49.1     -0.054     534      46.8    -0.072
+                              ADX >= 25 only      294       54.4      0.045     378      48.9    -0.037
+                      strong signal bar only      130       58.5      0.129     147      41.5    -0.176
+Brooks management: half at 1R, BE, runner 2R      514       49.2     -0.079     669      46.6    -0.090
+             ALL context rules + news filter       39       66.7      0.377      44      43.2    -0.082
+              ALL + news + Brooks management       39       66.7      0.342      44      43.2    -0.066
+
+=== 1h, 1.5R  (share of baseline trades hit by a vol shock: 36%, open across a release: 32%)
+                                     variant  train_n  train_win  train_exp  test_n  test_win  test_exp
+                                    baseline      286       38.1     -0.132     334      41.9     0.017
+             trades open across a US release       69       49.3      0.052     129      49.6     0.187
+                    trades clear of releases      217       34.6     -0.191     205      37.1    -0.090
+       news filter: no entries near releases      265       38.5     -0.124     293      42.7     0.026
+   ORACLE: drop trades hit by a 5x vol shock      183       30.1     -0.305     216      36.1    -0.117
+                          H2 at the EMA only      200       39.5     -0.092     232      40.9    -0.014
+                              ADX >= 25 only      163       35.6     -0.228     196      43.4     0.061
+                      strong signal bar only       68       42.6     -0.075      76      36.8    -0.093
+Brooks management: half at 1R, BE, runner 2R      292       46.9     -0.081     335      47.8     0.010
+             ALL context rules + news filter       20       55.0      0.173      31      35.5    -0.136
+              ALL + news + Brooks management       20       70.0      0.331      31      45.2    -0.087

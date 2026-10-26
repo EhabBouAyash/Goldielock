@@ -1,0 +1,71 @@
+{
+  "sequence": 1792507505591042000,
+  "status": "MODEL_NO_TRADE",
+  "plan_id": null,
+  "snapshot_id": "snap-de2fe4299551",
+  "snapshot_time": "2026-10-20T14:47:47.415950+00:00",
+  "expires_at": null,
+  "proposal": {
+    "schema_version": "gold-decision-1",
+    "snapshot_id": "snap-de2fe4299551",
+    "decision": "NO_TRADE",
+    "side": "NONE",
+    "setup_family": "none",
+    "proposed_holding_horizon": "None; reassess at the next completed 15M close",
+    "entry_low": 0,
+    "entry_high": 0,
+    "trigger": "NONE",
+    "stop_reference": 0,
+    "target_reference": 0,
+    "stop_evidence_id": "",
+    "target_evidence_id": "",
+    "requested_validity_seconds": 0,
+    "invalidation_conditions": "Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.",
+    "chart_assessment_id": "chart-4a9b6b0ba9",
+    "macro_assessment_id": "macro-020a1a9486",
+    "macro_role": "BACKGROUND_ONLY",
+    "relevant_event_ids": [
+      "evt-352606917dfd",
+      "evt-964fa34b5d62",
+      "evt-71e65307c860",
+      "evt-e1f341fb191b",
+      "evt-e94440c9118b"
+    ],
+    "observed_response_evidence_ids": [],
+    "supporting_evidence_ids": [
+      "chart-15m-range-high",
+      "chart-15m-range-low",
+      "chart-4h-range-high"
+    ],
+    "contradicting_evidence_ids": [
+      "chart-1h-range-high"
+    ],
+    "macro_chart_relationship": "UNKNOWN",
+    "reconciliation_summary": "Chart first: 4H remains a downtrend below its SMA21/50 with RSI 49.28, 1H is rebounding but below SMA50 with RSI 47.88, 15M is above its moving averages with RSI 47.58, and 5M is bullishly stacked with RSI 50.98; the last six reliably completed 15M candles through 14:15 UTC contain two consecutive bullish candles at the end, including one large impulse, but displacement from the latest pullback low to the decision price is already 2.61 times the supplied $11.17 ATR, making this LATE-EXTENDED and blocking market or continuation-stop buying, while the fresh prior-high retest at XAUUSD $4136.40 is $14.70 away versus the $5.59 fill cap and no completed reversal justifies a short. DISRUPTION WATCH is TWO-WAY but unconfirmed: reported Saudi energy attacks could increase haven demand and inflation-driven tightening expectations, reported Iran compromise could unwind haven demand while easing oil pressure, and housing weakness could lower yields, but event-specific responses remain unknown; softer DXY and live nominal yields support the rebound rather than the earlier bearish oil narrative, with daily real yields treated only as backdrop and no verified active event restriction. Validation permits trading if a setup confirms, but missing bid/ask, delayed proxy candles and a 4H alignment warning reduce execution confidence; select execution chart NONE, PARTIAL confluence and NO-TRADE aggression, retain 4H/1H for context and reassess the next 15M close while de-emphasizing 5M chasing under MIXED_BULLISH_LEAN scores of 3.06/3.21/2.55/6.24 for 4H/1H/15M/5M, with no high-impact USD event listed this cycle, increased emphasis on fresh structure and synchronized dollar/yield observations, reduced emphasis on stale commentary and chronology-uncertain missed-move feedback, and account permission left to code.",
+    "confidence_label": "HIGH_NO_TRADE",
+    "recheck_above": 4157.5,
+    "recheck_below": 4112.7,
+    "_model_sizing_ignored": {},
+    "_sizing_authoritative_attempt": false
+  },
+  "sizing": null,
+  "blocking_reasons": [],
+  "reasons": [],
+  "net_rr": null,
+  "legacy_signal": "NEUTRAL",
+  "model_wait_reason": null,
+  "macro_role": "BACKGROUND_ONLY",
+  "detail": null,
+  "stage_timing": {
+    "collect_account_and_broker_context": 0.001,
+    "validate_and_freeze_snapshot": 0.006,
+    "independent_chart_assessment": 0.0,
+    "assess_macro_relevance": 0.001,
+    "reconcile_and_propose_trade": 25.966,
+    "validate_trade_plan": 0.001
+  },
+  "order_submission": false,
+  "expiry_registry": {},
+  "text": "SCREEN SIGNAL\nSIGNAL: NO TRADE\nReassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.\nRECHECK: run again when a 15M candle closes above 4157.5 or below 4112.7\n\nREASON\nChart first: 4H remains a downtrend below its SMA21/50 with RSI 49.28, 1H is rebounding but below SMA50 with RSI 47.88, 15M is above its moving averages with RSI 47.58, and 5M is bullishly stacked with RSI 50.98; the last six reliably completed 15M candles through 14:15 UTC contain two consecutive bullish candles at the end, including one large impulse, but displacement from the latest pullback low to the decision price is already 2.61 times the supplied $11.17 ATR, making this LATE-EXTENDED and blocking market or continuation-stop buying, while the fresh prior-high retest at XAUUSD $4136.40 is $14.70 away versus the $5.59 fill cap and no completed reversal justifies a short. DISRUPTION WATCH is TWO-WAY but unconfirmed: reported Saudi energy attacks could increase haven demand and inflation-driven tightening expectations, reported Iran compromise could unwind haven demand while easing oil pressure, and housing weakness could lower yields, but event-specific responses remain unknown; softer DXY and live nominal yields support the rebound rather than the earlier bearish oil narrative, with daily real yields treated only as backdrop and no verified active event restriction. Validation permits trading if a setup confirms, but missing bid/ask, delayed proxy candles and a 4H alignment warning reduce execution confidence; select execution chart NONE, PARTIAL confluence and NO-TRADE aggression, retain 4H/1H for context and reassess the next 15M close while de-emphasizing 5M chasing under MIXED_BULLISH_LEAN scores of 3.06/3.21/2.55/6.24 for 4H/1H/15M/5M, with no high-impact USD event listed this cycle, increased emphasis on fresh structure and synchronized dollar/yield observations, reduced emphasis on stale commentary and chronology-uncertain missed-move feedback, and account permission left to code.\nConfidence: HIGH_NO_TRADE\nNo broker is connected. No order was sent.\n\nPUBLISHED ADVISORY\nPlan ID: none\nSnapshot: snap-de2fe4299551\nSnapshot time: 2026-10-20T14:47:47.415950+00:00\nExpires: not an active plan\nValidation status: MODEL_NO_TRADE\nDecision: NO_TRADE\nSide: NONE\nSetup: none\nPermitted entry zone: 0 to 0\nStop reference: 0\nTarget reference: 0\nMacro role: BACKGROUND_ONLY\nMacro/chart relationship: UNKNOWN\nDisagreement / reconciliation: Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.\nWhat would invalidate it: Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.\nCode size (ounces-lots): not calculated\nCode risk allowance USD: not calculated\nRevalidation: a fresh card needs a new snapshot and a new decision. Email, restart, or retry does not extend this one.\nThis is not an active recommendation. Do not place an order from this card.\nGOLD_SIGNAL=NEUTRAL",
+  "written_at": "2026-10-20T14:48:13.396401+00:00"
+}

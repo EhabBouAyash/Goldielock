@@ -1,0 +1,4 @@
+session,side,stop_k,train_exp,picked
+asia_18_03,long,0,0.013,asia_18_03 long stop=none
+overnight_16_08,long,0,0.017,overnight_16_08 long stop=none
+weekend_fri16_sun18,long,0,0.058,weekend_fri16_sun18 long stop=none

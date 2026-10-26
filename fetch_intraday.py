@@ -2,12 +2,13 @@
 Intraday data fetcher for gold trading analysis.
 Fetches 5m, 15m, 1h, and 4h bars and calculates short-term technicals.
 
-Uses Yahoo chart API directly (with SSL bypass) via fetch_market_data module
-since yfinance is broken due to system clock skew causing SSL cert failures.
+Chart bars come from the GC=F futures proxy. They are context for structure.
+They are not a broker quote and cannot authorize a live order.
 """
 
+import hashlib
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import pandas as pd
 import warnings
@@ -84,6 +85,129 @@ def _ohlcv_to_records(bars):
             "volume": int(volume) if volume is not None else None,
         })
     return records
+
+
+INTERVAL_MINUTES = {"5m": 5, "15m": 15, "1h": 60, "4h": 240}
+
+
+def _parse_bar_time(value):
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def annotate_candle_lifecycle(
+    records,
+    interval,
+    now=None,
+    instrument="GC=F",
+    source="yahoo_gc_f_context",
+):
+    """Mark each bar open and close. A zero-volume bar is not treated as finished."""
+    moment = now or datetime.now(timezone.utc)
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=timezone.utc)
+    else:
+        moment = moment.astimezone(timezone.utc)
+    minutes = INTERVAL_MINUTES.get(interval, 5)
+    annotated = []
+    alignment_warning = None
+    for record in records:
+        copy = dict(record)
+        start = _parse_bar_time(copy.get("ts"))
+        copy["source"] = source
+        copy["instrument"] = instrument
+        if start is None:
+            copy["open_time"] = None
+            copy["scheduled_close_time"] = None
+            copy["is_closed"] = False
+            annotated.append(copy)
+            continue
+        end = start + timedelta(minutes=minutes)
+        copy["open_time"] = start.isoformat()
+        copy["scheduled_close_time"] = end.isoformat()
+        copy["is_closed"] = end <= moment
+        if interval == "4h" and start.hour % 4 != 0:
+            alignment_warning = "4H bar does not start on a 00/04/08/12/16/20 UTC boundary."
+        annotated.append(copy)
+    return annotated, alignment_warning
+
+
+def _structure_from_closed(closed):
+    closes = [float(bar["close"]) for bar in closed if bar.get("close") is not None]
+    if len(closes) < 5:
+        return "insufficient_warmup"
+    baseline = sum(closes[-10:]) / min(len(closes), 10)
+    last = closes[-1]
+    if last > baseline and closes[-1] > closes[-3]:
+        return "trend_up"
+    if last < baseline and closes[-1] < closes[-3]:
+        return "trend_down"
+    return "range_or_transition"
+
+
+def build_independent_chart_assessment(intraday, now=None):
+    """Read only finished bars. News is not an input to this report."""
+    frames = {}
+    evidence = []
+    forming_ids = []
+    for interval, payload in (intraday or {}).get("intervals", {}).items():
+        if not isinstance(payload, dict):
+            continue
+        candles = payload.get("candles") or []
+        if candles and "is_closed" not in candles[-1]:
+            candles, _warning = annotate_candle_lifecycle(candles, interval, now=now)
+        closed = [bar for bar in candles if bar.get("is_closed")]
+        forming = [bar for bar in candles if not bar.get("is_closed")]
+        for index, _bar in enumerate(forming):
+            forming_ids.append(f"forming-{interval}-{index}")
+        if closed:
+            window = closed[-20:]
+            high = max(float(bar["high"]) for bar in window)
+            low = min(float(bar["low"]) for bar in window)
+            evidence.append({
+                "id": f"chart-{interval}-range-high",
+                "price": round(high, 2),
+                "timeframe": interval,
+                "confirmed": True,
+            })
+            evidence.append({
+                "id": f"chart-{interval}-range-low",
+                "price": round(low, 2),
+                "timeframe": interval,
+                "confirmed": True,
+            })
+        frames[interval] = {
+            "structure": _structure_from_closed(closed),
+            "closed_bars": len(closed),
+            "forming_bars": len(forming),
+            "warmup_sufficient": len(closed) >= 15,
+            "instrument": payload.get("instrument") or "GC=F",
+            "execution_eligible": False,
+            "alignment_warning": payload.get("alignment_warning"),
+        }
+    digest = hashlib.sha1(json.dumps(frames, sort_keys=True, default=str).encode()).hexdigest()[:10]
+    return {
+        "chart_assessment_id": f"chart-{digest}",
+        "instrument": "GC=F",
+        "source": "yahoo_gc_f_context",
+        "execution_eligible": False,
+        "basis_note": (
+            "Levels are from the GC=F futures proxy. They are not the broker's gold prices, "
+            "and a single basis adjustment does not make the history identical."
+        ),
+        "timeframes": frames,
+        "evidence": evidence,
+        "evidence_ids": [item["id"] for item in evidence],
+        "forming_evidence_ids": forming_ids,
+        "news_used": False,
+    }
 
 
 def _range_position(current_price, highs, lows):
@@ -807,7 +931,12 @@ def fetch_intraday_bars(symbol="XAUUSD", intervals=None, retries=3, backoff_base
                     volumes,
                 )
                 
-                candles = _ohlcv_to_records(bars)
+                candles, alignment_warning = annotate_candle_lifecycle(
+                    _ohlcv_to_records(bars),
+                    interval,
+                )
+                confirmed = [bar for bar in candles if bar.get("is_closed")]
+                forming = [bar for bar in candles if not bar.get("is_closed")]
                 data["intervals"][interval] = {
                     "current_price": round(current_price, 2),
                     "open": round(open_price, 2),
@@ -822,6 +951,17 @@ def fetch_intraday_bars(symbol="XAUUSD", intervals=None, retries=3, backoff_base
                     "candle_limit": candle_limit,
                     "candles_fed_to_prompt": len(candles),
                     "candles": candles,
+                    "confirmed_candles": confirmed,
+                    "forming_candles": forming,
+                    "instrument": "GC=F",
+                    "source": "yahoo_gc_f_context",
+                    "execution_eligible": False,
+                    "alignment_warning": alignment_warning,
+                    "warmup": {
+                        "closed_bars": len(confirmed),
+                        "sma_50_ready": len(confirmed) >= 50,
+                        "atr_14_ready": len(confirmed) >= 15,
+                    },
                     "confluence_vector": confluence_vector,
                     "confluence_score": confluence_score,
                     "volume_quality": volume_quality,
@@ -834,6 +974,9 @@ def fetch_intraday_bars(symbol="XAUUSD", intervals=None, retries=3, backoff_base
     data["volatility_regime_summary"] = _build_regime_summary(data["intervals"])
     data["volume_quality_summary"] = _build_volume_quality_summary(data["intervals"])
     data["entry_fill_guide"] = _build_entry_fill_guide(data["intervals"])
+    data["chart_assessment"] = build_independent_chart_assessment(data)
+    data["price_role"] = "external_reference"
+    data["execution_eligible"] = False
     return data
 
 def save_intraday_data(data):
