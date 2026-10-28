@@ -96,3 +96,17 @@
 {"timestamp": "2026-10-20T17:48:13.390605", "stage": "reconcile_and_propose_trade", "duration_seconds": 25.966, "details": {}}
 {"timestamp": "2026-10-20T17:48:13.394389", "stage": "validate_trade_plan", "duration_seconds": 0.001, "details": {"status": "MODEL_NO_TRADE"}}
 {"timestamp": "2026-10-20T17:48:13.399239", "stage": "publish_and_persist", "duration_seconds": 0.003, "details": {"published": true}}
+{"timestamp": "2026-10-28T12:18:37.704032", "stage": "collect_account_and_broker_context", "duration_seconds": 0.003, "details": {"known": false}}
+{"timestamp": "2026-10-28T12:18:37.717162", "stage": "validate_and_freeze_snapshot", "duration_seconds": 0.011, "details": {}}
+{"timestamp": "2026-10-28T12:18:37.718463", "stage": "independent_chart_assessment", "duration_seconds": 0.0, "details": {}}
+{"timestamp": "2026-10-28T12:18:37.721924", "stage": "assess_macro_relevance", "duration_seconds": 0.003, "details": {"role": "BACKGROUND_ONLY"}}
+{"timestamp": "2026-10-28T12:18:58.775476", "stage": "reconcile_and_propose_trade", "duration_seconds": 21.053, "details": {}}
+{"timestamp": "2026-10-28T12:18:58.788339", "stage": "validate_trade_plan", "duration_seconds": 0.007, "details": {"status": "MODEL_WAIT"}}
+{"timestamp": "2026-10-28T12:18:58.793168", "stage": "publish_and_persist", "duration_seconds": 0.004, "details": {"published": true}}
+{"timestamp": "2026-10-28T14:32:44.035886", "stage": "collect_account_and_broker_context", "duration_seconds": 0.003, "details": {"known": false}}
+{"timestamp": "2026-10-28T14:32:44.044970", "stage": "validate_and_freeze_snapshot", "duration_seconds": 0.008, "details": {}}
+{"timestamp": "2026-10-28T14:32:44.046249", "stage": "independent_chart_assessment", "duration_seconds": 0.0, "details": {}}
+{"timestamp": "2026-10-28T14:32:44.049612", "stage": "assess_macro_relevance", "duration_seconds": 0.002, "details": {"role": "BACKGROUND_ONLY"}}
+{"timestamp": "2026-10-28T14:33:06.003183", "stage": "reconcile_and_propose_trade", "duration_seconds": 21.953, "details": {}}
+{"timestamp": "2026-10-28T14:33:06.011656", "stage": "validate_trade_plan", "duration_seconds": 0.003, "details": {"status": "MODEL_NO_TRADE"}}
+{"timestamp": "2026-10-28T14:33:06.014941", "stage": "publish_and_persist", "duration_seconds": 0.003, "details": {"published": true}}

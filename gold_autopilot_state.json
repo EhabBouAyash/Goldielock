@@ -1,5 +1,10 @@
 {
-  "phase": "RUN",
-  "trigger": "timer",
-  "updated_at": "2026-10-20T22:56:49.664860+00:00"
+  "phase": "WATCH",
+  "above": 4059.9,
+  "below": 4036.1,
+  "reason": "NO TRADE with recheck levels",
+  "since": "2026-10-28T12:33:06.093701+00:00",
+  "fallback_at": "2026-10-28T16:33:06.093701+00:00",
+  "updated_at": "2026-10-28T15:15:05.519115+00:00",
+  "last_close": 4045.2
 }

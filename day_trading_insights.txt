@@ -1,17 +1,17 @@
 SCREEN SIGNAL
 SIGNAL: NO TRADE
-Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.
-RECHECK: run again when a 15M candle closes above 4157.5 or below 4112.7
+Reassess only after a completed XAUUSD 15M close above $4059.90 or below $4036.10, using refreshed candles, prices and basis; neither level authorizes an entry.
+RECHECK: run again when a 15M candle closes above 4059.9 or below 4036.1
 
 REASON
-Chart first: 4H remains a downtrend below its SMA21/50 with RSI 49.28, 1H is rebounding but below SMA50 with RSI 47.88, 15M is above its moving averages with RSI 47.58, and 5M is bullishly stacked with RSI 50.98; the last six reliably completed 15M candles through 14:15 UTC contain two consecutive bullish candles at the end, including one large impulse, but displacement from the latest pullback low to the decision price is already 2.61 times the supplied $11.17 ATR, making this LATE-EXTENDED and blocking market or continuation-stop buying, while the fresh prior-high retest at XAUUSD $4136.40 is $14.70 away versus the $5.59 fill cap and no completed reversal justifies a short. DISRUPTION WATCH is TWO-WAY but unconfirmed: reported Saudi energy attacks could increase haven demand and inflation-driven tightening expectations, reported Iran compromise could unwind haven demand while easing oil pressure, and housing weakness could lower yields, but event-specific responses remain unknown; softer DXY and live nominal yields support the rebound rather than the earlier bearish oil narrative, with daily real yields treated only as backdrop and no verified active event restriction. Validation permits trading if a setup confirms, but missing bid/ask, delayed proxy candles and a 4H alignment warning reduce execution confidence; select execution chart NONE, PARTIAL confluence and NO-TRADE aggression, retain 4H/1H for context and reassess the next 15M close while de-emphasizing 5M chasing under MIXED_BULLISH_LEAN scores of 3.06/3.21/2.55/6.24 for 4H/1H/15M/5M, with no high-impact USD event listed this cycle, increased emphasis on fresh structure and synchronized dollar/yield observations, reduced emphasis on stale commentary and chronology-uncertain missed-move feedback, and account permission left to code.
-Confidence: HIGH_NO_TRADE
+Chart-first assessment: 4H is recovering above SMA9/21 but below SMA50 with RSI 46.45, 1H remains transitional with RSI 44.12, and 15M/5M show bullish momentum with RSI 55.03/53.79; confluence is PARTIAL (aggregate 2.43, MIXED_BULLISH_LEAN), but the latest impulse is LATE-EXTENDED—two successive bullish 15M bodies in the supplied records and approximately 2.81 ATR from the latest base low to current price—so the evaluated continuation LONG fails the late-entry rule: the nearest impulse retest at $4053.20 is $4.40 away, exceeding the $2.29 fill cap, while a countertrend SHORT lacks a completed failed-breakout rejection. Macro clarity is 3/10 and independent of that rejection: the supplied scout contains potentially two-way Iran escalation/refinery-strike and mediation reports, transmitting through haven demand, oil and inflation expectations, but their gold responses remain unknown; DXY is only marginally lower, live nominal yields are essentially unchanged, daily real yields and related Treasury series are one background family, and no fresh policy surprise is established. Validation permits trading if a setup confirms, with no blocking failures, but missing bid/ask and approximately 12-minute-old chart observations reduce execution confidence; execution chart is NONE, emphasize 4H/1H bias and the next completed 15M close at 08:45 ET rather than chase 5M, recheck above $4059.90 or below $4036.10 using the $12.80 basis, verify calendar timezone before converting the binding October 28 FOMC 6:00pm/press conference 6:30pm and October 29 PCE/GDP 12:30pm feed times to ET, flatten before the verified Fed window rather than hold through it, increase attention to fresh price/verified catalysts without chasing the prior missed rise, de-emphasize stale headlines and slow liquidity data, and leave account permission entirely to code.
+Confidence: MEDIUM
 No broker is connected. No order was sent.
 
 PUBLISHED ADVISORY
 Plan ID: none
-Snapshot: snap-de2fe4299551
-Snapshot time: 2026-10-20T14:47:47.415950+00:00
+Snapshot: snap-86def20fbf24
+Snapshot time: 2026-10-28T12:32:44.037216+00:00
 Expires: not an active plan
 Validation status: MODEL_NO_TRADE
 Decision: NO_TRADE
@@ -21,9 +21,9 @@ Permitted entry zone: 0 to 0
 Stop reference: 0
 Target reference: 0
 Macro role: BACKGROUND_ONLY
-Macro/chart relationship: UNKNOWN
-Disagreement / reconciliation: Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.
-What would invalidate it: Reassess after a completed XAUUSD 15M close above $4157.50 or below $4112.70; these are review thresholds, not entry orders; discard converted levels if the supplied $17.40 proxy-minus-spot basis changes materially.
+Macro/chart relationship: INDEPENDENT
+Disagreement / reconciliation: Reassess only after a completed XAUUSD 15M close above $4059.90 or below $4036.10, using refreshed candles, prices and basis; neither level authorizes an entry.
+What would invalidate it: Reassess only after a completed XAUUSD 15M close above $4059.90 or below $4036.10, using refreshed candles, prices and basis; neither level authorizes an entry.
 Code size (ounces-lots): not calculated
 Code risk allowance USD: not calculated
 Revalidation: a fresh card needs a new snapshot and a new decision. Email, restart, or retry does not extend this one.

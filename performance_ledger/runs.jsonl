@@ -12,3 +12,5 @@
 {"timestamp": "2026-10-20T10:03:34.756522+00:00", "result": "published", "sequence": 1792490405777124000, "status": "MODEL_WAIT", "plan_id": null, "snapshot_id": "snap-f4642c3fc143"}
 {"timestamp": "2026-10-20T14:18:28.509046+00:00", "result": "published", "sequence": 1792505705537526000, "status": "MODEL_WAIT", "plan_id": null, "snapshot_id": "snap-a1836d7ec9de"}
 {"timestamp": "2026-10-20T14:48:13.396401+00:00", "result": "published", "sequence": 1792507505591042000, "status": "MODEL_NO_TRADE", "plan_id": null, "snapshot_id": "snap-de2fe4299551"}
+{"timestamp": "2026-10-28T10:18:58.789957+00:00", "result": "published", "sequence": 1793182588202212000, "status": "MODEL_WAIT", "plan_id": null, "snapshot_id": "snap-99bd8db34f66"}
+{"timestamp": "2026-10-28T12:33:06.012667+00:00", "result": "published", "sequence": 1793190606142805000, "status": "MODEL_NO_TRADE", "plan_id": null, "snapshot_id": "snap-86def20fbf24"}
